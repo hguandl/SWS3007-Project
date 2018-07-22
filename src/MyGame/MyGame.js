@@ -1,6 +1,6 @@
 /*
- * File: MyGame.js 
- * This is the logic of our game. 
+ * File: MyGame.js
+ * This is the logic of our game.
  */
 
 /*jslint node: true, vars: true */
@@ -11,7 +11,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MyGame() {
-    // textures: 
+    // textures:
     this.kPortal = "assets/minion_portal.png";      // supports png with transparency
     this.kCollector = "assets/minion_collector.png";
     this.kHeroDWalk = "assets/hero1.png";
@@ -116,7 +116,7 @@ MyGame.prototype.draw = function () {
 // The update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
-    // let's only allow the movement of hero, 
+    // let's only allow the movement of hero,
     // and if hero moves too far off, this level ends, we will
     // load the next level
     var deltaX = 0.05;
@@ -131,7 +131,7 @@ MyGame.prototype.update = function () {
         if (this.mHeroAction > 19 && this.mHeroAction < 30) this.mHero.mTexture = this.kHeroRWalk2;
         if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroRStand;
         if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroRStand;
-        
+
         if (xform.getXPos() > 30) {
             return ;
         }
@@ -183,18 +183,22 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Right)) {
         this.mHero.mTexture = this.kHeroRStand;
+        this.mHeroAction = 0;
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Up)) {
         this.mHero.mTexture = this.kHeroUStand;
+        this.mHeroAction = 0;
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Left)) {
         this.mHero.mTexture = this.kHeroLStand;
+        this.mHeroAction = 0;
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
         this.mHero.mTexture = this.kHeroDStand;
+        this.mHeroAction = 0;
     }
 
     // continously change texture tinting
