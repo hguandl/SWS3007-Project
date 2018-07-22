@@ -1,101 +1,94 @@
 /*
- * File: MyGame.js
- * This is the logic of our game.
+ * File: MyGame.js 
+ * This is the logic of our game. 
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine: false, Scene: false, BlueLevel:false, Camera: false, vec2: false,
-  TextureRenderable: false, Renderable: false */
+/*global gEngine, Scene, GameObjectset, TextureObject, Camera, vec2,
+  FontRenderable, SpriteRenderable, LineRenderable,
+  GameObject */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MyGame() {
-    // textures:
-    this.kPortal = "assets/minion_portal.png";      // supports png with transparency
-    this.kCollector = "assets/minion_collector.png";
-    this.kHeroDWalk = "assets/hero1.png";
-    this.kHeroDStand = "assets/hero2.png";
-    this.kHeroDWalk2 = "assets/hero3.png";
-    this.kHeroLWalk = "assets/hero4.png";
-    this.kHeroLStand = "assets/hero5.png";
-    this.kHeroLWalk2 = "assets/hero6.png";
-    this.kHeroRWalk = "assets/hero7.png";
-    this.kHeroRStand = "assets/hero8.png";
-    this.kHeroRWalk2 = "assets/hero9.png";
-    this.kHeroUWalk = "assets/hero10.png";
-    this.kHeroUStand = "assets/hero11.png";
-    this.kHeroUWalk2 = "assets/hero12.png";
-
+    this.kMinionSprite = "assets/minion_sprite.png";
+    this.kPlatformTexture = "assets/platform.png";
+    this.kWallTexture = "assets/wall.png";
+    this.kTargetTexture = "assets/target.png";
+    this.kParticleTexture = "assets/particle.png";
+    
     // The camera to view the scene
     this.mCamera = null;
 
-    // the hero and the support objects
-    this.mHero = null;
-    this.mPortal = null;
-    this.mCollector = null;
+    this.mMsg = null;
+    this.mShapeMsg = null;
 
-    this.mHeroAction = 0;
+    this.mAllObjs = null;
+    this.mAllParticles = null;
+    this.mBounds = null;
+    this.mCollisionInfos = [];
+    this.mHero = null;
+    
+    this.mCurrentObj = 0;
+    this.mTarget = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
+
 MyGame.prototype.loadScene = function () {
-    // loads the textures
-    gEngine.Textures.loadTexture(this.kPortal);
-    gEngine.Textures.loadTexture(this.kCollector);
-    gEngine.Textures.loadTexture(this.kHeroDStand);
-    gEngine.Textures.loadTexture(this.kHeroDWalk);
-    gEngine.Textures.loadTexture(this.kHeroDWalk2);
-    gEngine.Textures.loadTexture(this.kHeroRStand);
-    gEngine.Textures.loadTexture(this.kHeroRWalk);
-    gEngine.Textures.loadTexture(this.kHeroRWalk2);
-    gEngine.Textures.loadTexture(this.kHeroUStand);
-    gEngine.Textures.loadTexture(this.kHeroUWalk);
-    gEngine.Textures.loadTexture(this.kHeroUWalk2);
-    gEngine.Textures.loadTexture(this.kHeroLStand);
-    gEngine.Textures.loadTexture(this.kHeroLWalk);
-    gEngine.Textures.loadTexture(this.kHeroLWalk2);
+    gEngine.Textures.loadTexture(this.kMinionSprite);
+    gEngine.Textures.loadTexture(this.kPlatformTexture);
+    gEngine.Textures.loadTexture(this.kWallTexture);
+    gEngine.Textures.loadTexture(this.kTargetTexture);
+    gEngine.Textures.loadTexture(this.kParticleTexture);
 };
 
 MyGame.prototype.unloadScene = function () {
-    // Game loop not running, unload all assets
-
-    gEngine.Textures.unloadTexture(this.kPortal);
-    gEngine.Textures.unloadTexture(this.kCollector);
-
-    // starts the next level
-    var nextLevel = new BlueLevel();  // next level to be loaded
-    gEngine.Core.startScene(nextLevel);
+    gEngine.Textures.unloadTexture(this.kMinionSprite);
+    gEngine.Textures.unloadTexture(this.kPlatformTexture);
+    gEngine.Textures.unloadTexture(this.kWallTexture);
+    gEngine.Textures.unloadTexture(this.kTargetTexture);
+    gEngine.Textures.unloadTexture(this.kParticleTexture);
 };
 
 MyGame.prototype.initialize = function () {
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(20, 60),   // position of the camera
-        20,                        // width of camera
-        [20, 40, 600, 300]         // viewport (orgX, orgY, width, height)
-        );
+        vec2.fromValues(50, 40), // position of the camera
+        100,                     // width of camera
+        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+    );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
+    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
+      
+    this.mHero = new Hero(this.kMinionSprite);
+    this.mAllObjs = new GameObjectSet();
+    this.mAllParticles = new ParticleGameObjectSet();
+    
+    this.createBounds();
+    this.mFirstObject = this.mAllObjs.size();
+    this.mCurrentObj = this.mFirstObject;
+    
+    this.mAllObjs.addToSet(this.mHero);
+    var y = 70;
+    var x = 10;
+    for (var i = 1; i<=5; i++) {
+        var m = new Minion(this.kMinionSprite, x, y, ((i%2)!==0));
+        x += 20;
+        this.mAllObjs.addToSet(m);
+    }
 
-    // Step B: Create the game objects
-    this.mPortal = new TextureRenderable(this.kPortal);
-    this.mPortal.setColor([1, 0, 0, 0.2]);  // tints red
-    this.mPortal.getXform().setPosition(25, 60);
-    this.mPortal.getXform().setSize(3, 3);
-
-    this.mCollector = new TextureRenderable(this.kCollector);
-    this.mCollector.setColor([0, 0, 0, 0]);  // No tinting
-    this.mCollector.getXform().setPosition(15, 60);
-    this.mCollector.getXform().setSize(3, 3);
-
-    // Step C: Create the hero object in blue
-    // this.mHero = new Renderable();
-    // this.mHero.setColor([0, 0, 1, 1]);
-    this.mHero = new TextureRenderable(this.kHeroDStand);
-    this.mHero.setColor([0, 0, 0, 0]);
-    this.mHero.getXform().setPosition(20, 60);
-    this.mHero.getXform().setSize(3, 3);
+    this.mMsg = new FontRenderable("Status Message");
+    this.mMsg.setColor([0, 0, 0, 1]);
+    this.mMsg.getXform().setPosition(5, 7);
+    this.mMsg.setTextHeight(3);
+    
+    this.mShapeMsg = new FontRenderable("Shape");
+    this.mShapeMsg.setColor([0, 0, 0, 1]);
+    this.mShapeMsg.getXform().setPosition(5, 73);
+    this.mShapeMsg.setTextHeight(2.5);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -104,108 +97,116 @@ MyGame.prototype.draw = function () {
     // Step A: clear the canvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
-    // Step  B: Activate the drawing Camera
     this.mCamera.setupViewProjection();
-
-    // Step  C: Draw everything
-    this.mPortal.draw(this.mCamera.getVPMatrix());
-    this.mHero.draw(this.mCamera.getVPMatrix());
-    this.mCollector.draw(this.mCamera.getVPMatrix());
+    
+    this.mAllObjs.draw(this.mCamera);
+    
+    // for now draw these ...
+    /*for (var i = 0; i<this.mCollisionInfos.length; i++) 
+        this.mCollisionInfos[i].draw(this.mCamera); */
+    this.mCollisionInfos = []; 
+    
+    this.mTarget.draw(this.mCamera);
+    this.mMsg.draw(this.mCamera);   // only draw status in the main camera
+    this.mShapeMsg.draw(this.mCamera);
+    this.mAllParticles.draw(this.mCamera);
 };
 
-// The update function, updates the application state. Make sure to _NOT_ draw
+MyGame.prototype.increasShapeSize = function(obj, delta) {
+    var s = obj.getRigidBody();
+    var r = s.incShapeSizeBy(delta);
+};
+
+// The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
+MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
-    // let's only allow the movement of hero,
-    // and if hero moves too far off, this level ends, we will
-    // load the next level
-    var deltaX = 0.05;
-    var xform = this.mHero.getXform();
-
-    // Support hero movements
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-        this.mHeroAction = (this.mHeroAction + 1) % 40;
-
-        if (this.mHeroAction > 1 && this.mHeroAction < 10) this.mHero.mTexture = this.kHeroRWalk;
-        if (this.mHeroAction > 9 && this.mHeroAction < 20) this.mHero.mTexture = this.kHeroRStand;
-        if (this.mHeroAction > 19 && this.mHeroAction < 30) this.mHero.mTexture = this.kHeroRWalk2;
-        if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroRStand;
-        if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroRStand;
-
-        if (xform.getXPos() > 30) {
-            return ;
+    var msg = "";   
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.C)) {
+        if (this.mCamera.isMouseInViewport()) {
+            var p = this.createParticle(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
+            this.mAllParticles.addToSet(p);
         }
-        xform.incXPosBy(deltaX);
+    }
+    gEngine.ParticleSystem.update(this.mAllParticles);
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.P)) {
+        gEngine.Physics.togglePositionalCorrection();
+    }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.V)) {
+        gEngine.Physics.toggleHasMotion();
+    }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) {
+        this.radomizeVelocity();
+    }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Left)) {
+        this.mCurrentObj -= 1;
+        if (this.mCurrentObj < this.mFirstObject)
+            this.mCurrentObj = this.mAllObjs.size() - 1;
+    }            
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Right)) {
+        this.mCurrentObj += 1;
+        if (this.mCurrentObj >= this.mAllObjs.size())
+            this.mCurrentObj = this.mFirstObject;
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
-
-        this.mHeroAction = (this.mHeroAction + 1) % 40;
-
-        if (this.mHeroAction > 1 && this.mHeroAction < 10) this.mHero.mTexture = this.kHeroUWalk;
-        if (this.mHeroAction > 9 && this.mHeroAction < 20) this.mHero.mTexture = this.kHeroUStand;
-        if (this.mHeroAction > 19 && this.mHeroAction < 30) this.mHero.mTexture = this.kHeroUWalk2;
-        if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroUStand;
-        if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroUStand;
-
-        xform.incYPosBy(deltaX);
+    var obj = this.mAllObjs.getObjectAt(this.mCurrentObj);
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Y)) {
+        this.increasShapeSize(obj, MyGame.kBoundDelta);
     }
-
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
-        this.mHeroAction = (this.mHeroAction + 1) % 40;
-
-        if (this.mHeroAction > 1 && this.mHeroAction < 10) this.mHero.mTexture = this.kHeroDWalk;
-        if (this.mHeroAction > 9 && this.mHeroAction < 20) this.mHero.mTexture = this.kHeroDStand;
-        if (this.mHeroAction > 19 && this.mHeroAction < 30) this.mHero.mTexture = this.kHeroDWalk2;
-        if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroDStand;
-        if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroDStand;
-
-        xform.incYPosBy(-deltaX);
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.U)) {
+        this.increasShapeSize(obj, -MyGame.kBoundDelta);
     }
-
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-        this.mHeroAction = (this.mHeroAction + 1) % 40;
-
-        if (this.mHeroAction > 1 && this.mHeroAction < 10) this.mHero.mTexture = this.kHeroLWalk;
-        if (this.mHeroAction > 9 && this.mHeroAction < 20) this.mHero.mTexture = this.kHeroLStand;
-        if (this.mHeroAction > 19 && this.mHeroAction < 30) this.mHero.mTexture = this.kHeroLWalk2;
-        if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroLStand;
-        if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroLStand;
-
-        if (xform.getXPos() < 11) {
-            return ;
-        }
-        xform.incXPosBy(-deltaX);
-        // if (xform.getXPos() < 11) {  // this is the left-bound of the window
-        //     gEngine.GameLoop.stop();
-        // }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.G)) {
+        var x = 20 + Math.random() * 60;
+        var y = 75;
+        var t = Math.random() > 0.5;
+        var m = new Minion(this.kMinionSprite, x, y, t);
+        this.mAllObjs.addToSet(m);
     }
+        
+    obj.keyControl();
+    obj.getRigidBody().userSetsState();
+    
+    this.mAllObjs.update(this.mCamera);
+    
+    gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
+    gEngine.ParticleSystem.collideWithRigidSet(this.mAllObjs, this.mAllParticles);
 
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Right)) {
-        this.mHero.mTexture = this.kHeroRStand;
-        this.mHeroAction = 0;
-    }
+    var p = obj.getXform().getPosition();
+    this.mTarget.getXform().setPosition(p[0], p[1]);
+    msg += "  P(" + gEngine.Physics.getPositionalCorrection() + 
+           " " + gEngine.Physics.getRelaxationCount() + ")" +
+           " V(" + gEngine.Physics.getHasMotion() + ")";
+    this.mMsg.setText(msg);
+    
+    this.mShapeMsg.setText(obj.getRigidBody().getCurrentState());
+};
 
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Up)) {
-        this.mHero.mTexture = this.kHeroUStand;
-        this.mHeroAction = 0;
-    }
-
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Left)) {
-        this.mHero.mTexture = this.kHeroLStand;
-        this.mHeroAction = 0;
-    }
-
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
-        this.mHero.mTexture = this.kHeroDStand;
-        this.mHeroAction = 0;
-    }
-
-    // continously change texture tinting
-    var c = this.mPortal.getColor();
-    var ca = c[3] + deltaX;
-    if (ca > 1) {
-        ca = 0;
-    }
-    c[3] = ca;
+MyGame.prototype.createParticle = function(atX, atY) {
+    var life = 30 + Math.random() * 200;
+    var p = new ParticleGameObject("assets/particle.png", atX, atY, life);
+    p.getRenderable().setColor([1, 0, 0, 1]);
+    
+    // size of the particle
+    var r = 3.5 + Math.random() * 2.5;
+    p.getXform().setSize(r, r);
+    
+    // final color
+    var fr = 3.5 + Math.random();
+    var fg = 0.4 + 0.1 * Math.random();
+    var fb = 0.3 + 0.1 * Math.random();
+    p.setFinalColor([fr, fg, fb, 0.6]);
+    
+    // velocity on the particle
+    var fx = 10 * Math.random() - 20 * Math.random();
+    var fy = 10 * Math.random();
+    p.getParticle().setVelocity([fx, fy]);
+    
+    // size delta
+    p.setSizeDelta(0.98);
+    
+    return p;
 };

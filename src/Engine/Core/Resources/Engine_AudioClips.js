@@ -9,14 +9,26 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
+/**
+ * Static refrence to gEngine
+ * @type gEngine
+ */
 var gEngine = gEngine || { };
 
+/**
+ * Default Constructor<p>
+ * Provides support for loading and unloading of Audio clips.
+ * @class gEngine.AudioClips
+ * @type gEngine.AudioClips
+ */
 gEngine.AudioClips = (function () {
     var mAudioContext = null;
     var mBgAudioNode = null;
 
-    /*
+    /**
      * Initializes the audio context to play sounds.
+     * @memberOf gEngine.AudioClips
+     * @returns {void}
      */
     var initAudioContext = function () {
         try {
@@ -25,6 +37,12 @@ gEngine.AudioClips = (function () {
         } catch (e) {alert("Web Audio Is not supported."); }
     };
 
+    /**
+     * Load Audio Source into the resource map
+     * @memberOf gEngine.AudioClips
+     * @param {String} clipName
+     * @returns {void}
+     */
     var loadAudio = function (clipName) {
         if (!(gEngine.ResourceMap.isAssetLoaded(clipName))) {
             // Update resources in load counter.
@@ -56,10 +74,23 @@ gEngine.AudioClips = (function () {
         }
     };
 
+    /**
+     * Remove the reference to allow associated memory <p>
+     * be available for subsequent garbage collection
+     * @memberOf gEngine.AudioClips
+     * @param {String} clipName
+     * @returns {void}
+     */
     var unloadAudio = function (clipName) {
         gEngine.ResourceMap.unloadAsset(clipName);
     };
 
+    /**
+     * Play an audioclip one time. no loop
+     * @memberOf gEngine.AudioClips
+     * @param {String} clipName
+     * @returns {void}
+     */
     var playACue = function (clipName) {
         var clipInfo = gEngine.ResourceMap.retrieveAsset(clipName);
         if (clipInfo !== null) {
@@ -71,6 +102,12 @@ gEngine.AudioClips = (function () {
         }
     };
 
+    /**
+     * Play a audioclip on repeat. Stops current background clip if playing.
+     * @memberOf gEngine.AudioClips
+     * @param {String} clipName
+     * @returns {void}
+     */
     var playBackgroundAudio = function (clipName) {
         var clipInfo = gEngine.ResourceMap.retrieveAsset(clipName);
         if (clipInfo !== null) {
@@ -85,6 +122,11 @@ gEngine.AudioClips = (function () {
         }
     };
 
+    /**
+     * Stops current background audio clip if playing
+     * @memberOf gEngine.AudioClips
+     * @returns {void}
+     */
     var stopBackgroundAudio = function () {
         // Check if the audio is  playing.
         if (mBgAudioNode !== null) {
@@ -93,6 +135,11 @@ gEngine.AudioClips = (function () {
         }
     };
 
+    /**
+     * Returns if background audio is playing
+     * @memberOf gEngine.AudioClips
+     * @returns {Boolean} true if background audio is playing
+     */
     var isBackgroundAudioPlaying = function () {
         return (mBgAudioNode !== null);
     };
