@@ -98,7 +98,6 @@
 * The default values for the .button class
 */
 .button {
-    background: url("button-background.jpg");
     color: #666;
     /*background-color: #EEE;*/
     font-weight: 300;
@@ -382,6 +381,11 @@
 .button-royal-flat {
     background-color: #7B72E9;
     border-color: #7B72E9;
+    color: #FFF;
+}
+
+.button-parchment {
+    background: url("parchment.jpg");
     color: #FFF;
 }
 
@@ -1728,7 +1732,8 @@
 */
 .button-group {
     position: relative;
-    display: inline-block;
+    /*display: inline-block;*/
+    height: 50px;
 }
 
 .button-group:after {
