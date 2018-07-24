@@ -25,17 +25,17 @@ Map.prototype.pixelCenter = function(pos) {
     return vec2.fromValues(x, y);
 };
 
-Map.prototype.reducePoint = function(x, y, lastDir) {
+Map.prototype.reducePoint = function(x, y) {
     return 20 * Math.round(this.mHeight - 0.5 - y) + Math.round(x - 0.5);
 };
 
-Map.prototype.canWalk = function(x, y, dir, lastDir) {
-    var posPoint = this.reducePoint(x, y, lastDir);
+Map.prototype.canWalk = function(x, y, dir) {
+    var posPoint = this.reducePoint(x, y);
     switch(dir) {
         case "Up":
         var nextStepPoint = posPoint - this.mWidth;
         if (nextStepPoint < 0)
-            return false;
+            return true;
         if (this.mContent[this.mData[nextStepPoint]] == "unwalkable") {
             var nextStepVec = this.pixelCenter(nextStepPoint);
             if (y + 1 > nextStepVec[1])
@@ -44,7 +44,7 @@ Map.prototype.canWalk = function(x, y, dir, lastDir) {
         case "Right":
         var nextStepPoint = posPoint + 1;
         if (nextStepPoint > this.mData.length)
-            return false;
+            return true;
         if (this.mContent[this.mData[nextStepPoint]] == "unwalkable") {
             var nextStepVec = this.pixelCenter(nextStepPoint);
             if (x + 1 > nextStepVec[0])
@@ -54,7 +54,7 @@ Map.prototype.canWalk = function(x, y, dir, lastDir) {
         case "Down":
         var nextStepPoint = posPoint + this.mWidth;
         if (nextStepPoint > this.mData.length)
-            return false;
+            return true;
         if (this.mContent[this.mData[nextStepPoint]] == "unwalkable") {
             var nextStepVec = this.pixelCenter(nextStepPoint);
             if (y - 1 < nextStepVec[1])
@@ -64,7 +64,7 @@ Map.prototype.canWalk = function(x, y, dir, lastDir) {
         case "Left":
         var nextStepPoint = posPoint - 1;
         if (nextStepPoint < 0)
-            return false;
+            return true;
         if (this.mContent[this.mData[nextStepPoint]] == "unwalkable") {
             var nextStepVec = this.pixelCenter(nextStepPoint);
             if (x - 1 < nextStepVec[0])

@@ -45,14 +45,13 @@ function MyGame() {
     this.mAllObjs = null;
     this.mAllParticles = null;
     this.mBounds = null;
-    this.mCollisionInfos = [];
+    // this.mCollisionInfos = [];
     this.mHero = null;
 
     this.mMainView = null;
 
     this.mHeroAction = 0;
     this.mMsgBoxShow = false;
-    this.mHeroLastDir = null;
     
     this.mCurrentObj = 0;
     this.mTarget = null;
@@ -179,9 +178,10 @@ MyGame.prototype.update = function () {
         if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroRStand;
         if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroRStand;
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right", this.mHeroLastDir) == false)
+        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
             return ;
-        this.mHeroLastDir = "Right";
+        if (xform.getXPos() > this.mMyMap.mWidth - 0.5)
+            return ;
         xform.incXPosBy(deltaX);
     }
 
@@ -195,9 +195,10 @@ MyGame.prototype.update = function () {
         if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroUStand;
         if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroUStand;
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up", this.mHeroLastDir) == false)
+        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
             return ;
-        this.mHeroLastDir = "Up";
+        if (xform.getYPos() > this.mMyMap.mHeight - 0.5)
+            return ;
         xform.incYPosBy(deltaX);
     }
 
@@ -211,9 +212,10 @@ MyGame.prototype.update = function () {
         if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroDStand;
         if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroDStand;
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down", this.mHeroLastDir) == false)
+        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
             return ;
-        this.mHeroLastDir = "Down";
+        if (xform.getYPos() < 0.5) 
+            return ;
         xform.incYPosBy(-deltaX);
     }
 
@@ -227,9 +229,10 @@ MyGame.prototype.update = function () {
         if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroLStand;
         if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroLStand;
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left", this.mHeroLastDir) == false)
+        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
             return ;
-        this.mHeroLastDir = "Left";
+        if (xform.getXPos() < 0.5)
+            return ;
         xform.incXPosBy(-deltaX);
     }
 
