@@ -8,18 +8,40 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
+/**
+ * Static refrence to gEngine
+ * @type gEngine
+ */
 var gEngine = gEngine || { };
 
-// Note: loads the a textfile and when done calls the callbackFunction()
-//     fileName is treated as resource map key, file content is stored as asset
-//
+/**
+ * Default Constructor<p>
+ * loads an text file into resourceMap, either as simple text or as XML<p>
+ * Note: loads the a textfile and when done calls the callbackFunction()<p>
+ *      fileName is treated as resource map key, file content is stored as asset
+ * @class gEngine.TextFileLoader
+ * @type TextFileLoader
+ */
 gEngine.TextFileLoader = (function () {
+    /**
+     * Text file type tokens
+     * @type {enum|eTextFileType}
+     * @memberOf gEngine.TextFileLoader
+     */
     var eTextFileType = Object.freeze({
         eXMLFile: 0,
-        eTextFile: 1
+        eTextFile: 1,
+        eJsonFile: 2
     });
 
-    // if fileType is a eTextFileType
+    /**
+     * Load text file if fileType is a eTextFileType
+     * @memberOf gEngine.TextFileLoader
+     * @param {String} fileName File Path name
+     * @param {enum|eTextFileType} fileType File type token
+     * @param {Function} callbackFunction Callback Function called when file load is complete
+     * @returns {void}
+     */
     var loadTextFile = function (fileName, fileType, callbackFunction) {
         if (!(gEngine.ResourceMap.isAssetLoaded(fileName))) {
             // Update resources in load counter.
@@ -34,7 +56,10 @@ gEngine.TextFileLoader = (function () {
                 }
             };
             req.open('GET', fileName, true);
-            req.setRequestHeader('Content-Type', 'text/xml');
+            if (fileType === eTextFileType.eTextFile) 
+                req.setRequestHeader('Content-Type', 'text/xml');
+            if (fileType === eTextFileType.eJsonFile) 
+                req.setRequestHeader('Content-Type', 'application/json');
 
             req.onload = function () {
                 var fileContent = null;
@@ -42,7 +67,10 @@ gEngine.TextFileLoader = (function () {
                     var parser = new DOMParser();
                     fileContent = parser.parseFromString(req.responseText, "text/xml");
                 } else {
-                    fileContent = req.responseText;
+                    if (fileType === eTextFileType.eJsonFile) {
+                        fileContent = JSON.parse(req.responseText);
+                    } else
+                        fileContent = req.responseText;
                 }
                 gEngine.ResourceMap.asyncLoadCompleted(fileName, fileContent);
                 if ((callbackFunction !== null) && (callbackFunction !== undefined)) {
@@ -58,6 +86,12 @@ gEngine.TextFileLoader = (function () {
         }
     };
 
+    /**
+     * Unload the TextFile
+     * @memberOf gEngine.TextFileLoader
+     * @param {type} fileName file name to unload
+     * @returns {void}
+     */
     var unloadTextFile = function (fileName) {
         gEngine.ResourceMap.unloadAsset(fileName);
     };

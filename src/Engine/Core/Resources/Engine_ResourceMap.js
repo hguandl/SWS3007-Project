@@ -7,9 +7,25 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
+/**
+ * Static refrence to gEngine
+ * @type gEngine
+ */
 var gEngine = gEngine || { };
 
+/**
+ * Default Constructor
+ * @class gEngine.ResourceMap
+ * @type gEngine.ResourceMap
+ */
 gEngine.ResourceMap = (function () {
+    
+    /**
+     * ResourceMap node containing name and refrence count of resource
+     * @memberOf gEngine.ResourceMap
+     * @param {String} rName
+     * @returns {MapEntry}
+     */
     var MapEntry = function (rName) {
         this.mAsset = rName;
         this.mRefCount = 1;
@@ -24,20 +40,33 @@ gEngine.ResourceMap = (function () {
     // Resource storage
     var mResourceMap = {};
 
-   /*
+   /**
     * Register one more resource to load
+    * @memberOf gEngine.ResourceMap
+    * @param {String} rName name of resource to load
+    * @returns {void}
     */
     var asyncLoadRequested = function (rName) {
         mResourceMap[rName] = new MapEntry(rName); // place holder for the resource to be loaded
         ++mNumOutstandingLoads;
     };
 
+    /**
+     * Callback for when reource is loaded into the ResourceMap
+     * @memberOf gEngine.ResourceMap
+     * @param {String} rName
+     * @param {File} loadedAsset asset to load into ResourceMap
+     * @returns {void}
+     */
     var asyncLoadCompleted = function (rName, loadedAsset) {
         if (!isAssetLoaded(rName)) {
             alert("gEngine.asyncLoadCompleted: [" + rName + "] not in map!");
         }
         mResourceMap[rName].mAsset = loadedAsset;
         --mNumOutstandingLoads;
+        if(gEngine.LoadingIconConfig.isLevelSet()){
+            gEngine.LoadingIconConfig.loadingUpdate();
+        }
         _checkForAllLoadCompleted();
     };
 
@@ -50,7 +79,12 @@ gEngine.ResourceMap = (function () {
         }
     };
 
-    // Make sure to set the callback _AFTER_ all load commands are issued
+    /**
+     * Make sure to set the callback _AFTER_ all load commands are issued
+     * @memberOf gEngine.ResourceMap
+     * @param {Function} funct callback Function
+     * @returns {void}
+     */
     var setLoadCompleteCallback = function (funct) {
         mLoadCompleteCallback = funct;
         // in case all loading are done
@@ -58,6 +92,12 @@ gEngine.ResourceMap = (function () {
     };
 
     //<editor-fold desc="Asset checking functions">
+    /**
+     * Return the asset of rName
+     * @memberOf gEngine.ResourceMap
+     * @param {String} rName name of asset to return
+     * @returns {File} asset associtated to rName
+     */
     var retrieveAsset = function (rName) {
         var r = null;
         if (rName in mResourceMap) {
@@ -68,14 +108,33 @@ gEngine.ResourceMap = (function () {
         return r;
     };
 
+    /**
+     * Returns if asset is loaded into map
+     * @memberOf gEngine.ResourceMap
+     * @param {String} rName name of asset
+     * @returns {Boolean} true if rName is loaded in ResourceMap
+     */
     var isAssetLoaded = function (rName) {
         return (rName in mResourceMap);
     };
 
+    /**
+     * Increment the refrence count of asser rName
+     * @memberOf gEngine.ResourceMap
+     * @param {String} rName name of asset to increment refrence count
+     * @returns {void}
+     */
     var incAssetRefCount = function (rName) {
         mResourceMap[rName].mRefCount += 1;
     };
 
+    /**
+     * Remove the reference to allow associated memory <p>
+     * be available for subsequent garbage collection
+     * @memberOf gEngine.ResourceMap
+     * @param {String} rName name of asset to unload
+     * @returns {Number} Refrence count of asset
+     */
     var unloadAsset = function (rName) {
         var c = 0;
         if (rName in mResourceMap) {
@@ -86,6 +145,10 @@ gEngine.ResourceMap = (function () {
             }
         }
         return c;
+    };
+    
+    var getNumOutstandingLoads = function() {
+        return mNumOutstandingLoads;
     };
     //</editor-fold>
 
@@ -101,7 +164,8 @@ gEngine.ResourceMap = (function () {
         retrieveAsset: retrieveAsset,
         unloadAsset: unloadAsset,
         isAssetLoaded: isAssetLoaded,
-        incAssetRefCount: incAssetRefCount
+        incAssetRefCount: incAssetRefCount,
+        getNumOutstandingLoads: getNumOutstandingLoads
         //</editor-fold>
     };
     return mPublic;
