@@ -3,7 +3,7 @@
  */
 class UIDialog {
     constructor() {
-        this._ele = document.getElementById(_C.DialogWrapper);
+        this._ele = document.getElementById("UI-dialog");
     }
 }
 
