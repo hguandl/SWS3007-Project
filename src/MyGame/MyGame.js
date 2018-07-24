@@ -104,24 +104,7 @@ MyGame.prototype.update = function () {
     var deltaX = 0.05;
     var xform = this.mMyHero.getHero().getXform();
 
-    var newCenter = [xform.getXPos(), xform.getYPos()];
-    var canUpdate = true;
-
-    var ratio = this.mMyMap.mViewHeight / this.mMyMap.mViewWidth;
-
-    if (newCenter[0] + this.mCamera.getWCWidth() / 2 >= this.mMyMap.mWidth)
-        canUpdate = false;
-    if (newCenter[0] - this.mCamera.getWCWidth() / 2 <= 0)
-        canUpdate = false;
-    if (newCenter[1] + this.mCamera.getWCWidth() / 2 * ratio >= this.mMyMap.mWidth)
-        canUpdate = false;
-    if (newCenter[1] - this.mCamera.getWCWidth() / 2 * ratio <= 0)
-        canUpdate = false;
-    if (canUpdate == true) {
-        this.mCamera.setWCCenter(newCenter[0], newCenter[1]);
-    }
-
-    this.mCamera.update();
+    this.moveCamera(xform);
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
@@ -211,6 +194,24 @@ MyGame.prototype.resume = function() {
     document.getElementById('pauseUI').style.visibility = "hidden";
     gEngine.GameLoop.resume();
 };
+
+MyGame.prototype.moveCamera = function(xform) {
+    var newCenter = [xform.getXPos(), xform.getYPos()];
+
+    var ratio = this.mMyMap.mViewHeight / this.mMyMap.mViewWidth;
+
+    if (newCenter[0] + this.mCamera.getWCWidth() / 2 >= this.mMyMap.mWidth)
+        newCenter[0] = this.mMyMap.mWidth - this.mCamera.getWCWidth() / 2;
+    if (newCenter[0] - this.mCamera.getWCWidth() / 2 <= 0)
+        newCenter[0] = this.mCamera.getWCWidth() / 2;
+    if (newCenter[1] + this.mCamera.getWCWidth() / 2 * ratio >= this.mMyMap.mWidth)
+        newCenter[1] = this.mMyMap.mWidth - this.mCamera.getWCWidth() / 2 * ratio;
+    if (newCenter[1] - this.mCamera.getWCWidth() / 2 * ratio <= 0)
+        newCenter[1] = this.mCamera.getWCWidth() / 2 * ratio;
+
+    this.mCamera.setWCCenter(newCenter[0], newCenter[1]);
+    this.mCamera.update();
+}
 
 MyGame.prototype.createParticle = function(atX, atY) {
     var life = 30 + Math.random() * 200;
