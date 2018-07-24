@@ -7,7 +7,7 @@ function Map(mapFile) {
     this.mData = mapJson["data"];
     this.mContent = mapJson["content"];
 
-    this.mViewWidth = 600;
+    this.mViewWidth = 800;
     this.mViewHeight = 600;
 
     this.mPixelArray = new Array();

@@ -60,7 +60,7 @@ MyGame.prototype.initialize = function () {
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
 
-    this.mCamera = this.mMyMap.centerCamera(0.5, [20, 40, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
+    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 50, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
     this.mSmallCamera = this.mMyMap.centerCamera(1, [1050, 550, 100, 100]);
 };
@@ -106,13 +106,16 @@ MyGame.prototype.update = function () {
 
     var newCenter = [xform.getXPos(), xform.getYPos()];
     var canUpdate = true;
+
+    var ratio = this.mMyMap.mViewHeight / this.mMyMap.mViewWidth;
+
     if (newCenter[0] + this.mCamera.getWCWidth() / 2 >= this.mMyMap.mWidth)
         canUpdate = false;
     if (newCenter[0] - this.mCamera.getWCWidth() / 2 <= 0)
         canUpdate = false;
-    if (newCenter[1] + this.mCamera.getWCWidth() / 2 >= this.mMyMap.mWidth)
+    if (newCenter[1] + this.mCamera.getWCWidth() / 2 * ratio >= this.mMyMap.mWidth)
         canUpdate = false;
-    if (newCenter[1] - this.mCamera.getWCWidth() / 2 <= 0)
+    if (newCenter[1] - this.mCamera.getWCWidth() / 2 * ratio <= 0)
         canUpdate = false;
     if (canUpdate == true) {
         this.mCamera.setWCCenter(newCenter[0], newCenter[1]);

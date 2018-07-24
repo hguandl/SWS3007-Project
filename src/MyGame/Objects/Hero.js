@@ -2,6 +2,9 @@
 
 MyHero.prototype.animate = function(_config) {
     var bias = this.mJson["height"];
+    var w = _config[1][0] - _config[0][0];
+    var h = _config[0][1] - _config[1][1];
+    this.mMyHero.getXform().setSize(w / h, 1);
     this.mMyHero.setElementPixelPositions(_config[0][0], _config[1][0], bias - _config[0][1], bias - _config[1][1]);
 };
 
@@ -19,7 +22,6 @@ function MyHero(kPic, kJson) {
     this.mMyHero = new SpriteRenderable(kPic);
     this.mMyHero.setColor([1, 1, 1, 0]);
     this.mMyHero.getXform().setPosition(14, 10);
-    this.mMyHero.getXform().setSize(0.7, 1);
     this.animate(config);
 }
 
