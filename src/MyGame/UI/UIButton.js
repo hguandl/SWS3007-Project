@@ -1,10 +1,21 @@
 "use strict";
 
 /** A class to control buttons in the UI.
+ * The developer are supposed to use static methods rather than creating new instance.
+ *
  * There are 0 custom buttons at the beginning.
+ *
+ * Example:
+ * {
+ *      UIButton.setCustomButtonNumber(2);
+ *      UIButton.setCustomButtonOnclick(1, (event) => { alert(event.type); });
+ *      UIButton.setCustomButtonOnclick(2, function (event) { alert("button2 clicked"); });
+ *      UIButton.displayButtonGroup("custom-button-group");
+ *  }
  */
 class UIButton {
     /**
+     * @constructor
      * The developer are supposed to use static methods rather than creating new instance.
      */
     constructor() {
@@ -12,7 +23,9 @@ class UIButton {
     }
 
     /** Display one button group and hide all other button groups.
-     * @param groupId {string}: The 'id' attribute of the button-group element. The button-group is a 'div' element in
+     * There are 4 groups now. Their ids are "custom-button-group", "skill-button-group", "default-button-group", "combat-button-group"
+     *
+     * @param groupId {string} : The 'id' attribute of the button-group element. The button-group is a 'div' element in
      * index.html.
      */
     static displayButtonGroup(groupId) {
