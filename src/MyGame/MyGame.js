@@ -1,6 +1,6 @@
 /*
- * File: MyGame.js 
- * This is the logic of our game. 
+ * File: MyGame.js
+ * This is the logic of our game.
  */
 
 /*jslint node: true, vars: true */
@@ -12,100 +12,52 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MyGame() {
-    this.kMinionSprite = "assets/minion_sprite.png";
-    this.kPlatformTexture = "assets/platform.png";
-    this.kWallTexture = "assets/wall.png";
-    this.kTargetTexture = "assets/target.png";
-    this.kParticleTexture = "assets/particle.png";
-    this.kHeroDWalk = "assets/hero/hero1.png";
-    this.kHeroDStand = "assets/hero/hero2.png";
-    this.kHeroDWalk2 = "assets/hero/hero3.png";
-    this.kHeroLWalk = "assets/hero/hero4.png";
-    this.kHeroLStand = "assets/hero/hero5.png";
-    this.kHeroLWalk2 = "assets/hero/hero6.png";
-    this.kHeroRWalk = "assets/hero/hero7.png";
-    this.kHeroRStand = "assets/hero/hero8.png";
-    this.kHeroRWalk2 = "assets/hero/hero9.png";
-    this.kHeroUWalk = "assets/hero/hero10.png";
-    this.kHeroUStand = "assets/hero/hero11.png";
-    this.kHeroUWalk2 = "assets/hero/hero12.png";
 
-    this.kMapFile = "assets/map_data.json";
-    this.kMapBkg = "assets/map/map1.png";
-    this.kMapFrg = "assets/map/map2.png";
+    this.kHeroPic = "assets/hero/tangseng_walk.png";
+    this.kHeroJson = "assets/hero/tangseng_walk.json";
 
-    
-    // The camera to view the scene
+    this.kMapFile = "assets/map/map-1-dat.json";
+    this.kMapBkg = "assets/map/map-1-bkg.png";
+    this.kMapFrg = "assets/map/map-1-frg.png";
+
     this.mCamera = null;
     this.mSmallCamera = null;
 
-    this.mMsg = null;
-    this.mShapeMsg = null;
-
-    this.mAllObjs = null;
-    this.mAllParticles = null;
-    this.mBounds = null;
-    // this.mCollisionInfos = [];
-    this.mHero = null;
-
     this.mMainView = null;
 
-    this.mHeroAction = 0;
     this.mMsgBoxShow = false;
-    
-    this.mCurrentObj = 0;
-    this.mTarget = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
 
 MyGame.prototype.loadScene = function () {
-    gEngine.Textures.loadTexture(this.kMinionSprite);
-    gEngine.Textures.loadTexture(this.kPlatformTexture);
-    gEngine.Textures.loadTexture(this.kWallTexture);
-    gEngine.Textures.loadTexture(this.kTargetTexture);
-    gEngine.Textures.loadTexture(this.kParticleTexture);
-    gEngine.Textures.loadTexture(this.kHeroDStand);
-    gEngine.Textures.loadTexture(this.kHeroDWalk);
-    gEngine.Textures.loadTexture(this.kHeroDWalk2);
-    gEngine.Textures.loadTexture(this.kHeroRStand);
-    gEngine.Textures.loadTexture(this.kHeroRWalk);
-    gEngine.Textures.loadTexture(this.kHeroRWalk2);
-    gEngine.Textures.loadTexture(this.kHeroUStand);
-    gEngine.Textures.loadTexture(this.kHeroUWalk);
-    gEngine.Textures.loadTexture(this.kHeroUWalk2);
-    gEngine.Textures.loadTexture(this.kHeroLStand);
-    gEngine.Textures.loadTexture(this.kHeroLWalk);
-    gEngine.Textures.loadTexture(this.kHeroLWalk2);
-
     gEngine.Textures.loadTexture(this.kMapBkg);
     gEngine.Textures.loadTexture(this.kMapFrg);
+    gEngine.Textures.loadTexture(this.kHeroPic);
     gEngine.TextFileLoader.loadTextFile(this.kMapFile, gEngine.TextFileLoader.eTextFileType.eJsonFile);
-
+    gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
 };
 
 MyGame.prototype.unloadScene = function () {
+    gEngine.Textures.unloadTexture(this.kMapBkg);
+    gEngine.Textures.unloadTexture(this.kMapFrg);
+    gEngine.Textures.unloadTexture(this.kHeroPic);
 };
 
 MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
-    
-    this.mHero = new TextureRenderable(this.kHeroDStand);
-    this.mHero.setColor([0, 0, 0, 0]);
-    this.mHero.getXform().setPosition(14, 10);
-    this.mHero.getXform().setSize(1, 1);
 
+    this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
     this.mAllParticles = new ParticleGameObjectSet();
-    
-    this.createBounds();
+
     this.mMyMap = new Map(this.kMapFile);
 
     this.mMapBkg = new Background(this.kMapBkg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
     this.mMapFrg = new Background(this.kMapFrg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
 
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mHero);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
 
     this.mCamera = this.mMyMap.centerCamera(0.5, [20, 40, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
@@ -126,7 +78,7 @@ MyGame.prototype.draw = function () {
     this.mSmallCamera.setupViewProjection();
     this.mMapBkg.draw(this.mSmallCamera);
     this.mMapFrg.draw(this.mSmallCamera);
-    this.mHero.draw(this.mSmallCamera);
+    this.mMyHero.getHero().draw(this.mSmallCamera);
 };
 
 MyGame.prototype.increasShapeSize = function(obj, delta) {
@@ -141,7 +93,7 @@ MyGame.prototype.showMsg = function(msg) {
 };
 
 MyGame.prototype.resetPos = function() {
-    this.mHero.getXform().setPosition(14, 10);
+    this.mMyHero.getHero().getXform().setPosition(14, 10);
     this.resume();
 }
 
@@ -150,7 +102,7 @@ MyGame.prototype.resetPos = function() {
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
     var deltaX = 0.05;
-    var xform = this.mHero.getXform();
+    var xform = this.mMyHero.getHero().getXform();
 
     var newCenter = [xform.getXPos(), xform.getYPos()];
     var canUpdate = true;
@@ -167,93 +119,69 @@ MyGame.prototype.update = function () {
     }
 
     this.mCamera.update();
-    // Support hero movements
+
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
-        this.mHeroAction = (this.mHeroAction + 1) % 40;
-
-        if (this.mHeroAction > 1 && this.mHeroAction < 10) this.mHero.mTexture = this.kHeroRWalk;
-        if (this.mHeroAction > 9 && this.mHeroAction < 20) this.mHero.mTexture = this.kHeroRStand;
-        if (this.mHeroAction > 19 && this.mHeroAction < 30) this.mHero.mTexture = this.kHeroRWalk2;
-        if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroRStand;
-        if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroRStand;
+        this.mMyHero.walk("Right");
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
             return ;
         if (xform.getXPos() > this.mMyMap.mWidth - 0.5)
             return ;
+
         xform.incXPosBy(deltaX);
     }
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Up)) return ;
-        this.mHeroAction = (this.mHeroAction + 1) % 40;
-
-        if (this.mHeroAction > 1 && this.mHeroAction < 10) this.mHero.mTexture = this.kHeroUWalk;
-        if (this.mHeroAction > 9 && this.mHeroAction < 20) this.mHero.mTexture = this.kHeroUStand;
-        if (this.mHeroAction > 19 && this.mHeroAction < 30) this.mHero.mTexture = this.kHeroUWalk2;
-        if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroUStand;
-        if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroUStand;
+        this.mMyHero.walk("Up");
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
             return ;
         if (xform.getYPos() > this.mMyMap.mHeight - 0.5)
             return ;
+
         xform.incYPosBy(deltaX);
     }
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Down)) return ;
-        this.mHeroAction = (this.mHeroAction + 1) % 40;
-
-        if (this.mHeroAction > 1 && this.mHeroAction < 10) this.mHero.mTexture = this.kHeroDWalk;
-        if (this.mHeroAction > 9 && this.mHeroAction < 20) this.mHero.mTexture = this.kHeroDStand;
-        if (this.mHeroAction > 19 && this.mHeroAction < 30) this.mHero.mTexture = this.kHeroDWalk2;
-        if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroDStand;
-        if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroDStand;
+        this.mMyHero.walk("Down");
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
             return ;
-        if (xform.getYPos() < 0.5) 
+        if (xform.getYPos() < 0.5)
             return ;
+
         xform.incYPosBy(-deltaX);
     }
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Left)) return ;
-        this.mHeroAction = (this.mHeroAction + 1) % 40;
-
-        if (this.mHeroAction > 1 && this.mHeroAction < 10) this.mHero.mTexture = this.kHeroLWalk;
-        if (this.mHeroAction > 9 && this.mHeroAction < 20) this.mHero.mTexture = this.kHeroLStand;
-        if (this.mHeroAction > 19 && this.mHeroAction < 30) this.mHero.mTexture = this.kHeroLWalk2;
-        if (this.mHeroAction > 29 && this.mHeroAction < 40) this.mHero.mTexture = this.kHeroLStand;
-        if (this.mHeroAction == 0) this.mHero.mTexture = this.kHeroLStand;
+        this.mMyHero.walk("Left");
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
             return ;
         if (xform.getXPos() < 0.5)
             return ;
+
         xform.incXPosBy(-deltaX);
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Right)) {
-        this.mHero.mTexture = this.kHeroRStand;
-        this.mHeroAction = 0;
+        this.mMyHero.stand("Right");
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Up)) {
-        this.mHero.mTexture = this.kHeroUStand;
-        this.mHeroAction = 0;
+        this.mMyHero.stand("Up");
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Left)) {
-        this.mHero.mTexture = this.kHeroLStand;
-        this.mHeroAction = 0;
+        this.mMyHero.stand("Left");
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
-        this.mHero.mTexture = this.kHeroDStand;
-        this.mHeroAction = 0;
+        this.mMyHero.stand("Down");
     }
 
     if (gEngine.Input.isButtonPressed(gEngine.Input.mouseButton.Left)) {
@@ -285,24 +213,24 @@ MyGame.prototype.createParticle = function(atX, atY) {
     var life = 30 + Math.random() * 200;
     var p = new ParticleGameObject("assets/particle.png", atX, atY, life);
     p.getRenderable().setColor([1, 0, 0, 1]);
-    
+
     // size of the particle
     var r = 3.5 + Math.random() * 2.5;
     p.getXform().setSize(r, r);
-    
+
     // final color
     var fr = 3.5 + Math.random();
     var fg = 0.4 + 0.1 * Math.random();
     var fb = 0.3 + 0.1 * Math.random();
     p.setFinalColor([fr, fg, fb, 0.6]);
-    
+
     // velocity on the particle
     var fx = 10 * Math.random() - 20 * Math.random();
     var fy = 10 * Math.random();
     p.getParticle().setVelocity([fx, fy]);
-    
+
     // size delta
     p.setSizeDelta(0.98);
-    
+
     return p;
 };

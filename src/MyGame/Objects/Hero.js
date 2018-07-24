@@ -1,33 +1,53 @@
-/* File: Hero.js 
- *
- * Creates and initializes the Hero (Dye)
- * overrides the update function of GameObject to define
- * simple Dye behavior
- */
+"use strict";
 
-/*jslint node: true, vars: true */
-/*global gEngine, GameObject, SpriteRenderable, WASDObj */
-/* find out more about jslint: http://www.jslint.com/help.html */
+MyHero.prototype.animate = function(_config) {
+    var bias = this.mJson["height"];
+    this.mMyHero.setElementPixelPositions(_config[0][0], _config[1][0], bias - _config[0][1], bias - _config[1][1]);
+};
 
-"use strict";  // Operate in Strict mode such that variables must be declared before used!
+function MyHero(kPic, kJson) {
+    this.mWalk = new Array();
+    this.mStand = [];
+    this.mAction = 0;
+    this.mSpeed = 30;
+    this.mJson = gEngine.ResourceMap.retrieveAsset(kJson);
 
-function Hero(spriteTexture) {
-    this.kDelta = 0.3;
+    this.mMyHero = null;
 
-    this.mDye = new SpriteRenderable(spriteTexture);
-    this.mDye.setColor([1, 1, 1, 0]);
-    this.mDye.getXform().setPosition(50, 40);
-    this.mDye.getXform().setSize(3, 4);
-    this.mDye.setElementPixelPositions(0, 120, 0, 180);
-    GameObject.call(this, this.mDye);
-    
-    var r = new RigidRectangle(this.getXform(), 3, 4);
-    this.setRigidBody(r);
-    this.toggleDrawRenderable();
-    this.toggleDrawRigidShape();
+    var config = this.mJson["Down"]["Stand"];
+
+    this.mMyHero = new SpriteRenderable(kPic);
+    this.mMyHero.setColor([1, 1, 1, 0]);
+    this.mMyHero.getXform().setPosition(14, 10);
+    this.mMyHero.getXform().setSize(0.7, 1);
+    this.animate(config);
 }
-gEngine.Core.inheritPrototype(Hero, WASDObj);
 
-Hero.prototype.update = function () {
-    GameObject.prototype.update.call(this);
+MyHero.prototype.walk = function(dir) {
+    this.mAction = (this.mAction + 1) % this.mSpeed;
+    var base = this.mSpeed / 3;
+    var config = null;
+    if (this.mAction >= 1 && this.mAction < base) {
+        config = this.mJson[dir]["Walk"][0];
+    }
+    if (this.mAction >= base && this.mAction < 2 * base) {
+        config = this.mJson[dir]["Walk"][1];
+    }
+    if (this.mAction >= 2 * base && this.mAction < 3 * base) {
+        config = this.mJson[dir]["Stand"];
+    }
+    if (this.mAction == 0) {
+        config = this.mJson[dir]["Stand"];
+    }
+
+    this.animate(config);
+};
+
+MyHero.prototype.stand = function(dir) {
+    this.mAction = 0;
+    this.animate(this.mJson[dir]["Stand"]);
+}
+
+MyHero.prototype.getHero = function() {
+    return this.mMyHero;
 };
