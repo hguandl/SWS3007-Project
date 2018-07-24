@@ -9,15 +9,18 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) 
     // [1]: Dialog Figure Image
     // [2]: Battle Figure Image
     this.mCharacterImageSet = [];
-
     this.mCharacterImageSet.push(createCharacterImage(iconFile));
     this.mCharacterImageSet.push(createCharacterImage(dialogFigureFile));
     this.mCharacterImageSet.push(createCharacterImage(battleFigureFile));
+
+    // movement support
     this.mXSpeed = [];
     this.mYSpeed = [];
     this.mEndX = [];
     this.mEndY = [];
+
     this.mIsShowing = [];
+
     var i;
     for (i = 0; i < 3; i++) {
         this.mXSpeed[i] = 0;
@@ -28,12 +31,12 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) 
     }
 
     this.mName = this.mCharacterInfo.Name;
-    this.mHP = characterInfo.HP;
-    this.mVP = characterInfo.VP;
-    this.mATK = characterInfo.ATK;
-    this.mDEF = characterInfo.DEF;
-    this.mSPD = characterInfo.SPD;
 
+    this.mMaxHP = this.mCurrentHP = characterInfo.HP;
+    this.mMaxVP = this.mCurrentVP = characterInfo.VP;
+    this.mATK = this.mCurrentATK = characterInfo.ATK;
+    this.mDEF = this.mCurrrentDEF = characterInfo.DEF;
+    this.mSPD = this.mCurrentSPD = characterInfo.SPD;
 }
 
 //<editor-fold desc="set size functions">
@@ -127,19 +130,96 @@ Character.prototype.drawBattleFigure = function (aCamera) {
     //this.mCharacterImageSet[2].draw(aCamera);
 };
 
+Character.prototype.setImageShowing = function (b, imageNum) {
+    this.mIsShowing[imageNum] = b;
+};
+
 Character.prototype.drawAllShowing = function (aCamera) {
     var i;
     for (i = 0; i < this.mCharacterImageSet.length; i++) {
         if (this.mIsShowing[i]) {
-            console.log(this.mIsShowing[i]);
             this.mCharacterImageSet[i].draw(aCamera);
         }
     }
 };
 
-Character.prototype.setImageShowing = function (b, imageNum) {
-    this.mIsShowing[imageNum] = b;
+Character.prototype.isFainting = function () {
+    return (this.mCurrentHP == 0);
 };
+
+Character.prototype.getCurrentHP = function () {
+    return this.mCurrentHP;
+};
+Character.prototype.getMaxHP = function () {
+    return this.mMaxHP;
+};
+Character.prototype.incCurrentHP = function (delta) {
+    if (this.mCurrentHP + delta >= this.mMaxHP) {
+        this.mCurrentHP = this.mMaxHP;
+    } else if (this.mCurrentHP + delta <= 0) {
+        this.mCurrentHP = 0;
+    }
+};
+Character.prototype.incMaxHP = function (delta) {
+    this.mMaxHP += delta;
+};
+
+Character.prototype.getCurrentVP = function () {
+    return this.mCurrentVP;
+};
+Character.prototype.getMaxVP = function () {
+    return this.mMaxVP;
+};
+Character.prototype.incCurrentVP = function (delta) {
+    if (this.mCurrentVP + delta >= this.mMaxVP) {
+        this.mCurrentVP = this.mMaxVP;
+    } else if (this.mCurrentVP + delta <= 0) {
+        this.mCurrentVP = 0;
+    }
+};
+Character.prototype.incMaxVP = function (delta) {
+    this.mMaxVP += delta;
+};
+
+Character.prototype.getCurrentATK = function () {
+    return this.mCurrentATK;
+};
+Character.prototype.getATK = function () {
+    return this.mATK;
+};
+Character.prototype.incCurrentATK = function (delta) {
+    this.mCurrentATK += delta;
+};
+Character.prototype.incATK = function (delta) {
+    this.mATK += delta;
+};
+
+Character.prototype.getCurrentDEF = function () {
+    return this.mCurrentDEF;
+};
+Character.prototype.getDEF = function () {
+    return this.mDEF;
+};
+Character.prototype.incCurrentDEF = function (delta) {
+    this.mCurrentDEF += delta;
+};
+Character.prototype.incDEF = function (delta) {
+    this.mDEF += delta;
+};
+
+Character.prototype.getCurrentSPD = function () {
+    return this.mCurrentSPD;
+};
+Character.prototype.getSPD = function () {
+    return this.mSPD;
+};
+Character.prototype.incCurrentSPD = function (delta) {
+    this.mCurrentSPD += delta;
+};
+Character.prototype.incSPD = function (delta) {
+    this.mSPD += delta;
+};
+
 
 function createCharacterImage(textureFile) {
     var image = new TextureRenderable(textureFile);
