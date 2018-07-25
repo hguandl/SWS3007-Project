@@ -86,7 +86,7 @@ function Combat(topCharacter, monster) {
 
     this.takeAttackAction = function () {
         this._action.param.defender.mCurrentHP -= calDamage(this._action.param.attacker, this._action.param.defender);
-
+        this._action.param.defender.mCurrentHP = Math.round(this._action.param.defender.mCurrentHP);
         // todo: animate
     };
 
