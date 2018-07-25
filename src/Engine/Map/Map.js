@@ -12,7 +12,7 @@ function Map(mapFile) {
 
     this.mPixelArray = new Array();
     this.mItems = [];
-    this.mEventBuffer = null;
+    // this.mEventBuffer = null;
 }
 
 Map.prototype.addItems = function () {
@@ -24,15 +24,22 @@ Map.prototype.addItems = function () {
         tmp.getXform().setPosition(tmpCenter[0], tmpCenter[1]);
         switch (mapInfo[i]) {
             case 1:
-            // #ffff99
             tmp.setColor([0.8, 0.8, 0.8, 1]);
             this.mItems.push(tmp);
             break;
-            case 2:
-            // tmp.setColor([0.105, 0.169, 0.204, 1]);
-            // this.mItems.push(tmp);
-            break;
             case 3:
+            tmp.setColor([1, 1, 0.2, 1]);
+            this.mItems.push(tmp);
+            break;
+            case 4:
+            tmp.setColor([1, 0, 0, 1]);
+            this.mItems.push(tmp);
+            break;
+            case 5:
+            tmp.setColor([0.8, 0.8, 0.8, 1]);
+            this.mItems.push(tmp);
+            break;
+            case 6:
             tmp.setColor([1, 1, 0.2, 1]);
             this.mItems.push(tmp);
             break;

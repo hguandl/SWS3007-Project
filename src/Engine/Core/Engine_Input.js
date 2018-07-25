@@ -1,5 +1,5 @@
 /*
- * File: EngineCore_Input.js 
+ * File: EngineCore_Input.js
  * Provides input support
  */
 /*jslint node: true, vars: true */
@@ -20,10 +20,11 @@ gEngine.Input = (function () {
         Right: 39,
         Down: 40,
 
+        Enter: 13,
         // space bar
         Space: 32,
 
-        // numbers 
+        // numbers
         Zero: 48,
         One: 49,
         Two: 50,
@@ -140,7 +141,7 @@ gEngine.Input = (function () {
             mKeyPreviousState[i] = false;
             mIsKeyClicked[i] = false;
         }
-        // register handlers 
+        // register handlers
         window.addEventListener('keyup', _onKeyUp);
         window.addEventListener('keydown', _onKeyDown);
         //</editor-fold>

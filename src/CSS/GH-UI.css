@@ -1,10 +1,31 @@
+a {
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+p {
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+button {
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .myButton {
     margin-left: -485px;
     position: absolute;
     left: 50%;
     top: 8px;
     width: 970px;
-    height: 600px;
+    height: 640px;
     background-color:rgba(63,63,63,0.8);
     text-align: center;
 }
@@ -40,4 +61,9 @@
 .dialogue p {
     margin: 5px;
     margin-left: 10px;
+}
+
+.inCanvas {
+    position: absolute;
+    top: 600px;
 }

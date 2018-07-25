@@ -31,11 +31,12 @@ Map.prototype.reducePoint = function(x, y) {
 
 Map.prototype.detectEvent = function (x, y) {
     var posPoint = this.reducePoint(x, y);
-    if (this.mContent[this.mData[posPoint]] == "special" && posPoint != this.mEventBuffer) {
-        this.mEventBuffer = posPoint;
-        return true;
+    // if (this.mData[posPoint] > 2 && posPoint != this.mEventBuffer) {
+    if (this.mData[posPoint] > 2) {
+        // this.mEventBuffer = posPoint;
+        return this.mContent[this.mData[posPoint]];
     }
-    return false;
+    return null;
 };
 
 Map.prototype.clearEventBuffer = function (x, y) {

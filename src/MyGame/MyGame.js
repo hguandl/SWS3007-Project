@@ -27,6 +27,9 @@ function MyGame() {
 
     this.mMsgBoxShow = false;
     this.mMapFreezed = false;
+
+    this.mShowSmallMap = true;
+    this.mIsSpaceFreezed = false;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -63,9 +66,9 @@ MyGame.prototype.initialize = function () {
 
     this.mMyMap.addItems();
 
-    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 0, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
+    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 40, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
-    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 480, 120, 120]);
+    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 520, 120, 120]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 };
 
@@ -79,13 +82,13 @@ MyGame.prototype.draw = function () {
     /*draw as a whole main view view-port*/
     gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
 
-    this.mSmallCamera.setupViewProjection();
-    // this.mMapBkg.draw(this.mSmallCamera);
-    // this.mMapFrg.draw(this.mSmallCamera);
-    var i;
-    for (i = 0; i < this.mMyMap.mItems.length; ++i)
-        this.mMyMap.mItems[i].draw(this.mSmallCamera);
-    this.mMyHero.getHero().draw(this.mSmallCamera);
+    if (this.mShowSmallMap) {
+        this.mSmallCamera.setupViewProjection();
+        var i;
+        for (i = 0; i < this.mMyMap.mItems.length; ++i)
+            this.mMyMap.mItems[i].draw(this.mSmallCamera);
+        this.mMyHero.getHero().draw(this.mSmallCamera);
+    }
 };
 
 MyGame.prototype.increasShapeSize = function(obj, delta) {
@@ -94,9 +97,10 @@ MyGame.prototype.increasShapeSize = function(obj, delta) {
 };
 
 MyGame.prototype.showMsg = function(msg) {
-    document.getElementById('infoBox').style.visibility = "visible";
+    document.getElementById('infoBox').style.display = "block";
     document.getElementById('info_0').innerText=msg;
     this.mMsgBoxShow = true;
+    this.mIsSpaceFreezed = true;
     this.mMapFreezed = true;
 };
 
@@ -109,12 +113,13 @@ MyGame.prototype.resetPos = function() {
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
+    if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         if (this.mMsgBoxShow) {
-            document.getElementById('infoBox').style.visibility = "hidden";
+            document.getElementById('infoBox').style.display = "none";
             document.getElementById('info_0').innerText=null;
             this.mMsgBoxShow = false;
             this.mMapFreezed = false;
+            this.mIsSpaceFreezed = false;
         }
     }
     if (this.mMapFreezed) return ;
@@ -188,27 +193,27 @@ MyGame.prototype.update = function () {
         this.mMyHero.stand("Down");
     }
 
-    if (gEngine.Input.isButtonPressed(gEngine.Input.mouseButton.Left)) {
-        if (this.mSmallCamera.isMouseInViewport()) {
-            this.pause();
-        }
+    var e = null;
+    if (e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos())) {
+        // console.log(e);
+        GameEvents.handle(this, e);
     }
 
-    if (this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos())) {
-        this.showMsg("An event!");
-    }
-
-    this.mMyMap.clearEventBuffer(xform.getXPos(), xform.getYPos());
+    // this.mMyMap.clearEventBuffer(xform.getXPos(), xform.getYPos());
 };
 
 MyGame.prototype.pause = function() {
     gEngine.GameLoop.stop();
-    document.getElementById('pauseUI').style.visibility = "visible";
+    document.getElementById('pauseUI').style.display = "block";
 };
 
 MyGame.prototype.resume = function() {
-    document.getElementById('pauseUI').style.visibility = "hidden";
+    document.getElementById('pauseUI').style.display = "none";
     gEngine.GameLoop.resume();
+};
+
+MyGame.prototype.getHero = function() {
+    return this.mMyHero.getHero();
 };
 
 MyGame.prototype.moveCamera = function(xform) {
