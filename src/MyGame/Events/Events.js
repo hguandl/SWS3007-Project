@@ -19,7 +19,8 @@ GameEvents.battle = function(game) {
         CharacterSet[0].iconURL = "assets/character/character.png";
         CharacterSet[1].iconURL = "assets/character/monster1.jpg";
 
-        game.nextScene = new Combat(CharacterSet[0], CharacterSet[1]);
+        window.combatScene = new Combat(CharacterSet[0], CharacterSet[1]);
+        game.nextScene = window.combatScene;
         gEngine.GameLoop.stop();
     }
 };

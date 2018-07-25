@@ -9,6 +9,8 @@
 function Combat(topCharacter, monster) {
     this.topCharacter = topCharacter;
     this.monster = monster;
+    console.debug(topCharacter);
+    console.debug(monster);
 
     this.kBackground = "assets/map/combat_background_town.png";
 
@@ -31,6 +33,23 @@ function Combat(topCharacter, monster) {
 
         this._action = makeAction(actionType, actionParam);
 
+        this.displayAction();
+
+        UIButton.disableButtons(false);
+        // monster take action
+
+        // this._action = this.getMonsterAction();
+        this._action = makeAction(_C.attack, {
+            attacker: this.monster,
+            defender: this.topCharacter,
+        });
+        this.displayAction();
+
+        // end turn
+        this.status = _C.waiting;
+    };
+
+    this.displayAction = function() {
         switch (this._action.type) {
             case _C.attack:
                 this.takeAttackAction();
@@ -45,17 +64,11 @@ function Combat(topCharacter, monster) {
                 console.warn("unknown action type");
                 break;
         }
-
-        UIButton.disableButtons(false);
-        // monster take action
-        monster.action = this.getMonsterAction();
-        // end turn
-
-        this.status = _C.waiting;
     };
 
     this.takeAttackAction = function () {
-        this.monster.mCurrentHP -= calDamage(this.topCharacter, this.monster);
+        this._action.param.defender.mCurrentHP -= calDamage(this._action.param.attacker, this._action.param.defender);
+
         // todo: animate
     };
 
@@ -139,8 +152,10 @@ Combat.prototype.draw = function () {
 Combat.prototype.update = function () {
     this.closeMsg();
 
-    if (this._action.type === _C.none)
-        return;
+    updateCharacterStatus();
+
+    // if (this._action.type === _C.none)
+    //     return;
 
     // todo : add animation to actions
 };
