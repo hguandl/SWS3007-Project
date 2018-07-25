@@ -57,7 +57,6 @@ function Combat(topCharacter, monster) {
     this.checkAlive = function() {
         if (this.monster.mCurrentHP <= 0) {
             this.combatResult = "win";
-            ItemSet_addItem("Key", 1);
             // todo: add die
             gEngine.GameLoop.stop();
         } else if (this.topCharacter.mCurrentHP <= 0) {
@@ -116,6 +115,7 @@ Combat.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.monster.iconURL);
 
     // 回到大地图
+    this.closeMsg(true);
     document.currentScene = window.myGame;
     gEngine.Core.startScene(window.myGame);
 };

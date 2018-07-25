@@ -27,12 +27,10 @@ function MyGame() {
 
     this.mMainView = null;
 
-    this.mMsgBoxShow = false;
-    this.mMapFreezed = false;
-
     this.mShowSmallMap = true;
 
     this.nextScene = null;
+    this.startMsg = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -70,6 +68,7 @@ MyGame.prototype.initialize = function () {
     this.mMapBkg = new Background(this.kMapBkg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
     this.mMapFrg = new Background(this.kMapFrg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
 
+    gEngine.LayerManager.cleanUp();
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
@@ -81,6 +80,20 @@ MyGame.prototype.initialize = function () {
     this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 520, 120, 120]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
+    UIButton.displayButtonGroup('default-button-group');
+
+
+    switch (window.combatScene.combatResult) {
+        case "win":
+            this.startMsg = 1;
+            ItemSet_addItem("Key", 1);
+            break;
+        case "lose":
+            this.startMsg = 2;
+            break;
+    }
+
+    if (window.combatScene.combatResult !== null) return ;
     CharacterSet_Init(this.kHeroInfo);
     ItemSet_addItem("Peach", 10);
     ItemSet_addItem("Baozi", 5);
@@ -110,13 +123,6 @@ MyGame.prototype.increasShapeSize = function(obj, delta) {
     var r = s.incShapeSizeBy(delta);
 };
 
-// MyGame.prototype.showMsg = function(msg) {
-//     document.getElementById('infoBox').style.display = "block";
-//     document.getElementById('info_0').innerText=msg;
-//     this.mMsgBoxShow = true;
-//     this.mMapFreezed = true;
-// };
-
 MyGame.prototype.resetPos = function() {
     this.mMyHero.getHero().getXform().setPosition(14, 10);
     this.resume();
@@ -127,8 +133,23 @@ MyGame.prototype.resetPos = function() {
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
     this.closeMsg();
+    if (window.mMapFreezed) return ;
 
-    if (this.mMapFreezed) return ;
+    switch (this.startMsg) {
+        case 1:
+            this.showMsg("You have won the battle!\nNow you have got a key!");
+            this.startMsg = null;
+            break;
+        case 2:
+            this.showMsg("You lost the battle!\nGo to shop to recover and try again!");
+            this.startMsg = null;
+            break;
+    }
+
+    if (this.showWinMsg) {
+        this.showWinMsg = false;
+
+    }
 
     var deltaX = 0.05;
     var xform = this.mMyHero.getHero().getXform();
@@ -209,13 +230,13 @@ MyGame.prototype.update = function () {
 };
 
 MyGame.prototype.pause = function() {
-    this.mMapFreezed = true;
+    window.mMapFreezed = true;
     document.getElementById('pauseUI').style.display = "block";
 };
 
 MyGame.prototype.resume = function() {
     document.getElementById('pauseUI').style.display = "none";
-    this.mMapFreezed = false;
+    window.mMapFreezed = false;
 };
 
 MyGame.prototype.getHero = function() {

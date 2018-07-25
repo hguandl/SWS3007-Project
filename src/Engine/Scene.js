@@ -14,27 +14,27 @@
  * @returns {Scene}
  */
 function Scene() {
-    this.mMsgBoxShow = false;
-    this.mMapFreezed = false;
+    window.mMsgBoxShow = false;
+    window.mMapFreezed = false;
 }
 
-Scene.prototype.showMsg = function(msg) {
+Scene.prototype.showMsg = function (msg) {
     document.getElementById('infoBox').style.display = "block";
-    document.getElementById('info_0').innerText=msg;
-    this.mMsgBoxShow = true;
-    this.mMapFreezed = true;
+    document.getElementById('info_0').innerText = msg;
+    window.mMsgBoxShow = true;
+    window.mMapFreezed = true;
 };
 
-Scene.prototype.closeMsg = function() {
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
-        if (this.mMsgBoxShow) {
+Scene.prototype.closeMsg = function (force) {
+    if (force || gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
+        if (window.mMsgBoxShow) {
             document.getElementById('infoBox').style.display = "none";
-            document.getElementById('info_0').innerText=null;
-            this.mMsgBoxShow = false;
-            this.mMapFreezed = false;
+            document.getElementById('info_0').innerText = null;
+            window.mMsgBoxShow = false;
+            window.mMapFreezed = false;
         }
     }
-}
+};
 
 //<editor-fold desc="functions subclass should override">
 /**
@@ -73,7 +73,8 @@ Scene.prototype.update = function () {
  * @memberOf Scene
  * @returns {void}
  */
-Scene.prototype.draw = function () {};
+Scene.prototype.draw = function () {
+};
 
 /**
  * Must unload all resources.

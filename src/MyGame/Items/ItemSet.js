@@ -6,6 +6,7 @@ function ItemSet_Status() {
     var ret = "";
     var i;
     for (i = 0; i < ItemSet.length; ++i) {
+        if (typeof ItemSet[i] !== "object") continue;
         ret += ItemSet[i].statusString() + "\n";
     }
     return ret;
