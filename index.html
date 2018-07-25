@@ -1,53 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style type="text/css">
-            .myButton {
-                margin-left: -485px;
-                position: absolute;
-                left: 50%;
-                top: 8px;
-                width: 970px;
-                height: 600px;
-                background-color:rgba(63,63,63,0.8);
-                text-align: center;
-            }
-            .myButton a {
-                text-decoration: none;
-                background: #2f435e;
-                color: #f2f2f2;
-                padding: 10px 50px 10px 50px;
-                font-size: 22px;
-                -webkit-transition: all linear 0.20s;
-                --moz-transition: all linear 0.20s;
-                transition: 0.20s;
-                border-radius: 10px;
-                cursor: pointer;
-            }
-            .myButton a:hover {
-                background: #385f9e;
-            }
-            .myButton p {
-                margin-top:4em;
-            }
-            .dialogue {
-                margin-left: -485px;
-                position: absolute;
-                left: 50%;
-                top: 480px;
-                width: 970px;
-                height: 128px;
-                color: #f2f2f2;
-                background-color:rgba(63,63,63,0.8);
-                word-wrap: break-word;
-            }
-            .dialogue p {
-                margin: 5px;
-                margin-left: 10px;
-            }
-        </style>
         <title>Walking Demo</title>
         <link rel ="icon" type ="image/x-icon" href="./assets/favicon.png">
+
+        <link rel="stylesheet" href="src/CSS/libs/buttons.css">
+        <link rel="stylesheet" href="src/CSS/background.css">
+        <link rel="stylesheet" href="src/CSS/Dialog.css">
 
         <!-- the following says there are javascript source code contained in
              the external source files
@@ -148,7 +107,13 @@
         <script type="text/javascript" src="src/MyGame/MyGame.js"></script>
         <script type="text/javascript" src="src/MyGame/Objects/Hero.js"></script>
 
+        <!-- Game UI -->
+        <script type="text/javascript" src="src/MyGame/UI/UIButton.js"></script>
+        <script type="text/javascript" src="src/MyGame/utils/Const.js"></script>
+
         <link rel="stylesheet" type="text/css" href="LoadingIcons.css">
+
+        <link rel="stylesheet" href="src/CSS/GH-UI.css">
 
     </head>
 
@@ -193,5 +158,104 @@
             return [posPoint0, posPoint1, posPoint2];
         }
      </script>
+     <!--UI-->
+<div id="default-button-group" class="UI-button-group button-group" style="display: none;">
+    <button id="menu-button" class="button button-parchment button-rounded" onclick="">Menu</button>
+    <button id="item-button" class="button button-parchment button-rounded" onclick="">Item</button>
+    <button id="character-button" class="button button-parchment button-rounded" onclick="">Character</button>
+</div>
+<div id="combat-button-group" style="display: block;" class="UI-button-group button-group">
+    <button id="attack-button" class="button button-parchment button-rounded"
+            onclick="">attack
+    </button>
+    <button id="skill-button" class="button button-parchment button-rounded"
+            onclick="UIButton.displayButtonGroup('skill-button-group')">skill
+    </button>
+    <button id="change-character-button" class="button button-parchment button-rounded"
+            onclick="">character
+    </button>
+    <button id="use-item-button" class="button button-parchment button-rounded"
+            onclick="">item
+    </button>
+</div>
+<div id="skill-button-group" style="display: none;" class="UI-button-group button-group">
+    <button id="skill1-button" class="button button-parchment button-rounded" onclick="">skill1</button>
+    <button id="skill2-button" class="button button-parchment button-rounded" onclick="">skill2</button>
+    <button id="skill3-button" class="button button-parchment button-rounded" onclick="">skill3</button>
+    <button id="skill4-button" class="button button-parchment button-rounded" onclick="">skill4</button>
+</div>
+<div id="custom-button-group" style="display: none;" class="UI-button-group button-group">
+    <!--<button id="custom-button1" class="button button-parchment button-rounded" onclick="">button1</button>-->
+    <!--<button id="custom-button2" class="button button-parchment button-rounded" onclick="">button2</button>-->
+    <!--<button id="custom-button3" class="button button-parchment button-rounded" onclick="">button3</button>-->
+    <!--<button id="custom-button4" class="button button-parchment button-rounded" onclick="">button4</button>-->
+    <!--<button id="custom-button5" class="button button-parchment button-rounded" onclick="">button5</button>-->
+</div>
+
+<!-- Dialog -->
+
+<a class="button button-parchment button-rounded" onclick="ShowDiv('MyDiv','fade')">new dialog</a>
+
+<!--弹出层时背景层DIV---start-->
+<div id="UI-dialog">
+    <div id="fade" class="black_overlay"></div>
+    <div id="MyDiv" class="white_content parchment">
+        <!--close button-->
+        <div style="text-align: right; cursor: default; margin-top:10px; margin-bottom:10px;">
+        <span style="font-size: 16px; margin-right: 17px; color: #2f00be; font-weight: 600;cursor:pointer;"
+              onclick="CloseDiv('MyDiv','fade')">X</span>
+        </div>
+
+        <div class="itempanel" style="margin-left: 50px;">
+            <div class="floatleft title" style="text-align: left;">
+                The <b>Silver Horn King</b> is dying. What shall we do?
+            </div>
+            <br/>
+
+            <span class="floatleft message">Monkey King: Let me kill this evil thing.</span>
+            <input type="radio" name="choose1">
+            <br/>
+
+            <span class="floatleft message">The Pigsy: We should let him go if he give us valuables.</span>
+            <input type="radio" name="choose2">
+            <br/>
+
+            <span class="floatleft message">Monk Sha: Master always told us that we religious people should be charitable.</span>
+            <input type="radio" name="choose3">
+            <br/>
+        </div>
+
+        <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3); margin-top: 39px;" width="90%" color=#ddd SIZE=2>
+        <div class="button-group" style="text-align: right; border-right: 20px;">
+            <input type="button" class="button button-action button-rounded" style="float: right; margin-right: 20px;"
+                   onclick="CloseDiv('MyDiv','fade')" value="confirm">
+        </div>
+
+    </div>
+</div>
+<!--弹出层时背景层DIV---end-->
+
+<script type="application/javascript">
+    //===================================弹框js部分 start by:songfayuan=========================================
+    //弹出隐藏层
+    function ShowDiv(show_div, bg_div) {
+        const scrollHeight = document.body.scrollHeight; //文档高度
+        document.getElementById(bg_div).style.height = scrollHeight + 'px';
+        document.getElementById(show_div).style.display = 'block';
+        document.getElementById(bg_div).style.display = 'block';
+    }
+    //关闭弹出层
+    function CloseDiv(show_div, bg_div) {
+        // document.getElementById("label").value = '';
+        document.getElementById(show_div).style.display = 'none';
+        document.getElementById(bg_div).style.display = 'none';
+    }
+    //关闭弹出层
+    function CloseDiv2() {
+        document.getElementById("MyDiv").style.display = 'none';
+        document.getElementById("fade").style.display = 'none';
+    }
+    //===================================弹框js部分 end by:songfayuan=========================================
+</script>
     </body>
 </html>
