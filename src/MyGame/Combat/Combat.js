@@ -16,6 +16,7 @@ function Combat(topCharacter, monster) {
 
     this.camera = null;
     this._action = new Action(_C.none);
+    this.combatResult = null;
 
     this._status = _C.waiting;
     Object.defineProperty(this, "status", {
@@ -35,6 +36,8 @@ function Combat(topCharacter, monster) {
 
         this.displayAction();
 
+        this.checkAlive();
+
         UIButton.disableButtons(false);
         // monster take action
 
@@ -45,8 +48,23 @@ function Combat(topCharacter, monster) {
         });
         this.displayAction();
 
+        this.checkAlive();
+
         // end turn
         this.status = _C.waiting;
+    };
+
+    this.checkAlive = function() {
+        if (this.monster.mCurrentHP <= 0) {
+            this.combatResult = "win";
+            ItemSet_addItem("Key", 1);
+            // todo: add die
+            gEngine.GameLoop.stop();
+        } else if (this.topCharacter.mCurrentHP <= 0) {
+            // todo: add die
+            this.combatResult = "lose";
+            gEngine.GameLoop.stop();
+        }
     };
 
     this.displayAction = function() {
@@ -96,6 +114,10 @@ Combat.prototype.loadScene = function () {
 Combat.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.topCharacter.iconURL);
     gEngine.Textures.unloadTexture(this.monster.iconURL);
+
+    // 回到大地图
+    document.currentScene = window.myGame;
+    gEngine.Core.startScene(window.myGame);
 };
 
 Combat.prototype.initialize = function () {
