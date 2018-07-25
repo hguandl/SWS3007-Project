@@ -3,8 +3,9 @@
 function PropsTestGame() {
     this.kSmallRedIcon = "assets/smallred_icon.png";
     this.kSmallBlueIcon = "assets/smallblue_icon.png";
-    this.kPackageIcon = "assets/packagebrick.png";
-    this.kPackageBg = "assets/packagebg.png";
+    this.kPackageIcon = "assets/packagebrick_0.png";
+    this.kPackageBg = "assets/package_bg.png";
+    this.kUIBg = "assets/platform.png";
 
     this.kQueenPeach = "assets/props/queen_peach_icon.png";
     this.kNineTurnDan = "assets/props/nine_turn_dan_icon.png";
@@ -18,6 +19,8 @@ function PropsTestGame() {
     this.mCamera = null;
 
     this.mPropsSet = [];
+
+    this.testShape = null;
 
 }
 gEngine.Core.inheritPrototype(PropsTestGame, Scene);
@@ -33,6 +36,7 @@ PropsTestGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSpiritOfDragon);
     gEngine.Textures.loadTexture(this.kGlutinousRiceCongee);
     gEngine.Textures.loadTexture(this.kHamBone);
+    gEngine.Textures.loadTexture(this.kUIBg);
 
     gEngine.Fonts.loadFont(this.kSystemDefaultFont);
 
@@ -49,6 +53,7 @@ PropsTestGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kSpiritOfDragon);
     gEngine.Textures.unloadTexture(this.kGlutinousRiceCongee);
     gEngine.Textures.unloadTexture(this.kHamBone);
+    gEngine.Textures.unloadTexture(this.kUIBg);
 
     gEngine.Fonts.unloadFont(this.kSystemDefaultFont);
 };
@@ -74,7 +79,8 @@ PropsTestGame.prototype.initialize = function () {
 
 
     // create package and add some props into it
-    this.mPackage = new Package("myPackage", this.kPackageIcon, this.kPackageBg, this.kSystemDefaultFont, 10, this.mCamera);
+    this.mPackage = new Package("myPackage", this.kPackageIcon, this.kPackageBg, this.kPackageBg, this.kSystemDefaultFont, 10, this.mCamera);
+    this.mPackage.setCapacity(20);
     this.mPackage.addProps(this.mPropsSet[2]);
     this.mPackage.addProps(this.mPropsSet[3]);
     this.mPackage.addProps(this.mPropsSet[4]);
@@ -99,6 +105,7 @@ PropsTestGame.prototype.initialize = function () {
     this.mPackage.setMoneyTextHeight(5);
     this.mPackage.setMoneyColor([0, 0, 0.2, 0.8]);
     this.mPackage.setMoney(100000000);
+
 };
 
 
