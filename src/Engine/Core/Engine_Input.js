@@ -1,5 +1,5 @@
 /*
- * File: EngineCore_Input.js 
+ * File: EngineCore_Input.js
  * Provides input support
  */
 /*jslint node: true, vars: true */
@@ -36,7 +36,7 @@ gEngine.Input = (function () {
         // space bar
         Space: 32,
 
-        // numbers 
+        // numbers
         Zero: 48,
         One: 49,
         Two: 50,
@@ -162,7 +162,7 @@ gEngine.Input = (function () {
             mKeyPreviousState[i] = false;
             mIsKeyClicked[i] = false;
         }
-        // register handlers 
+        // register handlers
         window.addEventListener('keyup', _onKeyUp);
         window.addEventListener('keydown', _onKeyDown);
         //</editor-fold>
@@ -237,14 +237,14 @@ gEngine.Input = (function () {
     var isButtonClicked = function (button) {
         return mIsButtonClicked[button];
     };
-    
+
     /**
      * Returns mouse X position.
      * @memberOf gEngine.Input
      * @returns {Number} X position of mouse.
      */
     var getMousePosX = function () { return mMousePosX; };
-    
+
     /**
      * Returns mouse Y position.
      * @memberOf gEngine.Input
@@ -264,7 +264,7 @@ gEngine.Input = (function () {
         // Mouse support
         isButtonPressed: isButtonPressed,
         isButtonClicked: isButtonClicked,
-        getMousePosX: getMousePosX,       // invalid if no corresponding buttonPressed or buttonClicked
+        getMousePosX: getMousePosX,       // invalid if none corresponding buttonPressed or buttonClicked
         getMousePosY: getMousePosY,
         mouseButton: kMouseButton
     };

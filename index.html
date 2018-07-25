@@ -109,13 +109,18 @@
     <script type="text/javascript" src="src/MyGame/UI/UIButton.js"></script>
     <script type="text/javascript" src="src/MyGame/utils/Const.js"></script>
 
+    <!--Combat-->
+    <script type="application/javascript" src="src/MyGame/Combat/Combat.js"></script>
+    <script type="application/javascript" src="src/MyGame/Combat/Action.js"></script>
+
 </head>
 
 <body onload="
         var myGame = new MyGame();
         gEngine.Core.initializeEngineCore('GLCanvas', myGame);
+        UIButton.displayButtonGroup('default-button-group');
      ">
-<div id="LoadingIconParent" style="width: 800px; height:600px;">
+<div id="LoadingIconParent" style="width: 970px; height:600px;">
     <canvas id="GLCanvas">
         <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
         Your browser does not support the HTML5 canvas.
@@ -169,30 +174,75 @@
 </div>
 
 <!--UI-->
-<div id="default-button-group" class="UI-button-group button-group" style="display: none;">
-    <button id="menu-button" class="button button-parchment button-rounded" onclick="">Menu</button>
-    <button id="item-button" class="button button-parchment button-rounded" onclick="">Item</button>
-    <button id="character-button" class="button button-parchment button-rounded" onclick="">Character</button>
+<div id="default-button-group" class="UI-button-group button-group" style="display: block;">
+    <button id="menu-button" class="button button-parchment button-rounded" onclick="">
+        Menu
+    </button>
+    <button id="item-button" class="button button-parchment button-rounded"
+            onclick="">
+        Item
+    </button>
+    <button id="character-button" class="button button-parchment button-rounded" onclick="">
+        Character
+    </button>
 </div>
-<div id="combat-button-group" style="display: block;" class="UI-button-group button-group">
+<div id="combat-button-group" style="display: none;" class="UI-button-group button-group">
     <button id="attack-button" class="button button-parchment button-rounded"
-            onclick="">attack
+            onclick="combatScene.takeAction(makeAction(_C.attack));">
+        attack
     </button>
     <button id="skill-button" class="button button-parchment button-rounded"
-            onclick="UIButton.displayButtonGroup('skill-button-group');">skill
+            onclick="UIButton.displayButtonGroup('skill-button-group');">
+        skill
     </button>
     <button id="change-character-button" class="button button-parchment button-rounded"
-            onclick="UIButton.disableButtons(true);">character
+            onclick="UIButton.displayButtonGroup('character-button-group');">
+        character
     </button>
     <button id="use-item-button" class="button button-parchment button-rounded"
-            onclick="">item
+            onclick="">
+        item
+    </button>
+</div>
+<div id="character-button-group" style="display: none;" class="UI-button-group button-group">
+    <button id="Monkey-King-button" class="button button-parchment button-rounded"
+            onclick="combatScene.takeAction(makeAction(_C.attack));">
+        Monkey King
+    </button>
+    <button id="Pigsy-button" class="button button-parchment button-rounded"
+            onclick="UIButton.displayButtonGroup('skill-button-group');">
+        Pigsy
+    </button>
+    <button id="Monk-Sha-button" class="button button-parchment button-rounded"
+            onclick="gEngine.GameLoop.stop();">
+        Monk Sha
+    </button>
+    <button id="back-button-character" class="button button-parchment button-rounded"
+            onclick="">
+        back
     </button>
 </div>
 <div id="skill-button-group" style="display: none;" class="UI-button-group button-group">
-    <button id="skill1-button" class="button button-parchment button-rounded" onclick="">skill1</button>
-    <button id="skill2-button" class="button button-parchment button-rounded" onclick="">skill2</button>
-    <button id="skill3-button" class="button button-parchment button-rounded" onclick="">skill3</button>
-    <button id="skill4-button" class="button button-parchment button-rounded" onclick="">skill4</button>
+    <button id="skill1-button" class="button button-parchment button-rounded"
+            onclick="combatScene.takeAction(makeAction(_C.skill, { skill: 1, }));">
+        skill1
+    </button>
+    <button id="skill2-button" class="button button-parchment button-rounded"
+            onclick="combatScene.takeAction(makeAction(_C.skill, { skill: 2, }));">
+        skill2
+    </button>
+    <button id="skill3-button" class="button button-parchment button-rounded"
+            onclick="combatScene.takeAction(makeAction(_C.skill, { skill: 3, }));">
+        skill3
+    </button>
+    <button id="skill4-button" class="button button-parchment button-rounded"
+            onclick="combatScene.takeAction(makeAction(_C.skill, { skill: 4, }));">
+        skill4
+    </button>
+    <button id="back-button-skill" class="button button-parchment button-rounded"
+            onclick="">
+        back
+    </button>
 </div>
 <div id="custom-button-group" style="display: none;" class="UI-button-group button-group">
     <!--<button id="custom-button1" class="button button-parchment button-rounded" onclick="">button1</button>-->

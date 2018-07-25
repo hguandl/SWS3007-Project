@@ -1,5 +1,8 @@
 "use strict";
 
+window.UI = window.UI || {};
+window.currentButtonGroup = null;
+
 /** A class to control buttons in the UI.
  * The developer are supposed to use static methods rather than creating new instance.
  *
@@ -19,17 +22,18 @@ class UIButton {
      * The developer are supposed to use static methods rather than creating new instance.
      */
     constructor() {
-        console.warn("The developer are supposed to use static methods rather than creating new instance.")
+        console.warn("The developer are supposed to use static methods rather than creating new instance.");
     }
 
     /** Display one button group and hide all other button groups.
-     * There are 4 groups now. Their ids are "custom-button-group", "skill-button-group", "default-button-group", "combat-button-group"
-     *
+     * There are 5 groups now. Their ids are "custom-button-group", "skill-button-group", "default-button-group", "combat-button-group", "character-button-group"
      * @param groupId {string} : The 'id' attribute of the button-group element. The button-group is a 'div' element in
      * index.html.
      */
     static displayButtonGroup(groupId) {
         let btn;
+        window.lastButtonGroup = window.currentButtonGroup;
+        window.currentButtonGroup = groupId;
         const buttons_groups = document.getElementsByClassName("UI-button-group");
         for (btn in buttons_groups) {
             if (buttons_groups[btn].id === groupId)
@@ -110,4 +114,6 @@ class UIButton {
             });
         }
     }
+
+    static 
 }
