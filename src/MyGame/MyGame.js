@@ -12,107 +12,89 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MyGame() {
-    this.kMinionSprite = "assets/minion_sprite.png";
-    this.kPlatformTexture = "assets/platform.png";
-    this.kWallTexture = "assets/wall.png";
-    this.kTargetTexture = "assets/target.png";
-    this.kParticleTexture = "assets/particle.png";
 
-    // The camera to view the scene
+    this.kHeroPic = "assets/hero/tangseng_walk.png";
+    this.kHeroJson = "assets/hero/tangseng_walk.json";
+
+    this.kHeroInfo = "assets/hero/character_info.json";
+
+    this.kMapFile = "assets/map/map-1-dat.json";
+    this.kMapBkg = "assets/map/map-1-bkg.png";
+    this.kMapFrg = "assets/map/map-1-frg.png";
+
     this.mCamera = null;
+    this.mSmallCamera = null;
 
-    this.mMsg = null;
-    this.mShapeMsg = null;
+    this.mMainView = null;
 
-    this.mAllObjs = null;
-    this.mAllParticles = null;
-    this.mBounds = null;
-    this.mCollisionInfos = [];
-    this.mHero = null;
+    this.mMsgBoxShow = false;
+    this.mMapFreezed = false;
 
-    this.mCurrentObj = 0;
-    this.mTarget = null;
+    this.mShowSmallMap = true;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
 
 MyGame.prototype.loadScene = function () {
-    gEngine.Textures.loadTexture(this.kMinionSprite);
-    gEngine.Textures.loadTexture(this.kPlatformTexture);
-    gEngine.Textures.loadTexture(this.kWallTexture);
-    gEngine.Textures.loadTexture(this.kTargetTexture);
-    gEngine.Textures.loadTexture(this.kParticleTexture);
+    gEngine.Textures.loadTexture(this.kMapBkg);
+    gEngine.Textures.loadTexture(this.kMapFrg);
+    gEngine.Textures.loadTexture(this.kHeroPic);
+    gEngine.TextFileLoader.loadTextFile(this.kMapFile, gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
 };
 
 MyGame.prototype.unloadScene = function () {
-    gEngine.Textures.unloadTexture(this.kMinionSprite);
-    gEngine.Textures.unloadTexture(this.kPlatformTexture);
-    gEngine.Textures.unloadTexture(this.kWallTexture);
-    gEngine.Textures.unloadTexture(this.kTargetTexture);
-    gEngine.Textures.unloadTexture(this.kParticleTexture);
-
-    let combatScene = new Combat(window.testCharacter, window.testMonster);
-    gEngine.Core.startScene(combatScene);
+    gEngine.Textures.unloadTexture(this.kMapBkg);
+    gEngine.Textures.unloadTexture(this.kMapFrg);
+    gEngine.Textures.unloadTexture(this.kHeroPic);
 };
 
 MyGame.prototype.initialize = function () {
-    // Step A: set up the cameras
-    this.mCamera = new Camera(
-        vec2.fromValues(50, 40), // position of the camera
-        100,                     // width of camera
-        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
-    );
-    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
-            // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
-    this.mHero = new Hero(this.kMinionSprite);
-    this.mAllObjs = new GameObjectSet();
+    this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
+
     this.mAllParticles = new ParticleGameObjectSet();
 
-    this.createBounds();
-    this.mFirstObject = this.mAllObjs.size();
-    this.mCurrentObj = this.mFirstObject;
+    this.mMyMap = new Map(this.kMapFile);
 
-    this.mAllObjs.addToSet(this.mHero);
-    var y = 70;
-    var x = 10;
-    for (var i = 1; i<=5; i++) {
-        var m = new Minion(this.kMinionSprite, x, y, ((i%2)!==0));
-        x += 20;
-        this.mAllObjs.addToSet(m);
-    }
+    this.mMapBkg = new Background(this.kMapBkg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
+    this.mMapFrg = new Background(this.kMapFrg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
 
-    this.mMsg = new FontRenderable("Status Message");
-    this.mMsg.setColor([0, 0, 0, 1]);
-    this.mMsg.getXform().setPosition(5, 7);
-    this.mMsg.setTextHeight(3);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
 
-    this.mShapeMsg = new FontRenderable("Shape");
-    this.mShapeMsg.setColor([0, 0, 0, 1]);
-    this.mShapeMsg.getXform().setPosition(5, 73);
-    this.mShapeMsg.setTextHeight(2.5);
+    this.mMyMap.addItems();
+
+    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 40, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
+    this.mMainView = new MainView(this.mCamera);
+    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 520, 120, 120]);
+    this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
+
+    CharacterSet_Init(this.kHeroInfo);
+    ItemSet_addItem("Peach", 10);
+    ItemSet_addItem("Baozi", 5);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 MyGame.prototype.draw = function () {
-    // Step A: clear the canvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
-    this.mCamera.setupViewProjection();
+    this.mMainView.setup();
 
-    this.mAllObjs.draw(this.mCamera);
+    /*draw as a whole main view view-port*/
+    gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
 
-    // for now draw these ...
-    /*for (var i = 0; i<this.mCollisionInfos.length; i++)
-        this.mCollisionInfos[i].draw(this.mCamera); */
-    this.mCollisionInfos = [];
-
-    this.mTarget.draw(this.mCamera);
-    this.mMsg.draw(this.mCamera);   // only draw status in the main camera
-    this.mShapeMsg.draw(this.mCamera);
-    this.mAllParticles.draw(this.mCamera);
+    if (this.mShowSmallMap) {
+        this.mSmallCamera.setupViewProjection();
+        var i;
+        for (i = 0; i < this.mMyMap.mItems.length; ++i)
+            this.mMyMap.mItems[i].draw(this.mSmallCamera);
+        this.mMyHero.getHero().draw(this.mSmallCamera);
+    }
 };
 
 MyGame.prototype.increasShapeSize = function(obj, delta) {
@@ -120,96 +102,139 @@ MyGame.prototype.increasShapeSize = function(obj, delta) {
     var r = s.incShapeSizeBy(delta);
 };
 
+MyGame.prototype.showMsg = function(msg) {
+    document.getElementById('infoBox').style.display = "block";
+    document.getElementById('info_0').innerText=msg;
+    this.mMsgBoxShow = true;
+    this.mMapFreezed = true;
+};
+
+MyGame.prototype.resetPos = function() {
+    this.mMyHero.getHero().getXform().setPosition(14, 10);
+    this.resume();
+}
+
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
-    var msg = "";
-
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.C)) {
-        if (this.mCamera.isMouseInViewport()) {
-            var p = this.createParticle(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
-            this.mAllParticles.addToSet(p);
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
+        if (this.mMsgBoxShow) {
+            document.getElementById('infoBox').style.display = "none";
+            document.getElementById('info_0').innerText=null;
+            this.mMsgBoxShow = false;
+            this.mMapFreezed = false;
+            this.mIsSpaceFreezed = false;
         }
     }
-    gEngine.ParticleSystem.update(this.mAllParticles);
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.P)) {
-        gEngine.Physics.togglePositionalCorrection();
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.V)) {
-        gEngine.Physics.toggleHasMotion();
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) {
-        this.radomizeVelocity();
-    }
+    if (this.mMapFreezed) return ;
 
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Left)) {
-        this.mCurrentObj -= 1;
-        if (this.mCurrentObj < this.mFirstObject)
-            this.mCurrentObj = this.mAllObjs.size() - 1;
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Right)) {
-        this.mCurrentObj += 1;
-        if (this.mCurrentObj >= this.mAllObjs.size())
-            this.mCurrentObj = this.mFirstObject;
+    var deltaX = 0.05;
+    var xform = this.mMyHero.getHero().getXform();
+
+    this.moveCamera(xform);
+
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
+        this.mMyHero.walk("Right");
+
+        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
+            return ;
+        if (xform.getXPos() > this.mMyMap.mWidth - 0.5)
+            return ;
+
+        xform.incXPosBy(deltaX);
     }
 
-    var obj = this.mAllObjs.getObjectAt(this.mCurrentObj);
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Y)) {
-        this.increasShapeSize(obj, MyGame.kBoundDelta);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.U)) {
-        this.increasShapeSize(obj, -MyGame.kBoundDelta);
-    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
+        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Up)) return ;
+        this.mMyHero.walk("Up");
 
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.G)) {
-        var x = 20 + Math.random() * 60;
-        var y = 75;
-        var t = Math.random() > 0.5;
-        var m = new Minion(this.kMinionSprite, x, y, t);
-        this.mAllObjs.addToSet(m);
+        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
+            return ;
+        if (xform.getYPos() > this.mMyMap.mHeight - 0.5)
+            return ;
+
+        xform.incYPosBy(deltaX);
     }
 
-    obj.keyControl();
-    obj.getRigidBody().userSetsState();
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
+        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Down)) return ;
+        this.mMyHero.walk("Down");
 
-    this.mAllObjs.update(this.mCamera);
+        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
+            return ;
+        if (xform.getYPos() < 0.5)
+            return ;
 
-    gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
-    gEngine.ParticleSystem.collideWithRigidSet(this.mAllObjs, this.mAllParticles);
+        xform.incYPosBy(-deltaX);
+    }
 
-    var p = obj.getXform().getPosition();
-    this.mTarget.getXform().setPosition(p[0], p[1]);
-    msg += "  P(" + gEngine.Physics.getPositionalCorrection() +
-           " " + gEngine.Physics.getRelaxationCount() + ")" +
-           " V(" + gEngine.Physics.getHasMotion() + ")";
-    this.mMsg.setText(msg);
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
+        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Left)) return ;
+        this.mMyHero.walk("Left");
 
-    this.mShapeMsg.setText(obj.getRigidBody().getCurrentState());
+        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
+            return ;
+        if (xform.getXPos() < 0.5)
+            return ;
+
+        xform.incXPosBy(-deltaX);
+    }
+
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Right)) {
+        this.mMyHero.stand("Right");
+    }
+
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Up)) {
+        this.mMyHero.stand("Up");
+    }
+
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Left)) {
+        this.mMyHero.stand("Left");
+    }
+
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
+        this.mMyHero.stand("Down");
+    }
+
+    var e = null;
+    if (e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos())) {
+        // console.log(e);
+        GameEvents.handle(this, e);
+    }
+
+    // this.mMyMap.clearEventBuffer(xform.getXPos(), xform.getYPos());
 };
 
-MyGame.prototype.createParticle = function(atX, atY) {
-    var life = 30 + Math.random() * 200;
-    var p = new ParticleGameObject("assets/particle.png", atX, atY, life);
-    p.getRenderable().setColor([1, 0, 0, 1]);
+MyGame.prototype.pause = function() {
+    this.mMapFreezed = true;
+    document.getElementById('pauseUI').style.display = "block";
+};
 
-    // size of the particle
-    var r = 3.5 + Math.random() * 2.5;
-    p.getXform().setSize(r, r);
+MyGame.prototype.resume = function() {
+    document.getElementById('pauseUI').style.display = "none";
+    this.mMapFreezed = false;
+};
 
-    // final color
-    var fr = 3.5 + Math.random();
-    var fg = 0.4 + 0.1 * Math.random();
-    var fb = 0.3 + 0.1 * Math.random();
-    p.setFinalColor([fr, fg, fb, 0.6]);
+MyGame.prototype.getHero = function() {
+    return this.mMyHero.getHero();
+};
 
-    // velocity on the particle
-    var fx = 10 * Math.random() - 20 * Math.random();
-    var fy = 10 * Math.random();
-    p.getParticle().setVelocity([fx, fy]);
+MyGame.prototype.moveCamera = function(xform) {
+    var newCenter = [xform.getXPos(), xform.getYPos()];
 
-    // size delta
-    p.setSizeDelta(0.98);
+    var ratio = this.mMyMap.mViewHeight / this.mMyMap.mViewWidth;
 
-    return p;
+    if (newCenter[0] + this.mCamera.getWCWidth() / 2 >= this.mMyMap.mWidth)
+        newCenter[0] = this.mMyMap.mWidth - this.mCamera.getWCWidth() / 2;
+    if (newCenter[0] - this.mCamera.getWCWidth() / 2 <= 0)
+        newCenter[0] = this.mCamera.getWCWidth() / 2;
+    if (newCenter[1] + this.mCamera.getWCWidth() / 2 * ratio >= this.mMyMap.mWidth)
+        newCenter[1] = this.mMyMap.mWidth - this.mCamera.getWCWidth() / 2 * ratio;
+    if (newCenter[1] - this.mCamera.getWCWidth() / 2 * ratio <= 0)
+        newCenter[1] = this.mCamera.getWCWidth() / 2 * ratio;
+
+    this.mCamera.setWCCenter(newCenter[0], newCenter[1]);
+    this.mCamera.update();
 };

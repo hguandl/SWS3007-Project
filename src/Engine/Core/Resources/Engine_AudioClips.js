@@ -1,5 +1,5 @@
 /*
- * File: EngineCore_Audio.js
+ * File: EngineCore_Audio.js 
  * Provides support for loading and unloading of Audio clips
  */
 
@@ -86,7 +86,7 @@ gEngine.AudioClips = (function () {
     };
 
     /**
-     * Play an audioclip one time. none loop
+     * Play an audioclip one time. no loop
      * @memberOf gEngine.AudioClips
      * @param {String} clipName
      * @returns {void}

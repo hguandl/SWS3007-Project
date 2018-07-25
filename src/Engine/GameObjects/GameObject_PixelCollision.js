@@ -1,4 +1,4 @@
-/* File: GameObject_PixelCollision.js
+/* File: GameObject_PixelCollision.js 
  *
  * Implements the pixelTouch() function of GameObject
  */
@@ -17,7 +17,7 @@
  * @returns {Boolean} true if collision is detected
  */
 GameObject.prototype.pixelTouches = function (otherObj, wcTouchPos) {
-    // only continue if both objects have getColorArray defined
+    // only continue if both objects have getColorArray defined 
     // if defined, should have other texture intersection support!
     var pixelTouch = false;
     var myRen = this.getRenderable();
@@ -25,7 +25,7 @@ GameObject.prototype.pixelTouches = function (otherObj, wcTouchPos) {
 
     if ((typeof myRen.pixelTouches === "function") && (typeof otherRen.pixelTouches === "function")) {
         if ((myRen.getXform().getRotationInRad() === 0) && (otherRen.getXform().getRotationInRad() === 0)) {
-            // none rotation, we can use bbox ...
+            // no rotation, we can use bbox ...
             var otherBbox = otherObj.getBBox();
             if (otherBbox.intersectsBound(this.getBBox())) {
                 myRen.setColorArray();

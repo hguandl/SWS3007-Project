@@ -57,7 +57,7 @@ float DistanceDropOff(float dist) {
     float atten = 0.0;
     if (dist <= uLights[0].Far) {
         if (dist <= uLights[0].Near)
-            atten = 1.0;  //  none attenuation
+            atten = 1.0;  //  no attenuation
         else {
             // simple quadratic drop off
             float n = dist - uLights[0].Near;

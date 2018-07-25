@@ -1,119 +1,133 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Game Physics Engine Integration: RigidBody Physics Engine </title>
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
+    <head>
+        <title>Walking Demo</title>
+        <link rel ="icon" type ="image/x-icon" href="./assets/favicon.png">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="src/CSS/libs/buttons.css">
-    <link rel="stylesheet" href="src/CSS/background.css">
-    <link rel="stylesheet" href="src/CSS/Dialog.css">
+        <!-- the following says there are javascript source code contained in
+             the external source files
+        -->
+        <!-- external library -->
+        <script type="text/javascript" src="src/lib/gl-matrix.js"></script>
 
-    <!-- the following says there are javascript source code contained in
-         the external source files
-    -->
-    <!-- external library -->
-    <script type="text/javascript" src="src/lib/gl-matrix.js"></script>
+        <!-- Engine code -->
+        <!-- Core of Engine -->
+        <script type="text/javascript" src="src/Engine/Core/Engine_Core.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Engine_VertexBuffer.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Engine_GameLoop.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Engine_Input.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Engine_ParticleSystem.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Engine_LayerManager.js"></script>
+        <!-- Resource support -->
+        <script type="text/javascript" src="src/Engine/Core/Resources/Engine_ResourceMap.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Resources/Engine_TextFileLoader.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Resources/Engine_DefaultResources.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Resources/Engine_AudioClips.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Resources/Engine_Textures.js"></script>
+        <script type="text/javascript" src="src/Engine/Core/Resources/Engine_Fonts.js"></script>
+        <script type="text/javascript" src="src/Engine/Scene.js"></script>
+        <script type="text/javascript" src="src/Engine/Material.js"></script>
+        <!--Lights -->
+        <script type="text/javascript" src="src/Engine/Lights/Light.js"></script>
+        <script type="text/javascript" src="src/Engine/Lights/LightSet.js"></script>
+        <!-- Utilities -->
+        <script type="text/javascript" src="src/Engine/Utils/Transform.js"></script>
+        <script type="text/javascript" src="src/Engine/Utils/BoundingBox.js"></script>
+        <script type="text/javascript" src="src/Engine/Utils/Interpolate.js"></script>
+        <script type="text/javascript" src="src/Engine/Utils/InterpolateVec2.js"></script>
+        <script type="text/javascript" src="src/Engine/Utils/LoadingIconConfig.js"></script>
+        <script type="text/javascript" src="src/Engine/Utils/ShakePosition.js"></script>
+        <!-- Renderables -->
+        <script type="text/javascript" src="src/Engine/Renderables/Renderable.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/TextureRenderable.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/TextureRenderable_PixelCollision.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/SpriteRenderable.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/SpriteRenderable_PixelCollision.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/SpriteAnimateRenderable.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/FontRenderable.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/LineRenderable.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/LightRenderable.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/IllumRenderable.js"></script>
+        <script type="text/javascript" src="src/Engine/Renderables/ParticleRenderable.js"></script>
+        <!-- Shadows -->
+        <script type="text/javascript" src="src/Engine/Shadows/ShadowCaster.js"></script>
+        <script type="text/javascript" src="src/Engine/Shadows/ShadowReceiver.js"></script>
+        <script type="text/javascript" src="src/Engine/Shadows/ShadowReceiver_Stencil.js"></script>
+        <!-- GameObject -->
+        <script type="text/javascript" src="src/Engine/GameObjects/GameObject.js"></script>
+        <script type="text/javascript" src="src/Engine/GameObjects/GameObject_PixelCollision.js"></script>
+        <script type="text/javascript" src="src/Engine/GameObjects/GameObjectSet.js"></script>
+        <script type="text/javascript" src="src/Engine/GameObjects/TiledGameObject.js"></script>
+        <script type="text/javascript" src="src/Engine/GameObjects/ParallaxGameObject.js"></script>
+        <!-- Particles -->
+        <script type="text/javascript" src="src/Engine/Particles/Particle.js"></script>
+        <script type="text/javascript" src="src/Engine/Particles/ParticleGameObject.js"></script>
+        <script type="text/javascript" src="src/Engine/Particles/ParticleGameObjectSet.js"></script>
+        <script type="text/javascript" src="src/Engine/Particles/ParticleEmitter.js"></script>
+        <!-- Shaders -->
+        <script type="text/javascript" src="src/Engine/Shaders/SimpleShader.js"></script>
+        <script type="text/javascript" src="src/Engine/Shaders/TextureShader.js"></script>
+        <script type="text/javascript" src="src/Engine/Shaders/SpriteShader.js"></script>
+        <script type="text/javascript" src="src/Engine/Shaders/LineShader.js"></script>
+        <script type="text/javascript" src="src/Engine/Shaders/LightShader.js"></script>
+        <script type="text/javascript" src="src/Engine/Shaders/ShaderLightAtIndex.js"></script>
+        <script type="text/javascript" src="src/Engine/Shaders/IllumShader.js"></script>
+        <script type="text/javascript" src="src/Engine/Shaders/ShaderMaterial.js"></script>
+        <script type="text/javascript" src="src/Engine/Shaders/ShadowCasterShader.js"></script>
+        <!-- Camera -->
+        <script type="text/javascript" src="src/Engine/Cameras/Camera.js"></script>
+        <script type="text/javascript" src="src/Engine/Cameras/Camera_Manipulation.js"></script>
+        <script type="text/javascript" src="src/Engine/Cameras/Camera_Input.js"></script>
+        <script type="text/javascript" src="src/Engine/Cameras/Camera_Xform.js"></script>
+        <script type="text/javascript" src="src/Engine/Cameras/CameraState.js"></script>
+        <script type="text/javascript" src="src/Engine/Cameras/CameraShake.js"></script>
 
-    <!-- Engine code -->
-    <!-- Core of Engine -->
-    <script type="text/javascript" src="src/Engine/Core/Engine_Core.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Engine_VertexBuffer.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Engine_GameLoop.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Engine_Input.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Engine_ParticleSystem.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Engine_LayerManager.js"></script>
-    <!-- Resource support -->
-    <script type="text/javascript" src="src/Engine/Core/Resources/Engine_ResourceMap.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Resources/Engine_TextFileLoader.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Resources/Engine_DefaultResources.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Resources/Engine_AudioClips.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Resources/Engine_Textures.js"></script>
-    <script type="text/javascript" src="src/Engine/Core/Resources/Engine_Fonts.js"></script>
-    <script type="text/javascript" src="src/Engine/Scene.js"></script>
-    <script type="text/javascript" src="src/Engine/Material.js"></script>
-    <!--Lights -->
-    <script type="text/javascript" src="src/Engine/Lights/Light.js"></script>
-    <script type="text/javascript" src="src/Engine/Lights/LightSet.js"></script>
-    <!-- Utilities -->
-    <script type="text/javascript" src="src/Engine/Utils/Transform.js"></script>
-    <script type="text/javascript" src="src/Engine/Utils/BoundingBox.js"></script>
-    <script type="text/javascript" src="src/Engine/Utils/Interpolate.js"></script>
-    <script type="text/javascript" src="src/Engine/Utils/InterpolateVec2.js"></script>
-    <script type="text/javascript" src="src/Engine/Utils/LoadingIconConfig.js"></script>
-    <script type="text/javascript" src="src/Engine/Utils/ShakePosition.js"></script>
-    <!-- Renderables -->
-    <script type="text/javascript" src="src/Engine/Renderables/Renderable.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/TextureRenderable.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/TextureRenderable_PixelCollision.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/SpriteRenderable.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/SpriteRenderable_PixelCollision.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/SpriteAnimateRenderable.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/FontRenderable.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/LineRenderable.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/LightRenderable.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/IllumRenderable.js"></script>
-    <script type="text/javascript" src="src/Engine/Renderables/ParticleRenderable.js"></script>
-    <!-- Shadows -->
-    <script type="text/javascript" src="src/Engine/Shadows/ShadowCaster.js"></script>
-    <script type="text/javascript" src="src/Engine/Shadows/ShadowReceiver.js"></script>
-    <script type="text/javascript" src="src/Engine/Shadows/ShadowReceiver_Stencil.js"></script>
-    <!-- GameObject -->
-    <script type="text/javascript" src="src/Engine/GameObjects/GameObject.js"></script>
-    <script type="text/javascript" src="src/Engine/GameObjects/GameObject_PixelCollision.js"></script>
-    <script type="text/javascript" src="src/Engine/GameObjects/GameObjectSet.js"></script>
-    <script type="text/javascript" src="src/Engine/GameObjects/TiledGameObject.js"></script>
-    <script type="text/javascript" src="src/Engine/GameObjects/ParallaxGameObject.js"></script>
-    <!-- Particles -->
-    <script type="text/javascript" src="src/Engine/Particles/Particle.js"></script>
-    <script type="text/javascript" src="src/Engine/Particles/ParticleGameObject.js"></script>
-    <script type="text/javascript" src="src/Engine/Particles/ParticleGameObjectSet.js"></script>
-    <script type="text/javascript" src="src/Engine/Particles/ParticleEmitter.js"></script>
-    <!-- Shaders -->
-    <script type="text/javascript" src="src/Engine/Shaders/SimpleShader.js"></script>
-    <script type="text/javascript" src="src/Engine/Shaders/TextureShader.js"></script>
-    <script type="text/javascript" src="src/Engine/Shaders/SpriteShader.js"></script>
-    <script type="text/javascript" src="src/Engine/Shaders/LineShader.js"></script>
-    <script type="text/javascript" src="src/Engine/Shaders/LightShader.js"></script>
-    <script type="text/javascript" src="src/Engine/Shaders/ShaderLightAtIndex.js"></script>
-    <script type="text/javascript" src="src/Engine/Shaders/IllumShader.js"></script>
-    <script type="text/javascript" src="src/Engine/Shaders/ShaderMaterial.js"></script>
-    <script type="text/javascript" src="src/Engine/Shaders/ShadowCasterShader.js"></script>
-    <!-- Camera -->
-    <script type="text/javascript" src="src/Engine/Cameras/Camera.js"></script>
-    <script type="text/javascript" src="src/Engine/Cameras/Camera_Manipulation.js"></script>
-    <script type="text/javascript" src="src/Engine/Cameras/Camera_Input.js"></script>
-    <script type="text/javascript" src="src/Engine/Cameras/Camera_Xform.js"></script>
-    <script type="text/javascript" src="src/Engine/Cameras/CameraState.js"></script>
-    <script type="text/javascript" src="src/Engine/Cameras/CameraShake.js"></script>
+        <!-- Physics support -->
+        <script type="text/javascript" src="src/Engine/Core/Engine_Physics.js"></script>
+        <script type="text/javascript" src="src/Engine/RigidShapes/RigidShape.js"></script>
+        <script type="text/javascript" src="src/Engine/RigidShapes/RigidCircle.js"></script>
+        <script type="text/javascript" src="src/Engine/RigidShapes/RigidRectangle.js"></script>
+        <script type="text/javascript" src="src/Engine/RigidShapes/CollisionInfo.js"></script>
+        <script type="text/javascript" src="src/Engine/RigidShapes/RigidCircle_Collision.js"></script>
+        <script type="text/javascript" src="src/Engine/RigidShapes/RigidRectangleCircle_Collision.js"></script>
+        <script type="text/javascript" src="src/Engine/RigidShapes/RigidRectangle_Collision.js"></script>
 
-    <!-- Physics support -->
-    <script type="text/javascript" src="src/Engine/Core/Engine_Physics.js"></script>
-    <script type="text/javascript" src="src/Engine/RigidShapes/RigidShape.js"></script>
-    <script type="text/javascript" src="src/Engine/RigidShapes/RigidCircle.js"></script>
-    <script type="text/javascript" src="src/Engine/RigidShapes/RigidRectangle.js"></script>
-    <script type="text/javascript" src="src/Engine/RigidShapes/CollisionInfo.js"></script>
-    <script type="text/javascript" src="src/Engine/RigidShapes/RigidCircle_Collision.js"></script>
-    <script type="text/javascript" src="src/Engine/RigidShapes/RigidRectangleCircle_Collision.js"></script>
-    <script type="text/javascript" src="src/Engine/RigidShapes/RigidRectangle_Collision.js"></script>
-    <!-- Client game code -->
-    <script type="text/javascript" src="src/MyGame/MyGame.js"></script>
-    <script type="text/javascript" src="src/MyGame/MyGame_Bounds.js"></script>
-    <script type="text/javascript" src="src/MyGame/Objects/WASDObj.js"></script>
-    <script type="text/javascript" src="src/MyGame/Objects/Hero.js"></script>
-    <script type="text/javascript" src="src/MyGame/Objects/Minion.js"></script>
+        <script type="text/javascript" src="src/Engine/Map/Map.js"></script>
+        <script type="text/javascript" src="src/Engine/Map/MapParser.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="LoadingIcons.css">
 
-    <!-- Game UI -->
-    <script type="text/javascript" src="src/MyGame/UI/UIButton.js"></script>
-    <script type="text/javascript" src="src/MyGame/utils/Const.js"></script>
+        <script type="text/javascript" src="src/MyGame/Background.js"></script>
+        <script type="text/javascript" src="src/MyGame/MainView.js"></script>
 
-    <!--Combat-->
-    <script type="application/javascript" src="src/MyGame/Combat/Combat.js"></script>
-    <script type="application/javascript" src="src/MyGame/Combat/Action.js"></script>
+        <!-- Client game code -->
+        <script type="text/javascript" src="src/MyGame/MyGame.js"></script>
+        <script type="text/javascript" src="src/MyGame/Objects/Hero.js"></script>
 
-</head>
+        <!-- Game events -->
+        <script type="text/javascript" src="src/MyGame/Events/Handler.js"></script>
+        <script type="text/javascript" src="src/MyGame/Events/Events.js"></script>
+
+        <!-- Characters -->
+        <script type="text/javascript" src="src/MyGame/Characters/CharacterSet.js"></script>
+        <script type="text/javascript" src="src/MyGame/Characters/Character.js"></script>
+
+        <!-- Items -->
+        <script type="text/javascript" src="src/MyGame/Items/ItemSet.js"></script>
+        <script type="text/javascript" src="src/MyGame/Items/Item.js"></script>
+
+        <!-- Game UI -->
+        <script type="text/javascript" src="src/MyGame/UI/UIButton.js"></script>
+        <script type="text/javascript" src="src/MyGame/utils/Const.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="LoadingIcons.css">
+
+        <link rel="stylesheet" href="src/CSS/libs/buttons.css">
+        <link rel="stylesheet" href="src/CSS/background.css">
+        <link rel="stylesheet" href="src/CSS/Dialog.css">
+
+        <link rel="stylesheet" href="src/CSS/GH-UI.css">
+
+    </head>
 
 <body onload="
         var myGame = new MyGame();
@@ -121,148 +135,154 @@
         window.combatScene = new Combat(testMonster, testCharacter);
         UIButton.displayButtonGroup('default-button-group');
      ">
-<div id="LoadingIconParent" style="width: 970px; height:600px;">
+<div id="LoadingIconParent" style="width: 970px; height:640px; margin: 0 auto;">
     <canvas id="GLCanvas">
         <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
         Your browser does not support the HTML5 canvas.
         <!-- this message will show only if WebGL clearing failed -->
     </canvas>
     <script type="text/javascript"> gEngine.LoadingIconConfig.setup(); </script>
-</div>
-<div style="display: table">
-    <div style="float: left; padding-left: 10px">
-        <b>Behavior Controls:</b>
-        <ul>
-            <li>
-                <b>P</b>: Penetration resolution on/off
-            </li>
-            <li>
-                <b>V</b>: Motion on/off
-            </li>
-            <li>
-                <b>H</b>: Inject random velocity to all objects
-            </li>
-            <li>
-                <b>G</b>: Create new Rectangle/Circle (randomly)
-            </li>
-            <li>
-                <b>WASD</b>: Move selected object
-            </li>
-            <li>
-                <b>Left/Right</b>: Sequence through selected object
-            </li>
-            <li>
-                <b>Up/Down + MRF</b>: Increase/Decrease Mass/Restitution/Friction
-            </li>
-        </ul>
+
+    <!--UI-->
+    <div id="default-button-group" class="UI-button-group button-group inCanvas" style="display: block;">
+        <button id="menu-button" class="button button-parchment button-rounded"
+                onclick="window.myGame.pause()">Menu</button>
+        <button id="item-button" class="button button-parchment button-rounded"
+                onclick="itemInfo()">Item</button>
+        <button id="character-button" class="button button-parchment button-rounded"
+                onclick="characterInfo()">Character</button>
+        <button id="small-map-button" class="button button-parchment button-rounded"
+                onclick="window.myGame.mShowSmallMap = !window.myGame.mShowSmallMap;">Small Map</button>
     </div>
 
-    <div style="float: left">
-        <b>Drawing Controls:</b>
-        <ul>
-            <li>
-                <b>T</b>:Texture&nbsp;
-            </li>
-            <li>
-                <b>B</b>:Primitive Bounds&nbsp;
-            </li>
-            <li>
-                <b>R</b>:RigidShape&nbsp;
-            </li>
-        </ul>
-        <b>C</b>: Generate particles at the mouse position.
-    </div>
-</div>
-
-<!--UI-->
-<div id="default-button-group" class="UI-button-group button-group" style="display: block;">
-    <button id="menu-button" class="button button-parchment button-rounded"
-            onclick="">
-        Menu
-    </button>
-    <button id="item-button" class="button button-parchment button-rounded"
-            onclick="">
-        Item
-    </button>
-    <button id="character-button" class="button button-parchment button-rounded"
-            onclick="">
-        Character
-    </button>
-    <button id="character-button" class="button button-parchment button-rounded"
-            onclick="
+    <div id="default-button-group" class="UI-button-group button-group" style="display: block;">
+        <button id="menu-button" class="button button-parchment button-rounded"
+                onclick="">
+            Menu
+        </button>
+        <button id="item-button" class="button button-parchment button-rounded"
+                onclick="">
+            Item
+        </button>
+        <button id="character-button" class="button button-parchment button-rounded"
+                onclick="">
+            Character
+        </button>
+        <button id="character-button" class="button button-parchment button-rounded"
+                onclick="
                 gEngine.GameLoop.stop();
             ">
-        Test scene
-    </button>
-</div>
-<div id="combat-button-group" style="display: none;" class="UI-button-group button-group">
-    <button id="attack-button" class="button button-parchment button-rounded"
-            onclick="combatScene.chooseAction(makeAction(_C.attack, {
+            Test scene
+        </button>
+    </div>
+    <div id="combat-button-group" style="display: none;" class="UI-button-group button-group">
+        <button id="attack-button" class="button button-parchment button-rounded"
+                onclick="combatScene.chooseAction(makeAction(_C.attack, {
                 attacker: combatScene.topCharacter,
                 defender: combatScene.monster,
             }));">
-        attack
-    </button>
-    <button id="skill-button" class="button button-parchment button-rounded"
-            onclick="UIButton.displayButtonGroup('skill-button-group');">
-        skill
-    </button>
-    <button id="change-character-button" class="button button-parchment button-rounded"
-            onclick="UIButton.displayButtonGroup('character-button-group');">
-        character
-    </button>
-    <button id="use-item-button" class="button button-parchment button-rounded"
-            onclick="">
-        item
-    </button>
+            attack
+        </button>
+        <button id="skill-button" class="button button-parchment button-rounded"
+                onclick="UIButton.displayButtonGroup('skill-button-group');">
+            skill
+        </button>
+        <button id="change-character-button" class="button button-parchment button-rounded"
+                onclick="UIButton.displayButtonGroup('character-button-group');">
+            character
+        </button>
+        <button id="use-item-button" class="button button-parchment button-rounded"
+                onclick="">
+            item
+        </button>
+    </div>
+    <div id="character-button-group" style="display: none;" class="UI-button-group button-group">
+        <button id="Monkey-King-button" class="button button-parchment button-rounded"
+                onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkeyKing'}));">
+            Monkey King
+        </button>
+        <button id="Pigsy-button" class="button button-parchment button-rounded"
+                onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'Pigsy'}));">
+            Pigsy
+        </button>
+        <button id="Monk-Sha-button" class="button button-parchment button-rounded"
+                onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkSha'}));">
+            Monk Sha
+        </button>
+        <button id="back-button-character" class="button button-parchment button-rounded"
+                onclick="UIButton.displayButtonGroup('combat-button-group');">
+            back
+        </button>
+    </div>
+    <div id="skill-button-group" style="display: none;" class="UI-button-group button-group">
+        <button id="skill1-button" class="button button-parchment button-rounded"
+                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 1, }));">
+            skill1
+        </button>
+        <button id="skill2-button" class="button button-parchment button-rounded"
+                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 2, }));">
+            skill2
+        </button>
+        <button id="skill3-button" class="button button-parchment button-rounded"
+                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 3, }));">
+            skill3
+        </button>
+        <button id="skill4-button" class="button button-parchment button-rounded"
+                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 4, }));">
+            skill4
+        </button>
+        <button id="back-button-skill" class="button button-parchment button-rounded"
+                onclick="UIButton.displayButtonGroup('combat-button-group');">
+            back
+        </button>
+    </div>
+    <div id="custom-button-group" style="display: none;" class="UI-button-group button-group">
+        <!--<button id="custom-button1" class="button button-parchment button-rounded" onclick="">button1</button>-->
+        <!--<button id="custom-button2" class="button button-parchment button-rounded" onclick="">button2</button>-->
+        <!--<button id="custom-button3" class="button button-parchment button-rounded" onclick="">button3</button>-->
+        <!--<button id="custom-button4" class="button button-parchment button-rounded" onclick="">button4</button>-->
+        <!--<button id="custom-button5" class="button button-parchment button-rounded" onclick="">button5</button>-->
+    </div>
+
 </div>
-<div id="character-button-group" style="display: none;" class="UI-button-group button-group">
-    <button id="Monkey-King-button" class="button button-parchment button-rounded"
-            onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkeyKing'}));">
-        Monkey King
-    </button>
-    <button id="Pigsy-button" class="button button-parchment button-rounded"
-            onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'Pigsy'}));">
-        Pigsy
-    </button>
-    <button id="Monk-Sha-button" class="button button-parchment button-rounded"
-            onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkSha'}));">
-        Monk Sha
-    </button>
-    <button id="back-button-character" class="button button-parchment button-rounded"
-            onclick="UIButton.displayButtonGroup('combat-button-group');">
-        back
-    </button>
+<div class="myButton" id="pauseUI" style="display: none">
+    <p><a onclick="reset();">Reset!</a></p>
+    <p><a onclick="resume();">Resume</a></p>
 </div>
-<div id="skill-button-group" style="display: none;" class="UI-button-group button-group">
-    <button id="skill1-button" class="button button-parchment button-rounded"
-            onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 1, }));">
-        skill1
-    </button>
-    <button id="skill2-button" class="button button-parchment button-rounded"
-            onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 2, }));">
-        skill2
-    </button>
-    <button id="skill3-button" class="button button-parchment button-rounded"
-            onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 3, }));">
-        skill3
-    </button>
-    <button id="skill4-button" class="button button-parchment button-rounded"
-            onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 4, }));">
-        skill4
-    </button>
-    <button id="back-button-skill" class="button button-parchment button-rounded"
-            onclick="UIButton.displayButtonGroup('combat-button-group');">
-        back
-    </button>
+<div class="dialogue" id="infoBox" style="display: none">
+    <p id="info_0">Welcome to the game!<p>
+    <p>-- Press space to continue --</p>
 </div>
-<div id="custom-button-group" style="display: none;" class="UI-button-group button-group">
-    <!--<button id="custom-button1" class="button button-parchment button-rounded" onclick="">button1</button>-->
-    <!--<button id="custom-button2" class="button button-parchment button-rounded" onclick="">button2</button>-->
-    <!--<button id="custom-button3" class="button button-parchment button-rounded" onclick="">button3</button>-->
-    <!--<button id="custom-button4" class="button button-parchment button-rounded" onclick="">button4</button>-->
-    <!--<button id="custom-button5" class="button button-parchment button-rounded" onclick="">button5</button>-->
-</div>
+
+
+<script type="text/javascript">
+    document.body.onload = function() {
+        window.myGame = new MyGame();
+        gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);
+    };
+    function reset() {
+        window.myGame.resetPos();
+    }
+    function resume() {
+        window.myGame.resume();
+    }
+    function getPoint() {
+        var x = window.myGame.mMyHero.getHero().getXform().getXPos();
+        var y = window.myGame.mMyHero.getHero().getXform().getYPos();
+
+        var posPoint0 = window.myGame.mMyMap.reducePoint(x, y);
+        var posPoint1 = window.myGame.mMyMap.reducePoint(x + 0.2, y - 0.4);
+        var posPoint2 = window.myGame.mMyMap.reducePoint(x - 0.2, y);
+
+        return [posPoint0, posPoint1, posPoint2];
+    }
+    function characterInfo() {
+        window.myGame.showMsg(CharacterSet_Status());
+    }
+    function itemInfo() {
+        window.myGame.showMsg(ItemSet_Status());
+    }
+</script>
 
 <!-- Dialog -->
 

@@ -30,7 +30,8 @@ gEngine.TextFileLoader = (function () {
      */
     var eTextFileType = Object.freeze({
         eXMLFile: 0,
-        eTextFile: 1
+        eTextFile: 1,
+        eJsonFile: 2
     });
 
     /**
@@ -55,7 +56,10 @@ gEngine.TextFileLoader = (function () {
                 }
             };
             req.open('GET', fileName, true);
-            req.setRequestHeader('Content-Type', 'text/xml');
+            if (fileType === eTextFileType.eTextFile) 
+                req.setRequestHeader('Content-Type', 'text/xml');
+            if (fileType === eTextFileType.eJsonFile) 
+                req.setRequestHeader('Content-Type', 'application/json');
 
             req.onload = function () {
                 var fileContent = null;
@@ -63,7 +67,10 @@ gEngine.TextFileLoader = (function () {
                     var parser = new DOMParser();
                     fileContent = parser.parseFromString(req.responseText, "text/xml");
                 } else {
-                    fileContent = req.responseText;
+                    if (fileType === eTextFileType.eJsonFile) {
+                        fileContent = JSON.parse(req.responseText);
+                    } else
+                        fileContent = req.responseText;
                 }
                 gEngine.ResourceMap.asyncLoadCompleted(fileName, fileContent);
                 if ((callbackFunction !== null) && (callbackFunction !== undefined)) {

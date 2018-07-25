@@ -1,7 +1,7 @@
-/* 
-    Support the loading icon's look 
+/*
+    Support the loading icon's look
 */
-p {
+.LoadingFont {
   color: white;
   font: 300 4em/150% Impact;
   position: absolute;
@@ -54,7 +54,7 @@ p {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); } }
-  
+
   #LoadingScreenProgress {
     width: 100%;
     height: 30px;
@@ -71,22 +71,22 @@ p {
         font-size: 30px;
         z-index: 3;
     }
-    
+
     #LoadingSpinner {
         top:calc(50% - 80px);
         left:calc(50% - 70px);
     }
-    
+
     #LoadingDots {
         top:calc(50% + 20px);
         left:calc(50% - 65px);
     }
-    
+
     #GLCanvas{
         position: absolute;
         z-index: 0;
     }
-    
+
     #LoadingIconParent{
         position: relative;
         top: 0px;

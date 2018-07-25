@@ -1,4 +1,4 @@
-/*
+/* 
  * File: Light.js
  * Defines a simple light source
  */
@@ -9,11 +9,11 @@
 /* find out more about jslint: http://www.jslint.com/help.html */
 "use strict";
 
-// **** WARNING: The following enumerate values must be identical to
+// **** WARNING: The following enumerate values must be identical to 
 // the values of
-//
+// 
 //   ePointLight, eDirectionalLight, eSpotLight
-//
+//   
 // defined in LightFS.glsl and IllumFS.glsl
 /**
  * Light type enum
@@ -42,7 +42,7 @@ function Light() {
     this.mInner = 0.1;  // in radian
     this.mOuter = 0.3;
     this.mIntensity = 1;
-    this.mDropOff = 1;  //
+    this.mDropOff = 1;  // 
     this.mLightType = Light.eLightType.ePointLight;
     this.mIsOn = true;
     this.mCastShadow = false;
@@ -195,9 +195,9 @@ Light.prototype.setIntensity = function (i) { this.mIntensity = i; };
 Light.prototype.getIntensity = function () { return this.mIntensity; };
 
 /**
- * Set how quickly does light intensity drops off between inner/outer, Near/Far,
- * a larger Drop off number results in “softer/smoother” transition
- * from full illumination to none illumination
+ * Set how quickly does light intensity drops off between inner/outer, Near/Far, 
+ * a larger Drop off number results in “softer/smoother” transition 
+ * from full illumination to no illumination
  * @param {Number} d new DropOff value
  * @returns {void}
  * @memberOf Light
