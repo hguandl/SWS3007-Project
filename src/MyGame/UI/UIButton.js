@@ -88,4 +88,26 @@ class UIButton {
     static setAttributeById(buttonId, attributeName, attributeValue) {
         document.getElementById(buttonId).setAttribute(attributeName, attributeValue);
     }
+
+    /**
+     * Disable or enable all buttons.
+     * @param disable {boolean}
+     */
+    static disableButtons(disable) {
+        const UIButtonGroups = document.getElementsByClassName("UI-button-group");
+        let group;
+        for (group in UIButtonGroups) {
+            console.log(UIButtonGroups[group]);
+            UIButtonGroups[group].childNodes.forEach(function (button) {
+                try {
+                    if (disable)
+                        button.setAttribute("disabled", "true");
+                    else
+                        button.removeAttribute("disabled");
+                } catch (error) {
+                    console.warn(error);
+                }
+            });
+        }
+    }
 }

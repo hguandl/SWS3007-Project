@@ -157,7 +157,8 @@
     background: #EEE !important;
     border: 1px solid #DDD !important;
     text-shadow: 0 1px 1px white !important;
-    color: #CCC !important;
+    color: rgba(0, 0, 0, 0.49);
+    /*color: #CCC !important;*/
     cursor: default !important;
     appearance: none !important;
     -webkit-box-shadow: none !important;
