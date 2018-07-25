@@ -155,27 +155,7 @@
                 onclick="window.myGame.mShowSmallMap = !window.myGame.mShowSmallMap;">Small Map</button>
     </div>
 
-    <div id="default-button-group" class="UI-button-group button-group" style="display: block;">
-        <button id="menu-button" class="button button-parchment button-rounded"
-                onclick="">
-            Menu
-        </button>
-        <button id="item-button" class="button button-parchment button-rounded"
-                onclick="">
-            Item
-        </button>
-        <button id="character-button" class="button button-parchment button-rounded"
-                onclick="">
-            Character
-        </button>
-        <button id="character-button" class="button button-parchment button-rounded"
-                onclick="
-                gEngine.GameLoop.stop();
-            ">
-            Test scene
-        </button>
-    </div>
-    <div id="combat-button-group" style="display: none;" class="UI-button-group button-group">
+    <div id="combat-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
         <button id="attack-button" class="button button-parchment button-rounded"
                 onclick="combatScene.chooseAction(makeAction(_C.attack, {
                 attacker: combatScene.topCharacter,
@@ -196,7 +176,7 @@
             item
         </button>
     </div>
-    <div id="character-button-group" style="display: none;" class="UI-button-group button-group">
+    <div id="character-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
         <button id="Monkey-King-button" class="button button-parchment button-rounded"
                 onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkeyKing'}));">
             Monkey King
@@ -214,7 +194,7 @@
             back
         </button>
     </div>
-    <div id="skill-button-group" style="display: none;" class="UI-button-group button-group">
+    <div id="skill-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
         <button id="skill1-button" class="button button-parchment button-rounded"
                 onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 1, }));">
             skill1
@@ -236,7 +216,7 @@
             back
         </button>
     </div>
-    <div id="custom-button-group" style="display: none;" class="UI-button-group button-group">
+    <div id="custom-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
         <!--<button id="custom-button1" class="button button-parchment button-rounded" onclick="">button1</button>-->
         <!--<button id="custom-button2" class="button button-parchment button-rounded" onclick="">button2</button>-->
         <!--<button id="custom-button3" class="button button-parchment button-rounded" onclick="">button3</button>-->
