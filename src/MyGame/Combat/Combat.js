@@ -115,6 +115,7 @@ Combat.prototype.initialize = function () {
     this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
     this.monsterIcon.getXform().setPosition(22, 0);
     this.monsterIcon.getXform().setSize(20, 20);
+    characterInfo();
 };
 
 Combat.prototype.draw = function () {
@@ -133,6 +134,8 @@ Combat.prototype.draw = function () {
 };
 
 Combat.prototype.update = function () {
+    this.closeMsg();
+
     if (this._action.type === _C.none)
         return;
 

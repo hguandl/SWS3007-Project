@@ -38,6 +38,7 @@ gEngine.Core.inheritPrototype(MyGame, Scene);
 
 
 MyGame.prototype.loadScene = function () {
+    document.currentScene = this;
     gEngine.Textures.loadTexture(this.kMapBkg);
     gEngine.Textures.loadTexture(this.kMapFrg);
     gEngine.Textures.loadTexture(this.kHeroPic);
@@ -51,8 +52,10 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kMapFrg);
     gEngine.Textures.unloadTexture(this.kHeroPic);
 
-    if (this.nextScene)
+    if (this.nextScene) {
+        document.currentScene = this.nextScene;
         gEngine.Core.startScene(this.nextScene);
+    }
 };
 
 MyGame.prototype.initialize = function () {
@@ -107,12 +110,12 @@ MyGame.prototype.increasShapeSize = function(obj, delta) {
     var r = s.incShapeSizeBy(delta);
 };
 
-MyGame.prototype.showMsg = function(msg) {
-    document.getElementById('infoBox').style.display = "block";
-    document.getElementById('info_0').innerText=msg;
-    this.mMsgBoxShow = true;
-    this.mMapFreezed = true;
-};
+// MyGame.prototype.showMsg = function(msg) {
+//     document.getElementById('infoBox').style.display = "block";
+//     document.getElementById('info_0').innerText=msg;
+//     this.mMsgBoxShow = true;
+//     this.mMapFreezed = true;
+// };
 
 MyGame.prototype.resetPos = function() {
     this.mMyHero.getHero().getXform().setPosition(14, 10);
@@ -123,15 +126,8 @@ MyGame.prototype.resetPos = function() {
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
-        if (this.mMsgBoxShow) {
-            document.getElementById('infoBox').style.display = "none";
-            document.getElementById('info_0').innerText=null;
-            this.mMsgBoxShow = false;
-            this.mMapFreezed = false;
-            this.mIsSpaceFreezed = false;
-        }
-    }
+    this.closeMsg();
+
     if (this.mMapFreezed) return ;
 
     var deltaX = 0.05;

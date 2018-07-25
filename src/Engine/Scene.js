@@ -1,4 +1,4 @@
-/* 
+/*
  * The template for a scene.
  */
 
@@ -13,7 +13,28 @@
  * @memberOf Scene
  * @returns {Scene}
  */
-function Scene() {}
+function Scene() {
+    this.mMsgBoxShow = false;
+    this.mMapFreezed = false;
+}
+
+Scene.prototype.showMsg = function(msg) {
+    document.getElementById('infoBox').style.display = "block";
+    document.getElementById('info_0').innerText=msg;
+    this.mMsgBoxShow = true;
+    this.mMapFreezed = true;
+};
+
+Scene.prototype.closeMsg = function() {
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
+        if (this.mMsgBoxShow) {
+            document.getElementById('infoBox').style.display = "none";
+            document.getElementById('info_0').innerText=null;
+            this.mMsgBoxShow = false;
+            this.mMapFreezed = false;
+        }
+    }
+}
 
 //<editor-fold desc="functions subclass should override">
 /**
