@@ -1,8 +1,4 @@
 function calDamage (attacker, defender) {
-    console.log(attacker);
-    console.log(attacker.mATK);
-    console.log(defender.mDEF);
-    alert(attacker.mATK * (100 / (defender.mDEF +100)));
     return attacker.mATK * (100 / (defender.mDEF +100));
 }
 
