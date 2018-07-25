@@ -26,6 +26,7 @@ function MyGame() {
     this.mMainView = null;
 
     this.mMsgBoxShow = false;
+    this.mMapFreezed = false;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -96,6 +97,7 @@ MyGame.prototype.showMsg = function(msg) {
     document.getElementById('infoBox').style.visibility = "visible";
     document.getElementById('info_0').innerText=msg;
     this.mMsgBoxShow = true;
+    this.mMapFreezed = true;
 };
 
 MyGame.prototype.resetPos = function() {
@@ -107,6 +109,16 @@ MyGame.prototype.resetPos = function() {
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
+        if (this.mMsgBoxShow) {
+            document.getElementById('infoBox').style.visibility = "hidden";
+            document.getElementById('info_0').innerText=null;
+            this.mMsgBoxShow = false;
+            this.mMapFreezed = false;
+        }
+    }
+    if (this.mMapFreezed) return ;
+
     var deltaX = 0.05;
     var xform = this.mMyHero.getHero().getXform();
 
@@ -182,14 +194,6 @@ MyGame.prototype.update = function () {
         }
     }
 
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
-        if (this.mMsgBoxShow) {
-            document.getElementById('infoBox').style.visibility = "hidden";
-            document.getElementById('info_0').innerText=null;
-            this.mMsgBoxShow = false;
-        }
-    }
-
     if (this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos())) {
         this.showMsg("An event!");
     }
@@ -222,33 +226,5 @@ MyGame.prototype.moveCamera = function(xform) {
         newCenter[1] = this.mCamera.getWCWidth() / 2 * ratio;
 
     this.mCamera.setWCCenter(newCenter[0], newCenter[1]);
-    // this.mSmallCamera.setWCCenter(newCenter[0] + 4.38144, newCenter[1] + 0.5);
     this.mCamera.update();
-    // this.mSmallCamera.update();
-};
-
-MyGame.prototype.createParticle = function(atX, atY) {
-    var life = 30 + Math.random() * 200;
-    var p = new ParticleGameObject("assets/particle.png", atX, atY, life);
-    p.getRenderable().setColor([1, 0, 0, 1]);
-
-    // size of the particle
-    var r = 3.5 + Math.random() * 2.5;
-    p.getXform().setSize(r, r);
-
-    // final color
-    var fr = 3.5 + Math.random();
-    var fg = 0.4 + 0.1 * Math.random();
-    var fb = 0.3 + 0.1 * Math.random();
-    p.setFinalColor([fr, fg, fb, 0.6]);
-
-    // velocity on the particle
-    var fx = 10 * Math.random() - 20 * Math.random();
-    var fy = 10 * Math.random();
-    p.getParticle().setVelocity([fx, fy]);
-
-    // size delta
-    p.setSizeDelta(0.98);
-
-    return p;
 };

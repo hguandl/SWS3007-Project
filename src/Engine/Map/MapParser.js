@@ -45,7 +45,18 @@ Map.prototype.clearEventBuffer = function (x, y) {
 };
 
 Map.prototype.canWalk = function(x, y, dir) {
-    var posPoint = this.reducePoint(x, y);
+    var posPoint1 = this.reducePoint(x + 0.2, y - 0.4);
+    var posPoint2 = this.reducePoint(x - 0.2, y);
+    if (!this.canWalkDirection(posPoint1, x, y, dir)) {
+        return false;
+    }
+    if (!this.canWalkDirection(posPoint2, x, y, dir)) {
+        return false;
+    }
+    return true;
+};
+
+Map.prototype.canWalkDirection = function(posPoint, x, y, dir) {
     switch(dir) {
         case "Up":
         var nextStepPoint = posPoint - this.mWidth;
@@ -54,9 +65,11 @@ Map.prototype.canWalk = function(x, y, dir) {
         if (this.mContent[this.mData[nextStepPoint]] == "unwalkable") {
             var nextStepVec = this.pixelCenter(nextStepPoint);
             if (y + 1 > nextStepVec[1])
-                return false;        }
+                return false;
+        }
         break;
         case "Right":
+        if (posPoint % this.mWidth == this.mWidth - 1) return true;
         var nextStepPoint = posPoint + 1;
         if (nextStepPoint > this.mData.length)
             return true;
@@ -77,6 +90,7 @@ Map.prototype.canWalk = function(x, y, dir) {
         }
         break;
         case "Left":
+        if (posPoint % this.mWidth == 0) return true;
         var nextStepPoint = posPoint - 1;
         if (nextStepPoint < 0)
             return true;
