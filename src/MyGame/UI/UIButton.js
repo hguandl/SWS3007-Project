@@ -35,7 +35,7 @@ class UIButton {
         window.lastButtonGroup = window.currentButtonGroup;
         window.currentButtonGroup = groupId;
         const buttons_groups = document.getElementsByClassName("UI-button-group");
-        for (i=0; i<buttons_groups.length; i++) {
+        for (i = 0; i < buttons_groups.length; i++) {
             if (buttons_groups[i].id === groupId)
                 buttons_groups[i].style.display = "block";
             else
@@ -99,18 +99,19 @@ class UIButton {
      */
     static disableButtons(disable) {
         const UIButtonGroups = document.getElementsByClassName("UI-button-group");
-        let group;
-        for (group=0; group<UIButtonGroups.length; group++) {
-            UIButtonGroups[group].childNodes.forEach(function (button) {
+        let group, i;
+        for (group = 0; group < UIButtonGroups.length; group++) {
+            for (i=0; i<UIButtonGroups[group].childNodes.length; i++) {
+                const button = UIButtonGroups[group].childNodes[i];
                 try {
-                    if (disable)
+                    if (disable === true)
                         button.setAttribute("disabled", "true");
                     else
                         button.removeAttribute("disabled");
                 } catch (error) {
                     console.warn(error);
                 }
-            });
+            }
         }
     }
 }

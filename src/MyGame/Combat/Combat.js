@@ -22,16 +22,15 @@ function Combat(topCharacter, monster) {
         },
         set: v => {
             this._status = v;
-            UIButton.disableButtons(v);
+            UIButton.disableButtons(v !== _C.waiting);
         }
     });
 
-    this.chooseAction = function (action) {
-        this.status = true;
-        this._action = action;
-    };
+    this.takeAction = function (actionType, actionParam) {
+        this.status = _C.displaying;
 
-    this.takeAction = function () {
+        this._action = makeAction(actionType, actionParam);
+
         switch (this._action.type) {
             case _C.attack:
                 this.takeAttackAction();
@@ -46,13 +45,17 @@ function Combat(topCharacter, monster) {
                 console.warn("unknown action type");
                 break;
         }
+
+        UIButton.disableButtons(false);
         // monster take action
         monster.action = this.getMonsterAction();
         // end turn
+
+        this.status = _C.waiting;
     };
 
     this.takeAttackAction = function () {
-        this.monster.mHP -= calDamage(this.topCharacter, this.monster);
+        this.monster.mCurrentHP -= calDamage(this.topCharacter, this.monster);
         // todo: animate
     };
 
@@ -140,10 +143,8 @@ Combat.prototype.update = function () {
         return;
 
     // todo : add animation to actions
-    this.takeAction();
-    this._action = makeAction(_C.none);
-    this.status = _C.waiting;
 };
+
 
 window.testCharacter = {
     iconURL: "assets/character/character.png"

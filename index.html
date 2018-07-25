@@ -159,11 +159,12 @@
     </div>
 
     <div id="combat-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
-        <button id="attack-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.attack, {
-                attacker: combatScene.topCharacter,
-                defender: combatScene.monster,
-            }));">
+        <button id="attack-button" class="button button-parchment button-rounded" onclick="
+                window.combatScene.takeAction(_C.attack, {
+                    attacker: combatScene.topCharacter,
+                    defender: combatScene.monster,
+                });
+            ">
             attack
         </button>
         <button id="skill-button" class="button button-parchment button-rounded"
@@ -249,6 +250,10 @@
 
         window.combatScene = new Combat(testMonster, testCharacter);
         UIButton.displayButtonGroup('default-button-group');
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/div
     };
 
     function reset() {
