@@ -107,6 +107,10 @@
         <script type="text/javascript" src="src/MyGame/Events/Handler.js"></script>
         <script type="text/javascript" src="src/MyGame/Events/Events.js"></script>
 
+        <!-- Characters -->
+        <script type="text/javascript" src="src/MyGame/Characters/CharacterSet.js"></script>
+        <script type="text/javascript" src="src/MyGame/Characters/Character.js"></script>
+
         <!-- Game UI -->
         <script type="text/javascript" src="src/MyGame/UI/UIButton.js"></script>
         <script type="text/javascript" src="src/MyGame/utils/Const.js"></script>
@@ -195,9 +199,7 @@
             return [posPoint0, posPoint1, posPoint2];
         }
         function characterInfo() {
-            window.myGame.showMsg("Monkey King - HP: 100/100; VP: 100/1000 \n\
-                                   The Pigsy - HP: 200/200; VP: 500/800 \n\
-                                   Monk Sha - HP: 100/100; VP: 0/800");
+            window.myGame.showMsg(CharacterSet_Status());
         }
         function itemInfo() {
             window.myGame.showMsg("Peach x10 \n\
@@ -278,6 +280,7 @@
     //===================================弹框js部分 start by:songfayuan=========================================
     //弹出隐藏层
     function ShowDiv(show_div, bg_div) {
+        window.myGame.mMapFreezed = true;
         const scrollHeight = document.body.scrollHeight; //文档高度
         document.getElementById(bg_div).style.height = scrollHeight + 'px';
         document.getElementById(show_div).style.display = 'block';
@@ -288,6 +291,7 @@
         // document.getElementById("label").value = '';
         document.getElementById(show_div).style.display = 'none';
         document.getElementById(bg_div).style.display = 'none';
+        window.myGame.mMapFreezed = false;
     }
     //关闭弹出层
     function CloseDiv2() {

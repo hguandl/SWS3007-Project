@@ -1,0 +1,26 @@
+[
+    {
+        "Name": "Monkey King",
+        "HP": 1000,
+        "VP": 1000,
+        "ATK": 200,
+        "DEF": 100,
+        "SPD": 50
+    },
+    {
+        "Name": "The Pigsy",
+        "HP": 1500,
+        "VP": 500,
+        "ATK": 80,
+        "DEF": 200,
+        "SPD": 30
+    },
+    {
+        "Name": "Monk Sha",
+        "HP": 1250,
+        "VP": 750,
+        "ATK": 150,
+        "DEF": 150,
+        "SPD": 40
+    }
+]
