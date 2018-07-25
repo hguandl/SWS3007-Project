@@ -1,5 +1,5 @@
 /*
- * File: EngineCore_Input.js 
+ * File: EngineCore_Input.js
  * Provides input support
  */
 /*jslint node: true, vars: true */
@@ -36,7 +36,7 @@ gEngine.Input = (function () {
         // space bar
         Space: 32,
 
-        // numbers 
+        // numbers
         Zero: 48,
         One: 49,
         Two: 50,
@@ -95,6 +95,7 @@ gEngine.Input = (function () {
     var mIsKeyPressed = [];
     // Click events: once an event is set, it will remain there until polled
     var mIsKeyClicked = [];
+    var mIsKeyReleased = [];
 
 
     // Support mouse
@@ -161,8 +162,9 @@ gEngine.Input = (function () {
             mIsKeyPressed[i] = false;
             mKeyPreviousState[i] = false;
             mIsKeyClicked[i] = false;
+            mIsKeyReleased[i] = false;
         }
-        // register handlers 
+        // register handlers
         window.addEventListener('keyup', _onKeyUp);
         window.addEventListener('keydown', _onKeyDown);
         //</editor-fold>
@@ -189,6 +191,7 @@ gEngine.Input = (function () {
         var i;
         for (i = 0; i < kKeys.LastKeyCode; i++) {
             mIsKeyClicked[i] = (!mKeyPreviousState[i]) && mIsKeyPressed[i];
+            mIsKeyReleased[i] = mKeyPreviousState[i] && (!mIsKeyPressed[i]);
             mKeyPreviousState[i] = mIsKeyPressed[i];
         }
         for (i = 0; i < 3; i++) {
@@ -218,6 +221,10 @@ gEngine.Input = (function () {
         return (mIsKeyClicked[keyCode]);
     };
 
+    var isKeyReleased = function (keyCode) {
+        return (mIsKeyReleased[keyCode]);
+    };
+
     /**
      * returns if button is pressed.
      * @memberOf gEngine.Input
@@ -237,14 +244,14 @@ gEngine.Input = (function () {
     var isButtonClicked = function (button) {
         return mIsButtonClicked[button];
     };
-    
+
     /**
      * Returns mouse X position.
      * @memberOf gEngine.Input
      * @returns {Number} X position of mouse.
      */
     var getMousePosX = function () { return mMousePosX; };
-    
+
     /**
      * Returns mouse Y position.
      * @memberOf gEngine.Input
@@ -259,6 +266,7 @@ gEngine.Input = (function () {
         // keyboard support
         isKeyPressed: isKeyPressed,
         isKeyClicked: isKeyClicked,
+        isKeyReleased: isKeyReleased,
         keys: kKeys,
 
         // Mouse support
