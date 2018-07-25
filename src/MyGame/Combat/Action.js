@@ -1,3 +1,7 @@
+function calDamage (attacker, defender) {
+    return attacker.mATK * (defender.mDEF / (defender.mDEF +100));
+}
+
 /**
  * There are four kinds of action: attack, skill, change (change character), prop (use prop).
  */
@@ -11,19 +15,11 @@ class Action {
         this.type = actionType;
         this.param = actionParam;
     }
-
-    takeAction() {
-
-    }
 }
 
 class Attack extends Action {
     constructor(actionParam) {
         super(_C.attack, actionParam);
-    }
-
-    takeAction() {
-
     }
 }
 

@@ -17,7 +17,7 @@ function Combat(topCharacter, monster) {
     this._action = new Action(_C.none);
 
     this._status = _C.waiting;
-    Object.defineProperty(this, "displaying", {
+    Object.defineProperty(this, "status", {
         get: () => {
             return this._status;
         },
@@ -27,10 +27,38 @@ function Combat(topCharacter, monster) {
         }
     });
 
-    this.takeAction = function(action) {
-        this.displaying = true;
+    this.chooseAction = function(action) {
+        this.status = true;
         this._action = action;
-    }
+    };
+
+    this.takeAction = function() {
+        switch (this._action.type) {
+            case _C.attack:
+                this.takeAttackAction();
+                break;
+            case _C.change:
+                this.takeChangeAction();
+                break;
+            case _C.item:
+                // todo: item action
+                break;
+            default:
+                console.warn("unknown action type");
+                break;
+        }
+    };
+
+    this.takeAttackAction = function() {
+        this.monster.mHP -= calDamage(this.topCharacter, this.monster);
+        // todo: animate
+    };
+
+    this.takeChangeAction = function() {
+        this.topCharacter = this._action['aimCharacter'];
+
+        // todo: animate
+    };
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
@@ -79,12 +107,10 @@ Combat.prototype.update = function() {
         return;
 
     // todo : add animation to actions
-    this._action = makeAction(_C.none);
     this._action.takeAction();
-    this.displaying = false;
+    this._action = makeAction(_C.none);
+    this.status = _C.waiting;
 };
-
-window.combatScene = new Combat();
 
 window.testCharacter = {
     iconURL: "assets/character/character.png"

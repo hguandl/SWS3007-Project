@@ -118,6 +118,7 @@
 <body onload="
         var myGame = new MyGame();
         gEngine.Core.initializeEngineCore('GLCanvas', myGame);
+        window.combatScene = new Combat(testMonster, testCharacter);
         UIButton.displayButtonGroup('default-button-group');
      ">
 <div id="LoadingIconParent" style="width: 970px; height:600px;">
@@ -175,20 +176,31 @@
 
 <!--UI-->
 <div id="default-button-group" class="UI-button-group button-group" style="display: block;">
-    <button id="menu-button" class="button button-parchment button-rounded" onclick="">
+    <button id="menu-button" class="button button-parchment button-rounded"
+            onclick="">
         Menu
     </button>
     <button id="item-button" class="button button-parchment button-rounded"
             onclick="">
         Item
     </button>
-    <button id="character-button" class="button button-parchment button-rounded" onclick="">
+    <button id="character-button" class="button button-parchment button-rounded"
+            onclick="">
         Character
+    </button>
+    <button id="character-button" class="button button-parchment button-rounded"
+            onclick="
+                gEngine.GameLoop.stop();
+            ">
+        Test scene
     </button>
 </div>
 <div id="combat-button-group" style="display: none;" class="UI-button-group button-group">
     <button id="attack-button" class="button button-parchment button-rounded"
-            onclick="combatScene.takeAction(makeAction(_C.attack));">
+            onclick="combatScene.chooseAction(makeAction(_C.attack, {
+                attacker: combatScene.topCharacter,
+                defender: combatScene.monster,
+            }));">
         attack
     </button>
     <button id="skill-button" class="button button-parchment button-rounded"
@@ -206,41 +218,41 @@
 </div>
 <div id="character-button-group" style="display: none;" class="UI-button-group button-group">
     <button id="Monkey-King-button" class="button button-parchment button-rounded"
-            onclick="combatScene.takeAction(makeAction(_C.attack));">
+            onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkeyKing'}));">
         Monkey King
     </button>
     <button id="Pigsy-button" class="button button-parchment button-rounded"
-            onclick="UIButton.displayButtonGroup('skill-button-group');">
+            onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'Pigsy'}));">
         Pigsy
     </button>
     <button id="Monk-Sha-button" class="button button-parchment button-rounded"
-            onclick="gEngine.GameLoop.stop();">
+            onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkSha'}));">
         Monk Sha
     </button>
     <button id="back-button-character" class="button button-parchment button-rounded"
-            onclick="">
+            onclick="UIButton.displayButtonGroup('combat-button-group');">
         back
     </button>
 </div>
 <div id="skill-button-group" style="display: none;" class="UI-button-group button-group">
     <button id="skill1-button" class="button button-parchment button-rounded"
-            onclick="combatScene.takeAction(makeAction(_C.skill, { skill: 1, }));">
+            onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 1, }));">
         skill1
     </button>
     <button id="skill2-button" class="button button-parchment button-rounded"
-            onclick="combatScene.takeAction(makeAction(_C.skill, { skill: 2, }));">
+            onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 2, }));">
         skill2
     </button>
     <button id="skill3-button" class="button button-parchment button-rounded"
-            onclick="combatScene.takeAction(makeAction(_C.skill, { skill: 3, }));">
+            onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 3, }));">
         skill3
     </button>
     <button id="skill4-button" class="button button-parchment button-rounded"
-            onclick="combatScene.takeAction(makeAction(_C.skill, { skill: 4, }));">
+            onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 4, }));">
         skill4
     </button>
     <button id="back-button-skill" class="button button-parchment button-rounded"
-            onclick="">
+            onclick="UIButton.displayButtonGroup('combat-button-group');">
         back
     </button>
 </div>

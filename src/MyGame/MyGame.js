@@ -51,7 +51,8 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kTargetTexture);
     gEngine.Textures.unloadTexture(this.kParticleTexture);
 
-    window.combatScene.startCombat(window.testCharacter, window.testMonster);
+    let combatScene = new Combat(window.testCharacter, window.testMonster);
+    gEngine.Core.startScene(combatScene);
 };
 
 MyGame.prototype.initialize = function () {

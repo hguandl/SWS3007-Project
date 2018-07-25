@@ -31,15 +31,15 @@ class UIButton {
      * index.html.
      */
     static displayButtonGroup(groupId) {
-        let btn;
+        let i;
         window.lastButtonGroup = window.currentButtonGroup;
         window.currentButtonGroup = groupId;
         const buttons_groups = document.getElementsByClassName("UI-button-group");
-        for (btn in buttons_groups) {
-            if (buttons_groups[btn].id === groupId)
-                buttons_groups[btn].style.display = "block";
+        for (i=0; i<buttons_groups.length; i++) {
+            if (buttons_groups[i].id === groupId)
+                buttons_groups[i].style.display = "block";
             else
-                buttons_groups[btn].style.display = "none";
+                buttons_groups[i].style.display = "none";
         }
     }
 
@@ -100,8 +100,7 @@ class UIButton {
     static disableButtons(disable) {
         const UIButtonGroups = document.getElementsByClassName("UI-button-group");
         let group;
-        for (group in UIButtonGroups) {
-            console.log(UIButtonGroups[group]);
+        for (group=0; group<UIButtonGroups.length; group++) {
             UIButtonGroups[group].childNodes.forEach(function (button) {
                 try {
                     if (disable)
@@ -114,6 +113,4 @@ class UIButton {
             });
         }
     }
-
-    static 
 }
