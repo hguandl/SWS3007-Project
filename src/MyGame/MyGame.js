@@ -31,6 +31,8 @@ function MyGame() {
     this.mMapFreezed = false;
 
     this.mShowSmallMap = true;
+
+    this.nextScene = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -48,6 +50,9 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kMapBkg);
     gEngine.Textures.unloadTexture(this.kMapFrg);
     gEngine.Textures.unloadTexture(this.kHeroPic);
+
+    if (this.nextScene)
+        gEngine.Core.startScene(this.nextScene);
 };
 
 MyGame.prototype.initialize = function () {
@@ -112,7 +117,7 @@ MyGame.prototype.showMsg = function(msg) {
 MyGame.prototype.resetPos = function() {
     this.mMyHero.getHero().getXform().setPosition(14, 10);
     this.resume();
-}
+};
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!

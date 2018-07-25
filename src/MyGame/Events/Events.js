@@ -1,4 +1,4 @@
-"use strict;"
+"use strict";
 
 var GameEvents = GameEvents || { };
 
@@ -14,7 +14,13 @@ GameEvents.shop = function(game) {
 GameEvents.battle = function(game) {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
         // TODO, go to next stage
-        // gEngine.GameLoop.stop();
+
+        // todo: 这两行是为了能使现在版本能使用，将在下一个版本删除
+        CharacterSet[0].iconURL = "assets/character/character.png";
+        CharacterSet[1].iconURL = "assets/character/monster1.jpg";
+
+        game.nextScene = new Combat(CharacterSet[0], CharacterSet[1]);
+        gEngine.GameLoop.stop();
     }
 };
 

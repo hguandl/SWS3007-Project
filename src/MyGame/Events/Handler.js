@@ -1,8 +1,9 @@
-"use strict;"
+"use strict";
 
 var GameEvents = GameEvents || { };
 
 GameEvents.handle = function (game, event) {
+    // console.debug(event);
     switch (event) {
         case "Shop":
         GameEvents.shop(game);
@@ -16,4 +17,4 @@ GameEvents.handle = function (game, event) {
         case "Next":
         GameEvents.next(game);
     }
-}
+};

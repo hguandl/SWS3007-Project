@@ -37,19 +37,11 @@ class Change extends Action {
     constructor(actionParam) {
         super(_C.attack, actionParam);
     }
-
-    takeAction() {
-
-    }
 }
 
 class Item extends Action {
     constructor(actionParam) {
         super(_C.attack, actionParam);
-    }
-
-    takeAction() {
-
     }
 }
 

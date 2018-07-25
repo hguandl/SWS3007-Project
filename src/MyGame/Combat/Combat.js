@@ -10,8 +10,7 @@ function Combat(topCharacter, monster) {
     this.topCharacter = topCharacter;
     this.monster = monster;
 
-    this.characterIcon = null;
-    this.monsterIcon = null;
+    this.kBackground = "assets/map/combat_background_town.png";
 
     this.camera = null;
     this._action = new Action(_C.none);
@@ -27,12 +26,12 @@ function Combat(topCharacter, monster) {
         }
     });
 
-    this.chooseAction = function(action) {
+    this.chooseAction = function (action) {
         this.status = true;
         this._action = action;
     };
 
-    this.takeAction = function() {
+    this.takeAction = function () {
         switch (this._action.type) {
             case _C.attack:
                 this.takeAttackAction();
@@ -47,40 +46,65 @@ function Combat(topCharacter, monster) {
                 console.warn("unknown action type");
                 break;
         }
+        // monster take action
+        monster.action = this.getMonsterAction();
+        // end turn
     };
 
-    this.takeAttackAction = function() {
+    this.takeAttackAction = function () {
         this.monster.mHP -= calDamage(this.topCharacter, this.monster);
         // todo: animate
     };
 
-    this.takeChangeAction = function() {
+    this.takeChangeAction = function () {
         this.topCharacter = this._action['aimCharacter'];
-
         // todo: animate
     };
+
+    this.getMonsterAction = function() {
+
+    }
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
 
-Combat.prototype.loadScene = function() {
-    // todo: check if this works
+Combat.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.topCharacter.iconURL);
     gEngine.Textures.loadTexture(this.monster.iconURL);
+
+    gEngine.Textures.loadTexture(this.kBackground);
+
+    UIButton.displayButtonGroup("combat-button-group");
 };
 
-Combat.prototype.unloadScene = function() {
+Combat.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.topCharacter.iconURL);
     gEngine.Textures.unloadTexture(this.monster.iconURL);
 };
 
-Combat.prototype.initialize = function() {
+Combat.prototype.initialize = function () {
     this.camera = new Camera(
         vec2.fromValues(0, 0),
         100,
         _C.gameViewport
     );
     this.camera.setBackgroundColor([1.0, 1.0, 1.0, 1.0]);
+
+    this.mBackground = new TextureRenderable(this.kBackground);
+    this.mBackground.setColor([0.0, 0.0, 0.0, 0.0]);
+    this.mBackground.getXform().setPosition(0, 0);
+    this.mBackground.getXform().setSize(this.camera.getWCWidth(), this.camera.getWCHeight());
+
+    /** next version
+     this.topCharacter.setBattleFigureSize(20, 20);
+     this.topCharacter.setBattleFigurePosition(-22, 0);
+
+     this.monster.setBattleFigureSize(20, 20);
+     this.monster.setBattleFigurePosition(22, 0);
+     */
+
+    // this.mMapBkg = new Background(this.kBackground, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
+    // gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
 
     this.characterIcon = new TextureRenderable(this.topCharacter.iconURL);  // todo: 商量iconURL的接口，该接口用于获取icon的URL
     this.characterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
@@ -93,21 +117,27 @@ Combat.prototype.initialize = function() {
     this.monsterIcon.getXform().setSize(20, 20);
 };
 
-Combat.prototype.draw = function() {
+Combat.prototype.draw = function () {
     gEngine.Core.clearCanvas([1.0, 1.0, 1.0, 1.0]);
 
     this.camera.setupViewProjection();
+
+    /** next version
+     this.topCharacter.drawBattleFigureByPos(-22, 0, 20, 20, this.camera);
+     this.monster.drawBattleFigureByPos(22, 0, 20, 20, this.camera);
+     */
+    this.mBackground.draw(this.camera);
 
     this.characterIcon.draw(this.camera);
     this.monsterIcon.draw(this.camera);
 };
 
-Combat.prototype.update = function() {
+Combat.prototype.update = function () {
     if (this._action.type === _C.none)
         return;
 
     // todo : add animation to actions
-    this._action.takeAction();
+    this.takeAction();
     this._action = makeAction(_C.none);
     this.status = _C.waiting;
 };
