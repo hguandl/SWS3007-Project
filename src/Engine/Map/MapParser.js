@@ -2,7 +2,7 @@
 
 
 Map.prototype.load = function(mapFile) {
-    
+
 };
 
 Map.prototype.centerCamera = function(percent, viewConfig) {
@@ -27,6 +27,21 @@ Map.prototype.pixelCenter = function(pos) {
 
 Map.prototype.reducePoint = function(x, y) {
     return 20 * Math.round(this.mHeight - 0.5 - y) + Math.round(x - 0.5);
+};
+
+Map.prototype.detectEvent = function (x, y) {
+    var posPoint = this.reducePoint(x, y);
+    if (this.mContent[this.mData[posPoint]] == "special" && posPoint != this.mEventBuffer) {
+        this.mEventBuffer = posPoint;
+        return true;
+    }
+    return false;
+};
+
+Map.prototype.clearEventBuffer = function (x, y) {
+    var posPoint = this.reducePoint(x, y);
+    if (posPoint != this.mEventBuffer)
+        this.mEventBuffer = null;
 };
 
 Map.prototype.canWalk = function(x, y, dir) {

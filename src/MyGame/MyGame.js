@@ -60,9 +60,12 @@ MyGame.prototype.initialize = function () {
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
 
-    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 50, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
+    this.mMyMap.addItems();
+
+    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 0, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
-    this.mSmallCamera = this.mMyMap.centerCamera(1, [1050, 550, 100, 100]);
+    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 480, 120, 120]);
+    this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -76,8 +79,11 @@ MyGame.prototype.draw = function () {
     gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
 
     this.mSmallCamera.setupViewProjection();
-    this.mMapBkg.draw(this.mSmallCamera);
-    this.mMapFrg.draw(this.mSmallCamera);
+    // this.mMapBkg.draw(this.mSmallCamera);
+    // this.mMapFrg.draw(this.mSmallCamera);
+    var i;
+    for (i = 0; i < this.mMyMap.mItems.length; ++i)
+        this.mMyMap.mItems[i].draw(this.mSmallCamera);
     this.mMyHero.getHero().draw(this.mSmallCamera);
 };
 
@@ -183,6 +189,12 @@ MyGame.prototype.update = function () {
             this.mMsgBoxShow = false;
         }
     }
+
+    if (this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos())) {
+        this.showMsg("An event!");
+    }
+
+    this.mMyMap.clearEventBuffer(xform.getXPos(), xform.getYPos());
 };
 
 MyGame.prototype.pause = function() {
@@ -210,8 +222,10 @@ MyGame.prototype.moveCamera = function(xform) {
         newCenter[1] = this.mCamera.getWCWidth() / 2 * ratio;
 
     this.mCamera.setWCCenter(newCenter[0], newCenter[1]);
+    // this.mSmallCamera.setWCCenter(newCenter[0] + 4.38144, newCenter[1] + 0.5);
     this.mCamera.update();
-}
+    // this.mSmallCamera.update();
+};
 
 MyGame.prototype.createParticle = function(atX, atY) {
     var life = 30 + Math.random() * 200;
