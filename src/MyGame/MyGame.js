@@ -74,6 +74,8 @@ MyGame.prototype.initialize = function () {
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
     CharacterSet_Init(this.kHeroInfo);
+    ItemSet_addItem("Peach", 10);
+    ItemSet_addItem("Baozi", 5);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more

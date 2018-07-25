@@ -111,6 +111,10 @@
         <script type="text/javascript" src="src/MyGame/Characters/CharacterSet.js"></script>
         <script type="text/javascript" src="src/MyGame/Characters/Character.js"></script>
 
+        <!-- Items -->
+        <script type="text/javascript" src="src/MyGame/Items/ItemSet.js"></script>
+        <script type="text/javascript" src="src/MyGame/Items/Item.js"></script>
+
         <!-- Game UI -->
         <script type="text/javascript" src="src/MyGame/UI/UIButton.js"></script>
         <script type="text/javascript" src="src/MyGame/utils/Const.js"></script>
@@ -202,9 +206,7 @@
             window.myGame.showMsg(CharacterSet_Status());
         }
         function itemInfo() {
-            window.myGame.showMsg("Peach x10 \n\
-                                   Baozi x5 \n\
-                                   Key x1");
+            window.myGame.showMsg(ItemSet_Status());
         }
      </script>
      <!--UI-->
