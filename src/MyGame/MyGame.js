@@ -16,6 +16,8 @@ function MyGame() {
     this.kHeroPic = "assets/hero/tangseng_walk.png";
     this.kHeroJson = "assets/hero/tangseng_walk.json";
 
+    this.kHeroInfo = "assets/hero/character_info.json";
+
     this.kMapFile = "assets/map/map-1-dat.json";
     this.kMapBkg = "assets/map/map-1-bkg.png";
     this.kMapFrg = "assets/map/map-1-frg.png";
@@ -29,7 +31,6 @@ function MyGame() {
     this.mMapFreezed = false;
 
     this.mShowSmallMap = true;
-    this.mIsSpaceFreezed = false;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -40,6 +41,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroPic);
     gEngine.TextFileLoader.loadTextFile(this.kMapFile, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -70,6 +72,8 @@ MyGame.prototype.initialize = function () {
     this.mMainView = new MainView(this.mCamera);
     this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 520, 120, 120]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
+
+    CharacterSet_Init(this.kHeroInfo);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -100,7 +104,6 @@ MyGame.prototype.showMsg = function(msg) {
     document.getElementById('infoBox').style.display = "block";
     document.getElementById('info_0').innerText=msg;
     this.mMsgBoxShow = true;
-    this.mIsSpaceFreezed = true;
     this.mMapFreezed = true;
 };
 
@@ -113,7 +116,7 @@ MyGame.prototype.resetPos = function() {
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
-    if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
         if (this.mMsgBoxShow) {
             document.getElementById('infoBox').style.display = "none";
             document.getElementById('info_0').innerText=null;
@@ -203,13 +206,13 @@ MyGame.prototype.update = function () {
 };
 
 MyGame.prototype.pause = function() {
-    gEngine.GameLoop.stop();
+    this.mMapFreezed = true;
     document.getElementById('pauseUI').style.display = "block";
 };
 
 MyGame.prototype.resume = function() {
     document.getElementById('pauseUI').style.display = "none";
-    gEngine.GameLoop.resume();
+    this.mMapFreezed = false;
 };
 
 MyGame.prototype.getHero = function() {
