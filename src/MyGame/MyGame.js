@@ -22,6 +22,26 @@ function MyGame() {
     this.kMapBkg = "assets/map/map-1-bkg.png";
     this.kMapFrg = "assets/map/map-1-frg.png";
 
+    this.kPackageBg = "assets/package/package_bg.png";
+    this.kPackageBrick = "assets/package/package_brick.png";
+    this.kPackageUIBg = "assets/package/package_ui.png";
+    this.kPackageMoneyIcon = "assets/package/package_money_icon.png";
+    this.kPackageFontType = "assets/fonts/package_font";
+
+    // region food icon
+    this.kQueenPeach = "assets/props/queen_peach_icon.png";
+    this.kNineTurnDan = "assets/props/nine_turn_dan_icon.png";
+    this.kBloodOfDragon = "assets/props/blood_of_dragon_icon.png";
+    this.kSpiritOfDragon = "assets/props/spirit_of_dragon_icon.png";
+    this.kGlutinousRiceCongee = "assets/props/glutinous_rice_congee_icon.png";
+    this.kHamBone = "assets/props/ham_bone_icon.png";
+    this.kDongpoPork = "assets/props/dongpo_pork_icon.png";
+    this.kWhatsThis = "assets/props/whats_this_icon.png";
+    // endregion
+
+    this.mCurrentState = null;
+    this.mPreviousState = null;
+
     this.mCamera = null;
     this.mSmallCamera = null;
 
@@ -43,12 +63,49 @@ MyGame.prototype.loadScene = function () {
     gEngine.TextFileLoader.loadTextFile(this.kMapFile, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
+
+    gEngine.Textures.loadTexture(this.kPackageBg);
+    gEngine.Textures.loadTexture(this.kPackageBrick);
+    gEngine.Textures.loadTexture(this.kPackageUIBg);
+    gEngine.Textures.loadTexture(this.kPackageMoneyIcon);
+
+    gEngine.Textures.loadTexture(this.kQueenPeach);
+    gEngine.Textures.loadTexture(this.kNineTurnDan);
+    gEngine.Textures.loadTexture(this.kBloodOfDragon);
+    gEngine.Textures.loadTexture(this.kSpiritOfDragon);
+    gEngine.Textures.loadTexture(this.kGlutinousRiceCongee);
+    gEngine.Textures.loadTexture(this.kHamBone);
+    gEngine.Textures.loadTexture(this.kDongpoPork);
+    gEngine.Textures.loadTexture(this.kWhatsThis);
+
+
+    gEngine.Fonts.loadFont(this.kPackageFontType);
 };
 
 MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kMapBkg);
     gEngine.Textures.unloadTexture(this.kMapFrg);
     gEngine.Textures.unloadTexture(this.kHeroPic);
+
+    // region icons of package and props
+    /*
+    gEngine.Textures.unloadTexture(this.kPackageBg);
+    gEngine.Textures.unloadTexture(this.kPackageBrick);
+    gEngine.Textures.unloadTexture(this.kPackageUIBg);
+    gEngine.Textures.unloadTexture(this.kPackageMoneyIcon);
+
+    gEngine.Fonts.unloadFont(this.kPackageFontType);
+
+    gEngine.Textures.unloadTexture(this.kQueenPeach);
+    gEngine.Textures.unloadTexture(this.kNineTurnDan);
+    gEngine.Textures.unloadTexture(this.kBloodOfDragon);
+    gEngine.Textures.unloadTexture(this.kSpiritOfDragon);
+    gEngine.Textures.unloadTexture(this.kGlutinousRiceCongee);
+    gEngine.Textures.unloadTexture(this.kHamBone);
+    gEngine.Textures.unloadTexture(this.kDongpoPork);
+    gEngine.Textures.unloadTexture(this.kWhatsThis);
+    */
+    // endregion
 
     if (this.nextScene) {
         document.currentScene = this.nextScene;
@@ -59,7 +116,8 @@ MyGame.prototype.unloadScene = function () {
 MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
-    this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
+    this.mCurrentState = "BigMap";
+    this.mPreviousState = "BigMap";
 
     this.mAllParticles = new ParticleGameObjectSet();
 
@@ -68,17 +126,49 @@ MyGame.prototype.initialize = function () {
     this.mMapBkg = new Background(this.kMapBkg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
     this.mMapFrg = new Background(this.kMapFrg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
 
-    gEngine.LayerManager.cleanUp();
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
-
     this.mMyMap.addItems();
 
     this.mCamera = this.mMyMap.centerCamera(0.5, [0, 40, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
     this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 520, 120, 120]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
+
+    this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson, this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType/*, this.mCamera*/);
+
+    var propsSet = [];
+    propsSet[0] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
+    propsSet[1] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
+    propsSet[2] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
+    propsSet[3] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
+    propsSet[4] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
+    propsSet[5] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
+    propsSet[6] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
+    propsSet[7] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
+
+    // newbee help
+    var i;
+    for (i = 0; i < 8; i++) {
+        this.mMyHero.getPackage().addProps(propsSet[i]);
+    }
+    for (i = 2; i < 8; i++) {
+        this.mMyHero.getPackage().addProps(propsSet[i]);
+    }
+    for (i = 6; i < 8; i++) {
+        this.mMyHero.getPackage().addProps(propsSet[i]);
+    }
+
+
+    gEngine.LayerManager.cleanUp();
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
+
+    /*this.mMyMap.addItems();
+
+    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 40, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
+    this.mMainView = new MainView(this.mCamera);
+    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 520, 120, 120]);
+    this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);*/
 
     UIButton.displayButtonGroup('default-button-group');
 
@@ -102,20 +192,49 @@ MyGame.prototype.initialize = function () {
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 MyGame.prototype.draw = function () {
-    gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
-    this.mMainView.setup();
+    switch (this.mCurrentState) {
+        case "BigMap" : {
+            gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
-    /*draw as a whole main view view-port*/
-    gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
+            this.mMainView.setup();
 
-    if (this.mShowSmallMap) {
-        this.mSmallCamera.setupViewProjection();
-        var i;
-        for (i = 0; i < this.mMyMap.mItems.length; ++i)
-            this.mMyMap.mItems[i].draw(this.mSmallCamera);
-        this.mMyHero.getHero().draw(this.mSmallCamera);
+            /*draw as a whole main view view-port*/
+            gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
+
+            if (this.mShowSmallMap) {
+                this.mSmallCamera.setupViewProjection();
+                var i;
+                for (i = 0; i < this.mMyMap.mItems.length; ++i)
+                    this.mMyMap.mItems[i].draw(this.mSmallCamera);
+                this.mMyHero.getHero().draw(this.mSmallCamera);
+            }
+            break;
+        }
+        case "Package" : {
+            gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
+
+            this.mMainView.setup();
+
+            /*draw as a whole main view view-port*/
+            gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
+
+            if (this.mShowSmallMap) {
+                this.mSmallCamera.setupViewProjection();
+                var i;
+                for (i = 0; i < this.mMyMap.mItems.length; ++i)
+                    this.mMyMap.mItems[i].draw(this.mSmallCamera);
+                this.mMyHero.getHero().draw(this.mSmallCamera);
+            }
+
+            this.mMyHero.drawPackage(this.mCamera);
+            break;
+        }
+        case "Battle" : {
+            break;
+        }
     }
+
 };
 
 MyGame.prototype.increasShapeSize = function(obj, delta) {
@@ -151,82 +270,105 @@ MyGame.prototype.update = function () {
 
     }
 
-    var deltaX = 0.05;
-    var xform = this.mMyHero.getHero().getXform();
+    switch(this.mCurrentState) {
+        case "BigMap" :{
+            var deltaX = 0.05;
+            var xform = this.mMyHero.getHero().getXform();
 
-    this.moveCamera(xform);
+            this.moveCamera(xform);
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
-        this.mMyHero.walk("Right");
+            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
+                this.mMyHero.walk("Right");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
-            return ;
-        if (xform.getXPos() > this.mMyMap.mWidth - 0.5)
-            return ;
+                if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
+                    return ;
+                if (xform.getXPos() > this.mMyMap.mWidth - 0.5)
+                    return ;
 
-        xform.incXPosBy(deltaX);
+                xform.incXPosBy(deltaX);
+            }
+
+            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
+                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Up)) return ;
+                this.mMyHero.walk("Up");
+
+                if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
+                    return ;
+                if (xform.getYPos() > this.mMyMap.mHeight - 0.5)
+                    return ;
+
+                xform.incYPosBy(deltaX);
+            }
+
+            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
+                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Down)) return ;
+                this.mMyHero.walk("Down");
+
+                if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
+                    return ;
+                if (xform.getYPos() < 0.5)
+                    return ;
+
+                xform.incYPosBy(-deltaX);
+            }
+
+            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
+                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Left)) return ;
+                this.mMyHero.walk("Left");
+
+                if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
+                    return ;
+                if (xform.getXPos() < 0.5)
+                    return ;
+
+                xform.incXPosBy(-deltaX);
+            }
+
+            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Right)) {
+                this.mMyHero.stand("Right");
+            }
+
+            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Up)) {
+                this.mMyHero.stand("Up");
+            }
+
+            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Left)) {
+                this.mMyHero.stand("Left");
+            }
+
+            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
+                this.mMyHero.stand("Down");
+            }
+
+            var e = null;
+            if (e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos())) {
+                // console.log(e);
+                GameEvents.handle(this, e);
+            }
+
+            // this.mMyMap.clearEventBuffer(xform.getXPos(), xform.getYPos());
+
+            if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
+                this.mPreviousState = this.mCurrentState;
+                this.mCurrentState = "Package";
+            }
+        }
+        break;
+        case "Package" :{
+            var result = this.mMyHero.updatePackage(this.mMyHero, this.mCurrentState);
+            if (result == -1) {
+                this.mCurrentState = this.mPreviousState;
+                this.mPreviousState = "Package";
+            }
+        }
+        break;
+        case "Battle" :{
+
+        }
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Up)) return ;
-        this.mMyHero.walk("Up");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
-            return ;
-        if (xform.getYPos() > this.mMyMap.mHeight - 0.5)
-            return ;
-
-        xform.incYPosBy(deltaX);
-    }
-
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Down)) return ;
-        this.mMyHero.walk("Down");
-
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
-            return ;
-        if (xform.getYPos() < 0.5)
-            return ;
-
-        xform.incYPosBy(-deltaX);
-    }
-
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Left)) return ;
-        this.mMyHero.walk("Left");
-
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
-            return ;
-        if (xform.getXPos() < 0.5)
-            return ;
-
-        xform.incXPosBy(-deltaX);
-    }
-
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Right)) {
-        this.mMyHero.stand("Right");
-    }
-
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Up)) {
-        this.mMyHero.stand("Up");
-    }
-
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Left)) {
-        this.mMyHero.stand("Left");
-    }
-
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
-        this.mMyHero.stand("Down");
-    }
-
-    var e = null;
-    if (e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos())) {
-        // console.log(e);
-        GameEvents.handle(this, e);
-    }
-
-    // this.mMyMap.clearEventBuffer(xform.getXPos(), xform.getYPos());
 };
 
 MyGame.prototype.pause = function() {

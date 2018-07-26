@@ -1,4 +1,4 @@
-/* 
+/*
  * File: Camera.js
  * Encapsulates the user define WC and Viewport functionality
  */
@@ -15,7 +15,7 @@
  */
 function PerRenderCache() {
     this.mWCToPixelRatio = 1;  // WC to pixel transformation
-    this.mCameraOrgX = 1; // Lower-left corner of camera in WC 
+    this.mCameraOrgX = 1; // Lower-left corner of camera in WC
     this.mCameraOrgY = 1;
     this.mCameraPosInPixelSpace = vec3.fromValues(0, 0, 0); //
 }
@@ -34,7 +34,7 @@ function PerRenderCache() {
  * @param {Number} bound viewport border
  * @returns {Camera} New instance of Camera
  */
-function Camera(wcCenter, wcWidth, viewportArray, bound) {
+function Camera(wcCenter, wcWidth, viewportArray, isTransparent, bound) {
     // WC and viewport position and size
     this.mCameraState = new CameraState(wcCenter, wcWidth);
     this.mCameraShake = null;
@@ -48,9 +48,9 @@ function Camera(wcCenter, wcWidth, viewportArray, bound) {
     this.setViewport(viewportArray, this.mViewportBound);
     this.mNearPlane = 0;
     this.mFarPlane = 1000;
-    
+
     this.kCameraZ = 10;  // This is for illumination computation
-    
+
     // transformation matrices
     this.mViewMatrix = mat4.create();
     this.mProjMatrix = mat4.create();
@@ -63,9 +63,11 @@ function Camera(wcCenter, wcWidth, viewportArray, bound) {
     // needed for computing transforms for shaders
     // updated each time in SetupViewProjection()
     this.mRenderCache = new PerRenderCache();
-        // SHOULD NOT be used except 
+        // SHOULD NOT be used except
         // xform operations during the rendering
         // Client game should not access this!
+
+    this.mIsTransparent = isTransparent;
 }
 
 /**
@@ -164,7 +166,7 @@ Camera.prototype.getViewport = function () {
     out[1] = this.mScissorBound[1];
     out[2] = this.mScissorBound[2];
     out[3] = this.mScissorBound[3];
-    return out; 
+    return out;
 };
 //</editor-fold>
 
@@ -214,14 +216,18 @@ Camera.prototype.setupViewProjection = function () {
                this.mScissorBound[2], // width of the area to be drawn
                this.mScissorBound[3]);// height of the area to be drawn
     // Step A3: set the color to be clear
-    gl.clearColor(this.mBgColor[0], this.mBgColor[1], this.mBgColor[2], this.mBgColor[3]);  // set the color to be cleared
+    if (!this.mIsTransparent) {
+        gl.clearColor(this.mBgColor[0], this.mBgColor[1], this.mBgColor[2], this.mBgColor[3]);  // set the color to be cleared
+    }
     // Step A4: enable the scissor area, clear, and then disable the scissor area
     gl.enable(gl.SCISSOR_TEST);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    if (!this.mIsTransparent) {
+        gl.clear(gl.COLOR_BUFFER_BIT);
+    }
     gl.disable(gl.SCISSOR_TEST);
     //</editor-fold>
 
-    //<editor-fold desc="Step  B: Set up the View-Projection transform operator"> 
+    //<editor-fold desc="Step  B: Set up the View-Projection transform operator">
     // Step B1: define the view matrix
     var center = [];
     if (this.mCameraShake !== null) {
@@ -232,19 +238,19 @@ Camera.prototype.setupViewProjection = function () {
 
     mat4.lookAt(this.mViewMatrix,
         [center[0], center[1], this.kCameraZ],   // WC center
-        [center[0], center[1], 0],    // 
+        [center[0], center[1], 0],    //
         [0, 1, 0]);     // orientation
 
     // Step B2: define the projection matrix
     var halfWCWidth = 0.5 * this.getWCWidth();
-    var halfWCHeight = 0.5 * this.getWCHeight(); // 
+    var halfWCHeight = 0.5 * this.getWCHeight(); //
     mat4.ortho(this.mProjMatrix,
         -halfWCWidth,   // distance to left of WC
          halfWCWidth,   // distance to right of WC
         -halfWCHeight,  // distance to bottom of WC
          halfWCHeight,  // distance to top of WC
-         this.mNearPlane,   // z-distance to near plane 
-         this.mFarPlane  // z-distance to far plane 
+         this.mNearPlane,   // z-distance to near plane
+         this.mFarPlane  // z-distance to far plane
         );
 
     // Step B3: concatenate view and project matrices

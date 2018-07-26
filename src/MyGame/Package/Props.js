@@ -9,6 +9,44 @@ function Props(name, iconFile, description) {
 
     this.mNameText = new FontRenderable(name);
     this.mDescriptionText = new FontRenderable(description);
+
+    this.HP = this.VP = this.ATK = this.DEF = this.SPD = this.EXP = 0;
+    this.Money = 20;
+
+    switch(name) {
+        case "Queen Peach" :
+            this.HP = 9999;
+            this.Money = 800;
+            break;
+        case "Nine Turn Dan" :
+            this.VP = 9999;
+            this.Money = 800;
+            break;
+        case "Blood of Dragon" :
+            this.HP = 400;
+            this.Money = 200;
+            break;
+        case "Spirit of Dragon" :
+            this.VP = 400;
+            this.Money = 200;
+            break;
+        case "Ham Bone" :
+            this.HP = 250;
+            this.Money = 100;
+            break;
+        case "Glutinous Congee" :
+            this.VP = 250;
+            this.Money = 100;
+            break;
+        case "Dongpo Pork" :
+            this.ATK = 15;
+            this.Money = 800;
+            break;
+        case "What's this?" :
+            this.DEF = 15;
+            this.Money = 800;
+            break;
+    }
 }
 
 Props.prototype.getName = function () {
@@ -37,4 +75,20 @@ Props.prototype.showInfoByPos = function (fontType, leftX, topY, color, textH, a
     this.mDescriptionText.getXform().setPosition(leftX, topY);
     this.mDescriptionText.setTextHeight(textH);
     this.mDescriptionText.draw(aCamera);
+};
+
+Props.prototype.getHP = function () {
+    return (this.HP);
+};
+Props.prototype.getVP = function () {
+    return (this.VP);
+};
+Props.prototype.getATK = function () {
+    return (this.ATK);
+};
+Props.prototype.getDEF = function () {
+    return (this.DEF);
+};
+Props.prototype.getMoney = function () {
+    return (this.Money);
 };

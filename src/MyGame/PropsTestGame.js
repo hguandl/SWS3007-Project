@@ -62,7 +62,8 @@ PropsTestGame.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(50, 50), // position of the camera
         100,                     // width of camera
-        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+        [0, 0, 800, 600],         // viewport (orgX, orgY, width, height)
+        true
     );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
 
