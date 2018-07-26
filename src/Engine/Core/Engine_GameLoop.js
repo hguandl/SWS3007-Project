@@ -1,5 +1,5 @@
 /*
- * File: EngineCore_Loop.js 
+ * File: EngineCore_Loop.js
  * Implements the game loop functionality of gEngine
  */
 /*jslint node: true, vars: true, white: true */
@@ -66,7 +66,7 @@ gEngine.GameLoop = (function () {
 
     // update and draw functions must be set before this.
     var _startLoop = function () {
-        // Step A: reset frame time 
+        // Step A: reset frame time
         mPreviousTime = Date.now();
         mLagTime = 0.0;
 
@@ -94,15 +94,20 @@ gEngine.GameLoop = (function () {
         );
     };
 
+    var resume = function () {
+        _startLoop();
+    };
+
     /**
      * Stop the Gameloop's Loop
      * @memberOf gEngine.GameLoop
      * @returns {void}
      */
+
     var stop = function () {
         mIsLoopRunning = false;
     };
-    
+
     /**
      * Return the interval time of the GameLoop
      * @memberOf gEngine.GameLoop
@@ -111,10 +116,11 @@ gEngine.GameLoop = (function () {
     var getUpdateIntervalInSeconds = function () {
         return kFrameTime;
     };
-    
+
     var mPublic = {
         start: start,
         stop: stop,
+        resume: resume,
         getUpdateIntervalInSeconds: getUpdateIntervalInSeconds
     };
     return mPublic;

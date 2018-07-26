@@ -1,8 +1,15 @@
 "use strict";
 
+<<<<<<< HEAD
 function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) {
     this.mName = null;
 
+=======
+function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, characterType = _C.Hero) {
+    this.mName = null;
+
+    this.charaterType = characterType;
+>>>>>>> dev
     /* Reserved for next version
     // [0]: Icon Image
     // [1]: Dialog Figure Image
@@ -166,7 +173,7 @@ Character.prototype.incCurrentHP = function (delta) {
     } else if (this.mCurrentHP + delta <= 0) {
         this.mCurrentHP = 0;
     } else {
-    	this.mCurrentHP += delta;
+        this.mCurrentHP += delta;
     }
 };
 Character.prototype.incMaxHP = function (delta) {
@@ -185,7 +192,7 @@ Character.prototype.incCurrentVP = function (delta) {
     } else if (this.mCurrentVP + delta <= 0) {
         this.mCurrentVP = 0;
     } else {
-    	this.mCurrentVP += delta;
+        this.mCurrentVP += delta;
     }
 };
 Character.prototype.incMaxVP = function (delta) {

@@ -84,6 +84,12 @@ function Combat(topCharacter, monster) {
     };
 
     this.takeAttackAction = function () {
+
+        // add VP to attacker
+        if (this._action.param.attacker.charaterType === _C.Hero) {
+            this._action.param.attacker.mCurrentVP += _C.attackVP;
+        }
+        // calculate damage
         this._action.param.defender.mCurrentHP -= calDamage(this._action.param.attacker, this._action.param.defender);
         this._action.param.defender.mCurrentHP = Math.round(this._action.param.defender.mCurrentHP);
         // todo: animate

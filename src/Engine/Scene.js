@@ -1,4 +1,4 @@
-/* 
+/*
  * The template for a scene.
  */
 
@@ -13,7 +13,28 @@
  * @memberOf Scene
  * @returns {Scene}
  */
-function Scene() {}
+function Scene() {
+    window.mMsgBoxShow = false;
+    window.mMapFreezed = false;
+}
+
+Scene.prototype.showMsg = function (msg) {
+    document.getElementById('infoBox').style.display = "block";
+    document.getElementById('info_0').innerText = msg;
+    window.mMsgBoxShow = true;
+    window.mMapFreezed = true;
+};
+
+Scene.prototype.closeMsg = function (force) {
+    if (force || gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
+        if (window.mMsgBoxShow) {
+            document.getElementById('infoBox').style.display = "none";
+            document.getElementById('info_0').innerText = null;
+            window.mMsgBoxShow = false;
+            window.mMapFreezed = false;
+        }
+    }
+};
 
 //<editor-fold desc="functions subclass should override">
 /**
@@ -52,7 +73,8 @@ Scene.prototype.update = function () {
  * @memberOf Scene
  * @returns {void}
  */
-Scene.prototype.draw = function () {};
+Scene.prototype.draw = function () {
+};
 
 /**
  * Must unload all resources.

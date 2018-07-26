@@ -10,13 +10,13 @@
 var gEngine = gEngine || { };
 
 gEngine.LoadingIconConfig = (function () {
-    
+
     /**
      * A varuable used to keep track of total # of loads necessary for the laoding bar
      * @memberOf gEngine.LoadingIconConfig
      */
     var levelLoadCount=0;
-    
+
     /**
      * Creates the necessary elements needed for the loading screen
      * @memberOf gEngine.LoadingIconConfig
@@ -27,8 +27,8 @@ var setup = function(){
     document.getElementById("GLCanvas").width=cwidth.substr(0,cwidth.length - 2);
     document.getElementById("GLCanvas").height=cheight.substr(0,cheight.length - 2);
     document.write("<div class='LoadingSpinnerAnimation' id='LoadingSpinner'></div>");
-    document.write("<p class='LoadingDotsAnimation' id='LoadingDots'>Loading<span>.</span><span>.</span><span>.</span></p>");
-    document.write("<div id='LoadingScreenProgress'><div id='LoadingScreenBar'>0%</div></div>");
+    document.write("<p class='LoadingDotsAnimation LoadingFont' id='LoadingDots'>Loading<span>.</span><span>.</span><span>.</span></p>");
+    document.write("<div id='LoadingScreenProgress' class='LoadingFont'><div class='LoadingFont' id='LoadingScreenBar'>0%</div></div>");
 };
 
 /**
@@ -68,7 +68,7 @@ var loadingUpdate = function() {
 var loadCountReset = function() {
         levelLoadCount = 0;
     };
-    
+
     /**
      * Checks if a level is currently loading
      * @memberOf gEngine.LoadingIconConfig
@@ -76,7 +76,7 @@ var loadCountReset = function() {
     var isLevelSet = function() {
         return levelLoadCount!==0;
     };
-    
+
     /**
      * Returns the number of loads needed for the level
      * @memberOf gEngine.LoadingIconConfig
@@ -84,7 +84,7 @@ var loadCountReset = function() {
     var getLevelLoadCount = function() {
         return levelLoadCount;
     };
-    
+
     /**
      * Sets the progress bar amount to the number of loads needed for the level
      * @memberOf gEngine.LoadingIconConfig
