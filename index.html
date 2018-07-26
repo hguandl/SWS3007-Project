@@ -112,7 +112,6 @@
     <script type="text/javascript" src="src/MyGame/Characters/CharacterSet.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/Character.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/skill.js"></script>
-    <script type="text/javascript" src="src/MyGame/Characters/SkillList.js"></script>
 
     <!-- Items -->
     <script type="text/javascript" src="src/MyGame/Items/ItemSet.js"></script>
@@ -175,7 +174,7 @@
                     UIButton.displayButtonGroup('skill-button-group');
                     window.combatScene.topCharacter.displayAllSkills();
                 ">
-            skill
+            Skill
         </button>
         <button id="change-character-button" class="button button-parchment button-rounded"
                 onclick="
@@ -191,15 +190,15 @@
     </div>
     <div id="character-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
         <button id="Monkey-King-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkeyKing'}));">
+                onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'MonkeyKing'});">
             Monkey King
         </button>
         <button id="Pigsy-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'Pigsy'}));">
+                onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'Pigsy'});">
             Pigsy
         </button>
         <button id="Monk-Sha-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkSha'}));">
+                onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'MonkSha'});">
             Monk Sha
         </button>
         <button id="back-button-character" class="button button-parchment button-rounded"
@@ -208,21 +207,21 @@
         </button>
     </div>
     <div id="skill-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
+        <button id="skill0-button" class="button button-parchment button-rounded"
+                onclick="combatScene.takeAction(_C.skill, { skill: 0, });">
+            skill0
+        </button>
         <button id="skill1-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 1, }));">
+                onclick="combatScene.takeAction(_C.skill, { skill: 1, });">
             skill1
         </button>
         <button id="skill2-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 2, }));">
+                onclick="combatScene.takeAction(_C.skill, { skill: 2, });">
             skill2
         </button>
         <button id="skill3-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 3, }));">
+                onclick="combatScene.takeAction(_C.skill, { skill: 3, });">
             skill3
-        </button>
-        <button id="skill4-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 4, }));">
-            skill4
         </button>
         <button id="back-button-skill" class="button button-parchment button-rounded"
                 onclick="UIButton.displayButtonGroup('combat-button-group');">

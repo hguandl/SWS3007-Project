@@ -5,7 +5,16 @@
         "VP": 1000,
         "ATK": 200,
         "DEF": 100,
-        "SPD": 50
+        "SPD": 50,
+        "characterType": 1,
+        "skills": [
+            {
+                "name": "fiery eyes",
+                "VP": 300,
+                "defPercent": 40,
+                "turn": 5
+            }
+        ]
     },
     {
         "Name": "The Pigsy",
@@ -13,7 +22,8 @@
         "VP": 500,
         "ATK": 80,
         "DEF": 200,
-        "SPD": 30
+        "SPD": 30,
+        "characterType": 1
     },
     {
         "Name": "Monk Sha",
@@ -21,6 +31,7 @@
         "VP": 750,
         "ATK": 150,
         "DEF": 150,
-        "SPD": 40
+        "SPD": 40,
+        "characterType": 1
     }
 ]

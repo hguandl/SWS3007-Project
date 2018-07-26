@@ -1,23 +1,33 @@
 "use strict";
 
-function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, characterType, ...skills) {
+/**
+ *
+ * @param characterInfo {Object} - characterInfo应该包含以下内容：Name, HP, VP, ATK, DEF, SPD
+ * [, characterType (Monster - 0,  Hero - 1) , skills]。
+ * @param iconFile
+ * @param dialogFigureFile
+ * @param battleFigureFile
+ * @constructor
+ */
+function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, /*characterType, ...skills*/) {
     this.mName = null;
 
-    if (typeof  characterType !== "number")
-        characterType = _C.Hero;
+
     /** 玩家是monster还是hero
-     * @type {number}
+     * @type {number} : Monster - 0,  Hero - 1.
      */
-    this.charaterType = characterType;
-    /** 玩家状态
-     * @type {characterStatus[]}
-     */
+    this.charaterType = characterInfo["characterType"];
+    if (typeof this.characterType !== "number")
+        this.characterType = _C.Hero;
+    /**  @type {characterStatus[]} - 玩家状态  */
     this.status = [];
-    /**
-     *
-     * @type {skill[]}
-     */
-    this.skills = skills;
+    /**  @type {Skill[]}  */
+    this.skills = [];
+    if (characterInfo["skills"]) {
+        characterInfo["skills"].forEach(value => {
+            this.skills.push(SkillList.parseSkill(value));
+        });
+    }
 
     /* Reserved for next version
     // [0]: Icon Image
@@ -254,5 +264,6 @@ function createCharacterImage(textureFile) {
 Character.prototype.displayAllSkills = function() {
     this.skills.forEach((value, index) => {
         value.displaySkillOnButton(index);
+        console.debug(value);
     });
 };

@@ -11,8 +11,6 @@ function Combat(topCharacter, monster) {
     this.topCharacter = topCharacter;
     /** @type Character */
     this.monster = monster;
-    console.debug(topCharacter);
-    console.debug(monster);
 
     this.kBackground = "assets/map/combat_background_town.png";
     /**  @type Camera  */
@@ -71,6 +69,9 @@ function Combat(topCharacter, monster) {
 
     this.displayAction = function() {
         switch (this._action.type) {
+            case _C.skill:
+                this.takeSkillAction();
+                break;
             case _C.attack:
                 this.takeAttackAction();
                 break;
@@ -84,6 +85,10 @@ function Combat(topCharacter, monster) {
                 console.warn("unknown action type");
                 break;
         }
+    };
+
+    this.takeSkillAction = function () {
+        this._action.
     };
 
     this.takeAttackAction = function () {

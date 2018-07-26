@@ -1,17 +1,21 @@
 "use strict";
 
-class skill {
+class Skill {
     constructor(name, VP) {
         this.name = name;
         this.VP = VP;
     }
 
+    static parse(skillInfo) {
+        return new Skill(skillInfo["name"], skillInfo["VP"]);
+    }
+
     static getDescription() {
-        return "skill prototype description";
+        return "Skill prototype description";
     }
 
     getUsage() {
-        return "skill prototype usage";
+        return "Skill prototype usage";
     }
 
     useSkill(user, ...args) {
@@ -24,6 +28,7 @@ class skill {
      */
     displaySkillOnButton(index) {
         const btnId = "#skill" + index.toString() + "-button";
+        document.getElementById(btnId.slice(1)).innerText = this.name;
         $(btnId).text(this.name);
         const usage = this.getUsage();
         const mouseOn = function () {
@@ -36,9 +41,9 @@ class skill {
     }
 }
 
-class FieryEyes extends skill {
+class FieryEyes extends Skill {
     constructor(VP, defPercent, turn) {
-        super("fiery eyes with golden pupils", VP);
+        super("fiery eyes", VP);
         this.defPercent = defPercent;
         this.turn = turn;
     }
@@ -60,6 +65,41 @@ class FieryEyes extends skill {
         user.mCurrentVP += this.VP;
         aim.status.push(new BuffStatus("DEF", this.turn, this.defPercent, _C.percent));
     }
+
+    static parse(skillInfo) {
+        return new FieryEyes(skillInfo["VP"], skillInfo["defPercent"], skillInfo["turn"]);
+    }
 }
 
+/**
+ * This class stores all the Skill and there parameters.
+ */
+class SkillList {
+    static parseSkill(skillInfo) {
+        return window.allSkills[skillInfo["name"]].parse(skillInfo);
+    }
+}
+
+/**
+ *
+ * @type {{Skill}}
+ */
+window.allSkills = {
+    "fiery eyes": FieryEyes,
+
+};
+
+/**
+ * Replace the '%0', '%1', '%2 and so on with replacer. (the placeholder index must be continuous integer start from 0)
+ * @param string1: the string to format.
+ * @param replacer: string or any thing that can be convert to string.
+ * @returns {string}
+ */
+function formatString(string1, ...replacer) {
+    let rst = string1;
+    replacer.forEach((value, index) => {
+        rst = rst.replace("%" + index.toString(), value.toString());
+    });
+    return rst;
+}
 
