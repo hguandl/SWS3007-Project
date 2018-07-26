@@ -78,7 +78,6 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kDongpoPork);
     gEngine.Textures.loadTexture(this.kWhatsThis);
 
-
     gEngine.Fonts.loadFont(this.kPackageFontType);
 };
 
