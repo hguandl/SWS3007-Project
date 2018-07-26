@@ -1,15 +1,10 @@
 "use strict";
 
-<<<<<<< HEAD
-function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) {
-    this.mName = null;
 
-=======
 function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, characterType = _C.Hero) {
     this.mName = null;
 
     this.charaterType = characterType;
->>>>>>> dev
     /* Reserved for next version
     // [0]: Icon Image
     // [1]: Dialog Figure Image
