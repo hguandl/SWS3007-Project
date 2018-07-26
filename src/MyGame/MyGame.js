@@ -277,8 +277,8 @@ MyGame.prototype.update = function () {
 
             this.moveCamera(xform);
 
-            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
+            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.D)) return ;
                 this.mMyHero.walk("Right");
 
                 if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
@@ -289,8 +289,8 @@ MyGame.prototype.update = function () {
                 xform.incXPosBy(deltaX);
             }
 
-            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
-                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Up)) return ;
+            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
+                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.W)) return ;
                 this.mMyHero.walk("Up");
 
                 if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
@@ -301,8 +301,8 @@ MyGame.prototype.update = function () {
                 xform.incYPosBy(deltaX);
             }
 
-            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
-                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Down)) return ;
+            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.S)) return ;
                 this.mMyHero.walk("Down");
 
                 if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
@@ -313,8 +313,8 @@ MyGame.prototype.update = function () {
                 xform.incYPosBy(-deltaX);
             }
 
-            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Left)) return ;
+            if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+                if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.A)) return ;
                 this.mMyHero.walk("Left");
 
                 if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
@@ -325,19 +325,19 @@ MyGame.prototype.update = function () {
                 xform.incXPosBy(-deltaX);
             }
 
-            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Right)) {
+            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.D)) {
                 this.mMyHero.stand("Right");
             }
 
-            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Up)) {
+            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.W)) {
                 this.mMyHero.stand("Up");
             }
 
-            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Left)) {
+            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.A)) {
                 this.mMyHero.stand("Left");
             }
 
-            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
+            if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.S)) {
                 this.mMyHero.stand("Down");
             }
 

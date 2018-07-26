@@ -1,5 +1,7 @@
 "use strict";
 
+var PropsSet = [];
+
 function Props(name, iconFile, description) {
     this.mName = name;
     this.mIcon = new TextureRenderable(iconFile);
