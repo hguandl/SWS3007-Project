@@ -5,7 +5,7 @@ function PropsTestGame() {
     this.kSmallBlueIcon = "assets/smallblue_icon.png";
     this.kPackageIcon = "assets/packagebrick_0.png";
     this.kPackageBg = "assets/package_bg.png";
-    this.kUIBg = "assets/platform.png";
+    this.kUIBg = "assets/UI_bg0.png";
 
     this.kQueenPeach = "assets/props/queen_peach_icon.png";
     this.kNineTurnDan = "assets/props/nine_turn_dan_icon.png";
@@ -60,7 +60,7 @@ PropsTestGame.prototype.unloadScene = function () {
 
 PropsTestGame.prototype.initialize = function () {
     this.mCamera = new Camera(
-        vec2.fromValues(50, 40), // position of the camera
+        vec2.fromValues(50, 50), // position of the camera
         100,                     // width of camera
         [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
@@ -79,7 +79,7 @@ PropsTestGame.prototype.initialize = function () {
 
 
     // create package and add some props into it
-    this.mPackage = new Package("myPackage", this.kPackageIcon, this.kPackageBg, this.kPackageBg, this.kSystemDefaultFont, 10, this.mCamera);
+    this.mPackage = new Package("myPackage", this.kPackageIcon, this.kPackageBg, this.kUIBg, this.kSystemDefaultFont, 10, this.mCamera);
     this.mPackage.setCapacity(20);
     this.mPackage.addProps(this.mPropsSet[2]);
     this.mPackage.addProps(this.mPropsSet[3]);
@@ -96,15 +96,15 @@ PropsTestGame.prototype.initialize = function () {
     this.mPackage.addProps(this.mPropsSet[1]);
     this.mPackage.addProps(this.mPropsSet[0]);
 
-    this.mPackage.setRowColumn(5, 5);
-    this.mPackage.setBrickSize(9, 9);
+    this.mPackage.setRowColumn(4, 5);
+    this.mPackage.setBrickSize(7, 7);
     this.mPackage.setGapSize(0.6, 0.3);
     this.mPackage.setLeftTop(30, 70);
-    this.mPackage.setPropsDescColor([0.3, 0.1, 0.9, 0.7]);
+    this.mPackage.setPropsDescColor([0.3, 0.1, 0.5, 0.7]);
 
-    this.mPackage.setMoneyTextHeight(5);
+    this.mPackage.setMoneyTextHeight(4);
     this.mPackage.setMoneyColor([0, 0, 0.2, 0.8]);
-    this.mPackage.setMoney(100000000);
+    this.mPackage.setMoney(10000000);
 
 };
 

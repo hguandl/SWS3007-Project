@@ -3,8 +3,7 @@
 function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) {
     this.mName = null;
 
-    this.mCharacterInfo = characterInfo;
-
+    /* Reserved for next version
     // [0]: Icon Image
     // [1]: Dialog Figure Image
     // [2]: Battle Figure Image
@@ -12,8 +11,10 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) 
     this.mCharacterImageSet.push(createCharacterImage(iconFile));
     this.mCharacterImageSet.push(createCharacterImage(dialogFigureFile));
     this.mCharacterImageSet.push(createCharacterImage(battleFigureFile));
+    */
 
-    // movement support
+    /* Deprecated because there is only one hero on the map, which is MyGame.mMyHero
+    movement support
     this.mXSpeed = [];
     this.mYSpeed = [];
     this.mEndX = [];
@@ -29,15 +30,21 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) 
         this.mEndY[i] = -100;
         this.mIsShowing[i] = false;
     }
+    */
 
-    this.mName = this.mCharacterInfo.Name;
+    this.mName = characterInfo["Name"];
 
-    this.mMaxHP = this.mCurrentHP = characterInfo.HP;
-    this.mMaxVP = this.mCurrentVP = characterInfo.VP;
-    this.mATK = this.mCurrentATK = characterInfo.ATK;
-    this.mDEF = this.mCurrrentDEF = characterInfo.DEF;
-    this.mSPD = this.mCurrentSPD = characterInfo.SPD;
+    this.mMaxHP = this.mCurrentHP = characterInfo["HP"];
+    this.mMaxVP = characterInfo["VP"];
+    this.mCurrentVP = 0;
+    this.mATK = this.mCurrentATK = characterInfo["ATK"];
+    this.mDEF = this.mCurrrentDEF = characterInfo["DEF"];
+    this.mSPD = this.mCurrentSPD = characterInfo["SPD"];
 }
+
+Character.prototype.statusString = function() {
+    return String(this.mName + " - HP: " + this.mCurrentHP + "/" + this.mMaxHP + "; VP: " + this.mCurrentVP + "/" + this.mMaxVP);
+};
 
 //<editor-fold desc="set size functions">
 Character.prototype.setIconSize = function (width, height) {
@@ -158,6 +165,8 @@ Character.prototype.incCurrentHP = function (delta) {
         this.mCurrentHP = this.mMaxHP;
     } else if (this.mCurrentHP + delta <= 0) {
         this.mCurrentHP = 0;
+    } else {
+    	this.mCurrentHP += delta;
     }
 };
 Character.prototype.incMaxHP = function (delta) {
@@ -175,6 +184,8 @@ Character.prototype.incCurrentVP = function (delta) {
         this.mCurrentVP = this.mMaxVP;
     } else if (this.mCurrentVP + delta <= 0) {
         this.mCurrentVP = 0;
+    } else {
+    	this.mCurrentVP += delta;
     }
 };
 Character.prototype.incMaxVP = function (delta) {

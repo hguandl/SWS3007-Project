@@ -35,6 +35,11 @@ function Package(name, brickFile, bgFile, UIBgFile, fontType, capacity, aCamera)
     this.mLeftX = 0;
     this.mTopY = 0;
 
+    this.mBgXPos = 0;
+    this.mBgYPos = 0;
+    this.mBgWidth = 100;
+    this.mBgHeight = 100;
+
     this.mMoney = 1000;
     this.mMoneyH = 3;
     this.mMoneyColor = [0, 0, 0, 0.8];    // default color of money
@@ -51,6 +56,17 @@ function Package(name, brickFile, bgFile, UIBgFile, fontType, capacity, aCamera)
 
     this.mUIBgFile = UIBgFile;
     this.choosingUI = null;
+
+    this.setBgPosition(49, 50);
+    this.setBgSize(72, 72);
+    this.mBgFile.getXform().setPosition(this.mBgXPos, this.mBgYPos);
+    this.mBgFile.getXform().setSize(this.mBgWidth, this.mBgHeight);
+
+    this.mMoneyText = new FontRenderable("Money : " + this.mMoney);
+    this.mMoneyText.setFont(this.kFontType);
+    this.mMoneyText.setColor(this.mMoneyColor);
+    this.mMoneyText.getXform().setPosition(this.mBgXPos - 15, this.mBgYPos + 23);
+    this.mMoneyText.setTextHeight(this.mMoneyH);
 }
 
 
@@ -105,6 +121,16 @@ Package.prototype.setGapSize = function (x, y) {
 Package.prototype.setLeftTop = function (x, y) {
     this.mLeftX = x;
     this.mTopY = y;
+};
+
+Package.prototype.setBgPosition = function (x, y) {
+    this.mBgXPos = x;
+    this.mBgYPos = y;
+};
+
+Package.prototype.setBgSize = function (w, h) {
+    this.mBgWidth = w;
+    this.mBgHeight = h;
 };
 
 Package.prototype.setPropsDescColor = function (color) {
@@ -178,21 +204,14 @@ Package.prototype.drawAllProps = function (leftX, topY, width, height, aCamera) 
 var isChoosingUI = false;
 Package.prototype.draw = function (aCamera) {
 
-    var totalW = this.mColumn * (this.mBrickW + this.mGapX) - this.mGapX;
-    var totalH = this.mRow * (this.mBrickH + this.mGapY) - this.mGapY;
+
 
     // background of the package
-    this.mBgFile.getXform().setPosition(this.mLeftX + 0.5 * totalW, this.mTopY - 0.5 * totalH);
-    this.mBgFile.getXform().setSize(totalH + this.mGapY * 2 + 10, totalH + this.mGapY * 2 + 30);
     this.mBgFile.draw(aCamera);
 
     // show money
-    var m = new FontRenderable("Money : " + this.mMoney);
-    m.setFont(this.kFontType);
-    m.setColor(this.mMoneyColor);
-    m.getXform().setPosition(this.mLeftX, this.mTopY + this.mMoneyH);
-    m.setTextHeight(this.mMoneyH);
-    m.draw(aCamera);
+    this.mMoneyText.setText("$ " + this.mMoney);
+    this.mMoneyText.draw(aCamera);
 
     // draw bricks and props
     var i, j, count = 0;
@@ -202,7 +221,7 @@ Package.prototype.draw = function (aCamera) {
             var y = this.mTopY - i * (this.mBrickH + this.mGapY) - 0.5 * this.mBrickH;
             this.mBrick.getXform().setPosition(x, y);
 
-            if (i * this.mRow + j == this.mCurrentSelected) {
+            if (i * this.mColumn + j == this.mCurrentSelected) {
                 this.mBrick.getXform().setSize(this.mBrickW + 2, this.mBrickH + 2);
             } else {
                 this.mBrick.getXform().setSize(this.mBrickW, this.mBrickH);
@@ -220,8 +239,8 @@ Package.prototype.draw = function (aCamera) {
             }
 
             if (this.mCurrentShowing >= 0) {
-                this.mPropsSet[this.mCurrentShowing].showNameByPos(this.kFontType, this.mLeftX, this.mTopY - totalH - 2, this.mPropsSetColor, 3, this.mCamera);
-                this.mPropsSet[this.mCurrentShowing].showInfoByPos(this.kFontType, this.mLeftX, this.mTopY - totalH - 5, this.mPropsSetColor, 2, this.mCamera);
+                this.mPropsSet[this.mCurrentShowing].showNameByPos(this.kFontType, this.mLeftX + 1, this.mBgYPos - 15, this.mPropsSetColor, 3, this.mCamera);
+                this.mPropsSet[this.mCurrentShowing].showInfoByPos(this.kFontType, this.mLeftX, this.mBgYPos - 19, this.mPropsSetColor, 2, this.mCamera);
                 this.mCurrentShowing = -1;
             }
         }

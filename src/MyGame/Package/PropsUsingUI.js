@@ -13,8 +13,8 @@ function PropsUsingUI(bgFile, fontType, aCamera) {  // maybe the icons of 3 char
     this.mText = [];
     this.mTextColor = [1, 1, 1, 1];
     this.textH = 3;
-    this.leftX = 15;
-    this.topY = 20;
+    this.leftX = 20;
+    this.topY = 35;
 
     this.mCurrentSelected = 0;
 
@@ -23,7 +23,7 @@ function PropsUsingUI(bgFile, fontType, aCamera) {  // maybe the icons of 3 char
 
 PropsUsingUI.prototype.draw = function (aCamera) {
 
-    this.mBgFile.getXform().setPosition(50, 10);
+    this.mBgFile.getXform().setPosition(50, 30);
     this.mBgFile.getXform().setSize(120, 25);
     this.mBgFile.draw(this.mCamera);
 
