@@ -117,6 +117,10 @@
     <script type="text/javascript" src="src/MyGame/Items/ItemSet.js"></script>
     <script type="text/javascript" src="src/MyGame/Items/Item.js"></script>
 
+    <!-- Status -->
+    <script type="text/javascript" src="src/MyGame/StatusBar.js"></script>
+    <script type="text/javascript" src="src/MyGame/Viewport.js"></script>
+
     <!-- Game UI -->
     <script type="text/javascript" src="src/MyGame/UI/UIButton.js"></script>
     <script type="text/javascript" src="src/MyGame/utils/Const.js"></script>
@@ -136,7 +140,7 @@
 </head>
 
 <body>
-<div id="LoadingIconParent" style="width: 970px; height:640px; margin: 0 auto;">
+<div id="LoadingIconParent" style="width: 970px; height:720px; margin: 0 auto;">
     <canvas id="GLCanvas">
         <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
         Your browser does not support the HTML5 canvas.
@@ -145,7 +149,7 @@
     <script type="text/javascript"> gEngine.LoadingIconConfig.setup(); </script>
 
     <!--UI-->
-    <div id="default-button-group" class="UI-button-group button-group inCanvas" style="display: block;">
+    <div id="default-button-group" class="UI-button-group button-group inCanvas" style="display: none;">
         <button id="menu-button" class="button button-parchment button-rounded"
                 onclick="window.myGame.pause()">Menu
         </button>
@@ -248,10 +252,11 @@
 <script type="text/javascript">
     document.body.onload = function () {
         window.myGame = new MyGame();
-        gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);
-
+        window.statusBar = new StatusBar();
         window.combatScene = new Combat(testMonster, testCharacter);
+
         UIButton.displayButtonGroup('default-button-group');
+        gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);
     };
 
     function reset() {

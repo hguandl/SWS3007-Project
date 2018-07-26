@@ -164,6 +164,8 @@ Combat.prototype.initialize = function () {
 Combat.prototype.draw = function () {
     gEngine.Core.clearCanvas([1.0, 1.0, 1.0, 1.0]);
 
+    window.statusBar.draw();
+
     this.camera.setupViewProjection();
 
     /** next version
