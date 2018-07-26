@@ -2,7 +2,7 @@
  * This class stores all the skill and there parameters.
  */
 class SkillList {
-    static getParamNmae(skillName, argIndex) {
+    static getParamName(skillName, argIndex) {
         return allSkills[skillName]["args"][argIndex];
     }
 }
@@ -16,8 +16,8 @@ window.allSkills = {
         description: "The eyes of Monkey King is baked by the \"Samadhi Fire\", which makes it penetrating.",
         usage: "Decrease the defense of the enemy by %0 percent for %1 turn.",
         args: [
-            50, // 防御减少的百分比
-            5, // 回合
+            "defendPercent", // 防御减少的百分比
+            "turn", // 回合
         ],
     }
 };

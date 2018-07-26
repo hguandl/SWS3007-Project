@@ -7,14 +7,17 @@
  * @property displaying {boolean} : 是否正在显示战斗动画。设置为true会自动使得按钮不能使用，设置为false时按钮又可以使用了。
  */
 function Combat(topCharacter, monster) {
+    /** @type Character */
     this.topCharacter = topCharacter;
+    /** @type Character */
     this.monster = monster;
     console.debug(topCharacter);
     console.debug(monster);
 
     this.kBackground = "assets/map/combat_background_town.png";
-
+    /**  @type Camera  */
     this.camera = null;
+    /**  @type Action  */
     this._action = new Action(_C.none);
     this.combatResult = null;
 

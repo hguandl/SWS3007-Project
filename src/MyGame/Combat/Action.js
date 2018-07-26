@@ -1,5 +1,5 @@
 function calDamage (attacker, defender) {
-    return attacker.mATK * (100 / (defender.mDEF +100));
+    return attacker.mCurrentATK * (100 / (defender.mCurrentDEF +100));
 }
 
 /**

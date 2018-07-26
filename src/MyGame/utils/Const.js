@@ -18,7 +18,7 @@ let _C = {
     changeVP: 3,
 
     // Buff type
-    number: 0,
+    numeric: 0,
     percent: 1,
 
     // character type

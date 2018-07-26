@@ -1,9 +1,24 @@
 "use strict";
 
-function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, characterType = _C.Hero) {
+function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, characterType, ...skills) {
     this.mName = null;
 
+    if (typeof  characterType !== "number")
+        characterType = _C.Hero;
+    /** 玩家是monster还是hero
+     * @type {number}
+     */
     this.charaterType = characterType;
+    /** 玩家状态
+     * @type {characterStatus[]}
+     */
+    this.status = [];
+    /**
+     *
+     * @type {skill[]}
+     */
+    this.skills = skills;
+
     /* Reserved for next version
     // [0]: Icon Image
     // [1]: Dialog Figure Image
@@ -235,3 +250,9 @@ function createCharacterImage(textureFile) {
     image.getXform().setPosition(-100, -100);
     return image;
 }
+
+Character.prototype.displayAllSkills = function() {
+    this.skills.forEach((value, index) => {
+        value.displaySkillOnButton(index);
+    });
+};

@@ -52,8 +52,8 @@ class UIButton {
     }
 
     /**
-     * Set the number of custom buttons.
-     * @param buttonNumber {number} : An integer, the custom buttons number.
+     * Set the numeric of custom buttons.
+     * @param buttonNumber {number} : An integer, the custom buttons numeric.
      */
     static setCustomButtonNumber(buttonNumber) {
         const wrapper = document.getElementById("custom-button-group");
@@ -68,7 +68,7 @@ class UIButton {
     }
 
     /**
-     * @returns {number} : Custom buttons number.
+     * @returns {number} : Custom buttons numeric.
      */
     static getCustomButtonNumber() {
         return document.getElementById("custom-button-group").childNodes.length;
