@@ -84,7 +84,6 @@ function Combat(topCharacter, monster) {
     };
 
     this.takeAttackAction = function () {
-
         // add VP to attacker
         if (this._action.param.attacker.charaterType === _C.Hero) {
             this._action.param.attacker.mCurrentVP += _C.attackVP;
