@@ -22,6 +22,26 @@ function MyGame() {
     this.kMapBkg = "assets/map/map-1-bkg.png";
     this.kMapFrg = "assets/map/map-1-frg.png";
 
+    this.kPackageBg = "assets/package/package_bg.png";
+    this.kPackageBrick = "assets/package/package_brick.png";
+    this.kPackageUIBg = "assets/package/package_ui.png";
+    this.kPackageMoneyIcon = "assets/package/package_money_icon.png";
+    this.kPackageFontType = "assets/fonts/package_font";
+
+    // region food icon
+    this.kQueenPeach = "assets/props/queen_peach_icon.png";
+    this.kNineTurnDan = "assets/props/nine_turn_dan_icon.png";
+    this.kBloodOfDragon = "assets/props/blood_of_dragon_icon.png";
+    this.kSpiritOfDragon = "assets/props/spirit_of_dragon_icon.png";
+    this.kGlutinousRiceCongee = "assets/props/glutinous_rice_congee_icon.png";
+    this.kHamBone = "assets/props/ham_bone_icon.png";
+    this.kDongpoPork = "assets/props/dongpo_pork_icon.png";
+    this.kWhatsThis = "assets/props/whats_this_icon.png";
+    // endregion
+
+    this.mCurrentState = null;
+    this.mPreviousState = null;
+
     this.mCamera = null;
     this.mSmallCamera = null;
 
@@ -45,6 +65,22 @@ MyGame.prototype.loadScene = function () {
     gEngine.TextFileLoader.loadTextFile(this.kMapFile, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
+
+    gEngine.Textures.loadTexture(this.kPackageBg);
+    gEngine.Textures.loadTexture(this.kPackageBrick);
+    gEngine.Textures.loadTexture(this.kPackageUIBg);
+    gEngine.Textures.loadTexture(this.kPackageMoneyIcon);
+
+    gEngine.Textures.loadTexture(this.kQueenPeach);
+    gEngine.Textures.loadTexture(this.kNineTurnDan);
+    gEngine.Textures.loadTexture(this.kBloodOfDragon);
+    gEngine.Textures.loadTexture(this.kSpiritOfDragon);
+    gEngine.Textures.loadTexture(this.kGlutinousRiceCongee);
+    gEngine.Textures.loadTexture(this.kHamBone);
+    gEngine.Textures.loadTexture(this.kDongpoPork);
+    gEngine.Textures.loadTexture(this.kWhatsThis);
+
+    gEngine.Fonts.loadFont(this.kPackageFontType);
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -63,7 +99,11 @@ MyGame.prototype.initialize = function () {
 
     window.statusBar.initialize();
 
-    this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
+    this.mCurrentState = "BigMap";
+    this.mPreviousState = "BigMap";
+
+    // this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
+    this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson, this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType);
 
     this.mMyMap = new Map(this.kMapFile);
 
@@ -74,6 +114,28 @@ MyGame.prototype.initialize = function () {
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
+
+    var propsSet = [];
+    propsSet[0] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
+    propsSet[1] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
+    propsSet[2] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
+    propsSet[3] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
+    propsSet[4] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
+    propsSet[5] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
+    propsSet[6] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
+    propsSet[7] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
+
+
+    var i;
+    for (i = 0; i < 8; i++) {
+        this.mMyHero.getPackage().addProps(propsSet[i]);
+    }
+    for (i = 2; i < 8; i++) {
+        this.mMyHero.getPackage().addProps(propsSet[i]);
+    }
+    for (i = 6; i < 8; i++) {
+        this.mMyHero.getPackage().addProps(propsSet[i]);
+    }
 
     this.mMyMap.addItems();
 
@@ -104,19 +166,60 @@ MyGame.prototype.initialize = function () {
 // importantly, make sure to _NOT_ change any state.
 MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
-    window.statusBar.draw();
-    this.mMainView.setup();
+    // this.mMainView.setup();
 
-    /*draw as a whole main view view-port*/
-    gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
+    // /*draw as a whole main view view-port*/
+    // gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
 
-    if (this.mShowSmallMap) {
-        this.mSmallCamera.setupViewProjection();
-        var i;
-        for (i = 0; i < this.mMyMap.mItems.length; ++i)
-            this.mMyMap.mItems[i].draw(this.mSmallCamera);
-        this.mMyHero.getHero().draw(this.mSmallCamera);
+    // if (this.mShowSmallMap) {
+    //     this.mSmallCamera.setupViewProjection();
+    //     var i;
+    //     for (i = 0; i < this.mMyMap.mItems.length; ++i)
+    //         this.mMyMap.mItems[i].draw(this.mSmallCamera);
+    //     this.mMyHero.getHero().draw(this.mSmallCamera);
+    // }
+    switch (this.mCurrentState) {
+        case "BigMap" : {
+            gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
+
+            this.mMainView.setup();
+
+            /*draw as a whole main view view-port*/
+            gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
+
+            if (this.mShowSmallMap) {
+                this.mSmallCamera.setupViewProjection();
+                var i;
+                for (i = 0; i < this.mMyMap.mItems.length; ++i)
+                    this.mMyMap.mItems[i].draw(this.mSmallCamera);
+                this.mMyHero.getHero().draw(this.mSmallCamera);
+            }
+            break;
+        }
+        case "Package" : {
+            gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
+
+            this.mMainView.setup();
+
+            /*draw as a whole main view view-port*/
+            gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
+
+            if (this.mShowSmallMap) {
+                this.mSmallCamera.setupViewProjection();
+                var i;
+                for (i = 0; i < this.mMyMap.mItems.length; ++i)
+                    this.mMyMap.mItems[i].draw(this.mSmallCamera);
+                this.mMyHero.getHero().draw(this.mSmallCamera);
+            }
+
+            this.mMyHero.drawPackage(this.mCamera);
+            break;
+        }
+        case "Battle" : {
+            break;
+        }
     }
+    window.statusBar.draw();
 };
 
 MyGame.prototype.increasShapeSize = function(obj, delta) {
@@ -136,6 +239,11 @@ MyGame.prototype.update = function () {
     this.closeMsg();
 
     window.statusBar.update();
+
+    if (this.mMyHero.updatePackage(this.mCurrentState) == -1) {
+        this.mCurrentState = this.mPreviousState;
+        this.mPreviousState = "Package";
+    }
     if (window.mMapFreezed) return ;
 
     switch (this.startMsg) {
@@ -221,6 +329,11 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
         this.mMyHero.stand("Down");
+    }
+
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
+        this.mPreviousState = this.mCurrentState;
+        this.mCurrentState = "Package";
     }
 
     var e = null;
