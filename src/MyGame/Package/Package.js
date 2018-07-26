@@ -1,6 +1,7 @@
 "use strict";
 
-function Package(name, bgFile, brickFile, UIBgFile, moneyIconFile, fontType, capacity/*, aCamera*/) {
+function Package(bgFile, brickFile, UIBgFile, moneyIconFile, fontType, capacity/*, aCamera*/) {
+    var name = "Items";
 
     this.kFontType = fontType;
 
@@ -206,7 +207,7 @@ var isFirstClicked;
 var latestPressedAloneKey;
 // when exiting, return -1
 // if aCurState = "Battle", after using one props, immediately return -1
-Package.prototype.update = function (aHero, aCurState) {
+Package.prototype.update = function () {
 
     if (!isChoosingUI) {
 
@@ -366,9 +367,6 @@ Package.prototype.update = function (aHero, aCurState) {
                 CharacterSet[0].incCurrentDEF(dDEF);
                 this.mPropsSet.splice(this.mCurrentSelected, 1);
                 this.mSize--;
-                if (aCurState == "Battle") {
-                    return -1;
-                }
                 break;
             case 2:
                 isChoosingUI = false;
@@ -380,9 +378,6 @@ Package.prototype.update = function (aHero, aCurState) {
                 CharacterSet[1].incCurrentDEF(dDEF);
                 this.mPropsSet.splice(this.mCurrentSelected, 1);
                 this.mSize--;
-                if (aCurState == "Battle") {
-                    return -1;
-                }
                 break;
             case 3:
                 isChoosingUI = false;
@@ -393,14 +388,11 @@ Package.prototype.update = function (aHero, aCurState) {
                 CharacterSet[2].incCurrentDEF(dDEF);
                 this.mPropsSet.splice(this.mCurrentSelected, 1);
                 this.mSize--;
-                if (aCurState == "Battle") {
-                    return -1;
-                }
                 break;
             case 4:
                 isChoosingUI = false;
 
-                aHero.getPackage().incMoney(dM);
+                this.incMoney(dM);
                 this.mPropsSet.splice(this.mCurrentSelected, 1);
                 this.mSize--;
         }

@@ -21,8 +21,6 @@ function StatusBar() {
     this.mBar = null;
     this.mHP = [];
     this.mVP = [];
-
-    this.mShowContent = "character";
 }
 
 StatusBar.prototype.unloadScene = function () {
@@ -34,7 +32,7 @@ StatusBar.prototype.initialize = function () {
 
     this.mBarCamera = new Camera(
         vec2.fromValues(0, 2015),   // position of the camera
-        1024,                        // width of camera
+        1024,                     // width of camera
         [0, 0, 970, 120]        // viewport (orgX, orgY, width, height)
     );
     this.mBarCamera.setBackgroundColor([1, 0, 0, 0]);
@@ -51,10 +49,6 @@ StatusBar.prototype.initialize = function () {
         this.mHP[i].getXform().setPosition(-210 + i * 290, 2030);
         this.mHP[i].getXform().setSize(130, 20);
     }
-    // this.mHP = new Renderable();
-    // this.mHP.setColor([.9921975, .25283019, .39453125, 0.5]);
-    // this.mHP.getXform().setPosition(-210, 2030);
-    // this.mHP.getXform().setSize(130, 20);
 
     for (i = 0; i < 3; ++i) {
         this.mVP.push(new Renderable());

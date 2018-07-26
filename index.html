@@ -113,10 +113,6 @@
     <script type="text/javascript" src="src/MyGame/Characters/skill.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/SkillList.js"></script>
 
-    <!-- Items -->
-    <script type="text/javascript" src="src/MyGame/Items/ItemSet.js"></script>
-    <script type="text/javascript" src="src/MyGame/Items/Item.js"></script>
-
     <!-- Status -->
     <script type="text/javascript" src="src/MyGame/StatusBar.js"></script>
     <script type="text/javascript" src="src/MyGame/Viewport.js"></script>
@@ -145,7 +141,7 @@
 </head>
 
 <body>
-<div id="LoadingIconParent" style="width: 970px; height:720px; margin: 0 auto;">
+<div id="LoadingIconParent" style="width: 970px; height:600px; margin: 0 auto;">
     <canvas id="GLCanvas">
         <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
         Your browser does not support the HTML5 canvas.
@@ -159,10 +155,10 @@
                 onclick="window.myGame.pause()">Menu
         </button>
         <button id="item-button" class="button button-parchment button-rounded"
-                onclick="itemInfo()">Item
+                onclick="switchPackage()">Item
         </button>
         <button id="character-button" class="button button-parchment button-rounded"
-                onclick="characterInfo()">Character
+                onclick="switchStatusBar()">Character
         </button>
         <button id="small-map-button" class="button button-parchment button-rounded"
                 onclick="window.myGame.mShowSmallMap = !window.myGame.mShowSmallMap;">Small Map
@@ -183,14 +179,10 @@
             skill
         </button>
         <button id="change-character-button" class="button button-parchment button-rounded"
-                onclick="
-                    characterInfo();
-                    //UIButton.displayButtonGroup('character-button-group');
-                ">
-            character
+                onclick="switchStatusBar();">character
         </button>
         <button id="use-item-button" class="button button-parchment button-rounded"
-                onclick="">
+                onclick="switchPackage()">
             item
         </button>
     </div>
@@ -258,7 +250,11 @@
     document.body.onload = function () {
         window.myGame = new MyGame();
         window.statusBar = new StatusBar();
+        window.package = null;
         window.combatScene = new Combat(testMonster, testCharacter);
+
+        document.mShowPackage = false;
+        document.mShowStatusBar = false;
 
         UIButton.displayButtonGroup('default-button-group');
         gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);
@@ -284,16 +280,19 @@
     }
 
     function characterInfo() {
-        window.statusBar.mShowContent = "character";
-        // document.currentScene.showMsg(CharacterSet_Status());
+        document.currentScene.showMsg(CharacterSet_Status());
     }
 
     function updateCharacterStatus() {
         document.getElementById('info_0').innerText = CharacterSet_Status();
     }
 
-    function itemInfo() {
-        document.currentScene.showMsg(ItemSet_Status());
+    function switchPackage() {
+        document.mShowPackage = !document.mShowPackage;
+    }
+
+    function switchStatusBar() {
+        document.mShowStatusBar = !document.mShowStatusBar;
     }
 </script>
 

@@ -98,12 +98,13 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
     window.statusBar.initialize();
+    window.package = new Package(this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType, 20);
 
     this.mCurrentState = "BigMap";
     this.mPreviousState = "BigMap";
 
     // this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
-    this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson, this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType);
+    this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
     this.mMyMap = new Map(this.kMapFile);
 
@@ -125,23 +126,22 @@ MyGame.prototype.initialize = function () {
     propsSet[6] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
     propsSet[7] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
 
-
     var i;
     for (i = 0; i < 8; i++) {
-        this.mMyHero.getPackage().addProps(propsSet[i]);
+        window.package.addProps(propsSet[i]);
     }
     for (i = 2; i < 8; i++) {
-        this.mMyHero.getPackage().addProps(propsSet[i]);
+        window.package.addProps(propsSet[i]);
     }
     for (i = 6; i < 8; i++) {
-        this.mMyHero.getPackage().addProps(propsSet[i]);
+        window.package.addProps(propsSet[i]);
     }
 
     this.mMyMap.addItems();
 
-    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 120, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
+    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 0, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
-    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 600, 120, 120]);
+    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 480, 120, 120]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
     UIButton.displayButtonGroup('default-button-group');
@@ -149,7 +149,6 @@ MyGame.prototype.initialize = function () {
     switch (window.combatScene.combatResult) {
         case "win":
             this.startMsg = 1;
-            ItemSet_addItem("Key", 1);
             break;
         case "lose":
             this.startMsg = 2;
@@ -158,68 +157,33 @@ MyGame.prototype.initialize = function () {
 
     if (window.combatScene.combatResult !== null) return ;
     CharacterSet_Init(this.kHeroInfo);
-    ItemSet_addItem("Peach", 10);
-    ItemSet_addItem("Baozi", 5);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
-    // this.mMainView.setup();
+    gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]);
 
-    // /*draw as a whole main view view-port*/
-    // gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
+    this.mMainView.setup();
 
-    // if (this.mShowSmallMap) {
-    //     this.mSmallCamera.setupViewProjection();
-    //     var i;
-    //     for (i = 0; i < this.mMyMap.mItems.length; ++i)
-    //         this.mMyMap.mItems[i].draw(this.mSmallCamera);
-    //     this.mMyHero.getHero().draw(this.mSmallCamera);
-    // }
-    switch (this.mCurrentState) {
-        case "BigMap" : {
-            gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
+    gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
 
-            this.mMainView.setup();
-
-            /*draw as a whole main view view-port*/
-            gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
-
-            if (this.mShowSmallMap) {
-                this.mSmallCamera.setupViewProjection();
-                var i;
-                for (i = 0; i < this.mMyMap.mItems.length; ++i)
-                    this.mMyMap.mItems[i].draw(this.mSmallCamera);
-                this.mMyHero.getHero().draw(this.mSmallCamera);
-            }
-            break;
-        }
-        case "Package" : {
-            gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
-
-            this.mMainView.setup();
-
-            /*draw as a whole main view view-port*/
-            gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
-
-            if (this.mShowSmallMap) {
-                this.mSmallCamera.setupViewProjection();
-                var i;
-                for (i = 0; i < this.mMyMap.mItems.length; ++i)
-                    this.mMyMap.mItems[i].draw(this.mSmallCamera);
-                this.mMyHero.getHero().draw(this.mSmallCamera);
-            }
-
-            this.mMyHero.drawPackage(this.mCamera);
-            break;
-        }
-        case "Battle" : {
-            break;
-        }
+    if (this.mShowSmallMap) {
+        this.mSmallCamera.setupViewProjection();
+        var i;
+        for (i = 0; i < this.mMyMap.mItems.length; ++i)
+            this.mMyMap.mItems[i].draw(this.mSmallCamera);
+        this.mMyHero.getHero().draw(this.mSmallCamera);
     }
-    window.statusBar.draw();
+
+    if (document.mShowPackage) {
+        window.package.draw();
+    }
+
+    if (document.mShowStatusBar) {
+        window.statusBar.draw();
+    }
 };
 
 MyGame.prototype.increasShapeSize = function(obj, delta) {
@@ -240,10 +204,8 @@ MyGame.prototype.update = function () {
 
     window.statusBar.update();
 
-    if (this.mMyHero.updatePackage(this.mCurrentState) == -1) {
-        this.mCurrentState = this.mPreviousState;
-        this.mPreviousState = "Package";
-    }
+    window.package.update();
+
     if (window.mMapFreezed) return ;
 
     switch (this.startMsg) {
@@ -329,11 +291,6 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
         this.mMyHero.stand("Down");
-    }
-
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
-        this.mPreviousState = this.mCurrentState;
-        this.mCurrentState = "Package";
     }
 
     var e = null;

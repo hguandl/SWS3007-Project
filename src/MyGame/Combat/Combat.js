@@ -146,9 +146,6 @@ Combat.prototype.initialize = function () {
      this.monster.setBattleFigurePosition(22, 0);
      */
 
-    // this.mMapBkg = new Background(this.kBackground, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
-    // gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
-
     this.characterIcon = new TextureRenderable(this.topCharacter.iconURL);  // todo: 商量iconURL的接口，该接口用于获取icon的URL
     this.characterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
     this.characterIcon.getXform().setPosition(-22, 0);
@@ -158,13 +155,12 @@ Combat.prototype.initialize = function () {
     this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
     this.monsterIcon.getXform().setPosition(22, 0);
     this.monsterIcon.getXform().setSize(20, 20);
-    characterInfo();
+
+    document.mShowStatusBar = true;
 };
 
 Combat.prototype.draw = function () {
     gEngine.Core.clearCanvas([1.0, 1.0, 1.0, 1.0]);
-
-    window.statusBar.draw();
 
     this.camera.setupViewProjection();
 
@@ -176,12 +172,22 @@ Combat.prototype.draw = function () {
 
     this.characterIcon.draw(this.camera);
     this.monsterIcon.draw(this.camera);
+
+
+    if (document.mShowPackage) {
+        window.package.draw();
+    }
+
+    if (document.mShowStatusBar) {
+        window.statusBar.draw();
+    }
 };
 
 Combat.prototype.update = function () {
     this.closeMsg();
     window.statusBar.update();
-    // updateCharacterStatus();
+    window.package.update();
+    updateCharacterStatus();
 
     // if (this._action.type === _C.none)
     //     return;

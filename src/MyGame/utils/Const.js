@@ -1,5 +1,5 @@
 let _C = {
-    gameViewport: [0, 120, 970, 600],       // viewport (orgX, orgY, width, height)
+    gameViewport: [0, 0, 970, 600],       // viewport (orgX, orgY, width, height)
     attackVP: 10,
 
     // action
