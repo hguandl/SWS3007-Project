@@ -9,8 +9,8 @@
 function Combat(topCharacter, monster) {
     this.topCharacter = topCharacter;
     this.monster = monster;
-    console.debug(topCharacter);
-    console.debug(monster);
+    // console.debug(topCharacter);
+    // console.debug(monster);
 
     this.kBackground = "assets/map/combat_background_town.png";
 
@@ -180,8 +180,8 @@ Combat.prototype.draw = function () {
 
 Combat.prototype.update = function () {
     this.closeMsg();
-
-    updateCharacterStatus();
+    window.statusBar.update();
+    // updateCharacterStatus();
 
     // if (this._action.type === _C.none)
     //     return;

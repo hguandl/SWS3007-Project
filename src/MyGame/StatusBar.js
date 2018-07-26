@@ -21,6 +21,8 @@ function StatusBar() {
     this.mBar = null;
     this.mHP = [];
     this.mVP = [];
+
+    this.mShowContent = "character";
 }
 
 StatusBar.prototype.unloadScene = function () {
@@ -80,48 +82,38 @@ StatusBar.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 
-StatusBar.prototype.incHP = function (delta, i) {
-    // ratio between Bar length and HP, of the ith Hero
-    var ratio = 130 / CharacterSet[i].getMaxHP();
-    var delta_len = ratio * delta;
-
-    // 130是HP VP条的长度
-    var current_width = this.mHP[i].getXform().getWidth();
-    if (current_width + delta_len > 130) {
-        delta_len = 130 - current_width;
-        this.mHP[i].getXform().incWidthBy(delta_len);
-        this.mHP[i].getXform().incXPosBy(delta_len / 2);
-    }
-    else if (current_width + delta_len < 0) {
-        delta_len = -current_width;
-        this.mHP[i].getXform().incWidthBy(delta_len);
-        this.mHP[i].getXform().incXPosBy(delta_len / 2);
-    }
-    else {
-        this.mHP[i].getXform().incWidthBy(delta_len);
-        this.mHP[i].getXform().incXPosBy(delta_len / 2);
+StatusBar.prototype.update = function() {
+    var i;
+    for (i = 0; i < CharacterSet.length; ++i) {
+        this.updateHP(i);
+        this.updateVP(i);
     }
 };
 
-StatusBar.prototype.incVP = function (delta, i) {
-    // ratio between Bar length and HP, of the ith Hero
-    var ratio = 130 / CharacterSet[i].getMaxVP();
-    var delta_len = ratio * delta;
+StatusBar.prototype.updateHP = function (i) {
+    var maxHP = CharacterSet[i].getMaxHP();
+    var currentHP = CharacterSet[i].getCurrentHP();
 
-    // 130是HP VP条的长度
-    var current_width = this.mVP[i].getXform().getWidth();
-    if (current_width + delta_len > 130) {
-        delta_len = 130 - current_width;
-        this.mVP[i].getXform().incWidthBy(delta_len);
-        this.mVP[i].getXform().incXPosBy(delta_len / 2);
-    }
-    else if (current_width + delta_len < 0) {
-        delta_len = -current_width;
-        this.mVP[i].getXform().incWidthBy(delta_len);
-        this.mVP[i].getXform().incXPosBy(delta_len / 2);
-    }
-    else {
-        this.mVP[i].getXform().incWidthBy(delta_len);
-        this.mVP[i].getXform().incXPosBy(delta_len / 2);
-    }
+    if (currentHP > maxHP) currentHP = maxHP;
+    if (currentHP < 0) currentHP = 0;
+
+    var newLength = 130 * currentHP / maxHP;
+    var oriLength = this.mHP[i].getXform().getWidth();
+
+    this.mHP[i].getXform().setWidth(newLength);
+    this.mHP[i].getXform().incXPosBy((newLength - oriLength) / 2);
+};
+
+StatusBar.prototype.updateVP = function (i) {
+    var maxVP = CharacterSet[i].getMaxVP();
+    var currentVP = CharacterSet[i].getCurrentVP();
+
+    if (currentVP > maxVP) currentVP = maxVP;
+    if (currentVP < 0) currentVP = 0;
+
+    var newLength = 130 * currentVP / maxVP;
+    var oriLength = this.mVP[i].getXform().getWidth();
+
+    this.mVP[i].getXform().setWidth(newLength);
+    this.mVP[i].getXform().incXPosBy((newLength - oriLength) / 2);
 };

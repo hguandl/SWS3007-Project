@@ -279,7 +279,8 @@
     }
 
     function characterInfo() {
-        document.currentScene.showMsg(CharacterSet_Status());
+        window.statusBar.mShowContent = "character";
+        // document.currentScene.showMsg(CharacterSet_Status());
     }
 
     function updateCharacterStatus() {
@@ -293,7 +294,7 @@
 
 <!-- Dialog -->
 
-<a class="button button-parchment button-rounded" onclick="ShowDiv('MyDiv','fade')">new dialog</a>
+<!-- <a class="button button-parchment button-rounded" onclick="ShowDiv('MyDiv','fade')">new dialog</a>-->
 
 <!--弹出层时背景层DIV---start-->
 <div id="UI-dialog">

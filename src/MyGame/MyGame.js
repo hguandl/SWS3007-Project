@@ -59,13 +59,11 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    // gEngine.DefaultResources.setGlobalAmbientIntensity(3);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
     window.statusBar.initialize();
 
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
-
-    // this.mAllParticles = new ParticleGameObjectSet();
 
     this.mMyMap = new Map(this.kMapFile);
 
@@ -81,7 +79,7 @@ MyGame.prototype.initialize = function () {
 
     this.mCamera = this.mMyMap.centerCamera(0.5, [0, 120, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
-    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 520, 120, 120]);
+    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 600, 120, 120]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
     UIButton.displayButtonGroup('default-button-group');
@@ -106,7 +104,7 @@ MyGame.prototype.initialize = function () {
 // importantly, make sure to _NOT_ change any state.
 MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
-    // window.statusBar.draw();
+    window.statusBar.draw();
     this.mMainView.setup();
 
     /*draw as a whole main view view-port*/
@@ -119,7 +117,6 @@ MyGame.prototype.draw = function () {
             this.mMyMap.mItems[i].draw(this.mSmallCamera);
         this.mMyHero.getHero().draw(this.mSmallCamera);
     }
-
 };
 
 MyGame.prototype.increasShapeSize = function(obj, delta) {
@@ -137,6 +134,8 @@ MyGame.prototype.resetPos = function() {
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
     this.closeMsg();
+
+    window.statusBar.update();
     if (window.mMapFreezed) return ;
 
     switch (this.startMsg) {
@@ -229,7 +228,6 @@ MyGame.prototype.update = function () {
         // console.log(e);
         GameEvents.handle(this, e);
     }
-
     // this.mMyMap.clearEventBuffer(xform.getXPos(), xform.getYPos());
 };
 
