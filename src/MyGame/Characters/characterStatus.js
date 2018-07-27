@@ -24,7 +24,7 @@ class BuffStatus extends characterStatus {
      * @param [effectType = _C.percent] {number} : 是按照百分比计算还是按照数值计算
      */
     constructor(attributeName, turn, value, effectType = _C.percent) {
-        super(_C.changeAttribute);
+        super(_C.BuffStatus);
         this.attributeName = attributeName;
         this.turn = turn;
         this.value = value;

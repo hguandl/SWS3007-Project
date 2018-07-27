@@ -35,6 +35,8 @@ function Combat(topCharacter, monster) {
 
         this._action = makeAction(actionType, actionParam);
 
+        this.computeCharacterStatus();
+
         this.displayAction();
 
         this.checkAlive();
@@ -47,12 +49,20 @@ function Combat(topCharacter, monster) {
             attacker: this.monster,
             defender: this.topCharacter,
         });
+
+        this.computeCharacterStatus();
+
         this.displayAction();
 
         this.checkAlive();
 
         // end turn
         this.status = _C.waiting;
+    };
+
+    this.computeCharacterStatus = function() {
+        this.topCharacter.computeStatus();
+        this.monster.computeStatus();
     };
 
     this.checkAlive = function() {
@@ -88,7 +98,7 @@ function Combat(topCharacter, monster) {
     };
 
     this.takeSkillAction = function () {
-        this._action.
+        this._action.param.skill.useSkill(this._action.param.user, this._action.param.aim);
     };
 
     this.takeAttackAction = function () {

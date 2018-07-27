@@ -12,7 +12,6 @@
 function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, /*characterType, ...skills*/) {
     this.mName = null;
 
-
     /** 玩家是monster还是hero
      * @type {number} : Monster - 0,  Hero - 1.
      */
@@ -68,7 +67,7 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
     this.mSPD = this.mCurrentSPD = characterInfo["SPD"];
 }
 
-Character.prototype.statusString = function() {
+Character.prototype.statusString = function () {
     return String(this.mName + " - HP: " + this.mCurrentHP + "/" + this.mMaxHP + "; VP: " + this.mCurrentVP + "/" + this.mMaxVP);
 };
 
@@ -261,9 +260,16 @@ function createCharacterImage(textureFile) {
     return image;
 }
 
-Character.prototype.displayAllSkills = function() {
+Character.prototype.displayAllSkills = function () {
     this.skills.forEach((value, index) => {
         value.displaySkillOnButton(index);
-        console.debug(value);
     });
+};
+
+Character.prototype.computeStatus = function () {
+    let i, status;
+    for (i = 0; i < this.status.length; i++) {
+        status = this.status[i];
+        status.computeStatus(this);
+    }
 };

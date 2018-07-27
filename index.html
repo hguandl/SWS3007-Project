@@ -112,6 +112,7 @@
     <script type="text/javascript" src="src/MyGame/Characters/CharacterSet.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/Character.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/skill.js"></script>
+    <script type="text/javascript" src="src/MyGame/Characters/characterStatus.js"></script>
 
     <!-- Items -->
     <script type="text/javascript" src="src/MyGame/Items/ItemSet.js"></script>
@@ -208,7 +209,13 @@
     </div>
     <div id="skill-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
         <button id="skill0-button" class="button button-parchment button-rounded"
-                onclick="combatScene.takeAction(_C.skill, { skill: 0, });">
+                onclick="
+                    combatScene.takeAction(_C.skill, {
+                        skill: combatScene.topCharacter.skills[0],
+                        user: combatScene.topCharacter,
+                        aim: combatScene.monster
+                    });
+                ">
             skill0
         </button>
         <button id="skill1-button" class="button button-parchment button-rounded"

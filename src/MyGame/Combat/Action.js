@@ -25,25 +25,25 @@ class AttackAction extends Action {
 
 class SkillAction extends Action {
     constructor(actionParam) {
-        super(_C.attack, actionParam);
+        super(_C.skill, actionParam);
     }
 }
 
 class ChangeAction extends Action {
     constructor(actionParam) {
-        super(_C.attack, actionParam);
+        super(_C.change, actionParam);
     }
 }
 
 class ItemAction extends Action {
     constructor(actionParam) {
-        super(_C.attack, actionParam);
+        super(_C.item, actionParam);
     }
 }
 
 class NoneAction extends Action {
     constructor(actionParam) {
-        super(_C.attack, actionParam);
+        super(_C.none, actionParam);
     }
 }
 

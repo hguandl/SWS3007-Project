@@ -13,7 +13,7 @@ let _C = {
     commandGiven: 2,
     displaying: 3,
     // character status
-    changeAttribute: 1,
+    BuffStatus: 1,
     changeHP: 2,
     changeVP: 3,
 
