@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Journey to the West - Prototype Version</title>
+    <title>Journey to the West - Alpha Version</title>
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
 
     <!-- the following says there are javascript source code contained in
@@ -161,7 +161,7 @@
                 onclick="switchStatusBar()">Character
         </button>
         <button id="small-map-button" class="button button-parchment button-rounded"
-                onclick="window.myGame.mShowSmallMap = !window.myGame.mShowSmallMap;">Small Map
+                onclick="switchSmallMap()">Small Map
         </button>
     </div>
 
@@ -248,13 +248,15 @@
 
 <script type="text/javascript">
     document.body.onload = function () {
-        window.myGame = new MyGame();
+        window.myGame = new MyGame("palace");
         window.statusBar = new StatusBar();
         window.package = null;
         window.combatScene = new Combat(testMonster, testCharacter);
 
         document.mShowPackage = false;
         document.mShowStatusBar = false;
+        document.mShowSmallMap = true;
+        document.mWin = false;
 
         UIButton.displayButtonGroup('default-button-group');
         gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);
@@ -269,12 +271,12 @@
     }
 
     function getPoint() {
-        var x = window.myGame.mMyHero.getHero().getXform().getXPos();
-        var y = window.myGame.mMyHero.getHero().getXform().getYPos();
+        var x = document.currentScene.mMyHero.getHero().getXform().getXPos();
+        var y = document.currentScene.mMyHero.getHero().getXform().getYPos();
 
-        var posPoint0 = window.myGame.mMyMap.reducePoint(x, y);
-        var posPoint1 = window.myGame.mMyMap.reducePoint(x + 0.2, y - 0.4);
-        var posPoint2 = window.myGame.mMyMap.reducePoint(x - 0.2, y);
+        var posPoint0 = document.currentScene.mMyMap.reducePoint(x, y);
+        var posPoint1 = document.currentScene.mMyMap.reducePoint(x + 0.2, y - 0.4);
+        var posPoint2 = document.currentScene.mMyMap.reducePoint(x - 0.2, y);
 
         return [posPoint0, posPoint1, posPoint2];
     }
@@ -289,6 +291,10 @@
 
     function switchPackage() {
         document.mShowPackage = !document.mShowPackage;
+    }
+
+    function switchSmallMap() {
+        document.mShowSmallMap = !document.mShowSmallMap;
     }
 
     function switchStatusBar() {
@@ -345,9 +351,9 @@
 
         <div class="itempanel" style="margin-left: 50px;">
             <div class="floatleft title" style="text-align: left;">
-                <p> The prototype demo is finished. </p>
+                <p> The alpha version is finished. </p>
                 <p> Thanks for playing. </p>
-                <p> Stay tuned for alpha beta! </p>
+                <p> Stay tuned for beta version! </p>
             </div>
         </div>
 

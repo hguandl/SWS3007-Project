@@ -57,6 +57,8 @@ function Combat(topCharacter, monster) {
     this.checkAlive = function() {
         if (this.monster.mCurrentHP <= 0) {
             this.combatResult = "win";
+            document.mWin = true;
+            document.currentScene.showMsg("Congratulations!\n Now you've got the flower.");
             // todo: add die
             gEngine.GameLoop.stop();
         } else if (this.topCharacter.mCurrentHP <= 0) {
@@ -102,6 +104,7 @@ function Combat(topCharacter, monster) {
     this.getMonsterAction = function() {
 
     }
+    this.nextScene = null;
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
@@ -120,9 +123,9 @@ Combat.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.monster.iconURL);
 
     // 回到大地图
-    this.closeMsg(true);
-    document.currentScene = window.myGame;
-    gEngine.Core.startScene(window.myGame);
+    // this.closeMsg(true);
+    document.currentScene = this.nextScene;
+    gEngine.Core.startScene(this.nextScene);
 };
 
 Combat.prototype.initialize = function () {

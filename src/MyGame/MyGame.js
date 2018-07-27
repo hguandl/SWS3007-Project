@@ -11,16 +11,28 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MyGame() {
+function MyGame(mapName) {
+    this.mMapName = mapName;
 
     this.kHeroPic = "assets/hero/tangseng_walk.png";
     this.kHeroJson = "assets/hero/tangseng_walk.json";
 
     this.kHeroInfo = "assets/hero/character_info.json";
 
-    this.kMapFile = "assets/map/map-1-dat.json";
-    this.kMapBkg = "assets/map/map-1-bkg.png";
-    this.kMapFrg = "assets/map/map-1-frg.png";
+    this.kMapFile = [];
+    this.kMapEvents = [];
+    this.kMapBkg = [];
+    this.kMapFrg = [];
+
+    this.kMapFile["palace"] = "assets/map/palace/palace-dat.json";
+    this.kMapEvents["palace"] = "assets/map/palace/palace-event.json";
+    this.kMapBkg["palace"] = "assets/map/palace/palace-bkg.png";
+    this.kMapFrg["palace"] = "assets/map/palace/palace-frg.png";
+
+    this.kMapFile["plateau"] = "assets/map/plateau/plateau-dat.json"
+    this.kMapEvents["plateau"] = "assets/map/plateau/plateau-event.json";;
+    this.kMapBkg["plateau"] = "assets/map/plateau/plateau-bkg.png";
+    this.kMapFrg["plateau"] = "assets/map/plateau/plateau-frg.png";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
@@ -39,30 +51,29 @@ function MyGame() {
     this.kWhatsThis = "assets/props/whats_this_icon.png";
     // endregion
 
-    this.mCurrentState = null;
-    this.mPreviousState = null;
-
     this.mCamera = null;
     this.mSmallCamera = null;
 
     this.mMainView = null;
 
-    this.mShowSmallMap = true;
-
     this.nextScene = null;
     this.startMsg = null;
 
-    this.mStatusBar = null;
+    this.startMsgContent = null;
+
+    this.lastPos = null;
+
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
 
 MyGame.prototype.loadScene = function () {
     document.currentScene = this;
-    gEngine.Textures.loadTexture(this.kMapBkg);
-    gEngine.Textures.loadTexture(this.kMapFrg);
+    gEngine.Textures.loadTexture(this.kMapBkg[this.mMapName]);
+    gEngine.Textures.loadTexture(this.kMapFrg[this.mMapName]);
     gEngine.Textures.loadTexture(this.kHeroPic);
-    gEngine.TextFileLoader.loadTextFile(this.kMapFile, gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kMapFile[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kMapEvents[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
@@ -84,11 +95,12 @@ MyGame.prototype.loadScene = function () {
 };
 
 MyGame.prototype.unloadScene = function () {
-    gEngine.Textures.unloadTexture(this.kMapBkg);
-    gEngine.Textures.unloadTexture(this.kMapFrg);
+    gEngine.Textures.unloadTexture(this.kMapBkg[this.mMapName]);
+    gEngine.Textures.unloadTexture(this.kMapFrg[this.mMapName]);
     gEngine.Textures.unloadTexture(this.kHeroPic);
 
     if (this.nextScene) {
+        this.lastPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos()];
         document.currentScene = this.nextScene;
         gEngine.Core.startScene(this.nextScene);
     }
@@ -100,16 +112,18 @@ MyGame.prototype.initialize = function () {
     window.statusBar.initialize();
     window.package = new Package(this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType, 20);
 
-    this.mCurrentState = "BigMap";
-    this.mPreviousState = "BigMap";
-
-    // this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
-    this.mMyMap = new Map(this.kMapFile);
+    this.mMyMap = new Map(this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
 
-    this.mMapBkg = new Background(this.kMapBkg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
-    this.mMapFrg = new Background(this.kMapFrg, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
+    if (this.lastPos === null) {
+       this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
+    } else {
+        this.mMyHero.getHero().getXform().setPosition(this.lastPos[0], this.lastPos[1]);
+    }
+
+    this.mMapBkg = new Background(this.kMapBkg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
+    this.mMapFrg = new Background(this.kMapFrg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
 
     gEngine.LayerManager.cleanUp();
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
@@ -141,7 +155,7 @@ MyGame.prototype.initialize = function () {
 
     this.mCamera = this.mMyMap.centerCamera(0.5, [0, 0, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
-    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 480, 120, 120]);
+    this.mSmallCamera = this.mMyMap.centerCamera(0.75, [850, 480, 120, 120]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
     UIButton.displayButtonGroup('default-button-group');
@@ -169,7 +183,7 @@ MyGame.prototype.draw = function () {
 
     gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
 
-    if (this.mShowSmallMap) {
+    if (document.mShowSmallMap) {
         this.mSmallCamera.setupViewProjection();
         var i;
         for (i = 0; i < this.mMyMap.mItems.length; ++i)
@@ -206,28 +220,12 @@ MyGame.prototype.update = function () {
 
     window.package.update();
 
-    if (window.mMapFreezed) return ;
-
-    switch (this.startMsg) {
-        case 1:
-            this.showMsg("You have won the battle!\nNow you have got a key!");
-            this.startMsg = null;
-            break;
-        case 2:
-            this.showMsg("You lost the battle!\nGo to shop to recover and try again!");
-            this.startMsg = null;
-            break;
-    }
-
-    if (this.showWinMsg) {
-        this.showWinMsg = false;
-
-    }
-
     var deltaX = 0.05;
     var xform = this.mMyHero.getHero().getXform();
 
     this.moveCamera(xform);
+
+    if (window.mMapFreezed) return ;
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
@@ -293,11 +291,11 @@ MyGame.prototype.update = function () {
         this.mMyHero.stand("Down");
     }
 
-    var e = null;
-    if (e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos())) {
-        // console.log(e);
-        GameEvents.handle(this, e);
-    }
+    // var e = null;
+    var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos());
+    if (e)
+        e(this);
+
     // this.mMyMap.clearEventBuffer(xform.getXPos(), xform.getYPos());
 };
 
@@ -331,4 +329,6 @@ MyGame.prototype.moveCamera = function(xform) {
 
     this.mCamera.setWCCenter(newCenter[0], newCenter[1]);
     this.mCamera.update();
+    this.mSmallCamera.setWCCenter(newCenter[0], newCenter[1]);
+    this.mSmallCamera.update();
 };

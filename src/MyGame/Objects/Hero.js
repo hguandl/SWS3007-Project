@@ -21,7 +21,6 @@ function MyHero(kPic, kJson) {
 
     this.mMyHero = new SpriteRenderable(kPic);
     this.mMyHero.setColor([1, 1, 1, 0]);
-    this.mMyHero.getXform().setPosition(14, 10);
     this.animate(config);
 
     this.mDir = "Down";
