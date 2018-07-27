@@ -7,14 +7,15 @@
  * @property displaying {boolean} : 是否正在显示战斗动画。设置为true会自动使得按钮不能使用，设置为false时按钮又可以使用了。
  */
 function Combat(topCharacter, monster) {
+    /** @type Character */
     this.topCharacter = topCharacter;
+    /** @type Character */
     this.monster = monster;
-    // console.debug(topCharacter);
-    // console.debug(monster);
 
     this.kBackground = "assets/map/combat_background_town.png";
-
+    /**  @type Camera  */
     this.camera = null;
+    /**  @type Action  */
     this._action = new Action(_C.none);
     this.combatResult = null;
 
@@ -34,6 +35,8 @@ function Combat(topCharacter, monster) {
 
         this._action = makeAction(actionType, actionParam);
 
+        this.computeCharacterStatus();
+
         this.displayAction();
 
         this.checkAlive();
@@ -46,12 +49,20 @@ function Combat(topCharacter, monster) {
             attacker: this.monster,
             defender: this.topCharacter,
         });
+
+        this.computeCharacterStatus();
+
         this.displayAction();
 
         this.checkAlive();
 
         // end turn
         this.status = _C.waiting;
+    };
+
+    this.computeCharacterStatus = function() {
+        this.topCharacter.computeStatus();
+        this.monster.computeStatus();
     };
 
     this.checkAlive = function() {
@@ -70,6 +81,9 @@ function Combat(topCharacter, monster) {
 
     this.displayAction = function() {
         switch (this._action.type) {
+            case _C.skill:
+                this.takeSkillAction();
+                break;
             case _C.attack:
                 this.takeAttackAction();
                 break;
@@ -83,6 +97,10 @@ function Combat(topCharacter, monster) {
                 console.warn("unknown action type");
                 break;
         }
+    };
+
+    this.takeSkillAction = function () {
+        this._action.param.skill.useSkill(this._action.param.user, this._action.param.aim);
     };
 
     this.takeAttackAction = function () {
@@ -104,7 +122,6 @@ function Combat(topCharacter, monster) {
     this.getMonsterAction = function() {
 
     }
-    this.nextScene = null;
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
@@ -175,7 +192,6 @@ Combat.prototype.draw = function () {
 
     this.characterIcon.draw(this.camera);
     this.monsterIcon.draw(this.camera);
-
 
     if (document.mShowPackage) {
         window.package.draw();
