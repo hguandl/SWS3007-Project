@@ -14,24 +14,24 @@
  * @returns {Scene}
  */
 function Scene() {
-    window.mMsgBoxShow = false;
-    window.mMapFreezed = false;
 }
 
-Scene.prototype.showMsg = function (msg) {
-    document.getElementById('infoBox').style.display = "block";
-    document.getElementById('info_0').innerText = msg;
-    window.mMsgBoxShow = true;
-    window.mMapFreezed = true;
-};
+Scene.prototype.message = function () {
+    if (document.mMsgQueue.length > 0) {
+        document.getElementById('infoBox').style.display = "block";
+        if (document.mMsgQueue[0][0] === "")
+            document.getElementById('info_face').src = "assets/blank.png";
+        else
+            document.getElementById('info_face').src = "assets/face/" + document.mMsgQueue[0][0] + ".png";
+        document.getElementById('info_text').innerText = document.mMsgQueue[0][1];
+        document.mShowMsgBox = true;
 
-Scene.prototype.closeMsg = function (force) {
-    if (force || gEngine.Input.isKeyReleased(gEngine.Input.keys.Space)) {
-        if (window.mMsgBoxShow) {
+        if (gEngine.Input.isKeyReleased(gEngine.Input.keys.K)) {
             document.getElementById('infoBox').style.display = "none";
-            document.getElementById('info_0').innerText = null;
-            window.mMsgBoxShow = false;
-            window.mMapFreezed = false;
+            document.getElementById('info_face').src = "assets/blank.png";
+            document.getElementById('info_text').innerText = null;
+            window.mShowMsgBox = false;
+            document.mMsgQueue.shift();
         }
     }
 };

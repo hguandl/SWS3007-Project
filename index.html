@@ -162,6 +162,8 @@
         </button>
         <button id="small-map-button" class="button button-parchment button-rounded"
                 onclick="switchSmallMap()">Small Map
+        </button><button id="small-map-button" class="button button-parchment button-rounded"
+                onclick="switchBigMap()">Big Map
         </button>
     </div>
 
@@ -240,23 +242,31 @@
     <p><a onclick="resume();">Resume</a></p>
 </div>
 <div class="dialogue" id="infoBox" style="display: none">
-    <p id="info_0">Welcome to the game!
-    <p>
-    <p>-- Press space to continue --</p>
+    <div style="float: right; margin-top: 10px; margin-right: 40px">
+        <img id="info_face" src="assets/favicon.png" width=105px height=105px>
+    </div>
+    <p id="info_text">Welcome to the game!</p>
+    <p>-- Press "K" to continue --</p>
 </div>
 
 
 <script type="text/javascript">
     document.body.onload = function () {
-        window.myGame = new MyGame("palace");
+        document.mSceneSet = [];
+
+        window.myGame = getScene("wanggong");
         window.statusBar = new StatusBar();
         window.package = null;
         window.combatScene = new Combat(testMonster, testCharacter);
 
         document.mShowPackage = false;
         document.mShowStatusBar = false;
+        document.mShowBigMap = false;
         document.mShowSmallMap = true;
+        document.mShowMsgBox = false;
         document.mWin = false;
+        document.mEventQueue = [];
+        document.mMsgQueue = [];
 
         UIButton.displayButtonGroup('default-button-group');
         gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);
@@ -270,6 +280,11 @@
         window.myGame.resume();
     }
 
+    function getScene(scene) {
+        document.mSceneSet[scene] = document.mSceneSet[scene] || new MyGame(scene);
+        return document.mSceneSet[scene];
+    }
+
     function getPoint() {
         var x = document.currentScene.mMyHero.getHero().getXform().getXPos();
         var y = document.currentScene.mMyHero.getHero().getXform().getYPos();
@@ -279,6 +294,11 @@
         var posPoint2 = document.currentScene.mMyMap.reducePoint(x - 0.2, y);
 
         return [posPoint0, posPoint1, posPoint2];
+    }
+
+    function setPoint(pos) {
+        var coor = document.currentScene.mMyMap.pixelCenter(pos);
+        document.currentScene.getHero().getXform().setPosition(coor[0], coor[1]);
     }
 
     function characterInfo() {
@@ -297,8 +317,16 @@
         document.mShowSmallMap = !document.mShowSmallMap;
     }
 
+    function switchBigMap() {
+        document.mShowBigMap = !document.mShowBigMap;
+    }
+
     function switchStatusBar() {
         document.mShowStatusBar = !document.mShowStatusBar;
+    }
+
+    function isMapFreezed() {
+        return document.mShowBigMap || document.mShowPackage || document.mShowMsgBox;
     }
 </script>
 

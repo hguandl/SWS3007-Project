@@ -24,15 +24,15 @@ function MyGame(mapName) {
     this.kMapBkg = [];
     this.kMapFrg = [];
 
-    this.kMapFile["palace"] = "assets/map/palace/palace-dat.json";
-    this.kMapEvents["palace"] = "assets/map/palace/palace-event.json";
-    this.kMapBkg["palace"] = "assets/map/palace/palace-bkg.png";
-    this.kMapFrg["palace"] = "assets/map/palace/palace-frg.png";
+    this.kMapFile["wanggong"] = "assets/map/wanggong/wanggong-dat.json"
+    this.kMapEvents["wanggong"] = "assets/map/wanggong/wanggong-event.json";;
+    this.kMapBkg["wanggong"] = "assets/map/wanggong/wanggong-bkg.png";
+    this.kMapFrg["wanggong"] = "assets/map/wanggong/wanggong-frg.png";
 
-    this.kMapFile["plateau"] = "assets/map/plateau/plateau-dat.json"
-    this.kMapEvents["plateau"] = "assets/map/plateau/plateau-event.json";;
-    this.kMapBkg["plateau"] = "assets/map/plateau/plateau-bkg.png";
-    this.kMapFrg["plateau"] = "assets/map/plateau/plateau-frg.png";
+    this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json"
+    this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json";;
+    this.kMapBkg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-bkg.png";
+    this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
@@ -62,7 +62,7 @@ function MyGame(mapName) {
     this.startMsgContent = null;
 
     this.lastPos = null;
-
+    this.currentPos = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -100,7 +100,6 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroPic);
 
     if (this.nextScene) {
-        this.lastPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos()];
         document.currentScene = this.nextScene;
         gEngine.Core.startScene(this.nextScene);
     }
@@ -121,6 +120,8 @@ MyGame.prototype.initialize = function () {
     } else {
         this.mMyHero.getHero().getXform().setPosition(this.lastPos[0], this.lastPos[1]);
     }
+
+    this.currentPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos()];
 
     this.mMapBkg = new Background(this.kMapBkg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
     this.mMapFrg = new Background(this.kMapFrg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
@@ -153,9 +154,19 @@ MyGame.prototype.initialize = function () {
 
     this.mMyMap.addItems();
 
-    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 0, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
+    this.mCamera = this.mMyMap.getCamera([this.currentPos[0], this.currentPos[1]],
+                                            0.5,
+                                            [0, 0, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
-    this.mSmallCamera = this.mMyMap.centerCamera(0.75, [850, 480, 120, 120]);
+
+    this.mBigCamera = this.mMyMap.getCamera([this.currentPos[0], this.currentPos[1]],
+                                            1,
+                                            [185, 0, 600, 600]);
+    this.mBigCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
+
+    this.mSmallCamera = this.mMyMap.getCamera([this.currentPos[0], this.currentPos[1]],
+                                                 0.75,
+                                                 [850, 480, 120, 120]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
     UIButton.displayButtonGroup('default-button-group');
@@ -191,6 +202,14 @@ MyGame.prototype.draw = function () {
         this.mMyHero.getHero().draw(this.mSmallCamera);
     }
 
+    if (document.mShowBigMap) {
+        this.mBigCamera.setupViewProjection();
+        var i;
+        for (i = 0; i < this.mMyMap.mItems.length; ++i)
+            this.mMyMap.mItems[i].draw(this.mBigCamera);
+        this.mMyHero.getHero().draw(this.mBigCamera);
+    }
+
     if (document.mShowPackage) {
         window.package.draw();
     }
@@ -214,20 +233,22 @@ MyGame.prototype.resetPos = function() {
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
-    this.closeMsg();
+    this.message();
 
     window.statusBar.update();
 
     window.package.update();
 
-    var deltaX = 0.05;
+    var deltaX = 0.05; //0,05
     var xform = this.mMyHero.getHero().getXform();
+
+    this.currentPos = [xform.getXPos(), xform.getYPos()];
 
     this.moveCamera(xform);
 
-    if (window.mMapFreezed) return ;
+    if (isMapFreezed()) return ;
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
         this.mMyHero.walk("Right");
 
@@ -239,7 +260,7 @@ MyGame.prototype.update = function () {
         xform.incXPosBy(deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Up)) return ;
         this.mMyHero.walk("Up");
 
@@ -251,7 +272,7 @@ MyGame.prototype.update = function () {
         xform.incYPosBy(deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Down)) return ;
         this.mMyHero.walk("Down");
 
@@ -263,7 +284,7 @@ MyGame.prototype.update = function () {
         xform.incYPosBy(-deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Left)) return ;
         this.mMyHero.walk("Left");
 
@@ -275,28 +296,28 @@ MyGame.prototype.update = function () {
         xform.incXPosBy(-deltaX);
     }
 
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Right)) {
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.D)) {
         this.mMyHero.stand("Right");
     }
 
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Up)) {
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.W)) {
         this.mMyHero.stand("Up");
     }
 
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Left)) {
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.A)) {
         this.mMyHero.stand("Left");
     }
 
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.S)) {
         this.mMyHero.stand("Down");
     }
 
     // var e = null;
-    var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos());
+    var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos(), this.mMyHero.getDir());
     if (e)
         e(this);
 
-    // this.mMyMap.clearEventBuffer(xform.getXPos(), xform.getYPos());
+    this.lastPos = this.currentPos;
 };
 
 MyGame.prototype.pause = function() {
@@ -331,4 +352,6 @@ MyGame.prototype.moveCamera = function(xform) {
     this.mCamera.update();
     this.mSmallCamera.setWCCenter(newCenter[0], newCenter[1]);
     this.mSmallCamera.update();
+    this.mBigCamera.setWCCenter(newCenter[0], newCenter[1]);
+    this.mBigCamera.update();
 };

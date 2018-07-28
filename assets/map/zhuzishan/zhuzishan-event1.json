@@ -1,0 +1,18 @@
+{
+    "955": ["",
+            "Show", [
+                ["", "You can notice that in the small map"],
+                ["", "special events are marked."],
+                ["assets/favicon.png", "Try to go there!"]
+            ],
+            false, false
+        ],
+    "993": ["J",
+            "Show", [
+                ["", "You can notice that in the small map"],
+                ["", "special events are marked."],
+                ["assets/favicon.png", "Try to go there!"]
+            ],
+            true, false
+        ]
+}

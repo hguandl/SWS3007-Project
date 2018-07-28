@@ -208,6 +208,7 @@ var latestPressedAloneKey;
 // when exiting, return -1
 // if aCurState = "Battle", after using one props, immediately return -1
 Package.prototype.update = function () {
+    if (!document.mShowPackage) return ;
 
     if (!isChoosingUI) {
 
@@ -215,13 +216,14 @@ Package.prototype.update = function () {
             return -1;
         }
 
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I)) {
+        // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I)) {
             if (this.mCurrentSelected < this.mSize) {
                 this.mCurrentShowing = this.mCurrentSelected;
-            } else {
-                this.mCurrentShowing = -1;
             }
-        }
+            // } else {
+                // this.mCurrentShowing = -1;
+            // }
+        // }
 
         // region press left or right to select a props
         if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
