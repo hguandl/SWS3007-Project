@@ -113,6 +113,7 @@
     <script type="text/javascript" src="src/MyGame/Characters/Character.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/skill.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/characterStatus.js"></script>
+    <script type="text/javascript" src="src/MyGame/Characters/SkillList.js"></script>
 
     <!-- Status -->
     <script type="text/javascript" src="src/MyGame/StatusBar.js"></script>
@@ -220,15 +221,33 @@
             skill0
         </button>
         <button id="skill1-button" class="button button-parchment button-rounded"
-                onclick="combatScene.takeAction(_C.skill, { skill: 1, });">
+                onclick="
+                    combatScene.takeAction(_C.skill, {
+                        skill: combatScene.topCharacter.skills[2],
+                        user: combatScene.topCharacter,
+                        aim: combatScene.monster
+                    });
+                ">
             skill1
         </button>
         <button id="skill2-button" class="button button-parchment button-rounded"
-                onclick="combatScene.takeAction(_C.skill, { skill: 2, });">
+                onclick="
+                    combatScene.takeAction(_C.skill, {
+                        skill: combatScene.topCharacter.skills[2],
+                        user: combatScene.topCharacter,
+                        aim: combatScene.monster
+                    });
+                ">
             skill2
         </button>
         <button id="skill3-button" class="button button-parchment button-rounded"
-                onclick="combatScene.takeAction(_C.skill, { skill: 3, });">
+                onclick="
+                    combatScene.takeAction(_C.skill, {
+                        skill: combatScene.topCharacter.skills[3],
+                        user: combatScene.topCharacter,
+                        aim: combatScene.monster
+                    });
+                ">
             skill3
         </button>
         <button id="back-button-skill" class="button button-parchment button-rounded"

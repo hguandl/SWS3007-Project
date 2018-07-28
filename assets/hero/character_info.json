@@ -17,12 +17,12 @@
             {
                 "name": "heavy hit",
                 "VP": 65,
-                "atkPercent": 146
+                "dmgPercent": 146
             },
             {
                 "name": "Samadhi fire",
                 "VP": 78,
-                "atkPercent": 42
+                "dmgPercent": 42
             }
         ]
     },
@@ -44,7 +44,7 @@
             {
                 "name": "heavy hit",
                 "VP": 57,
-                "atkPercent": 133
+                "dmgPercent": 133
             }
         ]
     },
@@ -60,13 +60,13 @@
             {
                 "name": "chant",
                 "VP": 26,
-                "atkPercent": 51,
+                "dmgPercent": 51,
                 "turn": 3
             },
             {
                 "name": "heavy hit",
                 "VP": 59,
-                "atkPercent": 135
+                "dmgPercent": 135
             }
         ]
     }

@@ -3,6 +3,7 @@
  */
 class SkillList {
     static parseSkill(skillInfo) {
+
         return window.allSkills[skillInfo["name"]].parse(skillInfo);
     }
 }
@@ -27,8 +28,15 @@ window.allSkills = {
  */
 function formatString(string1, ...replacer) {
     let rst = string1;
+    console.debug(replacer);
     replacer.forEach((value, index) => {
         rst = rst.replace("%" + index.toString(), value.toString());
     });
     return rst;
+}
+
+function assertHasProperties(obj, ...properties) {
+    properties.forEach(value => {
+        console.assert(value in obj);
+    });
 }

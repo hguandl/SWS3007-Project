@@ -110,8 +110,12 @@ function Combat(topCharacter, monster) {
             this._action.param.attacker.mCurrentVP += _C.attackVP;
         }
         // calculate damage
+        console.debug(this._action.param.defender.mCurrentHP);
         this._action.param.defender.mCurrentHP -= calDamage(this._action.param.attacker, this._action.param.defender);
+        console.debug("damange: " + calDamage(this._action.param.attacker, this._action.param.defender));
+        console.debug(this._action.param.defender.mCurrentHP);
         this._action.param.defender.mCurrentHP = Math.round(this._action.param.defender.mCurrentHP);
+        console.debug(this._action.param.defender.mCurrentHP);
         // todo: animate
     };
 

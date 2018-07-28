@@ -7,6 +7,7 @@ class Skill {
     }
 
     static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP");
         return new Skill(skillInfo["name"], skillInfo["VP"]);
     }
 
@@ -27,17 +28,23 @@ class Skill {
      * @param index
      */
     displaySkillOnButton(index) {
-        const btnId = "#skill" + index.toString() + "-button";
-        document.getElementById(btnId.slice(1)).innerText = this.name;
-        $(btnId).text(this.name);
-        const usage = this.getUsage();
-        const mouseOn = function () {
-            window.currentScene.showMsg(usage);
-        };
-        const mouseOff = function() {
-            window.currentScene.closeMsg(true);
-        };
-        $(btnId).hover(mouseOn, mouseOff);
+        try {
+            const btnId = "#skill" + index.toString() + "-button";
+            document.getElementById(btnId.slice(1)).innerText = this.name;
+            $(btnId).text(this.name);
+            const usage = this.getUsage();
+            const mouseOn = function () {
+                document.currentScene.showMsg(usage);
+            };
+            const mouseOff = function () {
+                document.currentScene.closeMsg(true);
+            };
+            $(btnId).hover(mouseOn, mouseOff);
+        }
+        catch (error) {
+            console.warn(error.message);
+            console.debug(this);
+        }
     }
 }
 
@@ -71,6 +78,7 @@ class FieryEyes extends Skill {
     }
 
     static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "defPercent", "turn");
         return new FieryEyes(skillInfo["VP"], skillInfo["defPercent"], skillInfo["turn"]);
     }
 }
@@ -85,7 +93,7 @@ class HeavyHit extends Skill {
     }
 
     static getDescription() {
-        return "A heavy hit will cause more damage than attack."
+        return "A heavy hit will cause more damage than attack.";
     }
 
     getUsage() {
@@ -98,6 +106,7 @@ class HeavyHit extends Skill {
     }
 
     static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "dmgPercent");
         return new HeavyHit(skillInfo["VP"], skillInfo["dmgPercent"]);
     }
 }
@@ -112,7 +121,7 @@ class SamadhiFire extends Skill {
     }
 
     static getDescription() {
-        return "Burn your emery with Samadhi fire."
+        return "Burn your emery with Samadhi fire.";
     }
 
     getUsage() {
@@ -126,6 +135,7 @@ class SamadhiFire extends Skill {
     }
 
     static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "dmgPercent");
         return new SamadhiFire(skillInfo["VP"], skillInfo["dmgPercent"]);
     }
 }
@@ -141,7 +151,7 @@ class SlackSleep extends Skill {
     }
 
     static getDescription() {
-        return "Take a slack sleep."
+        return "Take a slack sleep.";
     }
 
     getUsage() {
@@ -155,6 +165,7 @@ class SlackSleep extends Skill {
     }
 
     static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "HP", "atkPercent");
         return new SlackSleep(skillInfo["VP"], skillInfo["HP"],  skillInfo["atkPercent"]);
     }
 }
@@ -170,7 +181,7 @@ class Chant extends Skill {
     }
 
     static getDescription() {
-        return "Chant."
+        return "Chant.";
     }
 
     getUsage() {
@@ -183,6 +194,7 @@ class Chant extends Skill {
     }
 
     static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "turn", "atkPercent");
         return new Chant(skillInfo["VP"], skillInfo["atkPercent"], skillInfo["turn"]);
     }
 }

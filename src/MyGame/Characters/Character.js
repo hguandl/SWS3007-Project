@@ -67,7 +67,7 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
     this.mMaxVP = characterInfo["VP"];
     this.mCurrentVP = 0;
     this.mATK = this.mCurrentATK = characterInfo["ATK"];
-    this.mDEF = this.mCurrrentDEF = characterInfo["DEF"];
+    this.mDEF = this.mCurrentDEF = characterInfo["DEF"];
     this.mSPD = this.mCurrentSPD = characterInfo["SPD"];
 }
 
