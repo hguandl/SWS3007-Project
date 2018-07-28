@@ -1,19 +1,51 @@
-//  todo: 商量人物技能的接口，skill1表示第一个技能，应该包含damage, VP（疲劳值）
-
 /** A new level.
  * Call this function to turn into combat scene.
- * @param topCharacter: 第一个出场的人物，请在每次调用该场景前修改该变量。
+ * @param firstCharacter: 第一个出场的人物，请在每次调用该场景前修改该变量。
  * @param monster: 出场的怪物，请在每次调用该场景前修改该变量。
  * @property displaying {boolean} : 是否正在显示战斗动画。设置为true会自动使得按钮不能使用，设置为false时按钮又可以使用了。
  */
-function Combat(topCharacter, monster) {
+function Combat(firstCharacter, monster) {
+    this._turn = null;
+
+    /**  @type Character  */
+    this._character = null;
+    Object.defineProperty(this, "character", {
+        get: () => {
+            return this._character;
+        },
+        set: v => {
+            if (this._character)
+                this._character.turnEndStatus = [];
+
+            this._character = v;
+
+            if (this._character)
+                this._character.turnEndStatus = [];
+
+            // 改变显示的人物图标
+            /**  @type SpriteAnimateRenderable  */
+            this.characterAnimate = new SpriteAnimateRenderable(this._character.spriteURL);
+            this.characterAnimate.setColor([0, 0, 0, 0.0]);
+            this.characterAnimate.getXform().setPosition(-22, 0);
+            this.characterAnimate.getXform().setSize(10, 9);
+            this.characterAnimate.setSpriteSequence(256, 5,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+                512 / 9, 256 / 6,       // width * height in pixels
+                9,              // number of elements in this sequence
+                0);             // horizontal padding in between
+            this.characterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+            this.characterAnimate.setAnimationSpeed(6);
+        }
+    });
+
     /** @type Character */
-    this.topCharacter = topCharacter;
+    this.firstCharacter = firstCharacter;
     /** @type Character */
     this.monster = monster;
 
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/plateau/plateau-battle.png";
+    this.monster.spriteURL = "assets/hero/fight/monster.png";
+
     /**  @type Camera  */
     this.camera = null;
     /**  @type Action  */
@@ -27,36 +59,42 @@ function Combat(topCharacter, monster) {
         },
         set: v => {
             this._status = v;
+            // 如果不在等待用户操作状态，就禁止按钮
             UIButton.disableButtons(v !== _C.waiting);
         }
     });
 
+    /**
+     * 这个函数将会在用户点击攻击或技能或换人按钮的时候被调用
+     * @param actionType {number}
+     * @param actionParam {Object}
+     */
     this.takeAction = function (actionType, actionParam) {
-        this.status = _C.displaying;
+        this.status = _C.commandGiven;
+        this._turn = TURN.hero;
 
         this._action = makeAction(actionType, actionParam);
 
-        this.topCharacter.computeTurnEndStatus(true);
-        this.monster.computeTurnEndStatus(false);
+        this.displayAction(enemyTurn, this);
 
-        this.displayAction();
+        function enemyTurn(combat) {
+            this.character.computeTurnEndStatus(true);
+            this.monster.computeTurnEndStatus(false);
 
-        this.checkAlive();
+            combat.checkAlive();
 
-        UIButton.disableButtons(false);
-        // monster take action
+            // monster take action
+            combat._turn = TURN.monster;
+            combat._action = combat.getMonsterAction();
 
-        this._action = this.getMonsterAction();
+            combat.displayAction(endTurn, combat);
+        }
 
-        this.topCharacter.computeTurnEndStatus(false);
-        this.monster.computeTurnEndStatus(true);
-
-        this.displayAction();
-
-        this.checkAlive();
-
-        // end turn
-        this.status = _C.waiting;
+        function endTurn(combat) {
+            combat.character.computeTurnEndStatus(false);
+            combat.monster.computeTurnEndStatus(true);
+            combat.checkAlive();
+        }
     };
 
     this.checkAlive = function () {
@@ -66,14 +104,19 @@ function Combat(topCharacter, monster) {
             document.currentScene.showMsg("Congratulations!\n Now you've got the flower.");
             // todo: add die
             gEngine.GameLoop.stop();
-        } else if (this.topCharacter.mCurrentHP <= 0) {
+        } else if (this.character.mCurrentHP <= 0) {
             // todo: add die
             this.combatResult = "lose";
             gEngine.GameLoop.stop();
         }
     };
 
-    this.displayAction = function () {
+    this.displayAction = function (callback, param) {
+        this._callback = callback;
+        this._callbackParam = param;
+
+        console.debug("displaying");
+        this.status = _C.displaying;
         switch (this._action.type) {
             case _C.skill:
                 this.takeSkillAction();
@@ -111,14 +154,14 @@ function Combat(topCharacter, monster) {
     };
 
     this.takeChangeAction = function () {
-        this.topCharacter = this._action['aimCharacter'];
+        this._character = this._action['aimCharacter'];
         // todo: animate
     };
 
     this.getMonsterAction = function () {
         return makeAction(_C.attack, {
             attacker: this.monster,
-            defender: this.topCharacter,
+            defender: this.character,
         });
     };
 }
@@ -126,18 +169,24 @@ function Combat(topCharacter, monster) {
 gEngine.Core.inheritPrototype(Combat, Scene);
 
 Combat.prototype.loadScene = function () {
-    gEngine.Textures.loadTexture(this.topCharacter.iconURL);
     gEngine.Textures.loadTexture(this.monster.iconURL);
 
+    ALL_SPRITE_TEXTURE.forEach(value => {
+        gEngine.Textures.loadTexture(value);
+    });
     gEngine.Textures.loadTexture(this.kBackground);
 
     UIButton.displayButtonGroup("combat-button-group");
 };
 
 Combat.prototype.unloadScene = function () {
-    gEngine.Textures.unloadTexture(this.topCharacter.iconURL);
+    gEngine.Textures.unloadTexture(this.character.iconURL);
     gEngine.Textures.unloadTexture(this.monster.iconURL);
 
+    ALL_SPRITE_TEXTURE.forEach(value => {
+        gEngine.Textures.unloadTexture(value);
+    });
+    gEngine.Textures.unloadTexture(this.kBackground);
     // 回到大地图
     // this.closeMsg(true);
     document.currentScene = this.nextScene;
@@ -158,25 +207,27 @@ Combat.prototype.initialize = function () {
     this.mBackground.getXform().setPosition(0, 0);
     this.mBackground.getXform().setSize(this.camera.getWCWidth(), this.camera.getWCHeight());
 
-    /** next version
-     this.topCharacter.setBattleFigureSize(20, 20);
-     this.topCharacter.setBattleFigurePosition(-22, 0);
+    this.character = this.firstCharacter;
+    delete this.firstCharacter;
 
-     this.monster.setBattleFigureSize(20, 20);
-     this.monster.setBattleFigurePosition(22, 0);
-     */
-
+    // 改变显示的怪物图标
+    /**  @type SpriteAnimateRenderable  */
+    this.monsterAnimate = new SpriteAnimateRenderable(this.monster.spriteURL);
+    this.monsterAnimate.setColor([0, 0, 0, 0.0]);
+    this.monsterAnimate.getXform().setPosition(22, 0);
+    this.monsterAnimate.getXform().setSize(10, 9);
+    this.monsterAnimate.setSpriteSequence(256, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+        512 / 9, 256 / 6,       // width * height in pixels
+        9,              // number of elements in this sequence
+        0);             // horizontal padding in between
+    this.monsterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    this.monsterAnimate.setAnimationSpeed(6);
 
     // set character icon position
-    this.characterIcon = new TextureRenderable(this.topCharacter.iconURL);  // todo: 商量iconURL的接口，该接口用于获取icon的URL
-    this.characterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
-    this.characterIcon.getXform().setPosition(-22, 0);
-    this.characterIcon.getXform().setSize(20, 20);
-
-    this.monsterIcon = new TextureRenderable(this.monster.iconURL);
-    this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
-    this.monsterIcon.getXform().setPosition(22, 0);
-    this.monsterIcon.getXform().setSize(20, 20);
+    // this.monsterIcon = new TextureRenderable(this.monster.iconURL);
+    // this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
+    // this.monsterIcon.getXform().setPosition(22, 0);
+    // this.monsterIcon.getXform().setSize(20, 20);
 
     document.mShowStatusBar = true;
 
@@ -192,13 +243,13 @@ Combat.prototype.draw = function () {
     this.camera.setupViewProjection();
 
     /** next version
-     this.topCharacter.drawBattleFigureByPos(-22, 0, 20, 20, this.camera);
+     this.character.drawBattleFigureByPos(-22, 0, 20, 20, this.camera);
      this.monster.drawBattleFigureByPos(22, 0, 20, 20, this.camera);
      */
     this.mBackground.draw(this.camera);
 
-    this.characterIcon.draw(this.camera);
-    this.monsterIcon.draw(this.camera);
+    this.characterAnimate.draw(this.camera);
+    this.monsterAnimate.draw(this.camera);
 
     if (document.mShowPackage) {
         window.package.draw();
@@ -215,8 +266,29 @@ Combat.prototype.update = function () {
     window.package.update();
     updateCharacterStatus();
 
-    // if (this._action.type === _C.none)
-    //     return;
+    if (this.status !== _C.displaying)
+        return;
+
+    if (this._turn === TURN.hero) {
+        console.debug("animating hero");
+        if (this.characterAnimate.updateAnimation()) {
+            this.status = _C.commandGiven;
+            if (this._callback) {
+                this._callback(this._callbackParam);
+                this._callback = this._callbackParam = null;
+            }
+        }
+    } else {
+        console.debug("animating monster");
+        console.assert(this._turn === TURN.monster);
+        if (this.monsterAnimate.updateAnimation()) {
+            if (this._callback) {
+                this._callback(this._callbackParam);
+                this._callback = this._callbackParam = null;
+            }
+            this.status = _C.waiting;
+        }
+    }
 
     // todo : add animation to actions
 };
@@ -230,11 +302,3 @@ function enterCombat(game) {
     game.nextScene = window.combatScene;
     gEngine.GameLoop.stop();
 }
-
-window.testCharacter = {
-    iconURL: "assets/character/character.png"
-};
-
-window.testMonster = {
-    iconURL: "assets/character/monster1.jpg"
-};

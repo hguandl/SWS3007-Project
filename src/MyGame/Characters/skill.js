@@ -104,7 +104,7 @@ class HeavyHit extends Skill {
     useSkill(user, aim) {
         const damage = calDamage(user, aim) * this.dmgPercent;
         super.useSkill(user);
-        aim.randChangeHP(damage);
+        aim.randChangeHP(-damage);
         console.debug("use HeavyHit, damage: ", damage);
     }
 
@@ -135,7 +135,7 @@ class SamadhiFire extends Skill {
     useSkill(user, aim) {
         super.useSkill(user);
         const damage = user.mCurrentATK * this.dmgPercent;
-        aim.randChangeHP(damage);
+        aim.randChangeHP(-damage);
         console.debug("use SamadhiFire, damage: ", damage);
     }
 

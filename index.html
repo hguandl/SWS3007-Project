@@ -45,6 +45,7 @@
     <script type="text/javascript" src="src/Engine/Renderables/SpriteRenderable.js"></script>
     <script type="text/javascript" src="src/Engine/Renderables/SpriteRenderable_PixelCollision.js"></script>
     <script type="text/javascript" src="src/Engine/Renderables/SpriteAnimateRenderable.js"></script>
+    <!--<script type="text/javascript" src="src/Engine/Renderables/SpriteAnimateOnceRenderable.js"></script>-->
     <script type="text/javascript" src="src/Engine/Renderables/FontRenderable.js"></script>
     <script type="text/javascript" src="src/Engine/Renderables/LineRenderable.js"></script>
     <script type="text/javascript" src="src/Engine/Renderables/LightRenderable.js"></script>
@@ -170,7 +171,7 @@
     <div id="combat-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
         <button id="attack-button" class="button button-parchment button-rounded" onclick="
                 window.combatScene.takeAction(_C.attack, {
-                    attacker: combatScene.topCharacter,
+                    attacker: combatScene.character,
                     defender: combatScene.monster,
                 });
             ">
@@ -179,7 +180,7 @@
         <button id="skill-button" class="button button-parchment button-rounded"
                 onclick="
                     UIButton.displayButtonGroup('skill-button-group');
-                    window.combatScene.topCharacter.displayAllSkills();
+                    window.combatScene.character.displayAllSkills();
                 ">
             Skill
         </button>
@@ -202,7 +203,7 @@
         </button>
         <button id="Monk-Sha-button" class="button button-parchment button-rounded"
                 onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'MonkSha'});">
-            Monk Sha
+            Monk Tang
         </button>
         <button id="back-button-character" class="button button-parchment button-rounded"
                 onclick="UIButton.displayButtonGroup('combat-button-group');">
@@ -213,8 +214,8 @@
         <button id="skill0-button" class="button button-parchment button-rounded"
                 onclick="
                     combatScene.takeAction(_C.skill, {
-                        skill: combatScene.topCharacter.skills[0],
-                        user: combatScene.topCharacter,
+                        skill: combatScene.character.skills[0],
+                        user: combatScene.character,
                         aim: combatScene.monster
                     });
                 ">
@@ -223,8 +224,8 @@
         <button id="skill1-button" class="button button-parchment button-rounded"
                 onclick="
                     combatScene.takeAction(_C.skill, {
-                        skill: combatScene.topCharacter.skills[1],
-                        user: combatScene.topCharacter,
+                        skill: combatScene.character.skills[1],
+                        user: combatScene.character,
                         aim: combatScene.monster
                     });
                 ">
@@ -233,8 +234,8 @@
         <button id="skill2-button" class="button button-parchment button-rounded"
                 onclick="
                     combatScene.takeAction(_C.skill, {
-                        skill: combatScene.topCharacter.skills[2],
-                        user: combatScene.topCharacter,
+                        skill: combatScene.character.skills[2],
+                        user: combatScene.character,
                         aim: combatScene.monster
                     });
                 ">
@@ -243,8 +244,8 @@
         <button id="skill3-button" class="button button-parchment button-rounded"
                 onclick="
                     combatScene.takeAction(_C.skill, {
-                        skill: combatScene.topCharacter.skills[3],
-                        user: combatScene.topCharacter,
+                        skill: combatScene.character.skills[3],
+                        user: combatScene.character,
                         aim: combatScene.monster
                     });
                 ">
@@ -280,7 +281,7 @@
         window.myGame = new MyGame("palace");
         window.statusBar = new StatusBar();
         window.package = null;
-        window.combatScene = new Combat(testMonster, testCharacter);
+        window.combatScene = null;
 
         document.mShowPackage = false;
         document.mShowStatusBar = false;
