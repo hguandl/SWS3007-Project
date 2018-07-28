@@ -56,26 +56,6 @@ function MyGame(mapName) {
     this.kWhatsThis = "assets/props/whats_this_icon.png";
     // endregion
 
-    this.kPackageBg = "assets/package/package_bg.png";
-    this.kPackageBrick = "assets/package/package_brick.png";
-    this.kPackageUIBg = "assets/package/package_ui.png";
-    this.kPackageMoneyIcon = "assets/package/package_money_icon.png";
-    this.kPackageFontType = "assets/fonts/package_font";
-
-    // region food icon
-    this.kQueenPeach = "assets/props/queen_peach_icon.png";
-    this.kNineTurnDan = "assets/props/nine_turn_dan_icon.png";
-    this.kBloodOfDragon = "assets/props/blood_of_dragon_icon.png";
-    this.kSpiritOfDragon = "assets/props/spirit_of_dragon_icon.png";
-    this.kGlutinousRiceCongee = "assets/props/glutinous_rice_congee_icon.png";
-    this.kHamBone = "assets/props/ham_bone_icon.png";
-    this.kDongpoPork = "assets/props/dongpo_pork_icon.png";
-    this.kWhatsThis = "assets/props/whats_this_icon.png";
-    // endregion
-
-    this.mCurrentState = null;
-    this.mPreviousState = null;
-
     this.mCamera = null;
     this.mSmallCamera = null;
 
@@ -130,26 +110,6 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kNPC1Pic);
     gEngine.Textures.unloadTexture(this.kNPC2Pic);
 
-    // region icons of package and props
-    /*
-    gEngine.Textures.unloadTexture(this.kPackageBg);
-    gEngine.Textures.unloadTexture(this.kPackageBrick);
-    gEngine.Textures.unloadTexture(this.kPackageUIBg);
-    gEngine.Textures.unloadTexture(this.kPackageMoneyIcon);
-
-    gEngine.Fonts.unloadFont(this.kPackageFontType);
-
-    gEngine.Textures.unloadTexture(this.kQueenPeach);
-    gEngine.Textures.unloadTexture(this.kNineTurnDan);
-    gEngine.Textures.unloadTexture(this.kBloodOfDragon);
-    gEngine.Textures.unloadTexture(this.kSpiritOfDragon);
-    gEngine.Textures.unloadTexture(this.kGlutinousRiceCongee);
-    gEngine.Textures.unloadTexture(this.kHamBone);
-    gEngine.Textures.unloadTexture(this.kDongpoPork);
-    gEngine.Textures.unloadTexture(this.kWhatsThis);
-    */
-    // endregion
-
     if (this.nextScene) {
         this.lastPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos()];
         document.currentScene = this.nextScene;
@@ -174,7 +134,7 @@ MyGame.prototype.initialize = function () {
     this.mMyMap = new Map(this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
 
     if (this.lastPos === null) {
-       this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
+        this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
     } else {
         this.mMyHero.getHero().getXform().setPosition(this.lastPos[0], this.lastPos[1]);
     }
@@ -184,38 +144,6 @@ MyGame.prototype.initialize = function () {
 
     this.mMapBkg = new Background(this.kMapBkg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
     this.mMapFrg = new Background(this.kMapFrg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
-
-    this.mMyMap.addItems();
-
-    this.mCamera = this.mMyMap.centerCamera(0.5, [0, 40, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
-    this.mMainView = new MainView(this.mCamera);
-    this.mSmallCamera = this.mMyMap.centerCamera(1, [850, 520, 120, 120]);
-    this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
-
-    this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson, this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType/*, this.mCamera*/);
-
-    var propsSet = [];
-    propsSet[0] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
-    propsSet[1] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
-    propsSet[2] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
-    propsSet[3] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
-    propsSet[4] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
-    propsSet[5] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
-    propsSet[6] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
-    propsSet[7] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
-
-    // newbee help
-    var i;
-    for (i = 0; i < 8; i++) {
-        this.mMyHero.getPackage().addProps(propsSet[i]);
-    }
-    for (i = 2; i < 8; i++) {
-        this.mMyHero.getPackage().addProps(propsSet[i]);
-    }
-    for (i = 6; i < 8; i++) {
-        this.mMyHero.getPackage().addProps(propsSet[i]);
-    }
-
 
     gEngine.LayerManager.cleanUp();
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
@@ -273,9 +201,7 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]);
 
-    switch (this.mCurrentState) {
-        case "BigMap" : {
-            gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
+    this.mMainView.setup();
 
     gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
 
