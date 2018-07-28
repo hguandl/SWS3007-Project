@@ -14,6 +14,7 @@ function Package () {
     this.kHamBone = "assets/props/ham_bone_icon.png";
     this.kDongpoPork = "assets/props/dongpo_pork_icon.png";
     this.kWhatsThis = "assets/props/whats_this_icon.png";
+    this.kRainbowFruit = "assets/props/rainbow_fruit_icon.png";
 
     this.kFontType = "assets/fonts/system-default-font";
 
@@ -77,6 +78,7 @@ Package.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHamBone);
     gEngine.Textures.loadTexture(this.kDongpoPork);
     gEngine.Textures.loadTexture(this.kWhatsThis);
+    gEngine.Textures.loadTexture(this.kRainbowFruit);
 
     gEngine.Fonts.loadFont(this.kFontType);
 };
@@ -115,15 +117,7 @@ Package.prototype.initialize = function () {
     this.mMoneyText.getXform().setPosition(this.leftX + 0.27 * this.width, this.topY - 0.175 * this.width);
     this.mMoneyText.setTextHeight(0.043 * this.width);
 
-    // this.mPropsSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
-    // this.mPropsSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
-    // this.mPropsSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
-    // this.mPropsSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
-    // this.mPropsSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
-    // this.mPropsSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
-    // this.mPropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
-    // this.mPropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
-
+    // region all props collected here
     PropsSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
     PropsSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
     PropsSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
@@ -132,10 +126,11 @@ Package.prototype.initialize = function () {
     PropsSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
     PropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
     PropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
+    PropsSet["Rainbow Fruit"] = new Props("Rainbow Fruit", this.kRainbowFruit, "Retrive All HP and All VP");
+    // endregion
 
     var i;
     for (i in PropsSet) {
-        this.addProps(PropsSet[i]);
         this.addProps(PropsSet[i]);
     }
 };

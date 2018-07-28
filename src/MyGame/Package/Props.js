@@ -46,6 +46,11 @@ function Props(name, iconFile, description) {
             this.DEF = 15;
             this.Money = 800;
             break;
+        case "Rainbow Fruit" :
+            this.HP = 99999;
+            this.VP = -99999;
+            this.Money = 1600;
+            break;
     }
 }
 
