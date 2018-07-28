@@ -1,9 +1,5 @@
 "use strict";
 
-<<<<<<< HEAD
-
-function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, characterType = _C.Hero) {
-=======
 /**
  *
  * @param characterInfo {Object} - characterInfo应该包含以下内容：Name, HP, VP, ATK, DEF, SPD
@@ -14,7 +10,6 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
  * @constructor
  */
 function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, /*characterType, ...skills*/) {
->>>>>>> dev
     this.mName = null;
 
     /** 玩家是monster还是hero

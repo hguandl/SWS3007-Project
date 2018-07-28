@@ -369,7 +369,7 @@ Package.prototype.update = function () {
                 CharacterSet[1].incCurrentHP(dHP);
                 CharacterSet[1].incCurrentVP(dVP);
                 CharacterSet[1].incCurrentATK(dATK);
-                CharacterSet[1].incCurrentDEF(dDEF);=======
+                CharacterSet[1].incCurrentDEF(dDEF);
                 this.mPropsCollections.splice(this.mCurrentSelected, 1);
                 this.mSize--;
                 break;
