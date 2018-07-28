@@ -311,5 +311,7 @@ Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
  */
 Character.prototype.randChangeHP = function(HP, fluctuate = 0.1) {
     console.assert(fluctuate <= 1 && fluctuate >= 0);
-    this.mCurrentHP += Math.round(HP * (1 + (Math.random() * 2 - 1) * fluctuate));
+    const damage = Math.round(HP * (1 + (Math.random() * 2 - 1) * fluctuate));
+    this.mCurrentHP += damage;
+    return Math.abs(damage);
 };

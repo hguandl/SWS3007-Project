@@ -1,7 +1,7 @@
 "use strict";
 
 window.UI = window.UI || {};
-window.currentButtonGroup = null;
+window.UI.currentButtonGroup = null;
 
 /** A class to control buttons in the UI.
  * The developer are supposed to use static methods rather than creating new instance.
@@ -32,8 +32,8 @@ class UIButton {
      */
     static displayButtonGroup(groupId) {
         let i;
-        window.lastButtonGroup = window.currentButtonGroup;
-        window.currentButtonGroup = groupId;
+        window.UI.lastButtonGroup = window.UI.currentButtonGroup;
+        window.UI.currentButtonGroup = groupId;
         const buttons_groups = document.getElementsByClassName("UI-button-group");
         for (i = 0; i < buttons_groups.length; i++) {
             if (buttons_groups[i].id === groupId)
@@ -48,7 +48,7 @@ class UIButton {
      * @param skillName {string} : What name to display on the button.
      */
     static setSkillName(skillIndex, skillName) {
-        document.getElementById("Skill" + skillIndex.toString() + "-button").innerText = skillName;
+        document.getElementById("skill" + skillIndex.toString() + "-button").innerText = skillName;
     }
 
     /**
@@ -57,10 +57,9 @@ class UIButton {
      */
     static setSkillNumber(skillNumber) {
         console.assert(skillNumber <= 4 && skillNumber >= 0);
-        const wrapper = document.getElementById("skill-button-group");
         let i;
         for (i = 0; i < 4; i++) {
-            setDisabled(wrapper.getElementById("skill" + i.toString() + "-button"), i < skillNumber);
+            setDisabled(document.getElementById("skill" + i.toString() + "-button"), i >= skillNumber);
         }
     }
 
@@ -116,9 +115,22 @@ class UIButton {
         for (group = 0; group < UIButtonGroups.length; group++) {
             const buttons = UIButtonGroups[group].getElementsByTagName("button");
             for (i = 0; i < buttons.length; i++) {
-                const button = buttons[i];
                 setDisabled(buttons[i], disabled);
             }
+        }
+    }
+
+    static backButtonGroup() {
+        window.UI.currentButtonGroup = window.UI.lastButtonGroup;
+        window.UI.lastButtonGroup = null;
+        const groupId = window.UI.currentButtonGroup;
+        const buttons_groups = document.getElementsByClassName("UI-button-group");
+        let i;
+        for (i = 0; i < buttons_groups.length; i++) {
+            if (buttons_groups[i].id === groupId)
+                buttons_groups[i].style.display = "block";
+            else
+                buttons_groups[i].style.display = "none";
         }
     }
 }

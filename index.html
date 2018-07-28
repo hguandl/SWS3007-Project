@@ -176,7 +176,9 @@
                     attacker: combatScene.character,
                     defender: combatScene.monster,
                 });
-            ">
+            "
+            onmouseenter="document.currentScene.showMsg(formatString('Simple attack.\nProduce %0 VP.', _C.attackVP));"
+            onmouseout="document.currentScene.closeMsg();">
             attack
         </button>
         <button id="skill-button" class="button button-parchment button-rounded"
@@ -209,7 +211,7 @@
             Monk Tang
         </button>
         <button id="back-button-character" class="button button-parchment button-rounded"
-                onclick="UIButton.displayButtonGroup('combat-button-group');">
+                onclick="UIButton.backButtonGroup();">
             back
         </button>
     </div>
@@ -255,7 +257,24 @@
             skill3
         </button>
         <button id="back-button-skill" class="button button-parchment button-rounded"
-                onclick="UIButton.displayButtonGroup('combat-button-group');">
+                onclick="UIButton.backButtonGroup();">
+            back
+        </button>
+    </div>
+    <div id="change-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
+        <button id="change-Monkey-King" class="button button-parchment button-rounded" onclick="">Monkey King</button>
+        <button id="change-The-Pigsy" class="button button-parchment button-rounded" onclick="
+
+                ">
+            The Pigsy
+        </button>
+        <button id="change-Monk-Tang" class="button button-parchment button-rounded" onclick="
+
+                ">
+            Monk Tang
+        </button>
+        <button id="back-button-change" class="button button-parchment button-rounded"
+                onclick="UIButton.backButtonGroup();">
             back
         </button>
     </div>

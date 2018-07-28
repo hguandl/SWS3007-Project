@@ -1,3 +1,5 @@
+// todo: change character
+
 /** A new level.
  * Call this function to turn into combat scene.
  * @param firstCharacter: 第一个出场的人物，请在每次调用该场景前修改该变量。
@@ -33,7 +35,7 @@ function Combat(firstCharacter, monster) {
                 9,              // number of elements in this sequence
                 0);             // horizontal padding in between
             this.characterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-            this.characterAnimate.setAnimationSpeed(6);
+            this.characterAnimate.setAnimationSpeed(_C.combatSpeed);
         }
     });
 
@@ -115,7 +117,6 @@ function Combat(firstCharacter, monster) {
         this._callback = callback;
         this._callbackParam = param;
 
-        console.debug("displaying");
         this.status = _C.displaying;
         switch (this._action.type) {
             case _C.skill:
@@ -146,16 +147,12 @@ function Combat(firstCharacter, monster) {
             this._action.param.attacker.mCurrentVP += _C.attackVP;
         }
         // calculate damage
-        const damage = calDamage(this._action.param.attacker, this._action.param.defender);
-        console.debug("attack, damage: ", damage);
-        this._action.param.defender.mCurrentHP -= damage;
-        this._action.param.defender.mCurrentHP = Math.round(this._action.param.defender.mCurrentHP);
-        // todo: animate
+        const damage = this._action.param.defender.randChangeHP(-calDamage(this._action.param.attacker, this._action.param.defender));
+        this.showMsg(this._action.param.attacker.characterType + " use attack. Damage: " + damage);
     };
 
     this.takeChangeAction = function () {
         this._character = this._action['aimCharacter'];
-        // todo: animate
     };
 
     this.getMonsterAction = function () {
@@ -216,13 +213,7 @@ Combat.prototype.initialize = function () {
         9,              // number of elements in this sequence
         0);             // horizontal padding in between
     this.monsterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-    this.monsterAnimate.setAnimationSpeed(6);
-
-    // set character icon position
-    // this.monsterIcon = new TextureRenderable(this.monster.iconURL);
-    // this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
-    // this.monsterIcon.getXform().setPosition(22, 0);
-    // this.monsterIcon.getXform().setSize(20, 20);
+    this.monsterAnimate.setAnimationSpeed(_C.combatSpeed);
 
     document.mShowStatusBar = true;
 
@@ -237,10 +228,6 @@ Combat.prototype.draw = function () {
 
     this.camera.setupViewProjection();
 
-    /** next version
-     this.character.drawBattleFigureByPos(-22, 0, 20, 20, this.camera);
-     this.monster.drawBattleFigureByPos(22, 0, 20, 20, this.camera);
-     */
     this.mBackground.draw(this.camera);
 
     this.characterAnimate.draw(this.camera);
@@ -256,17 +243,15 @@ Combat.prototype.draw = function () {
 };
 
 Combat.prototype.update = function () {
-    // this.closeMsg();
     window.statusBar.update();
     window.package.update();
-    // updateCharacterStatus();
 
     if (this.status !== _C.displaying)
         return;
 
     if (this._turn === TURN.hero) {
-        console.debug("animating hero");
         if (this.characterAnimate.updateAnimation()) {
+            this.closeMsg();
             this.status = _C.commandGiven;
             if (this._callback) {
                 this._callback(this._callbackParam);
@@ -274,25 +259,19 @@ Combat.prototype.update = function () {
             }
         }
     } else {
-        console.debug("animating monster");
         console.assert(this._turn === TURN.monster);
         if (this.monsterAnimate.updateAnimation()) {
             if (this._callback) {
                 this._callback(this._callbackParam);
                 this._callback = this._callbackParam = null;
             }
+            this.closeMsg();
             this.status = _C.waiting;
         }
     }
-
-    // todo : add animation to actions
 };
 
 function enterCombat(game) {
-    // todo: 这两行是为了能使现在版本能使用，将在下一个版本删除
-    CharacterSet[0].iconURL = "assets/character/character.png";
-    CharacterSet[1].iconURL = "assets/character/monster1.jpg";
-
     window.combatScene = new Combat(CharacterSet[0], CharacterSet[1]);
     game.nextScene = window.combatScene;
     gEngine.GameLoop.stop();

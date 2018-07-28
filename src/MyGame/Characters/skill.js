@@ -64,7 +64,7 @@ class FieryEyes extends Skill {
     }
 
     getUsage() {
-        return formatString("Decrease the defense of the enemy by %0 percent for %1 turn.", this.defPercent, this.turn)
+        return formatString("Decrease the defense of the enemy by %0 percent for %1 turn.\n", this.defPercent, this.turn)
             + super.getUsage();
     }
 
@@ -76,7 +76,7 @@ class FieryEyes extends Skill {
     useSkill(user, aim) {
         super.useSkill(user);
         aim.turnEndStatus.push(new BuffStatus("DEF", this.turn, this.defPercent, _C.percent));
-        console.debug("use FieryEyes");
+        window.combatScene.showMsg(user.characterType + " use FieryEyes.");
     }
 
     static parse(skillInfo) {
@@ -99,14 +99,13 @@ class HeavyHit extends Skill {
     }
 
     getUsage() {
-        return formatString("Deal %0 damage of your attack.", this.dmgPercent) + super.getUsage();
+        return formatString("Deal %0 damage of your attack.\n", this.dmgPercent) + super.getUsage();
     }
 
     useSkill(user, aim) {
-        const damage = calDamage(user, aim) * this.dmgPercent;
         super.useSkill(user);
-        aim.randChangeHP(-damage);
-        console.debug("use HeavyHit, damage: ", damage);
+        const damage = aim.randChangeHP(-calDamage(user, aim) * this.dmgPercent);
+        window.combatScene.showMsg(user.characterType + " use HeavyHit. Damage: " + damage);
     }
 
     static parse(skillInfo) {
@@ -129,15 +128,14 @@ class SamadhiFire extends Skill {
     }
 
     getUsage() {
-        return formatString("Deal %0 damage of your attack, disregarding the emery's defense.", this.dmgPercent)
+        return formatString("Deal %0 damage of your attack, disregarding the emery's defense.\n", this.dmgPercent)
             + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
-        const damage = user.mCurrentATK * this.dmgPercent;
-        aim.randChangeHP(-damage);
-        console.debug("use SamadhiFire, damage: ", damage);
+        const damage = aim.randChangeHP(-user.mCurrentATK * this.dmgPercent);
+        window.combatScene.showMsg(user.characterType + " use SamadhiFire. Damage: " + damage);
     }
 
     static parse(skillInfo) {
@@ -161,14 +159,14 @@ class SlackSleep extends Skill {
     }
 
     getUsage() {
-        return formatString("Recover %0 HP and change your attack to %1 percent.", this.HP, this.atkPercent) + super.getUsage();
+        return formatString("Recover %0 HP and change your attack to %1 percent.\n", this.HP, this.atkPercent) + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
         user.mCurrentHP += this.HP;
         user.status.push(new BuffStatus("ATK", 2, this.atkPercent, _C.percent));
-        console.debug("use SlackSleep, HP: ", this.HP);
+        window.combatScene.showMsg(user.characterType + " use SlackSleep. Recovered HP: "+ this.HP);
     }
 
     static parse(skillInfo) {
@@ -192,13 +190,13 @@ class Chant extends Skill {
     }
 
     getUsage() {
-        return formatString("Decrease the attack of emery to 0% percent in %1 turn.", this.atkPercent, this.turn) + super.getUsage();
+        return formatString("Decrease the attack of emery to 0% percent in %1 turn.\n", this.atkPercent, this.turn) + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
         aim.status.push(new BuffStatus("ATK", this.turn, this.atkPercent, _C.percent));
-        console.debug("use Chant");
+        window.combatScene.showMsg(user.characterType + " use Chant.");
     }
 
     static parse(skillInfo) {
