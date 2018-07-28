@@ -1,25 +1,22 @@
 /**
- * This class stores all the skill and there parameters.
+ * This class stores all the Skill and there parameters.
  */
 class SkillList {
-    static getParamNmae(skillName, argIndex) {
-        return allSkills[skillName]["args"][argIndex];
+    static parseSkill(skillInfo) {
+        return window.allSkills[skillInfo["name"]].parse(skillInfo);
     }
 }
 
 /**
  *
- * @type {{string}}
+ * @type {{Skill}}
  */
 window.allSkills = {
-    "fiery eyes with golden pupils": {
-        description: "The eyes of Monkey King is baked by the \"Samadhi Fire\", which makes it penetrating.",
-        usage: "Decrease the defense of the enemy by %0 percent for %1 turn.",
-        args: [
-            50, // 防御减少的百分比
-            5, // 回合
-        ],
-    }
+    "fiery eyes": FieryEyes,
+    "heavy hit": HeavyHit,
+    "Samadhi fire": SamadhiFire,
+    "slack sleep": SlackSleep,
+    "chant": Chant,
 };
 
 /**

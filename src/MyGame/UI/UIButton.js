@@ -26,7 +26,7 @@ class UIButton {
     }
 
     /** Display one button group and hide all other button groups.
-     * There are 5 groups now. Their ids are "custom-button-group", "skill-button-group", "default-button-group", "combat-button-group", "character-button-group"
+     * There are 5 groups now. Their ids are "custom-button-group", "Skill-button-group", "default-button-group", "combat-button-group", "character-button-group"
      * @param groupId {string} : The 'id' attribute of the button-group element. The button-group is a 'div' element in
      * index.html.
      */
@@ -43,17 +43,17 @@ class UIButton {
         }
     }
 
-    /** Set the skill name displayed by a button in the skill button group.
-     * @param skillIndex {number} : An integer specifying the index of the skill. Range from 1 to 4.
+    /** Set the Skill name displayed by a button in the Skill button group.
+     * @param skillIndex {number} : An integer specifying the index of the Skill. Range from 1 to 4.
      * @param skillName {string} : What name to display on the button.
      */
     static setSkillNmae(skillIndex, skillName) {
-        document.getElementById("skill" + skillIndex.toString() + "-button").innerText = skillName;
+        document.getElementById("Skill" + skillIndex.toString() + "-button").innerText = skillName;
     }
 
     /**
-     * Set the number of custom buttons.
-     * @param buttonNumber {number} : An integer, the custom buttons number.
+     * Set the numeric of custom buttons.
+     * @param buttonNumber {number} : An integer, the custom buttons numeric.
      */
     static setCustomButtonNumber(buttonNumber) {
         const wrapper = document.getElementById("custom-button-group");
@@ -68,7 +68,7 @@ class UIButton {
     }
 
     /**
-     * @returns {number} : Custom buttons number.
+     * @returns {number} : Custom buttons numeric.
      */
     static getCustomButtonNumber() {
         return document.getElementById("custom-button-group").childNodes.length;
@@ -98,20 +98,20 @@ class UIButton {
      * @param disable {boolean}
      */
     static disableButtons(disable) {
-        const UIButtonGroups = document.getElementsByClassName("UI-button-group");
-        let group, i;
-        for (group = 0; group < UIButtonGroups.length; group++) {
-            for (i=0; i<UIButtonGroups[group].childNodes.length; i++) {
-                const button = UIButtonGroups[group].childNodes[i];
-                try {
-                    if (disable === true)
-                        button.setAttribute("disabled", "true");
-                    else
-                        button.removeAttribute("disabled");
-                } catch (error) {
-                    console.warn(error);
-                }
-            }
-        }
+        // const UIButtonGroups = document.getElementsByClassName("UI-button-group");
+        // let group, i;
+        // for (group = 0; group < UIButtonGroups.length; group++) {
+        //     for (i=0; i<UIButtonGroups[group].childNodes.length; i++) {
+        //         const button = UIButtonGroups[group].childNodes[i];
+        //         try {
+        //             if (disable === true)
+        //                 button.setAttribute("disabled", "true");
+        //             else
+        //                 button.removeAttribute("disabled");
+        //         } catch (error) {
+        //             console.warn(error);
+        //         }
+        //     }
+        // }
     }
 }

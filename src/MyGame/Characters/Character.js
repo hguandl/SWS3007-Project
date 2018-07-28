@@ -1,10 +1,42 @@
 "use strict";
 
+<<<<<<< HEAD
 
 function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, characterType = _C.Hero) {
+=======
+/**
+ *
+ * @param characterInfo {Object} - characterInfo应该包含以下内容：Name, HP, VP, ATK, DEF, SPD
+ * [, characterType (Monster - 0,  Hero - 1) , skills]。
+ * @param iconFile
+ * @param dialogFigureFile
+ * @param battleFigureFile
+ * @constructor
+ */
+function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, /*characterType, ...skills*/) {
+>>>>>>> dev
     this.mName = null;
 
-    this.charaterType = characterType;
+    /** 玩家是monster还是hero
+     * @type {number} : Monster - 0,  Hero - 1.
+     */
+    this.charaterType = characterInfo["characterType"];
+    if (typeof this.characterType !== "number")
+        this.characterType = _C.Hero;
+    /**  @type {characterStatus[]} - 玩家状态  */
+    this.status = [];
+    /**  @type {Skill[]}  */
+    this.skills = [];
+    // if (characterInfo["skills"]) {
+    //     console.assert(characterInfo["skills"].length <= 4);
+    //     characterInfo["skills"].forEach(value => {
+    //         this.skills.push(SkillList.parseSkill(value));
+    //     });
+    // }
+    this.mATKPercent = 1.0;
+    this.mDEFPercent = 1.0;
+    this.mSPDPercent = 1.0;
+
     /* Reserved for next version
     // [0]: Icon Image
     // [1]: Dialog Figure Image
@@ -44,7 +76,7 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
     this.mSPD = this.mCurrentSPD = characterInfo["SPD"];
 }
 
-Character.prototype.statusString = function() {
+Character.prototype.statusString = function () {
     return String(this.mName + " - HP: " + this.mCurrentHP + "/" + this.mMaxHP + "; VP: " + this.mCurrentVP + "/" + this.mMaxVP);
 };
 
@@ -240,3 +272,28 @@ function createCharacterImage(textureFile) {
     image.getXform().setPosition(-100, -100);
     return image;
 }
+
+Character.prototype.displayAllSkills = function () {
+    this.skills.forEach((value, index) => {
+        value.displaySkillOnButton(index);
+    });
+};
+
+Character.prototype.computeStatus = function () {
+    let i, status;
+
+    this.mATKPercent = 1.0;
+    this.mDEFPercent = 1.0;
+    this.mSPDPercent = 1.0;
+
+    for (i = 0; i < this.status.length; i++) {
+        status = this.status[i];
+        // 如果status的回合小于0了，就删除该状态
+        if (!status.computeStatus(this))
+            this.status.splice(i, 1);
+    }
+
+    this.mCurrentATK *= this.mATKPercent;
+    this.mCurrentDEF *= this.mDEFPercent;
+    this.mCurrentSPD *= this.mSPDPercent;
+};

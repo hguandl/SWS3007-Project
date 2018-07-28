@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Journey to the West - Prototype Version</title>
+    <title>Journey to the West - Alpha Version</title>
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
 
     <!-- the following says there are javascript source code contained in
@@ -9,6 +9,7 @@
     -->
     <!-- external library -->
     <script type="text/javascript" src="src/lib/gl-matrix.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
 
     <!-- Engine code -->
     <!-- Core of Engine -->
@@ -102,6 +103,7 @@
     <!-- Client game code -->
     <script type="text/javascript" src="src/MyGame/MyGame.js"></script>
     <script type="text/javascript" src="src/MyGame/Objects/Hero.js"></script>
+    <script type="text/javascript" src="src/MyGame/Objects/NPC.js"></script>
 
     <!-- Game events -->
     <script type="text/javascript" src="src/MyGame/Events/Handler.js"></script>
@@ -110,10 +112,12 @@
     <!-- Characters -->
     <script type="text/javascript" src="src/MyGame/Characters/CharacterSet.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/Character.js"></script>
+    <script type="text/javascript" src="src/MyGame/Characters/skill.js"></script>
+    <script type="text/javascript" src="src/MyGame/Characters/characterStatus.js"></script>
 
-    <!-- Items -->
-    <script type="text/javascript" src="src/MyGame/Items/ItemSet.js"></script>
-    <script type="text/javascript" src="src/MyGame/Items/Item.js"></script>
+    <!-- Status -->
+    <script type="text/javascript" src="src/MyGame/StatusBar.js"></script>
+    <script type="text/javascript" src="src/MyGame/Viewport.js"></script>
 
     <!-- Game UI -->
     <script type="text/javascript" src="src/MyGame/UI/UIButton.js"></script>
@@ -123,12 +127,10 @@
     <script type="text/javascript" src="src/MyGame/Combat/Combat.js"></script>
     <script type="text/javascript" src="src/MyGame/Combat/Action.js"></script>
 
-    <!--Package-->
     <script type="text/javascript" src="src/MyGame/Package/Props.js"></script>
-    <script type="text/javascript" src="src/MyGame/Package/Package.js"></script>
     <script type="text/javascript" src="src/MyGame/Package/PropsUsingUI.js"></script>
-    <script type="text/javascript" src="src/MyGame/CharacterTestGame.js"></script>
-    <script type="text/javascript" src="src/MyGame/PropsTestGame.js"></script>
+    <script type="text/javascript" src="src/MyGame/Package/Package.js"></script>
+    <!--<script type="text/javascript" src="src/MyGame/Package/Package-old.js"></script>-->
 
     <link rel="stylesheet" type="text/css" href="LoadingIcons.css">
 
@@ -141,7 +143,7 @@
 </head>
 
 <body>
-<div id="LoadingIconParent" style="width: 970px; height:640px; margin: 0 auto;">
+<div id="LoadingIconParent" style="width: 970px; height:600px; margin: 0 auto;">
     <canvas id="GLCanvas">
         <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
         Your browser does not support the HTML5 canvas.
@@ -150,18 +152,18 @@
     <script type="text/javascript"> gEngine.LoadingIconConfig.setup(); </script>
 
     <!--UI-->
-    <div id="default-button-group" class="UI-button-group button-group inCanvas" style="display: block;">
+    <div id="default-button-group" class="UI-button-group button-group inCanvas" style="display: none;">
         <button id="menu-button" class="button button-parchment button-rounded"
                 onclick="window.myGame.pause()">Menu
         </button>
         <button id="item-button" class="button button-parchment button-rounded"
-                onclick="itemInfo()">Item
+                onclick="switchPackage()">Item
         </button>
         <button id="character-button" class="button button-parchment button-rounded"
-                onclick="characterInfo()">Character
+                onclick="switchStatusBar()">Character
         </button>
         <button id="small-map-button" class="button button-parchment button-rounded"
-                onclick="window.myGame.mShowSmallMap = !window.myGame.mShowSmallMap;">Small Map
+                onclick="switchSmallMap()">Small Map
         </button>
     </div>
 
@@ -175,32 +177,31 @@
             attack
         </button>
         <button id="skill-button" class="button button-parchment button-rounded"
-                onclick="UIButton.displayButtonGroup('skill-button-group');">
-            skill
+                onclick="
+                    UIButton.displayButtonGroup('skill-button-group');
+                    window.combatScene.topCharacter.displayAllSkills();
+                ">
+            Skill
         </button>
         <button id="change-character-button" class="button button-parchment button-rounded"
-                onclick="
-                    characterInfo();
-                    //UIButton.displayButtonGroup('character-button-group');
-                ">
-            character
+                onclick="switchStatusBar();">character
         </button>
         <button id="use-item-button" class="button button-parchment button-rounded"
-                onclick="">
+                onclick="switchPackage()">
             item
         </button>
     </div>
     <div id="character-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
         <button id="Monkey-King-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkeyKing'}));">
+                onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'MonkeyKing'});">
             Monkey King
         </button>
         <button id="Pigsy-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'Pigsy'}));">
+                onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'Pigsy'});">
             Pigsy
         </button>
         <button id="Monk-Sha-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.change, {'aimCharacter' : 'MonkSha'}));">
+                onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'MonkSha'});">
             Monk Sha
         </button>
         <button id="back-button-character" class="button button-parchment button-rounded"
@@ -209,21 +210,27 @@
         </button>
     </div>
     <div id="skill-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
+        <button id="skill0-button" class="button button-parchment button-rounded"
+                onclick="
+                    combatScene.takeAction(_C.skill, {
+                        skill: combatScene.topCharacter.skills[0],
+                        user: combatScene.topCharacter,
+                        aim: combatScene.monster
+                    });
+                ">
+            skill0
+        </button>
         <button id="skill1-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 1, }));">
+                onclick="combatScene.takeAction(_C.skill, { skill: 1, });">
             skill1
         </button>
         <button id="skill2-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 2, }));">
+                onclick="combatScene.takeAction(_C.skill, { skill: 2, });">
             skill2
         </button>
         <button id="skill3-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 3, }));">
+                onclick="combatScene.takeAction(_C.skill, { skill: 3, });">
             skill3
-        </button>
-        <button id="skill4-button" class="button button-parchment button-rounded"
-                onclick="combatScene.chooseAction(makeAction(_C.skill, { skill: 4, }));">
-            skill4
         </button>
         <button id="back-button-skill" class="button button-parchment button-rounded"
                 onclick="UIButton.displayButtonGroup('combat-button-group');">
@@ -252,11 +259,18 @@
 
 <script type="text/javascript">
     document.body.onload = function () {
-        window.myGame = new MyGame();
-        gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);
-
+        window.myGame = new MyGame("palace");
+        window.statusBar = new StatusBar();
+        window.package = null;
         window.combatScene = new Combat(testMonster, testCharacter);
+
+        document.mShowPackage = false;
+        document.mShowStatusBar = false;
+        document.mShowSmallMap = true;
+        document.mWin = false;
+
         UIButton.displayButtonGroup('default-button-group');
+        gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);
     };
 
     function reset() {
@@ -268,12 +282,12 @@
     }
 
     function getPoint() {
-        var x = window.myGame.mMyHero.getHero().getXform().getXPos();
-        var y = window.myGame.mMyHero.getHero().getXform().getYPos();
+        var x = document.currentScene.mMyHero.getHero().getXform().getXPos();
+        var y = document.currentScene.mMyHero.getHero().getXform().getYPos();
 
-        var posPoint0 = window.myGame.mMyMap.reducePoint(x, y);
-        var posPoint1 = window.myGame.mMyMap.reducePoint(x + 0.2, y - 0.4);
-        var posPoint2 = window.myGame.mMyMap.reducePoint(x - 0.2, y);
+        var posPoint0 = document.currentScene.mMyMap.reducePoint(x, y);
+        var posPoint1 = document.currentScene.mMyMap.reducePoint(x + 0.2, y - 0.4);
+        var posPoint2 = document.currentScene.mMyMap.reducePoint(x - 0.2, y);
 
         return [posPoint0, posPoint1, posPoint2];
     }
@@ -286,14 +300,22 @@
         document.getElementById('info_0').innerText = CharacterSet_Status();
     }
 
-    function itemInfo() {
-        document.currentScene.showMsg(ItemSet_Status());
+    function switchPackage() {
+        document.mShowPackage = !document.mShowPackage;
+    }
+
+    function switchSmallMap() {
+        document.mShowSmallMap = !document.mShowSmallMap;
+    }
+
+    function switchStatusBar() {
+        document.mShowStatusBar = !document.mShowStatusBar;
     }
 </script>
 
 <!-- Dialog -->
 
-<a class="button button-parchment button-rounded" onclick="ShowDiv('MyDiv','fade')">new dialog</a>
+<!-- <a class="button button-parchment button-rounded" onclick="ShowDiv('MyDiv','fade')">new dialog</a>-->
 
 <!--弹出层时背景层DIV---start-->
 <div id="UI-dialog">
@@ -340,9 +362,9 @@
 
         <div class="itempanel" style="margin-left: 50px;">
             <div class="floatleft title" style="text-align: left;">
-                <p> The prototype demo is finished. </p>
+                <p> The alpha version is finished. </p>
                 <p> Thanks for playing. </p>
-                <p> Stay tuned for alpha beta! </p>
+                <p> Stay tuned for beta version! </p>
             </div>
         </div>
 

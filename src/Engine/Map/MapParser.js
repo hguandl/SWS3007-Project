@@ -26,15 +26,25 @@ Map.prototype.pixelCenter = function(pos) {
 };
 
 Map.prototype.reducePoint = function(x, y) {
-    return 20 * Math.round(this.mHeight - 0.5 - y) + Math.round(x - 0.5);
+    return this.mWidth * Math.round(this.mHeight - 0.5 - y) + Math.round(x - 0.5);
 };
 
 Map.prototype.detectEvent = function (x, y) {
     var posPoint = this.reducePoint(x, y);
-    // if (this.mData[posPoint] > 2 && posPoint != this.mEventBuffer) {
-    if (this.mData[posPoint] > 2) {
-        // this.mEventBuffer = posPoint;
-        return this.mContent[this.mData[posPoint]];
+    if (this.mData[posPoint] % 10 > 0) {
+        var e = this.mEvents[posPoint];
+        if (!e) return null;
+        if (e[e.length - 1]) return null;
+        return GameEvents.handle(this.mEvents[posPoint]);
+    }
+    if (this.mData[posPoint - 1] % 10 > 0 || this.mData[posPoint + 1] % 10 > 0 || this.mData[posPoint+this.mWidth] % 10 > 0 || this.mData[posPoint-this.mWidth] % 10 > 0) {
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {
+            var e = this.mEvents[posPoint];
+            if (!e) return null;
+            if (e[e.length - 1]) return null;
+            e[e.length - 1] = true;
+            return GameEvents.handle(this.mEvents[posPoint]);
+        }
     }
     return null;
 };
@@ -65,6 +75,7 @@ Map.prototype.canWalkDirection = function(posPoint, x, y, dir) {
             return true;
         if (this.mContent[this.mData[nextStepPoint]] == "unwalkable") {
             var nextStepVec = this.pixelCenter(nextStepPoint);
+            // console.log(y, nextStepVec[1]);
             if (y + 1 > nextStepVec[1])
                 return false;
         }

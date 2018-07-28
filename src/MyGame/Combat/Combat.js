@@ -7,14 +7,16 @@
  * @property displaying {boolean} : 是否正在显示战斗动画。设置为true会自动使得按钮不能使用，设置为false时按钮又可以使用了。
  */
 function Combat(topCharacter, monster) {
+    /** @type Character */
     this.topCharacter = topCharacter;
+    /** @type Character */
     this.monster = monster;
-    console.debug(topCharacter);
-    console.debug(monster);
 
-    this.kBackground = "assets/map/combat_background_town.png";
-
+    // todo: change this with respect to battle place
+    this.kBackground = "assets/map/plateau/plateau-battle.png";
+    /**  @type Camera  */
     this.camera = null;
+    /**  @type Action  */
     this._action = new Action(_C.none);
     this.combatResult = null;
 
@@ -34,6 +36,8 @@ function Combat(topCharacter, monster) {
 
         this._action = makeAction(actionType, actionParam);
 
+        this.computeCharacterStatus();
+
         this.displayAction();
 
         this.checkAlive();
@@ -46,6 +50,9 @@ function Combat(topCharacter, monster) {
             attacker: this.monster,
             defender: this.topCharacter,
         });
+
+        this.computeCharacterStatus();
+
         this.displayAction();
 
         this.checkAlive();
@@ -54,9 +61,16 @@ function Combat(topCharacter, monster) {
         this.status = _C.waiting;
     };
 
+    this.computeCharacterStatus = function() {
+        this.topCharacter.computeStatus();
+        this.monster.computeStatus();
+    };
+
     this.checkAlive = function() {
         if (this.monster.mCurrentHP <= 0) {
             this.combatResult = "win";
+            document.mWin = true;
+            document.currentScene.showMsg("Congratulations!\n Now you've got the flower.");
             // todo: add die
             gEngine.GameLoop.stop();
         } else if (this.topCharacter.mCurrentHP <= 0) {
@@ -68,6 +82,9 @@ function Combat(topCharacter, monster) {
 
     this.displayAction = function() {
         switch (this._action.type) {
+            case _C.skill:
+                this.takeSkillAction();
+                break;
             case _C.attack:
                 this.takeAttackAction();
                 break;
@@ -81,6 +98,10 @@ function Combat(topCharacter, monster) {
                 console.warn("unknown action type");
                 break;
         }
+    };
+
+    this.takeSkillAction = function () {
+        this._action.param.skill.useSkill(this._action.param.user, this._action.param.aim);
     };
 
     this.takeAttackAction = function () {
@@ -120,9 +141,9 @@ Combat.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.monster.iconURL);
 
     // 回到大地图
-    this.closeMsg(true);
-    document.currentScene = window.myGame;
-    gEngine.Core.startScene(window.myGame);
+    // this.closeMsg(true);
+    document.currentScene = this.nextScene;
+    gEngine.Core.startScene(this.nextScene);
 };
 
 Combat.prototype.initialize = function () {
@@ -146,9 +167,6 @@ Combat.prototype.initialize = function () {
      this.monster.setBattleFigurePosition(22, 0);
      */
 
-    // this.mMapBkg = new Background(this.kBackground, [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
-    // gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
-
     this.characterIcon = new TextureRenderable(this.topCharacter.iconURL);  // todo: 商量iconURL的接口，该接口用于获取icon的URL
     this.characterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
     this.characterIcon.getXform().setPosition(-22, 0);
@@ -158,7 +176,8 @@ Combat.prototype.initialize = function () {
     this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
     this.monsterIcon.getXform().setPosition(22, 0);
     this.monsterIcon.getXform().setSize(20, 20);
-    characterInfo();
+
+    document.mShowStatusBar = true;
 };
 
 Combat.prototype.draw = function () {
@@ -174,11 +193,20 @@ Combat.prototype.draw = function () {
 
     this.characterIcon.draw(this.camera);
     this.monsterIcon.draw(this.camera);
+
+    if (document.mShowPackage) {
+        window.package.draw();
+    }
+
+    if (document.mShowStatusBar) {
+        window.statusBar.draw();
+    }
 };
 
 Combat.prototype.update = function () {
     this.closeMsg();
-
+    window.statusBar.update();
+    window.package.update();
     updateCharacterStatus();
 
     // if (this._action.type === _C.none)
