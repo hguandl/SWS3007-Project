@@ -63,6 +63,8 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
 
     this.mName = characterInfo["Name"];
 
+    this.spriteURL = "assets/hero/fight/" + this.mName + ".png";
+
     this.mMaxHP = this.mCurrentHP = characterInfo["HP"];
     this.mMaxVP = characterInfo["VP"];
     this.mCurrentVP = 0;

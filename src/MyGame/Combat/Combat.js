@@ -1,14 +1,42 @@
-//  todo: 商量人物技能的接口，skill1表示第一个技能，应该包含damage, VP（疲劳值）
-
 /** A new level.
  * Call this function to turn into combat scene.
- * @param topCharacter: 第一个出场的人物，请在每次调用该场景前修改该变量。
+ * @param firstCharacter: 第一个出场的人物，请在每次调用该场景前修改该变量。
  * @param monster: 出场的怪物，请在每次调用该场景前修改该变量。
  * @property displaying {boolean} : 是否正在显示战斗动画。设置为true会自动使得按钮不能使用，设置为false时按钮又可以使用了。
  */
-function Combat(topCharacter, monster) {
+function Combat(firstCharacter, monster) {
+    /**  @type Character  */
+    this._character = null;
+    Object.defineProperty(this, "character", {
+        get: () => {
+            return this._character;
+        },
+        set: v => {
+            if (this._character)
+                this._character.turnEndStatus = [];
+
+            this._character = v;
+
+            if (this._character)
+                this._character.turnEndStatus = [];
+
+            // 改变显示的人物图标
+            /**  @type SpriteAnimateRenderable  */
+            this.characterAnimate = new SpriteAnimateRenderable(this._character.spriteURL);
+            this.characterAnimate.setColor([0, 0, 0, 0.0]);
+            this.characterAnimate.getXform().setPosition(-22, 0);
+            this.characterAnimate.getXform().setSize(10, 9);
+            this.characterAnimate.setSpriteSequence(256, 5,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+                512 / 9, 256 / 6,       // width * height in pixels
+                9,              // number of elements in this sequence
+                0);             // horizontal padding in between
+            this.characterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+            this.characterAnimate.setAnimationSpeed(12);
+        }
+    });
+
     /** @type Character */
-    this.topCharacter = topCharacter;
+    this.firstCharacter = firstCharacter;
     /** @type Character */
     this.monster = monster;
 
@@ -36,7 +64,7 @@ function Combat(topCharacter, monster) {
 
         this._action = makeAction(actionType, actionParam);
 
-        this.topCharacter.computeTurnEndStatus(true);
+        this.character.computeTurnEndStatus(true);
         this.monster.computeTurnEndStatus(false);
 
         this.displayAction();
@@ -48,7 +76,7 @@ function Combat(topCharacter, monster) {
 
         this._action = this.getMonsterAction();
 
-        this.topCharacter.computeTurnEndStatus(false);
+        this.character.computeTurnEndStatus(false);
         this.monster.computeTurnEndStatus(true);
 
         this.displayAction();
@@ -66,7 +94,7 @@ function Combat(topCharacter, monster) {
             document.currentScene.showMsg("Congratulations!\n Now you've got the flower.");
             // todo: add die
             gEngine.GameLoop.stop();
-        } else if (this.topCharacter.mCurrentHP <= 0) {
+        } else if (this.character.mCurrentHP <= 0) {
             // todo: add die
             this.combatResult = "lose";
             gEngine.GameLoop.stop();
@@ -111,14 +139,14 @@ function Combat(topCharacter, monster) {
     };
 
     this.takeChangeAction = function () {
-        this.topCharacter = this._action['aimCharacter'];
+        this._character = this._action['aimCharacter'];
         // todo: animate
     };
 
     this.getMonsterAction = function () {
         return makeAction(_C.attack, {
             attacker: this.monster,
-            defender: this.topCharacter,
+            defender: this.character,
         });
     };
 }
@@ -126,18 +154,24 @@ function Combat(topCharacter, monster) {
 gEngine.Core.inheritPrototype(Combat, Scene);
 
 Combat.prototype.loadScene = function () {
-    gEngine.Textures.loadTexture(this.topCharacter.iconURL);
     gEngine.Textures.loadTexture(this.monster.iconURL);
 
+    ALL_SPRITE_TEXTURE.forEach(value => {
+        gEngine.Textures.loadTexture(value);
+    });
     gEngine.Textures.loadTexture(this.kBackground);
 
     UIButton.displayButtonGroup("combat-button-group");
 };
 
 Combat.prototype.unloadScene = function () {
-    gEngine.Textures.unloadTexture(this.topCharacter.iconURL);
+    gEngine.Textures.unloadTexture(this.character.iconURL);
     gEngine.Textures.unloadTexture(this.monster.iconURL);
 
+    ALL_SPRITE_TEXTURE.forEach(value => {
+        gEngine.Textures.unloadTexture(value);
+    });
+    gEngine.Textures.unloadTexture(this.kBackground);
     // 回到大地图
     // this.closeMsg(true);
     document.currentScene = this.nextScene;
@@ -158,20 +192,18 @@ Combat.prototype.initialize = function () {
     this.mBackground.getXform().setPosition(0, 0);
     this.mBackground.getXform().setSize(this.camera.getWCWidth(), this.camera.getWCHeight());
 
+    this.character = this.firstCharacter;
+    delete this.firstCharacter;
+
     /** next version
-     this.topCharacter.setBattleFigureSize(20, 20);
-     this.topCharacter.setBattleFigurePosition(-22, 0);
+     this.character.setBattleFigureSize(20, 20);
+     this.character.setBattleFigurePosition(-22, 0);
 
      this.monster.setBattleFigureSize(20, 20);
      this.monster.setBattleFigurePosition(22, 0);
      */
 
-
     // set character icon position
-    this.characterIcon = new TextureRenderable(this.topCharacter.iconURL);  // todo: 商量iconURL的接口，该接口用于获取icon的URL
-    this.characterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
-    this.characterIcon.getXform().setPosition(-22, 0);
-    this.characterIcon.getXform().setSize(20, 20);
 
     this.monsterIcon = new TextureRenderable(this.monster.iconURL);
     this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
@@ -192,12 +224,12 @@ Combat.prototype.draw = function () {
     this.camera.setupViewProjection();
 
     /** next version
-     this.topCharacter.drawBattleFigureByPos(-22, 0, 20, 20, this.camera);
+     this.character.drawBattleFigureByPos(-22, 0, 20, 20, this.camera);
      this.monster.drawBattleFigureByPos(22, 0, 20, 20, this.camera);
      */
     this.mBackground.draw(this.camera);
 
-    this.characterIcon.draw(this.camera);
+    this.characterAnimate.draw(this.camera);
     this.monsterIcon.draw(this.camera);
 
     if (document.mShowPackage) {
@@ -214,6 +246,8 @@ Combat.prototype.update = function () {
     window.statusBar.update();
     window.package.update();
     updateCharacterStatus();
+
+    this.characterAnimate.updateAnimation();
 
     // if (this._action.type === _C.none)
     //     return;

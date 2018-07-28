@@ -25,3 +25,10 @@ let _C = {
     Monster: 0,
     Hero: 1,
 };
+
+const ALL_SPRITE_TEXTURE = [
+    "assets/hero/fight/Monk Tang.png",
+    "assets/hero/fight/Monkey King.png",
+    "assets/hero/fight/plateau-lizard-battle.png",
+    "assets/hero/fight/The Pigsy.png",
+];
