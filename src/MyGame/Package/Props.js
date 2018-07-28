@@ -1,7 +1,5 @@
 "use strict";
 
-var PropsSet = [];
-
 function Props(name, iconFile, description) {
     this.mName = name;
     this.mIcon = new TextureRenderable(iconFile);
@@ -17,11 +15,11 @@ function Props(name, iconFile, description) {
 
     switch(name) {
         case "Queen Peach" :
-            this.HP = 9999;
+            this.HP = 99999;
             this.Money = 800;
             break;
         case "Nine Turn Dan" :
-            this.VP = 9999;
+            this.VP = -99999;
             this.Money = 800;
             break;
         case "Blood of Dragon" :
@@ -29,7 +27,7 @@ function Props(name, iconFile, description) {
             this.Money = 200;
             break;
         case "Spirit of Dragon" :
-            this.VP = 400;
+            this.VP = -400;
             this.Money = 200;
             break;
         case "Ham Bone" :

@@ -1,9 +1,28 @@
 "use strict";
 
-function Package(bgFile, brickFile, UIBgFile, moneyIconFile, fontType, capacity/*, aCamera*/) {
-    var name = "Items";
+function Package () {
+    this.kBgFile = "assets/package/package_bg.png";
+    this.kBrickFile = "assets/package/package_brick.png";
+    this.kUIBgFile = "assets/package/package_ui.png";
+    this.kMoneyIconFile = "assets/package/package_money_icon.png";
 
-    this.kFontType = fontType;
+    this.kQueenPeach = "assets/props/queen_peach_icon.png";
+    this.kNineTurnDan = "assets/props/nine_turn_dan_icon.png";
+    this.kBloodOfDragon = "assets/props/blood_of_dragon_icon.png";
+    this.kSpiritOfDragon = "assets/props/spirit_of_dragon_icon.png";
+    this.kGlutinousRiceCongee = "assets/props/glutinous_rice_congee_icon.png";
+    this.kHamBone = "assets/props/ham_bone_icon.png";
+    this.kDongpoPork = "assets/props/dongpo_pork_icon.png";
+    this.kWhatsThis = "assets/props/whats_this_icon.png";
+
+    this.kFontType = "assets/fonts/system-default-font";
+
+    this.mCamera = null;
+
+    this.mBg = null;
+    this.mBrick = null;
+    this.mUIBg = null;
+    this.choosingUI = null;
 
     this.leftX = -5;
     this.topY = 90;
@@ -12,30 +31,7 @@ function Package(bgFile, brickFile, UIBgFile, moneyIconFile, fontType, capacity/
     this.mRow = 4;
     this.mColumn = 5;
 
-    this.mCamera = new Camera(
-        vec2.fromValues(50, 50),
-        100,
-        [0, 0, 800, 600],
-        true
-    );
-    //this.mCamera = aCamera;
-    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 0]);
-
-    // region name, brick file, bg file
-    this.mName = name;
-    this.mNameText = new FontRenderable(name);
-    this.mNameText.setFont(fontType);
-
-    this.mBrick = new TextureRenderable(brickFile);
-    this.mBrick.setColor([1, 1, 1, 0]);
-    this.mBrick.getXform().setPosition(-200, -200);
-
-    this.mBgFile = new TextureRenderable(bgFile);
-    this.mBgFile.setColor([1, 1, 1, 0]);
-    this.mBgFile.getXform().setPosition(-200, -200);
-    //endregion
-
-    this.mCapacity = capacity;
+    this.mCapacity = 20;
     this.mSize = 0;
 
     this.mBrickW = 0.097 * this.width;
@@ -46,10 +42,15 @@ function Package(bgFile, brickFile, UIBgFile, moneyIconFile, fontType, capacity/
 
     this.mMoney = 1000;
     this.mMoneyH = 3;
-    this.mMoneyColor = [0.2, 0.2, 0.2, 0.8];    // default color of money
+    this.mMoneyColor = [0.2, 0.2, 0.2, 0.8];
 
-    this.mPropsSet = [];
-    this.mPropsSetColor = [0.3, 0, 0, 0.7];     // default color of props description
+    this.mPropsNameX = this.leftX + 0.245 * this.width;
+    this.mPropsNameY = this.topY - 0.645 * this.width;
+    this.mPropsDescX = this.mPropsNameX + 0.003 * this.width;
+    this.mPropsDescY = this.mPropsNameY - 0.055 * this.width;
+
+    this.mPropsCollections = [];
+    this.mPropsCollectionsColor = [0.3, 0, 0, 0.7];     // default color of props description
     this.mCurrentSelected = -1;
     this.mCurrentShowing = -1;
 
@@ -57,109 +58,99 @@ function Package(bgFile, brickFile, UIBgFile, moneyIconFile, fontType, capacity/
     this.tickRight = this.tickLeft = 2 * this.tickThreshold;
     this.tickJ = this.tickThreshold;
 
-    this.mUIBgFile = UIBgFile;
-    this.choosingUI = null;
+    this.mMoneyText = null;
+}
+gEngine.Core.inheritPrototype(Package, Scene);
 
-    this.mBgFile.getXform().setPosition(this.leftX + 0.5 * this.width, this.topY - 0.5 * this.width);
-    this.mBgFile.getXform().setSize(this.width, this.width);
+Package.prototype.loadScene = function () {
+    gEngine.Textures.loadTexture(this.kBgFile);
+    gEngine.Textures.loadTexture(this.kBrickFile);
+    gEngine.Textures.loadTexture(this.kUIBgFile);
+    gEngine.Textures.loadTexture(this.kMoneyIconFile);
+
+    gEngine.Textures.loadTexture(this.kQueenPeach);
+    gEngine.Textures.loadTexture(this.kNineTurnDan);
+    gEngine.Textures.loadTexture(this.kBloodOfDragon);
+    gEngine.Textures.loadTexture(this.kSpiritOfDragon);
+    gEngine.Textures.loadTexture(this.kGlutinousRiceCongee);
+    gEngine.Textures.loadTexture(this.kHamBone);
+    gEngine.Textures.loadTexture(this.kDongpoPork);
+    gEngine.Textures.loadTexture(this.kWhatsThis);
+
+    gEngine.Fonts.loadFont(this.kFontType);
+};
+
+Package.prototype.unloadScene = function () {
+
+};
+
+var PropsSet = [];
+Package.prototype.initialize = function () {
+    this.mCamera = new Camera(
+        vec2.fromValues(50, 50),
+        100,
+        [0, 0, 800, 600],
+        true
+    );
+    this.mCamera.setBackgroundColor([1.0, 1.0, 1.0, 0]);
+    this.mCamera.setupViewProjection();
+
+    this.mBrick = new TextureRenderable(this.kBrickFile);
+    this.mBrick.setColor([1, 1, 1, 0]);
+    this.mBrick.getXform().setPosition(-200, -200);
+
+    this.mBg = new TextureRenderable(this.kBgFile);
+    this.mBg.setColor([1, 1, 1, 0]);
+    this.mBg.getXform().setPosition(this.leftX + 0.5 * this.width, this.topY - 0.5 * this.width);
+    this.mBg.getXform().setSize(this.width, this.width);
+
+    this.mUIBg = new TextureRenderable(this.kUIBgFile);
+    this.mUIBg.setColor([1, 1, 1, 0]);
+    this.mUIBg.getXform().setPosition(-200, -200);
 
     this.mMoneyText = new FontRenderable("$ " + this.mMoney);
     this.mMoneyText.setFont(this.kFontType);
     this.mMoneyText.setColor(this.mMoneyColor);
     this.mMoneyText.getXform().setPosition(this.leftX + 0.27 * this.width, this.topY - 0.175 * this.width);
     this.mMoneyText.setTextHeight(0.043 * this.width);
-}
 
+    // this.mPropsSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
+    // this.mPropsSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
+    // this.mPropsSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
+    // this.mPropsSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
+    // this.mPropsSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
+    // this.mPropsSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
+    // this.mPropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
+    // this.mPropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
 
-Package.prototype.getName = function () {
-    return this.mName;
-};
+    PropsSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
+    PropsSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
+    PropsSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
+    PropsSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
+    PropsSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
+    PropsSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
+    PropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
+    PropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
 
-Package.prototype.showNameByPos = function (fontType, leftX, topY, color, textH, aCamera) {
-    this.mNameText.setFont(fontType);
-    this.mNameText.setColor(color);
-    this.mNameText.getXform().setPosition(leftX, topY);
-    this.mNameText.setTextHeight(textH);
-    this.mNameText.draw(aCamera);
-};
-
-
-//region functions about capacity and size
-Package.prototype.setCapacity = function (c) {
-    this.mCapacity = c;
-};
-
-Package.prototype.getCapacity = function () {
-    return this.mCapacity;
-};
-
-Package.prototype.incCapacity = function (deltaC) {
-    this.mCapacity += deltaC;
-};
-
-Package.prototype.getSize = function () {
-    return this.mSize;
-};
-//endregion
-
-
-// region functions about money
-Package.prototype.getMoney = function () {
-    return this.mMoney;
-};
-
-Package.prototype.setMoney = function (money) {
-    this.mMoney = money;
-};
-
-Package.prototype.incMoney = function (deltaM) {
-    this.mMoney += deltaM;
-};
-// endregion
-
-
-//region functions about props adding and using(not usable yet)
-Package.prototype.addProps = function (newProps) {
-    if (this.mSize < this.mCapacity) {
-        this.mPropsSet.push(newProps);
-        this.mSize += 1;
-    }
-};
-
-// not usable yet
-Package.prototype.useProps = function (propsName) {
     var i;
-    for (i = 0; i < this.mPropsSet.length; i++) {
-        if (this.mPropsSet[i].getName() == propsName) {
-            this.mPropsSet[i].splice(i, 1);
-            return;
-        }
+    for (i in PropsSet) {
+        this.addProps(PropsSet[i]);
+        this.addProps(PropsSet[i]);
     }
 };
-// endregion
 
 
-// region draw()
-// draw background, money, bricks, and props (press <I> with description)
-// left-top position: [leftX, topY]
 var isChoosingUI = false;
-Package.prototype.draw = function (/*aCameraFromHero*/) {
+Package.prototype.draw = function () {
 
-    var aCamera = new Camera(
-        vec2.fromValues(50, 50),
-        100,
-        [0, 0, 800, 600],
-        true                // transparent
-    );
-    aCamera.setBackgroundColor([1.0, 1.0, 1.0, 0]);
-    aCamera.setupViewProjection();
+    this.mCamera.setupViewProjection();
 
     // background of the package
-    this.mBgFile.draw(aCamera);
+    this.mBg.draw(this.mCamera);
 
     // show money
     this.mMoneyText.setText("$ " + this.mMoney);
-    this.mMoneyText.draw(aCamera);
+    this.mMoneyText.draw(this.mCamera);
 
     // draw bricks and props
     var i, j, count = 0;
@@ -175,53 +166,51 @@ Package.prototype.draw = function (/*aCameraFromHero*/) {
                 this.mBrick.getXform().setSize(this.mBrickW, this.mBrickH);
             }
 
-            this.mBrick.draw(aCamera);
+            this.mBrick.draw(this.mCamera);
             if (count < this.mSize) {
                 if (count == this.mCurrentSelected) {
-                    this.mPropsSet[count].drawIconByPos(x, y, this.mBrickW + 0.012 * this.width, this.mBrickH + 0.012 * this.width, aCamera);
+                    this.mPropsCollections[count].drawIconByPos(x, y, this.mBrickW + 0.012 * this.width, this.mBrickH + 0.012 * this.width, this.mCamera);
                 } else {
-                    this.mPropsSet[count].drawIconByPos(x, y, this.mBrickW - 0.008 * this.width, this.mBrickH - 0.008 * this.width, aCamera);
+                    this.mPropsCollections[count].drawIconByPos(x, y, this.mBrickW - 0.008 * this.width, this.mBrickH - 0.008 * this.width, this.mCamera);
                 }
-                //this.mPropsSet[count].drawIconByPos(x, y, this.mBrickW - 1, this.mBrickH - 1, aCamera);
+                //this.mPropsCollections[count].drawIconByPos(x, y, this.mBrickW - 1, this.mBrickH - 1, this.mCamera);
                 count++;
             }
 
             if (this.mCurrentShowing >= 0) {
-                this.mPropsSet[this.mCurrentShowing].showNameByPos(this.kFontType, this.leftX + 0.245 * this.width, this.topY - 0.645 * this.width, this.mPropsSetColor, 0.04 * this.width, aCamera);
-                //this.mPropsSet[this.mCurrentShowing].showNameByPos(this.kFontType, 30, 40, this.mPropsSetColor, 5, aCamera);
-                this.mPropsSet[this.mCurrentShowing].showInfoByPos(this.kFontType, this.leftX + 0.248 * this.width, this.topY - 0.7 * this.width, this.mPropsSetColor, 0.032 * this.width, aCamera);
+                this.mPropsCollections[this.mCurrentShowing].showNameByPos(this.kFontType, this.mPropsNameX, this.mPropsNameY, this.mPropsCollectionsColor, 0.04 * this.width, this.mCamera);
+                //this.mPropsCollections[this.mCurrentShowing].showNameByPos(this.kFontType, 30, 40, this.mPropsCollectionsColor, 5, this.mCamera);
+                this.mPropsCollections[this.mCurrentShowing].showInfoByPos(this.kFontType, this.mPropsDescX, this.mPropsDescY, this.mPropsCollectionsColor, 0.032 * this.width, this.mCamera);
                 this.mCurrentShowing = -1;
             }
         }
     }
 
     if (isChoosingUI) {
-        this.choosingUI.draw(aCamera, this.leftX, this.topY, this.width);
+        this.choosingUI.draw(this.mCamera, this.leftX, this.topY, this.width);
     }
 
 };
-// endregion
 
-// region update()
 var isFirstClicked;
 var latestPressedAloneKey;
-// when exiting, return -1
-// if aCurState = "Battle", after using one props, immediately return -1
 Package.prototype.update = function () {
 
     if (!isChoosingUI) {
 
         if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
+            //window.switchPackage();
+            switchPackage();
             return -1;
         }
 
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I)) {
+        //if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I)) {
             if (this.mCurrentSelected < this.mSize) {
                 this.mCurrentShowing = this.mCurrentSelected;
             } else {
                 this.mCurrentShowing = -1;
             }
-        }
+        //}
 
         // region press left or right to select a props
         if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
@@ -329,13 +318,17 @@ Package.prototype.update = function () {
         }
 
         if (gEngine.Input.isKeyReleased(gEngine.Input.keys.J)) {
-            if (this.mCurrentSelected < this.mPropsSet.length && this.tickJ >= this.tickThreshold) {
+            if (this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold) {
 
-                this.choosingUI = new PropsUsingUI(this.mUIBgFile, this.kFontType, this.mCamera);
+                this.choosingUI = new PropsUsingUI(this.kUIBgFile, this.kFontType, this.mCamera);
                 isChoosingUI = true;
 
                 this.tickJ = 0;
             }
+        }
+
+        if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
+            switchPackage();
         }
 
         this.tickRight++;
@@ -347,11 +340,11 @@ Package.prototype.update = function () {
     } else {
 
         var result = this.choosingUI.update();
-        var dHP = this.mPropsSet[this.mCurrentSelected].getHP();
-        var dVP = this.mPropsSet[this.mCurrentSelected].getVP();
-        var dATK = this.mPropsSet[this.mCurrentSelected].getATK();
-        var dDEF = this.mPropsSet[this.mCurrentSelected].getDEF();
-        var dM = this.mPropsSet[this.mCurrentSelected].getMoney();
+        var dHP = this.mPropsCollections[this.mCurrentSelected].getHP();
+        var dVP = this.mPropsCollections[this.mCurrentSelected].getVP();
+        var dATK = this.mPropsCollections[this.mCurrentSelected].getATK();
+        var dDEF = this.mPropsCollections[this.mCurrentSelected].getDEF();
+        var dM = this.mPropsCollections[this.mCurrentSelected].getMoney();
 
         switch (result) {
             case 0:
@@ -365,7 +358,7 @@ Package.prototype.update = function () {
                 CharacterSet[0].incCurrentVP(dVP);
                 CharacterSet[0].incCurrentATK(dATK);
                 CharacterSet[0].incCurrentDEF(dDEF);
-                this.mPropsSet.splice(this.mCurrentSelected, 1);
+                this.mPropsCollections.splice(this.mCurrentSelected, 1);
                 this.mSize--;
                 break;
             case 2:
@@ -376,7 +369,7 @@ Package.prototype.update = function () {
                 CharacterSet[1].incCurrentVP(dVP);
                 CharacterSet[1].incCurrentATK(dATK);
                 CharacterSet[1].incCurrentDEF(dDEF);
-                this.mPropsSet.splice(this.mCurrentSelected, 1);
+                this.mPropsCollections.splice(this.mCurrentSelected, 1);
                 this.mSize--;
                 break;
             case 3:
@@ -386,14 +379,14 @@ Package.prototype.update = function () {
                 CharacterSet[2].incCurrentVP(dVP);
                 CharacterSet[2].incCurrentATK(dATK);
                 CharacterSet[2].incCurrentDEF(dDEF);
-                this.mPropsSet.splice(this.mCurrentSelected, 1);
+                this.mPropsCollections.splice(this.mCurrentSelected, 1);
                 this.mSize--;
                 break;
             case 4:
                 isChoosingUI = false;
 
                 this.incMoney(dM);
-                this.mPropsSet.splice(this.mCurrentSelected, 1);
+                this.mPropsCollections.splice(this.mCurrentSelected, 1);
                 this.mSize--;
         }
 
@@ -401,5 +394,64 @@ Package.prototype.update = function () {
 
     }
 };
+
+Package.prototype.getName = function () {
+    return this.mName;
+};
+
+Package.prototype.showNameByPos = function (fontType, leftX, topY, color, textH, aCamera) {
+    this.mNameText.setFont(fontType);
+    this.mNameText.setColor(color);
+    this.mNameText.getXform().setPosition(leftX, topY);
+    this.mNameText.setTextHeight(textH);
+    this.mNameText.draw(aCamera);
+};
+
+//region functions about capacity and size
+Package.prototype.setCapacity = function (c) {
+    this.mCapacity = c;
+};
+
+Package.prototype.getCapacity = function () {
+    return this.mCapacity;
+};
+
+Package.prototype.incCapacity = function (deltaC) {
+    this.mCapacity += deltaC;
+};
+
+Package.prototype.getSize = function () {
+    return this.mSize;
+};
+//endregion
+
+// region functions about money
+Package.prototype.getMoney = function () {
+    return this.mMoney;
+};
+
+Package.prototype.setMoney = function (money) {
+    this.mMoney = money;
+};
+
+Package.prototype.incMoney = function (deltaM) {
+    this.mMoney += deltaM;
+};
 // endregion
 
+Package.prototype.addProps = function (newProps) {
+    if (this.mSize < this.mCapacity) {
+        this.mPropsCollections.push(newProps);
+        this.mSize += 1;
+    }
+};
+
+Package.prototype.useProps = function (propsName) {
+    var i;
+    for (i = 0; i < this.mPropsCollections.length; i++) {
+        if (this.mPropsCollections[i].getName() == propsName) {
+            this.mPropsCollections[i].splice(i, 1);
+            return;
+        }
+    }
+};
