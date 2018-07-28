@@ -10,8 +10,14 @@
         "skills": [
             {
                 "name": "fiery eyes",
-                "VP": 300,
-                "defPercent": 40,
+                "VP": 150,
+                "defPercent": 60,
+                "turn": 5
+            },
+            {
+                "name": "heavy hit",
+                "VP": 150,
+                "defPercent": -40,
                 "turn": 5
             }
         ]

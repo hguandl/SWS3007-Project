@@ -23,10 +23,14 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
     /**  @type {Skill[]}  */
     this.skills = [];
     if (characterInfo["skills"]) {
+        console.assert(characterInfo["skills"].length <= 4);
         characterInfo["skills"].forEach(value => {
             this.skills.push(SkillList.parseSkill(value));
         });
     }
+    this.mATKPercent = 1.0;
+    this.mDEFPercent = 1.0;
+    this.mSPDPercent = 1.0;
 
     /* Reserved for next version
     // [0]: Icon Image
@@ -268,8 +272,19 @@ Character.prototype.displayAllSkills = function () {
 
 Character.prototype.computeStatus = function () {
     let i, status;
+
+    this.mATKPercent = 1.0;
+    this.mDEFPercent = 1.0;
+    this.mSPDPercent = 1.0;
+
     for (i = 0; i < this.status.length; i++) {
         status = this.status[i];
-        status.computeStatus(this);
+        // 如果status的回合小于0了，就删除该状态
+        if (!status.computeStatus(this))
+            this.status.splice(i, 1);
     }
+
+    this.mCurrentATK *= this.mATKPercent;
+    this.mCurrentDEF *= this.mDEFPercent;
+    this.mCurrentSPD *= this.mSPDPercent;
 };
