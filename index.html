@@ -181,6 +181,7 @@
         </button>
         <button id="skill-button" class="button button-parchment button-rounded"
                 onclick="
+                    UIButton.setSkillNumber(window.combatScene.character.skills.length);
                     UIButton.displayButtonGroup('skill-button-group');
                     window.combatScene.character.displayAllSkills();
                 ">
@@ -213,7 +214,7 @@
         </button>
     </div>
     <div id="skill-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
-        <button id="skill0-button" class="button button-parchment button-rounded"
+        <button id="skill0-button" class="button button-parchment button-rounded skill-btn"
                 onclick="
                     combatScene.takeAction(_C.skill, {
                         skill: combatScene.character.skills[0],
@@ -223,7 +224,7 @@
                 ">
             skill0
         </button>
-        <button id="skill1-button" class="button button-parchment button-rounded"
+        <button id="skill1-button" class="button button-parchment button-rounded skill-btn"
                 onclick="
                     combatScene.takeAction(_C.skill, {
                         skill: combatScene.character.skills[1],
@@ -233,7 +234,7 @@
                 ">
             skill1
         </button>
-        <button id="skill2-button" class="button button-parchment button-rounded"
+        <button id="skill2-button" class="button button-parchment button-rounded skill-btn"
                 onclick="
                     combatScene.takeAction(_C.skill, {
                         skill: combatScene.character.skills[2],
@@ -243,7 +244,7 @@
                 ">
             skill2
         </button>
-        <button id="skill3-button" class="button button-parchment button-rounded"
+        <button id="skill3-button" class="button button-parchment button-rounded skill-btn"
                 onclick="
                     combatScene.takeAction(_C.skill, {
                         skill: combatScene.character.skills[3],

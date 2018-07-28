@@ -29,8 +29,9 @@ class Skill {
      */
     displaySkillOnButton(index) {
         try {
+            UIButton.setSkillName(index, this.name);
             const btnId = "#skill" + index.toString() + "-button";
-            document.getElementById(btnId.slice(1)).innerText = this.name;
+            // document.getElementById(btnId.slice(1)).innerText = this.name;
             $(btnId).text(this.name);
             const usage = this.getUsage();
             const mouseOn = function () {
