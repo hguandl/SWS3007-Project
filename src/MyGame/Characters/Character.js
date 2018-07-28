@@ -22,12 +22,12 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
     this.status = [];
     /**  @type {Skill[]}  */
     this.skills = [];
-    if (characterInfo["skills"]) {
-        console.assert(characterInfo["skills"].length <= 4);
-        characterInfo["skills"].forEach(value => {
-            this.skills.push(SkillList.parseSkill(value));
-        });
-    }
+    // if (characterInfo["skills"]) {
+    //     console.assert(characterInfo["skills"].length <= 4);
+    //     characterInfo["skills"].forEach(value => {
+    //         this.skills.push(SkillList.parseSkill(value));
+    //     });
+    // }
     this.mATKPercent = 1.0;
     this.mDEFPercent = 1.0;
     this.mSPDPercent = 1.0;

@@ -19,6 +19,11 @@ function MyGame(mapName) {
 
     this.kHeroInfo = "assets/hero/character_info.json";
 
+    this.kNPC1Pic = "assets/NPC/plateau-npc1-walk.png";
+    this.kNPC1Json = "assets/NPC/plateau-npc1-walk.json";
+    this.kNPC2Pic = "assets/NPC/plateau-npc2-walk.png";
+    this.kNPC2Json = "assets/NPC/plateau-npc2-walk.json";
+
     this.kMapFile = [];
     this.kMapEvents = [];
     this.kMapBkg = [];
@@ -72,10 +77,14 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kMapBkg[this.mMapName]);
     gEngine.Textures.loadTexture(this.kMapFrg[this.mMapName]);
     gEngine.Textures.loadTexture(this.kHeroPic);
+    gEngine.Textures.loadTexture(this.kNPC1Pic);
+    gEngine.Textures.loadTexture(this.kNPC2Pic);
     gEngine.TextFileLoader.loadTextFile(this.kMapFile[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kMapEvents[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kNPC1Json, gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kNPC2Json, gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.Textures.loadTexture(this.kPackageBg);
     gEngine.Textures.loadTexture(this.kPackageBrick);
@@ -98,6 +107,8 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kMapBkg[this.mMapName]);
     gEngine.Textures.unloadTexture(this.kMapFrg[this.mMapName]);
     gEngine.Textures.unloadTexture(this.kHeroPic);
+    gEngine.Textures.unloadTexture(this.kNPC1Pic);
+    gEngine.Textures.unloadTexture(this.kNPC2Pic);
 
     if (this.nextScene) {
         this.lastPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos()];
@@ -110,9 +121,15 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
     window.statusBar.initialize();
-    window.package = new Package(this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType, 20);
+    //window.package = new Package(this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType, 20);
+    window.package = new Package();
+    window.package.loadScene();
+    window.package.initialize();
 
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
+
+    this.mNPC1 = new MyNPC(this.kNPC1Pic, this.kNPC1Json);
+    this.mNPC2 = new MyNPC(this.kNPC2Pic, this.kNPC2Json);
 
     this.mMyMap = new Map(this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
 
@@ -122,34 +139,39 @@ MyGame.prototype.initialize = function () {
         this.mMyHero.getHero().getXform().setPosition(this.lastPos[0], this.lastPos[1]);
     }
 
+    this.mNPC1.getNPC().getXform().setPosition(this.mMyMap.mBorn[0] + 1, this.mMyMap.mBorn[1] + 1);
+    this.mNPC2.getNPC().getXform().setPosition(this.mMyMap.mBorn[0] - 1, this.mMyMap.mBorn[1] + 1);
+
     this.mMapBkg = new Background(this.kMapBkg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
     this.mMapFrg = new Background(this.kMapFrg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
 
     gEngine.LayerManager.cleanUp();
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mNPC2.getNPC());
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mNPC1.getNPC());
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
 
-    var propsSet = [];
-    propsSet[0] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
-    propsSet[1] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
-    propsSet[2] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
-    propsSet[3] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
-    propsSet[4] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
-    propsSet[5] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
-    propsSet[6] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
-    propsSet[7] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
-
-    var i;
-    for (i = 0; i < 8; i++) {
-        window.package.addProps(propsSet[i]);
-    }
-    for (i = 2; i < 8; i++) {
-        window.package.addProps(propsSet[i]);
-    }
-    for (i = 6; i < 8; i++) {
-        window.package.addProps(propsSet[i]);
-    }
+    // var propsSet = [];
+    // propsSet[0] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
+    // propsSet[1] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
+    // propsSet[2] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
+    // propsSet[3] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
+    // propsSet[4] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
+    // propsSet[5] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
+    // propsSet[6] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
+    // propsSet[7] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
+    //
+    // var i;
+    // for (i = 0; i < 8; i++) {
+    //     window.package.addProps(propsSet[i]);
+    // }
+    // for (i = 2; i < 8; i++) {
+    //     window.package.addProps(propsSet[i]);
+    // }
+    // for (i = 6; i < 8; i++) {
+    //     window.package.addProps(propsSet[i]);
+    // }
 
     this.mMyMap.addItems();
 
@@ -218,7 +240,9 @@ MyGame.prototype.update = function () {
 
     window.statusBar.update();
 
-    window.package.update();
+    if (document.mShowPackage) {
+        window.package.update();
+    }
 
     var deltaX = 0.05;
     var xform = this.mMyHero.getHero().getXform();
@@ -230,6 +254,7 @@ MyGame.prototype.update = function () {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
         this.mMyHero.walk("Right");
+        window.package.addProps(PropsSet["Queen Peach"]);
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
             return ;
@@ -289,6 +314,11 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Down)) {
         this.mMyHero.stand("Down");
+    }
+
+    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.B)) {
+        // document.mShowPackage = true;
+        switchPackage();
     }
 
     // var e = null;
