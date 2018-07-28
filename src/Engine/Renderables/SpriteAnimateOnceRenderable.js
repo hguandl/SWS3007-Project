@@ -1,5 +1,5 @@
 /*
- * File: SpriteAnimateRenderable.js
+ * File: SpriteAnimateOnceRenderable.js
  */
 
 /*jslint node: true, vars: true */
@@ -10,13 +10,13 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 /**
- * Constructor of SpriteAnimateRenderable object.
+ * Constructor of SpriteAnimateOnceRenderable object.
  * @param {Texture} myTexture Texture to be associated by object.
- * @returns {SpriteAnimateRenderable} Instance of this SpriteAnimateRenderable object
- * @class SpriteAnimateRenderable
+ * @returns {SpriteAnimateOnceRenderable} Instance of this SpriteAnimateOnceRenderable object
+ * @class SpriteAnimateOnceRenderable
  */
-function SpriteAnimateRenderable(myTexture) {
-    SpriteRenderable.call(this, myTexture);
+function SpriteAnimateOnceRenderable(myTexture) {
+    SpriteAnimateOnceRenderable.call(this, myTexture);
     Renderable.prototype._setShader.call(this, gEngine.DefaultResources.getSpriteShader());
 
     // All coordinates are in texture coordinate (UV between 0 to 1)
@@ -29,38 +29,47 @@ function SpriteAnimateRenderable(myTexture) {
     this.mWidthPadding = 0.0;
     this.mNumElems = 1;   // number of elements in an animation
 
-    //
     // per animation settings
     this.mUpdateInterval = 1;   // how often to advance
-    this.mAnimationType = SpriteAnimateRenderable.eAnimationType.eAnimateRight;
+    this.mAnimationType = SpriteAnimateOnceRenderable.eAnimationType.eAnimateRight;
+
+    // custom property
+    this._onstop = null;
+    this._onstopParam = null;
+
+    this.start = false;
+    this.end = false;
+    // end custom property
 
     this.mCurrentAnimAdvance = -1;
     this.mCurrentElm = 0;
     this._initAnimation();
-}
-gEngine.Core.inheritPrototype(SpriteAnimateRenderable, SpriteRenderable);
 
-SpriteAnimateRenderable.prototype._initAnimation = function () {
+}
+gEngine.Core.inheritPrototype(SpriteAnimateOnceRenderable, SpriteRenderable);
+
+SpriteAnimateOnceRenderable.prototype._initAnimation = function () {
     // Currently running animation
     this.mCurrentTick = 0;
     switch (this.mAnimationType) {
-    case SpriteAnimateRenderable.eAnimationType.eAnimateRight:
+    case SpriteAnimateOnceRenderable.eAnimationType.eAnimateRight:
         this.mCurrentElm = 0;
         this.mCurrentAnimAdvance = 1; // either 1 or -1
         break;
-    case SpriteAnimateRenderable.eAnimationType.eAnimateSwing:
+    case SpriteAnimateOnceRenderable.eAnimationType.eAnimateSwing:
         this.mCurrentAnimAdvance = -1 * this.mCurrentAnimAdvance; // swings ...
         this.mCurrentElm += 2 * this.mCurrentAnimAdvance;
         break;
-    case SpriteAnimateRenderable.eAnimationType.eAnimateLeft:
+    case SpriteAnimateOnceRenderable.eAnimationType.eAnimateLeft:
         this.mCurrentElm = this.mNumElems - 1;
         this.mCurrentAnimAdvance = -1; // either 1 or -1
         break;
     }
+    this.start = true;
     this._setSpriteElement();
 };
 
-SpriteAnimateRenderable.prototype._setSpriteElement = function () {
+SpriteAnimateOnceRenderable.prototype._setSpriteElement = function () {
     var left = this.mFirstElmLeft + (this.mCurrentElm * (this.mElmWidth + this.mWidthPadding));
     SpriteRenderable.prototype.setElementUVCoordinate.call(this, left, left + this.mElmWidth,
                                         this.mElmTop - this.mElmHeight, this.mElmTop);
@@ -73,10 +82,10 @@ SpriteAnimateRenderable.prototype._setSpriteElement = function () {
 //**-----------------------------------------
 /**
  * Assumption is that the first sprite in an animation is always the left-most element.
- * @memberOf SpriteAnimateRenderable
+ * @memberOf SpriteAnimateOnceRenderable
  * @type enum|eAnimationType
  */
-SpriteAnimateRenderable.eAnimationType = Object.freeze({
+SpriteAnimateOnceRenderable.eAnimationType = Object.freeze({
     eAnimateRight: 0,     // Animate from first (left) towards right, when hit the end, start from the left again
     eAnimateLeft: 1,      // Compute find the last element (in the right), start from the right animate left-wards,
     eAnimateSwing: 2      // Animate from first (left) towards the right, when hit the end, animates backwards
@@ -92,9 +101,9 @@ SpriteAnimateRenderable.eAnimationType = Object.freeze({
  * @param {Number} numElements number of animation frames
  * @param {Number} wPaddingInPixel pixel padding between animation frames
  * @returns {void}
- * @memberOf SpriteAnimateRenderable
+ * @memberOf SpriteAnimateOnceRenderable
  */
-SpriteAnimateRenderable.prototype.setSpriteSequence = function (
+SpriteAnimateOnceRenderable.prototype.setSpriteSequence = function (
     topPixel,   // offset from top-left
     leftPixel, // offset from top-left
     elmWidthInPixel,
@@ -120,9 +129,9 @@ SpriteAnimateRenderable.prototype.setSpriteSequence = function (
  * Set the frame change speed
  * @param {Number} tickInterval number of update calls between animation frames
  * @returns {void}
- * @memberOf SpriteAnimateRenderable
+ * @memberOf SpriteAnimateOnceRenderable
  */
-SpriteAnimateRenderable.prototype.setAnimationSpeed = function (
+SpriteAnimateOnceRenderable.prototype.setAnimationSpeed = function (
     tickInterval   // number of update calls before advancing the animation
 ) {
     this.mUpdateInterval = tickInterval;   // how often to advance
@@ -132,9 +141,9 @@ SpriteAnimateRenderable.prototype.setAnimationSpeed = function (
  * Increment the animation frame change speed
  * @param {Number} deltaInterval increment by number of update calls between animation frames
  * @returns {void}
- * @memberOf SpriteAnimateRenderable
+ * @memberOf SpriteAnimateOnceRenderable
  */
-SpriteAnimateRenderable.prototype.incAnimationSpeed = function (
+SpriteAnimateOnceRenderable.prototype.incAnimationSpeed = function (
     deltaInterval   // number of update calls before advancing the animation
 ) {
     this.mUpdateInterval += deltaInterval;   // how often to advance
@@ -144,9 +153,9 @@ SpriteAnimateRenderable.prototype.incAnimationSpeed = function (
  * Set animation type (eAnimateRight, eAnimateLeft, eAnimateSwing)
  * @param {eAnimationType|enum} animationType enum of animation type
  * @returns {void}
- * @memberOf SpriteAnimateRenderable
+ * @memberOf SpriteAnimateOnceRenderable
  */
-SpriteAnimateRenderable.prototype.setAnimationType = function (animationType) {
+SpriteAnimateOnceRenderable.prototype.setAnimationType = function (animationType) {
     this.mAnimationType = animationType;
     this.mCurrentAnimAdvance = -1;
     this.mCurrentElm = 0;
@@ -156,24 +165,26 @@ SpriteAnimateRenderable.prototype.setAnimationType = function (animationType) {
 /**
  * Update the animation interval
  * @returns {void}
- * @memberOf SpriteAnimateRenderable
- * @return {boolean} 是否经过了一次动作循环
+ * @memberOf SpriteAnimateOnceRenderable
  */
-SpriteAnimateRenderable.prototype.updateAnimation = function () {
+SpriteAnimateOnceRenderable.prototype.updateAnimation = function () {
     this.mCurrentTick++;
-    let rst = false;
     if (this.mCurrentTick >= this.mUpdateInterval) {
         this.mCurrentTick = 0;
         this.mCurrentElm += this.mCurrentAnimAdvance;
         if ((this.mCurrentElm >= 0) && (this.mCurrentElm < this.mNumElems)) {
             this._setSpriteElement();
-            rst = false;
         } else {
-            this._initAnimation();
-            rst = true;
+            if (this._onstop)
+                this._onstop(this._onstopParam);
+            this.end = true;
         }
     }
-    return rst;
+};
+
+SpriteAnimateOnceRenderable.prototype.setOnStop = function(callback, param) {
+    this._onstop = callback;
+    this._onstopParam = param;
 };
 //--- end of Public Methods
 //

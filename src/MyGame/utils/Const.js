@@ -1,6 +1,6 @@
 let _C = {
     gameViewport: [0, 0, 970, 600],       // viewport (orgX, orgY, width, height)
-    attackVP: 50,
+    attackVP: 25,
 
     // action
     none: 0,
@@ -8,11 +8,11 @@ let _C = {
     skill: 2,
     change: 3,
     item: 4,
-    // game status
+    // game turnEndStatus
     waiting: 1,
     commandGiven: 2,
     displaying: 3,
-    // character status
+    // character turnEndStatus
     BuffStatus: 1,
     changeHP: 2,
     changeVP: 3,
@@ -25,3 +25,15 @@ let _C = {
     Monster: 0,
     Hero: 1,
 };
+
+const TURN = {
+    monster: 0,
+    hero: 1
+};
+
+const ALL_SPRITE_TEXTURE = [
+    "assets/hero/fight/Monk Tang.png",
+    "assets/hero/fight/Monkey King.png",
+    "assets/hero/fight/monster.png",
+    "assets/hero/fight/The Pigsy.png",
+];

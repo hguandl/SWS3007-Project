@@ -1,8 +1,0 @@
-{
-    "955": ["Show", "You can notice that in the small map,\nspecial events are marked.\nTry to go there!", false],
-    "422": ["Show", "Go downward and find the flower!\n Click on the buttons below to watch your status.", false],
-    "642": ["Show", "The flower was taken by the monster.\nFind the monster and get the flower!", false],
-    "986": ["Battle", false],
-    "1159": ["Win", false],
-    "1160": ["Win", false]
-}

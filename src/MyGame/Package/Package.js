@@ -195,6 +195,7 @@ Package.prototype.draw = function () {
 var isFirstClicked;
 var latestPressedAloneKey;
 Package.prototype.update = function () {
+    if (!document.mShowPackage) return ;
 
     if (!isChoosingUI) {
 
@@ -207,8 +208,6 @@ Package.prototype.update = function () {
         //if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I)) {
             if (this.mCurrentSelected < this.mSize) {
                 this.mCurrentShowing = this.mCurrentSelected;
-            } else {
-                this.mCurrentShowing = -1;
             }
         //}
 
