@@ -1,9 +1,9 @@
 function calDamage (attacker, defender) {
-    return attacker.mATK * (100 / (defender.mDEF +100));
+    return attacker.mCurrentATK * (100 / (defender.mCurrentDEF +100));
 }
 
 /**
- * There are four kinds of action: attack, skill, change (change character), prop (use prop).
+ * There are four kinds of action: attack, Skill, change (change character), prop (use prop).
  */
 class Action {
     /**
@@ -15,56 +15,56 @@ class Action {
         this.type = actionType;
         this.param = actionParam;
     }
-}
 
-class Attack extends Action {
-    constructor(actionParam) {
-        super(_C.attack, actionParam);
-    }
-}
-
-class Skill extends Action {
-    constructor(actionParam) {
-        super(_C.attack, actionParam);
-    }
-
-    takeAction() {
+    update() {
 
     }
 }
 
-class Change extends Action {
+class AttackAction extends Action {
     constructor(actionParam) {
         super(_C.attack, actionParam);
     }
+
+    update() {
+
+    }
 }
 
-class Item extends Action {
+class SkillAction extends Action {
     constructor(actionParam) {
-        super(_C.attack, actionParam);
+        super(_C.skill, actionParam);
+    }
+}
+
+class ChangeAction extends Action {
+    constructor(actionParam) {
+        super(_C.change, actionParam);
+    }
+}
+
+class ItemAction extends Action {
+    constructor(actionParam) {
+        super(_C.item, actionParam);
     }
 }
 
 class NoneAction extends Action {
     constructor(actionParam) {
-        super(_C.attack, actionParam);
-    }
-
-    takeAction() {
-        console.error("None action should not be taken.");
+        super(_C.none, actionParam);
     }
 }
 
 function makeAction(actionType, actionParam) {
     switch (actionType) {
         case _C.skill:
-            return new Skill(actionParam);
+            return new SkillAction(actionParam);
         case  _C.attack:
-            return new Attack(actionParam);
+            return new AttackAction(actionParam);
         case  _C.change:
-            return new Change(actionParam);
+            return new ChangeAction(actionParam);
         case  _C.item:
-            return new Item(actionParam);
+            return new ItemAction(actionParam);
         case _C.none:
             return new NoneAction(actionParam);
         default:

@@ -1,9 +1,37 @@
 "use strict";
 
-function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, characterType = _C.Hero) {
+/**
+ *
+ * @param characterInfo {Object} - characterInfo应该包含以下内容：Name, HP, VP, ATK, DEF, SPD
+ * [, characterType (Monster - 0,  Hero - 1) , skills]。
+ * @param iconFile
+ * @param dialogFigureFile
+ * @param battleFigureFile
+ * @constructor
+ */
+function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, /*characterType, ...skills*/) {
     this.mName = null;
 
-    this.charaterType = characterType;
+    /** 玩家是monster还是hero
+     * @type {number} : Monster - 0,  Hero - 1.
+     */
+    this.charaterType = characterInfo["characterType"];
+    if (typeof this.characterType !== "number")
+        this.characterType = _C.Hero;
+    /**  @type {CharacterStatus[]} - 玩家状态  */
+    this.turnEndStatus = [];
+    /**  @type {Skill[]}  */
+    this.skills = [];
+    if (characterInfo["skills"]) {
+        console.assert(characterInfo["skills"].length <= 4);
+        characterInfo["skills"].forEach(value => {
+            this.skills.push(SkillList.parseSkill(value));
+        });
+    }
+    this.mATKPercent = 1.0;
+    this.mDEFPercent = 1.0;
+    this.mSPDPercent = 1.0;
+
     /* Reserved for next version
     // [0]: Icon Image
     // [1]: Dialog Figure Image
@@ -35,15 +63,17 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
 
     this.mName = characterInfo["Name"];
 
+    this.spriteURL = "assets/hero/fight/" + this.mName + ".png";
+
     this.mMaxHP = this.mCurrentHP = characterInfo["HP"];
     this.mMaxVP = characterInfo["VP"];
     this.mCurrentVP = 0;
     this.mATK = this.mCurrentATK = characterInfo["ATK"];
-    this.mDEF = this.mCurrrentDEF = characterInfo["DEF"];
+    this.mDEF = this.mCurrentDEF = characterInfo["DEF"];
     this.mSPD = this.mCurrentSPD = characterInfo["SPD"];
 }
 
-Character.prototype.statusString = function() {
+Character.prototype.statusString = function () {
     return String(this.mName + " - HP: " + this.mCurrentHP + "/" + this.mMaxHP + "; VP: " + this.mCurrentVP + "/" + this.mMaxVP);
 };
 
@@ -235,3 +265,51 @@ function createCharacterImage(textureFile) {
     image.getXform().setPosition(-100, -100);
     return image;
 }
+
+Character.prototype.displayAllSkills = function () {
+    this.skills.forEach((value, index) => {
+        value.displaySkillOnButton(index);
+    });
+};
+
+Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
+    let i, status;
+
+    // initialize
+    this.mCurrentATK = this.mATK;
+    this.mCurrentDEF = this.mDEF;
+    this.mCurrentSPD = this.mSPD;
+
+    this.mATKPercent = 1.0;
+    this.mDEFPercent = 1.0;
+    this.mSPDPercent = 1.0;
+
+    // compute effect of each turnEndStatus
+    for (i = 0; i < this.turnEndStatus.length; i++) {
+        status = this.turnEndStatus[i];
+        // 如果status的回合小于0了，就删除该状态
+        if (myTurnEnd) {
+            status.turn--;
+            if (status.turn < 0)
+                this.turnEndStatus.splice(i, 1);
+            console.debug("have turnEndStatus ", status);
+        }
+        // 结算状态效果
+        status.computeStatus(this);
+    }
+
+    // compute final attribute
+    this.mCurrentATK *= this.mATKPercent;
+    this.mCurrentDEF *= this.mDEFPercent;
+    this.mCurrentSPD *= this.mSPDPercent;
+};
+
+/**
+ * 在区间 [ 1 - <fluctuate>, 1 - <fluctuate> ] 随机取值，并乘 <HP>，然后将该数值取证后加到角色当前HP上。
+ * @param HP {number} 要改变的值
+ * @param [fluctuate = 0.1] {number} 波动大小
+ */
+Character.prototype.randChangeHP = function(HP, fluctuate = 0.1) {
+    console.assert(fluctuate <= 1 && fluctuate >= 0);
+    this.mCurrentHP += Math.round(HP * (1 + (Math.random() * 2 - 1) * fluctuate));
+};
