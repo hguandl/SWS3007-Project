@@ -1,6 +1,6 @@
 let _C = {
     gameViewport: [0, 0, 970, 600],       // viewport (orgX, orgY, width, height)
-    attackVP: 50,
+    attackVP: 25,
 
     // action
     none: 0,

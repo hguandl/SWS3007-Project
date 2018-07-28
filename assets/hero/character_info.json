@@ -10,15 +10,19 @@
         "skills": [
             {
                 "name": "fiery eyes",
-                "VP": 150,
-                "defPercent": 60,
+                "VP": 100,
+                "defPercent": 55,
                 "turn": 5
             },
             {
                 "name": "heavy hit",
-                "VP": 150,
-                "defPercent": -40,
-                "turn": 5
+                "VP": 65,
+                "atkPercent": 146
+            },
+            {
+                "name": "Samadhi fire",
+                "VP": 78,
+                "atkPercent": 42
             }
         ]
     },
@@ -29,7 +33,20 @@
         "ATK": 80,
         "DEF": 200,
         "SPD": 30,
-        "characterType": 1
+        "characterType": 1,
+        "skills": [
+            {
+                "name": "slack sleep",
+                "VP": -23,
+                "HP": "23",
+                "atkPercent": 130
+            },
+            {
+                "name": "heavy hit",
+                "VP": 57,
+                "atkPercent": 133
+            }
+        ]
     },
     {
         "Name": "Monk Sha",
@@ -38,6 +55,19 @@
         "ATK": 150,
         "DEF": 150,
         "SPD": 40,
-        "characterType": 1
+        "characterType": 1,
+        "skills": [
+            {
+                "name": "chant",
+                "VP": 26,
+                "atkPercent": 51,
+                "turn": 3
+            },
+            {
+                "name": "heavy hit",
+                "VP": 59,
+                "atkPercent": 135
+            }
+        ]
     }
 ]

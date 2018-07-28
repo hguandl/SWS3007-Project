@@ -145,7 +145,7 @@ class SlackSleep extends Skill {
     }
 
     getUsage() {
-        return formatString("Recover %0 HP and change your attack to %1 percent.", this.HP, this.dmgPercent) + super.getUsage();
+        return formatString("Recover %0 HP and change your attack to %1 percent.", this.HP, this.atkPercent) + super.getUsage();
     }
 
     useSkill(user, aim) {
@@ -174,7 +174,7 @@ class Chant extends Skill {
     }
 
     getUsage() {
-        return formatString("Decrease the attack of emery to 0% percent in %1 turn.", this.dmgPercent, this.turn) + super.getUsage();
+        return formatString("Decrease the attack of emery to 0% percent in %1 turn.", this.atkPercent, this.turn) + super.getUsage();
     }
 
     useSkill(user, aim) {

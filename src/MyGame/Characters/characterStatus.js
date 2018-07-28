@@ -1,6 +1,7 @@
 class characterStatus {
-    constructor(statusType) {
+    constructor(statusType, turn) {
         this.type = statusType;
+        this.turn = turn;
     }
 
     /**
@@ -24,9 +25,8 @@ class BuffStatus extends characterStatus {
      * @param [effectType = _C.percent] {number} : 是按照百分比计算还是按照数值计算
      */
     constructor(attributeName, turn, value, effectType = _C.percent) {
-        super(_C.BuffStatus);
+        super(_C.BuffStatus, turn);
         this.attributeName = attributeName;
-        this.turn = turn;
         this.value = value;
         this.effectType = effectType;
     }
@@ -37,8 +37,6 @@ class BuffStatus extends characterStatus {
         } else if (this.effectType === _C.numeric) {
             character["mCurrent" + this.attributeName] -= this.value;
         }
-        this.turn--;
-        return this.turn >= 0;
     }
 }
 

@@ -279,9 +279,11 @@ Character.prototype.computeStatus = function () {
 
     for (i = 0; i < this.status.length; i++) {
         status = this.status[i];
+        status.computeStatus(this);
         // 如果status的回合小于0了，就删除该状态
-        if (!status.computeStatus(this))
-            this.status.splice(i, 1);
+        status.turn--;
+        if (status.turn < 0)
+            this.status.slice(i, 1);
     }
 
     this.mCurrentATK *= this.mATKPercent;
