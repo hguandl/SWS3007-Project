@@ -68,6 +68,9 @@
 				["tangseng", "唐僧：极盛的朱紫国原来是如此繁荣昌盛的一番光景。如今随着国王重病，朱紫一带也开始产生了动荡，许多妖怪也趁此机会兴风作浪。实在令人叹惋。"]
 			],
 			true, false],
+    "985": ["J",
+    		"Battle",
+    		false, false],
 	"1159": [null,
 			"Go", "zhuzishanjiao",
 			true, false],

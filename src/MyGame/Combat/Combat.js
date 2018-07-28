@@ -43,7 +43,7 @@ function Combat(firstCharacter, monster) {
     this.monster = monster;
 
     // todo: change this with respect to battle place
-    this.kBackground = "assets/map/plateau/plateau-battle.png";
+    this.kBackground = "assets/map/zhuzishan/zhuzishan-battle.png";
     this.monster.spriteURL = "assets/hero/fight/monster.png";
 
     /**  @type Camera  */
@@ -169,8 +169,6 @@ function Combat(firstCharacter, monster) {
 gEngine.Core.inheritPrototype(Combat, Scene);
 
 Combat.prototype.loadScene = function () {
-    gEngine.Textures.loadTexture(this.monster.iconURL);
-
     ALL_SPRITE_TEXTURE.forEach(value => {
         gEngine.Textures.loadTexture(value);
     });
@@ -180,15 +178,12 @@ Combat.prototype.loadScene = function () {
 };
 
 Combat.prototype.unloadScene = function () {
-    gEngine.Textures.unloadTexture(this.character.iconURL);
-    gEngine.Textures.unloadTexture(this.monster.iconURL);
-
     ALL_SPRITE_TEXTURE.forEach(value => {
         gEngine.Textures.unloadTexture(value);
     });
     gEngine.Textures.unloadTexture(this.kBackground);
     // 回到大地图
-    // this.closeMsg(true);
+    this.closeMsg(true);
     document.currentScene = this.nextScene;
     gEngine.Core.startScene(this.nextScene);
 };
@@ -261,10 +256,10 @@ Combat.prototype.draw = function () {
 };
 
 Combat.prototype.update = function () {
-    this.closeMsg();
+    // this.closeMsg();
     window.statusBar.update();
     window.package.update();
-    updateCharacterStatus();
+    // updateCharacterStatus();
 
     if (this.status !== _C.displaying)
         return;

@@ -36,6 +36,20 @@ Scene.prototype.message = function () {
     }
 };
 
+Scene.prototype.showMsg = function (msg) {
+    document.getElementById('info_prompt').style.display = "none";
+    document.getElementById('infoBox').style.display = "block";
+    document.getElementById('info_face').src = "assets/blank.png";
+    document.getElementById('info_text').innerText = msg;
+};
+
+Scene.prototype.closeMsg = function () {
+    document.getElementById('infoBox').style.display = "none";
+    document.getElementById('info_face').src = "assets/blank.png";
+    document.getElementById('info_text').innerText = null;
+    document.getElementById('info_prompt').style.display = "block";
+};
+
 //<editor-fold desc="functions subclass should override">
 /**
  * Begin Scene: must load all the scene contents when done <p>
