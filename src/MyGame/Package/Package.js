@@ -216,9 +216,6 @@ Package.prototype.update = function () {
         // region press left or right to select a props
         if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
 
-            console.log("#");
-            console.log(this.mCurrentSelected);
-
             if (!gEngine.Input.isKeyPressed(gEngine.Input.keys.A))
                 latestPressedAloneKey = "Right";
 
