@@ -36,7 +36,8 @@ function Combat(topCharacter, monster) {
 
         this._action = makeAction(actionType, actionParam);
 
-        this.computeCharacterStatus();
+        this.topCharacter.computeTurnEndStatus(true);
+        this.monster.computeTurnEndStatus(false);
 
         this.displayAction();
 
@@ -45,13 +46,10 @@ function Combat(topCharacter, monster) {
         UIButton.disableButtons(false);
         // monster take action
 
-        // this._action = this.getMonsterAction();
-        this._action = makeAction(_C.attack, {
-            attacker: this.monster,
-            defender: this.topCharacter,
-        });
+        this._action = this.getMonsterAction();
 
-        this.computeCharacterStatus();
+        this.topCharacter.computeTurnEndStatus(false);
+        this.monster.computeTurnEndStatus(true);
 
         this.displayAction();
 
@@ -61,12 +59,7 @@ function Combat(topCharacter, monster) {
         this.status = _C.waiting;
     };
 
-    this.computeCharacterStatus = function() {
-        this.topCharacter.computeStatus();
-        this.monster.computeStatus();
-    };
-
-    this.checkAlive = function() {
+    this.checkAlive = function () {
         if (this.monster.mCurrentHP <= 0) {
             this.combatResult = "win";
             document.mWin = true;
@@ -80,7 +73,7 @@ function Combat(topCharacter, monster) {
         }
     };
 
-    this.displayAction = function() {
+    this.displayAction = function () {
         switch (this._action.type) {
             case _C.skill:
                 this.takeSkillAction();
@@ -110,12 +103,10 @@ function Combat(topCharacter, monster) {
             this._action.param.attacker.mCurrentVP += _C.attackVP;
         }
         // calculate damage
-        console.debug(this._action.param.defender.mCurrentHP);
-        this._action.param.defender.mCurrentHP -= calDamage(this._action.param.attacker, this._action.param.defender);
-        console.debug("damange: " + calDamage(this._action.param.attacker, this._action.param.defender));
-        console.debug(this._action.param.defender.mCurrentHP);
+        const damage = calDamage(this._action.param.attacker, this._action.param.defender);
+        console.debug("attack, damage: ", damage);
+        this._action.param.defender.mCurrentHP -= damage;
         this._action.param.defender.mCurrentHP = Math.round(this._action.param.defender.mCurrentHP);
-        console.debug(this._action.param.defender.mCurrentHP);
         // todo: animate
     };
 
@@ -124,9 +115,12 @@ function Combat(topCharacter, monster) {
         // todo: animate
     };
 
-    this.getMonsterAction = function() {
-
-    }
+    this.getMonsterAction = function () {
+        return makeAction(_C.attack, {
+            attacker: this.monster,
+            defender: this.topCharacter,
+        });
+    };
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
@@ -158,6 +152,7 @@ Combat.prototype.initialize = function () {
     );
     this.camera.setBackgroundColor([1.0, 1.0, 1.0, 1.0]);
 
+    // set background
     this.mBackground = new TextureRenderable(this.kBackground);
     this.mBackground.setColor([0.0, 0.0, 0.0, 0.0]);
     this.mBackground.getXform().setPosition(0, 0);
@@ -171,6 +166,8 @@ Combat.prototype.initialize = function () {
      this.monster.setBattleFigurePosition(22, 0);
      */
 
+
+    // set character icon position
     this.characterIcon = new TextureRenderable(this.topCharacter.iconURL);  // todo: 商量iconURL的接口，该接口用于获取icon的URL
     this.characterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
     this.characterIcon.getXform().setPosition(-22, 0);
@@ -182,6 +179,11 @@ Combat.prototype.initialize = function () {
     this.monsterIcon.getXform().setSize(20, 20);
 
     document.mShowStatusBar = true;
+
+    // initialize character params
+    CharacterSet.forEach(value => {
+        value.turnEndStatus = [];
+    });
 };
 
 Combat.prototype.draw = function () {
@@ -219,6 +221,15 @@ Combat.prototype.update = function () {
     // todo : add animation to actions
 };
 
+function enterCombat(game) {
+    // todo: 这两行是为了能使现在版本能使用，将在下一个版本删除
+    CharacterSet[0].iconURL = "assets/character/character.png";
+    CharacterSet[1].iconURL = "assets/character/monster1.jpg";
+
+    window.combatScene = new Combat(CharacterSet[0], CharacterSet[1]);
+    game.nextScene = window.combatScene;
+    gEngine.GameLoop.stop();
+}
 
 window.testCharacter = {
     iconURL: "assets/character/character.png"

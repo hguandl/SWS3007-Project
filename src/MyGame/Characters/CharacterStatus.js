@@ -1,4 +1,4 @@
-class characterStatus {
+class CharacterStatus {
     constructor(statusType, turn) {
         this.type = statusType;
         this.turn = turn;
@@ -7,7 +7,6 @@ class characterStatus {
     /**
      * 计算结果
      * @param character {Character}
-     * @return {boolean} : 该状态是否仍然存在
      */
     computeStatus(character) {
 
@@ -17,7 +16,7 @@ class characterStatus {
 /**
  * buff或者debuff
  */
-class BuffStatus extends characterStatus {
+class BuffStatus extends CharacterStatus {
     /**
      * @param attributeName {string}
      * @param turn {number}
@@ -33,7 +32,7 @@ class BuffStatus extends characterStatus {
 
     computeStatus(character) {
         if (this.effectType === _C.percent) {
-            character["mCurrent" + this.attributeName] = character["m" + this.attributeName] * (1.0 + this.value);
+            character["m" + this.attributeName + "Percent"] *= this.value;
         } else if (this.effectType === _C.numeric) {
             character["mCurrent" + this.attributeName] -= this.value;
         }

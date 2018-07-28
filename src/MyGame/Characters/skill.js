@@ -74,7 +74,8 @@ class FieryEyes extends Skill {
      */
     useSkill(user, aim) {
         super.useSkill(user);
-        aim.status.push(new BuffStatus("DEF", this.turn, this.defPercent, _C.percent));
+        aim.turnEndStatus.push(new BuffStatus("DEF", this.turn, this.defPercent, _C.percent));
+        console.debug("use FieryEyes");
     }
 
     static parse(skillInfo) {
@@ -101,8 +102,10 @@ class HeavyHit extends Skill {
     }
 
     useSkill(user, aim) {
+        const damage = calDamage(user, aim) * this.dmgPercent;
         super.useSkill(user);
-        aim.mCurrentHP -= calDamage(user, aim) * this.dmgPercent;
+        aim.randChangeHP(damage);
+        console.debug("use HeavyHit, damage: ", damage);
     }
 
     static parse(skillInfo) {
@@ -131,7 +134,9 @@ class SamadhiFire extends Skill {
 
     useSkill(user, aim) {
         super.useSkill(user);
-        aim.mCurrentHP -= user.mCurrentATK * this.dmgPercent;
+        const damage = user.mCurrentATK * this.dmgPercent;
+        aim.randChangeHP(damage);
+        console.debug("use SamadhiFire, damage: ", damage);
     }
 
     static parse(skillInfo) {
@@ -162,6 +167,7 @@ class SlackSleep extends Skill {
         super.useSkill(user);
         user.mCurrentHP += this.HP;
         user.status.push(new BuffStatus("ATK", 2, this.atkPercent, _C.percent));
+        console.debug("use SlackSleep, HP: ", this.HP);
     }
 
     static parse(skillInfo) {
@@ -191,6 +197,7 @@ class Chant extends Skill {
     useSkill(user, aim) {
         super.useSkill(user);
         aim.status.push(new BuffStatus("ATK", this.turn, this.atkPercent, _C.percent));
+        console.debug("use Chant");
     }
 
     static parse(skillInfo) {

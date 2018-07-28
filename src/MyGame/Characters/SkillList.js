@@ -28,7 +28,6 @@ window.allSkills = {
  */
 function formatString(string1, ...replacer) {
     let rst = string1;
-    console.debug(replacer);
     replacer.forEach((value, index) => {
         rst = rst.replace("%" + index.toString(), value.toString());
     });
@@ -37,6 +36,8 @@ function formatString(string1, ...replacer) {
 
 function assertHasProperties(obj, ...properties) {
     properties.forEach(value => {
-        console.assert(value in obj);
+        if (!value in obj) {
+            console.error("value not in obj", value, obj);
+        }
     });
 }

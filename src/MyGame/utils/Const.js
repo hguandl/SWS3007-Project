@@ -8,11 +8,11 @@ let _C = {
     skill: 2,
     change: 3,
     item: 4,
-    // game status
+    // game turnEndStatus
     waiting: 1,
     commandGiven: 2,
     displaying: 3,
-    // character status
+    // character turnEndStatus
     BuffStatus: 1,
     changeHP: 2,
     changeVP: 3,
