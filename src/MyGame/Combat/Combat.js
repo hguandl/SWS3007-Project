@@ -5,6 +5,8 @@
  * @property displaying {boolean} : 是否正在显示战斗动画。设置为true会自动使得按钮不能使用，设置为false时按钮又可以使用了。
  */
 function Combat(firstCharacter, monster) {
+    this._turn = null;
+
     /**  @type Character  */
     this._character = null;
     Object.defineProperty(this, "character", {
@@ -31,7 +33,7 @@ function Combat(firstCharacter, monster) {
                 9,              // number of elements in this sequence
                 0);             // horizontal padding in between
             this.characterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-            this.characterAnimate.setAnimationSpeed(8);
+            this.characterAnimate.setAnimationSpeed(6);
         }
     });
 
@@ -42,6 +44,8 @@ function Combat(firstCharacter, monster) {
 
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/plateau/plateau-battle.png";
+    this.monster.spriteURL = "assets/hero/fight/monster.png";
+
     /**  @type Camera  */
     this.camera = null;
     /**  @type Action  */
@@ -67,30 +71,30 @@ function Combat(firstCharacter, monster) {
      */
     this.takeAction = function (actionType, actionParam) {
         this.status = _C.commandGiven;
+        this._turn = TURN.hero;
 
         this._action = makeAction(actionType, actionParam);
 
-        this.character.computeTurnEndStatus(true);
-        this.monster.computeTurnEndStatus(false);
+        this.displayAction(enemyTurn, this);
 
-        this.displayAction();
+        function enemyTurn(combat) {
+            this.character.computeTurnEndStatus(true);
+            this.monster.computeTurnEndStatus(false);
 
-        this.checkAlive();
+            combat.checkAlive();
 
-        UIButton.disableButtons(false);
-        // monster take action
+            // monster take action
+            combat._turn = TURN.monster;
+            combat._action = combat.getMonsterAction();
 
-        this._action = this.getMonsterAction();
+            combat.displayAction(endTurn, combat);
+        }
 
-        this.character.computeTurnEndStatus(false);
-        this.monster.computeTurnEndStatus(true);
-
-        this.displayAction();
-
-        this.checkAlive();
-
-        // end turn
-        // this.status = _C.waiting;
+        function endTurn(combat) {
+            combat.character.computeTurnEndStatus(false);
+            combat.monster.computeTurnEndStatus(true);
+            combat.checkAlive();
+        }
     };
 
     this.checkAlive = function () {
@@ -108,6 +112,9 @@ function Combat(firstCharacter, monster) {
     };
 
     this.displayAction = function (callback, param) {
+        this._callback = callback;
+        this._callbackParam = param;
+
         console.debug("displaying");
         this.status = _C.displaying;
         switch (this._action.type) {
@@ -203,20 +210,24 @@ Combat.prototype.initialize = function () {
     this.character = this.firstCharacter;
     delete this.firstCharacter;
 
-    /** next version
-     this.character.setBattleFigureSize(20, 20);
-     this.character.setBattleFigurePosition(-22, 0);
-
-     this.monster.setBattleFigureSize(20, 20);
-     this.monster.setBattleFigurePosition(22, 0);
-     */
+    // 改变显示的怪物图标
+    /**  @type SpriteAnimateRenderable  */
+    this.monsterAnimate = new SpriteAnimateRenderable(this.monster.spriteURL);
+    this.monsterAnimate.setColor([0, 0, 0, 0.0]);
+    this.monsterAnimate.getXform().setPosition(22, 0);
+    this.monsterAnimate.getXform().setSize(10, 9);
+    this.monsterAnimate.setSpriteSequence(256, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+        512 / 9, 256 / 6,       // width * height in pixels
+        9,              // number of elements in this sequence
+        0);             // horizontal padding in between
+    this.monsterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    this.monsterAnimate.setAnimationSpeed(6);
 
     // set character icon position
-
-    this.monsterIcon = new TextureRenderable(this.monster.iconURL);
-    this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
-    this.monsterIcon.getXform().setPosition(22, 0);
-    this.monsterIcon.getXform().setSize(20, 20);
+    // this.monsterIcon = new TextureRenderable(this.monster.iconURL);
+    // this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
+    // this.monsterIcon.getXform().setPosition(22, 0);
+    // this.monsterIcon.getXform().setSize(20, 20);
 
     document.mShowStatusBar = true;
 
@@ -238,7 +249,7 @@ Combat.prototype.draw = function () {
     this.mBackground.draw(this.camera);
 
     this.characterAnimate.draw(this.camera);
-    this.monsterIcon.draw(this.camera);
+    this.monsterAnimate.draw(this.camera);
 
     if (document.mShowPackage) {
         window.package.draw();
@@ -258,9 +269,26 @@ Combat.prototype.update = function () {
     if (this.status !== _C.displaying)
         return;
 
-    console.debug("updating");
-    if (this.characterAnimate.updateAnimation())
-        this.status = _C.waiting;
+    if (this._turn === TURN.hero) {
+        console.debug("animating hero");
+        if (this.characterAnimate.updateAnimation()) {
+            this.status = _C.commandGiven;
+            if (this._callback) {
+                this._callback(this._callbackParam);
+                this._callback = this._callbackParam = null;
+            }
+        }
+    } else {
+        console.debug("animating monster");
+        console.assert(this._turn === TURN.monster);
+        if (this.monsterAnimate.updateAnimation()) {
+            if (this._callback) {
+                this._callback(this._callbackParam);
+                this._callback = this._callbackParam = null;
+            }
+            this.status = _C.waiting;
+        }
+    }
 
     // todo : add animation to actions
 };
@@ -274,11 +302,3 @@ function enterCombat(game) {
     game.nextScene = window.combatScene;
     gEngine.GameLoop.stop();
 }
-
-window.testCharacter = {
-    iconURL: "assets/character/character.png"
-};
-
-window.testMonster = {
-    iconURL: "assets/character/monster1.jpg"
-};

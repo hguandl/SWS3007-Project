@@ -160,16 +160,18 @@ MyGame.prototype.initialize = function () {
 
     UIButton.displayButtonGroup('default-button-group');
 
-    switch (window.combatScene.combatResult) {
-        case "win":
-            this.startMsg = 1;
-            break;
-        case "lose":
-            this.startMsg = 2;
-            break;
+    if (window.combatScene) {
+        switch (window.combatScene.combatResult) {
+            case "win":
+                this.startMsg = 1;
+                break;
+            case "lose":
+                this.startMsg = 2;
+                break;
+        }
+        return;
     }
 
-    if (window.combatScene.combatResult !== null) return ;
     CharacterSet_Init(this.kHeroInfo);
 };
 
