@@ -253,7 +253,7 @@ MyGame.prototype.update = function () {
     if (isMapFreezed()) return ;
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
+        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.D)) return ;
         this.mMyHero.walk("Right");
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
@@ -265,7 +265,7 @@ MyGame.prototype.update = function () {
     }
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Up)) return ;
+        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.W)) return ;
         this.mMyHero.walk("Up");
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
@@ -277,7 +277,7 @@ MyGame.prototype.update = function () {
     }
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Down)) return ;
+        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.S)) return ;
         this.mMyHero.walk("Down");
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
@@ -289,7 +289,7 @@ MyGame.prototype.update = function () {
     }
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Left)) return ;
+        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.A)) return ;
         this.mMyHero.walk("Left");
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
@@ -327,7 +327,6 @@ MyGame.prototype.update = function () {
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.N)) {
         switchSmallMap();
     }
-    // var e = null;
     var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos(), this.mMyHero.getDir());
     if (e)
         e(this);
