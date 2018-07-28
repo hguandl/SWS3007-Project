@@ -19,10 +19,10 @@ function MyGame(mapName) {
 
     this.kHeroInfo = "assets/hero/character_info.json";
 
-    this.kNPC1Pic = "assets/NPC/plateau-npc1-walk.png";
-    this.kNPC1Json = "assets/NPC/plateau-npc1-walk.json";
-    this.kNPC2Pic = "assets/NPC/plateau-npc2-walk.png";
-    this.kNPC2Json = "assets/NPC/plateau-npc2-walk.json";
+    this.kNPC1Pic = "assets/NPC/plateau/plateau-npc1-walk.png";
+    this.kNPC1Json = "assets/NPC/plateau/plateau-npc1-walk.json";
+    this.kNPC2Pic = "assets/NPC/plateau/plateau-npc2-walk.png";
+    this.kNPC2Json = "assets/NPC/plateau/plateau-npc2-walk.json";
 
     this.kMapFile = [];
     this.kMapEvents = [];
@@ -254,7 +254,6 @@ MyGame.prototype.update = function () {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.Right)) return ;
         this.mMyHero.walk("Right");
-        window.package.addProps(PropsSet["Queen Peach"]);
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
             return ;

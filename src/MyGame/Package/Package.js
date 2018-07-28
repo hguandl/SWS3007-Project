@@ -316,7 +316,7 @@ Package.prototype.update = function () {
         }
 
         if (gEngine.Input.isKeyReleased(gEngine.Input.keys.J)) {
-            if (this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold) {
+            if (this.mCurrentSelected > -1 && this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold) {
 
                 this.choosingUI = new PropsUsingUI(this.kUIBgFile, this.kFontType, this.mCamera);
                 isChoosingUI = true;
