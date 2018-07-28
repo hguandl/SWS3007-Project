@@ -12,7 +12,8 @@ function Combat(topCharacter, monster) {
     /** @type Character */
     this.monster = monster;
 
-    this.kBackground = "assets/map/combat_background_town.png";
+    // todo: change this with respect to battle place
+    this.kBackground = "assets/map/plateau/plateau-battle.png";
     /**  @type Camera  */
     this.camera = null;
     /**  @type Action  */

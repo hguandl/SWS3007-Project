@@ -6,6 +6,7 @@ class characterStatus {
     /**
      * 计算结果
      * @param character {Character}
+     * @return {boolean} : 该状态是否仍然存在
      */
     computeStatus(character) {
 
@@ -17,7 +18,6 @@ class characterStatus {
  */
 class BuffStatus extends characterStatus {
     /**
-     *
      * @param attributeName {string}
      * @param turn {number}
      * @param value {number}
@@ -35,8 +35,10 @@ class BuffStatus extends characterStatus {
         if (this.effectType === _C.percent) {
             character["mCurrent" + this.attributeName] = character["m" + this.attributeName] * (1.0 + this.value);
         } else if (this.effectType === _C.numeric) {
-            character["mCurrent" + this.attributeName] = character["m" + this.attributeName] * (1.0 + this.value);
+            character["mCurrent" + this.attributeName] -= this.value;
         }
+        this.turn--;
+        return this.turn >= 0;
     }
 }
 

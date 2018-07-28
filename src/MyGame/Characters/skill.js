@@ -15,11 +15,11 @@ class Skill {
     }
 
     getUsage() {
-        return "Skill prototype usage";
+        return formatString("Produce %0 VP.", this.VP);
     }
 
     useSkill(user, ...args) {
-
+        user.mCurrentVP += this.VP;
     }
 
     /**
@@ -41,6 +41,9 @@ class Skill {
     }
 }
 
+/**
+ * 改变对方防御百分比为<defPercent>
+ */
 class FieryEyes extends Skill {
     constructor(VP, defPercent, turn) {
         super("fiery eyes", VP);
@@ -53,7 +56,8 @@ class FieryEyes extends Skill {
     }
 
     getUsage() {
-        return formatString("Decrease the defense of the enemy by %0 percent for %1 turn.", this.defPercent, this.turn);
+        return formatString("Decrease the defense of the enemy by %0 percent for %1 turn.", this.defPercent, this.turn)
+            + super.getUsage();
     }
 
     /**
@@ -62,7 +66,7 @@ class FieryEyes extends Skill {
      * @param aim {Character}
      */
     useSkill(user, aim) {
-        user.mCurrentVP += this.VP;
+        super.useSkill(user);
         aim.status.push(new BuffStatus("DEF", this.turn, this.defPercent, _C.percent));
     }
 
@@ -72,34 +76,113 @@ class FieryEyes extends Skill {
 }
 
 /**
- * This class stores all the Skill and there parameters.
+ * 重击。造成百分之<dmgPercent>的伤害。
  */
-class SkillList {
-    static parseSkill(skillInfo) {
-        return window.allSkills[skillInfo["name"]].parse(skillInfo);
+class HeavyHit extends Skill {
+    constructor(VP, dmgPercent) {
+        super("heavy hit", VP);
+        this.dmgPercent = dmgPercent;
+    }
+
+    static getDescription() {
+        return "A heavy hit will cause more damage than attack."
+    }
+
+    getUsage() {
+        return formatString("Deal %0 damage of your attack.", this.dmgPercent) + super.getUsage();
+    }
+
+    useSkill(user, aim) {
+        super.useSkill(user);
+        aim.mCurrentHP -= calDamage(user, aim) * this.dmgPercent;
+    }
+
+    static parse(skillInfo) {
+        return new HeavyHit(skillInfo["VP"], skillInfo["dmgPercent"]);
     }
 }
 
 /**
- *
- * @type {{Skill}}
+ * 三昧真火。造成百分之<dmgPercent>的伤害，无视防御。
  */
-window.allSkills = {
-    "fiery eyes": FieryEyes,
+class SamadhiFire extends Skill {
+    constructor(VP, dmgPercent) {
+        super("Samadhi fire", VP);
+        this.dmgPercent = dmgPercent;
+    }
 
-};
+    static getDescription() {
+        return "Burn your emery with Samadhi fire."
+    }
 
-/**
- * Replace the '%0', '%1', '%2 and so on with replacer. (the placeholder index must be continuous integer start from 0)
- * @param string1: the string to format.
- * @param replacer: string or any thing that can be convert to string.
- * @returns {string}
- */
-function formatString(string1, ...replacer) {
-    let rst = string1;
-    replacer.forEach((value, index) => {
-        rst = rst.replace("%" + index.toString(), value.toString());
-    });
-    return rst;
+    getUsage() {
+        return formatString("Deal %0 damage of your attack, disregarding the emery's defense.", this.dmgPercent)
+            + super.getUsage();
+    }
+
+    useSkill(user, aim) {
+        super.useSkill(user);
+        aim.mCurrentHP -= user.mCurrentATK * this.dmgPercent;
+    }
+
+    static parse(skillInfo) {
+        return new SamadhiFire(skillInfo["VP"], skillInfo["dmgPercent"]);
+    }
 }
 
+/**
+ * 睡懒觉。增加<HP>点HP。
+ */
+class SlackSleep extends Skill {
+    constructor(VP, HP, atkPercent) {
+        super("slack sleep", VP);
+        this.HP = HP;
+        this.atkPercent = atkPercent;
+    }
+
+    static getDescription() {
+        return "Take a slack sleep."
+    }
+
+    getUsage() {
+        return formatString("Recover %0 HP and change your attack to %1 percent.", this.HP, this.dmgPercent) + super.getUsage();
+    }
+
+    useSkill(user, aim) {
+        super.useSkill(user);
+        user.mCurrentHP += this.HP;
+        user.status.push(new BuffStatus("ATK", 2, this.atkPercent, _C.percent));
+    }
+
+    static parse(skillInfo) {
+        return new SlackSleep(skillInfo["VP"], skillInfo["HP"],  skillInfo["atkPercent"]);
+    }
+}
+
+/**
+ * 念经。改变对方攻击力为<atkPercent>。
+ */
+class Chant extends Skill {
+    constructor(VP, atkPercent, turn) {
+        super("chant", VP);
+        this.turn = turn;
+        this.atkPercent = atkPercent;
+    }
+
+    static getDescription() {
+        return "Chant."
+    }
+
+    getUsage() {
+        return formatString("Decrease the attack of emery to 0% percent in %1 turn.", this.dmgPercent, this.turn) + super.getUsage();
+    }
+
+    useSkill(user, aim) {
+        super.useSkill(user);
+        aim.status.push(new BuffStatus("ATK", this.turn, this.atkPercent, _C.percent));
+    }
+
+    static parse(skillInfo) {
+        return new Chant(skillInfo["VP"], skillInfo["atkPercent"], skillInfo["turn"]);
+    }
+}
