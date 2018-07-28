@@ -31,7 +31,7 @@ function Combat(firstCharacter, monster) {
                 9,              // number of elements in this sequence
                 0);             // horizontal padding in between
             this.characterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-            this.characterAnimate.setAnimationSpeed(12);
+            this.characterAnimate.setAnimationSpeed(8);
         }
     });
 
@@ -55,12 +55,18 @@ function Combat(firstCharacter, monster) {
         },
         set: v => {
             this._status = v;
+            // 如果不在等待用户操作状态，就禁止按钮
             UIButton.disableButtons(v !== _C.waiting);
         }
     });
 
+    /**
+     * 这个函数将会在用户点击攻击或技能或换人按钮的时候被调用
+     * @param actionType {number}
+     * @param actionParam {Object}
+     */
     this.takeAction = function (actionType, actionParam) {
-        this.status = _C.displaying;
+        this.status = _C.commandGiven;
 
         this._action = makeAction(actionType, actionParam);
 
@@ -84,7 +90,7 @@ function Combat(firstCharacter, monster) {
         this.checkAlive();
 
         // end turn
-        this.status = _C.waiting;
+        // this.status = _C.waiting;
     };
 
     this.checkAlive = function () {
@@ -101,7 +107,9 @@ function Combat(firstCharacter, monster) {
         }
     };
 
-    this.displayAction = function () {
+    this.displayAction = function (callback, param) {
+        console.debug("displaying");
+        this.status = _C.displaying;
         switch (this._action.type) {
             case _C.skill:
                 this.takeSkillAction();
@@ -247,10 +255,12 @@ Combat.prototype.update = function () {
     window.package.update();
     updateCharacterStatus();
 
-    this.characterAnimate.updateAnimation();
+    if (this.status !== _C.displaying)
+        return;
 
-    // if (this._action.type === _C.none)
-    //     return;
+    console.debug("updating");
+    if (this.characterAnimate.updateAnimation())
+        this.status = _C.waiting;
 
     // todo : add animation to actions
 };

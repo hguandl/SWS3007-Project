@@ -49,7 +49,7 @@ SpriteAnimateRenderable.prototype._initAnimation = function () {
         this.mCurrentAnimAdvance = 1; // either 1 or -1
         break;
     case SpriteAnimateRenderable.eAnimationType.eAnimateSwing:
-        this.mCurrentAnimAdvance = -1 * this.mCurrentAnimAdvance; // swings ... 
+        this.mCurrentAnimAdvance = -1 * this.mCurrentAnimAdvance; // swings ...
         this.mCurrentElm += 2 * this.mCurrentAnimAdvance;
         break;
     case SpriteAnimateRenderable.eAnimationType.eAnimateLeft:
@@ -78,8 +78,8 @@ SpriteAnimateRenderable.prototype._setSpriteElement = function () {
  */
 SpriteAnimateRenderable.eAnimationType = Object.freeze({
     eAnimateRight: 0,     // Animate from first (left) towards right, when hit the end, start from the left again
-    eAnimateLeft: 1,      // Compute find the last element (in the right), start from the right animate left-wards, 
-    eAnimateSwing: 2      // Animate from first (left) towards the right, when hit the end, animates backwards 
+    eAnimateLeft: 1,      // Compute find the last element (in the right), start from the right animate left-wards,
+    eAnimateSwing: 2      // Animate from first (left) towards the right, when hit the end, animates backwards
 });
 
 /**
@@ -157,18 +157,23 @@ SpriteAnimateRenderable.prototype.setAnimationType = function (animationType) {
  * Update the animation interval
  * @returns {void}
  * @memberOf SpriteAnimateRenderable
+ * @return {boolean} 是否经过了一次动作循环
  */
 SpriteAnimateRenderable.prototype.updateAnimation = function () {
     this.mCurrentTick++;
+    let rst = false;
     if (this.mCurrentTick >= this.mUpdateInterval) {
         this.mCurrentTick = 0;
         this.mCurrentElm += this.mCurrentAnimAdvance;
         if ((this.mCurrentElm >= 0) && (this.mCurrentElm < this.mNumElems)) {
             this._setSpriteElement();
+            rst = false;
         } else {
             this._initAnimation();
+            rst = true;
         }
     }
+    return rst;
 };
 //--- end of Public Methods
 //
