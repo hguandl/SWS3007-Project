@@ -189,16 +189,16 @@ gEngine.Input = (function () {
     var isDirectionLocked = function(keyCode) {
         switch(keyCode) {
             case kKeys.Up:
-            return isKeyPressed(kKeys.Down) || isKeyPressed(kKeys.Right) || isKeyPressed(kKeys.Left);
+            return isKeyPressed(kKeys.A) || isKeyPressed(kKeys.S) || isKeyPressed(kKeys.D);
             break;
             case kKeys.Down:
-            return isKeyPressed(kKeys.Up) || isKeyPressed(kKeys.Right) || isKeyPressed(kKeys.Left);
+            return isKeyPressed(kKeys.W) || isKeyPressed(kKeys.A) || isKeyPressed(kKeys.D);
             break;
             case kKeys.Left:
-            return isKeyPressed(kKeys.Down) || isKeyPressed(kKeys.Right) || isKeyPressed(kKeys.Up);
+            return isKeyPressed(kKeys.W) || isKeyPressed(kKeys.S) || isKeyPressed(kKeys.D);
             break;
             case kKeys.Right:
-            return isKeyPressed(kKeys.Down) || isKeyPressed(kKeys.Up) || isKeyPressed(kKeys.Left);
+            return isKeyPressed(kKeys.W) || isKeyPressed(kKeys.S) || isKeyPressed(kKeys.D);
             break;
         }
     };

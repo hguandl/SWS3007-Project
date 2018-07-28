@@ -30,7 +30,7 @@ Scene.prototype.message = function () {
             document.getElementById('infoBox').style.display = "none";
             document.getElementById('info_face').src = "assets/blank.png";
             document.getElementById('info_text').innerText = null;
-            window.mShowMsgBox = false;
+            document.mShowMsgBox = false;
             document.mMsgQueue.shift();
         }
     }

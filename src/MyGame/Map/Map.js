@@ -14,7 +14,6 @@ function Map(mapFile, eventFile) {
 
     this.mPixelArray = new Array();
     this.mItems = [];
-    // this.mEventBuffer = null;
 }
 
 Map.prototype.addItems = function () {

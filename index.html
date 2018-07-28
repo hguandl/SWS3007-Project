@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Journey to the West - Alpha Version</title>
+    <title>Journey to the West - Beta Version</title>
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
 
     <!-- the following says there are javascript source code contained in
@@ -92,8 +92,8 @@
     <script type="text/javascript" src="src/Engine/RigidShapes/RigidRectangleCircle_Collision.js"></script>
     <script type="text/javascript" src="src/Engine/RigidShapes/RigidRectangle_Collision.js"></script>
 
-    <script type="text/javascript" src="src/Engine/Map/Map.js"></script>
-    <script type="text/javascript" src="src/Engine/Map/MapParser.js"></script>
+    <script type="text/javascript" src="src/MyGame/Map/Map.js"></script>
+    <script type="text/javascript" src="src/MyGame/Map/MapParser.js"></script>
 
 
     <script type="text/javascript" src="src/MyGame/Background.js"></script>
@@ -151,19 +151,19 @@
 
     <!--UI-->
     <div id="default-button-group" class="UI-button-group button-group inCanvas" style="display: none;">
-        <button id="menu-button" class="button button-parchment button-rounded"
-                onclick="window.myGame.pause()">Menu
-        </button>
+        <!-- <button id="menu-button" class="button button-parchment button-rounded"
+                onclick="window.myGame.pause()">Menu (Z)
+        </button> -->
         <button id="item-button" class="button button-parchment button-rounded"
-                onclick="switchPackage()">Item
+                onclick="switchPackage()">Item (X)
         </button>
         <button id="character-button" class="button button-parchment button-rounded"
-                onclick="switchStatusBar()">Character
+                onclick="switchStatusBar()">Character (C)
         </button>
         <button id="small-map-button" class="button button-parchment button-rounded"
-                onclick="switchSmallMap()">Small Map
+                onclick="switchSmallMap()">Small Map (N)
         </button><button id="small-map-button" class="button button-parchment button-rounded"
-                onclick="switchBigMap()">Big Map
+                onclick="switchBigMap()">Big Map (M)
         </button>
     </div>
 
@@ -293,7 +293,8 @@
         var posPoint1 = document.currentScene.mMyMap.reducePoint(x + 0.2, y - 0.4);
         var posPoint2 = document.currentScene.mMyMap.reducePoint(x - 0.2, y);
 
-        return [posPoint0, posPoint1, posPoint2];
+        // return [posPoint0, posPoint1, posPoint2];
+        return [posPoint0];
     }
 
     function setPoint(pos) {
@@ -331,8 +332,6 @@
 </script>
 
 <!-- Dialog -->
-
-<!-- <a class="button button-parchment button-rounded" onclick="ShowDiv('MyDiv','fade')">new dialog</a>-->
 
 <!--弹出层时背景层DIV---start-->
 <div id="UI-dialog">

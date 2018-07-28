@@ -166,7 +166,7 @@ MyGame.prototype.initialize = function () {
 
     this.mSmallCamera = this.mMyMap.getCamera([this.currentPos[0], this.currentPos[1]],
                                                  0.75,
-                                                 [850, 480, 120, 120]);
+                                                 [820, 450, 150, 150]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
     UIButton.displayButtonGroup('default-button-group');
@@ -246,6 +246,10 @@ MyGame.prototype.update = function () {
 
     this.moveCamera(xform);
 
+    if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.M)) {
+        switchBigMap();
+    }
+
     if (isMapFreezed()) return ;
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
@@ -312,6 +316,17 @@ MyGame.prototype.update = function () {
         this.mMyHero.stand("Down");
     }
 
+    if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.X)) {
+        switchPackage();
+    }
+
+    if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)) {
+        switchStatusBar();
+    }
+
+    if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.N)) {
+        switchSmallMap();
+    }
     // var e = null;
     var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos(), this.mMyHero.getDir());
     if (e)
