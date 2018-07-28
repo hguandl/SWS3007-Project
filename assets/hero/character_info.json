@@ -5,7 +5,26 @@
         "VP": 1000,
         "ATK": 200,
         "DEF": 100,
-        "SPD": 50
+        "SPD": 50,
+        "characterType": 1,
+        "skills": [
+            {
+                "name": "fiery eyes",
+                "VP": 90,
+                "defPercent": 0.5,
+                "turn": 6
+            },
+            {
+                "name": "heavy hit",
+                "VP": 65,
+                "dmgPercent": 1.43
+            },
+            {
+                "name": "Samadhi fire",
+                "VP": 81,
+                "dmgPercent": 0.47
+            }
+        ]
     },
     {
         "Name": "The Pigsy",
@@ -13,14 +32,42 @@
         "VP": 500,
         "ATK": 80,
         "DEF": 200,
-        "SPD": 30
+        "SPD": 30,
+        "characterType": 1,
+        "skills": [
+            {
+                "name": "slack sleep",
+                "VP": -23,
+                "HP": "23",
+                "atkPercent": 1.30
+            },
+            {
+                "name": "heavy hit",
+                "VP": 57,
+                "dmgPercent": 1.31
+            }
+        ]
     },
     {
-        "Name": "Monk Sha",
+        "Name": "Monk Tang",
         "HP": 1250,
         "VP": 750,
         "ATK": 150,
         "DEF": 150,
-        "SPD": 40
+        "SPD": 40,
+        "characterType": 1,
+        "skills": [
+            {
+                "name": "chant",
+                "VP": 26,
+                "dmgPercent": 0.51,
+                "turn": 3
+            },
+            {
+                "name": "heavy hit",
+                "VP": 59,
+                "dmgPercent": 1.33
+            }
+        ]
     }
 ]
