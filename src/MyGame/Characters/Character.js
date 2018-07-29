@@ -18,8 +18,8 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
     this.charaterType = characterInfo["characterType"];
     if (typeof this.characterType !== "number")
         this.characterType = _C.Hero;
-    /**  @type {characterStatus[]} - 玩家状态  */
-    this.status = [];
+    /**  @type {CharacterStatus[]} - 玩家状态  */
+    this.turnEndStatus = [];
     /**  @type {Skill[]}  */
     this.skills = [];
     // if (characterInfo["skills"]) {
@@ -63,11 +63,13 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
 
     this.mName = characterInfo["Name"];
 
+    this.spriteURL = "assets/hero/fight/" + this.mName + ".png";
+
     this.mMaxHP = this.mCurrentHP = characterInfo["HP"];
     this.mMaxVP = characterInfo["VP"];
     this.mCurrentVP = 0;
     this.mATK = this.mCurrentATK = characterInfo["ATK"];
-    this.mDEF = this.mCurrrentDEF = characterInfo["DEF"];
+    this.mDEF = this.mCurrentDEF = characterInfo["DEF"];
     this.mSPD = this.mCurrentSPD = characterInfo["SPD"];
 }
 
@@ -274,21 +276,44 @@ Character.prototype.displayAllSkills = function () {
     });
 };
 
-Character.prototype.computeStatus = function () {
+Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
     let i, status;
+
+    // initialize
+    this.mCurrentATK = this.mATK;
+    this.mCurrentDEF = this.mDEF;
+    this.mCurrentSPD = this.mSPD;
 
     this.mATKPercent = 1.0;
     this.mDEFPercent = 1.0;
     this.mSPDPercent = 1.0;
 
-    for (i = 0; i < this.status.length; i++) {
-        status = this.status[i];
+    // compute effect of each turnEndStatus
+    for (i = 0; i < this.turnEndStatus.length; i++) {
+        status = this.turnEndStatus[i];
         // 如果status的回合小于0了，就删除该状态
-        if (!status.computeStatus(this))
-            this.status.splice(i, 1);
+        if (myTurnEnd) {
+            status.turn--;
+            if (status.turn < 0)
+                this.turnEndStatus.splice(i, 1);
+            console.debug("have turnEndStatus ", status);
+        }
+        // 结算状态效果
+        status.computeStatus(this);
     }
 
+    // compute final attribute
     this.mCurrentATK *= this.mATKPercent;
     this.mCurrentDEF *= this.mDEFPercent;
     this.mCurrentSPD *= this.mSPDPercent;
+};
+
+/**
+ * 在区间 [ 1 - <fluctuate>, 1 - <fluctuate> ] 随机取值，并乘 <HP>，然后将该数值取证后加到角色当前HP上。
+ * @param HP {number} 要改变的值
+ * @param [fluctuate = 0.1] {number} 波动大小
+ */
+Character.prototype.randChangeHP = function(HP, fluctuate = 0.1) {
+    console.assert(fluctuate <= 1 && fluctuate >= 0);
+    this.mCurrentHP += Math.round(HP * (1 + (Math.random() * 2 - 1) * fluctuate));
 };

@@ -3,6 +3,7 @@
  */
 class SkillList {
     static parseSkill(skillInfo) {
+
         return window.allSkills[skillInfo["name"]].parse(skillInfo);
     }
 }
@@ -31,4 +32,12 @@ function formatString(string1, ...replacer) {
         rst = rst.replace("%" + index.toString(), value.toString());
     });
     return rst;
+}
+
+function assertHasProperties(obj, ...properties) {
+    properties.forEach(value => {
+        if (!value in obj) {
+            console.error("value not in obj", value, obj);
+        }
+    });
 }

@@ -15,11 +15,19 @@ class Action {
         this.type = actionType;
         this.param = actionParam;
     }
+
+    update() {
+
+    }
 }
 
 class AttackAction extends Action {
     constructor(actionParam) {
         super(_C.attack, actionParam);
+    }
+
+    update() {
+
     }
 }
 

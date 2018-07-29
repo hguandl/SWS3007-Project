@@ -98,20 +98,17 @@ class UIButton {
      * @param disable {boolean}
      */
     static disableButtons(disable) {
-        // const UIButtonGroups = document.getElementsByClassName("UI-button-group");
-        // let group, i;
-        // for (group = 0; group < UIButtonGroups.length; group++) {
-        //     for (i=0; i<UIButtonGroups[group].childNodes.length; i++) {
-        //         const button = UIButtonGroups[group].childNodes[i];
-        //         try {
-        //             if (disable === true)
-        //                 button.setAttribute("disabled", "true");
-        //             else
-        //                 button.removeAttribute("disabled");
-        //         } catch (error) {
-        //             console.warn(error);
-        //         }
-        //     }
-        // }
+        const UIButtonGroups = document.getElementsByClassName("UI-button-group");
+        let group, i;
+        for (group = 0; group < UIButtonGroups.length; group++) {
+            const buttons = UIButtonGroups[group].getElementsByTagName("button");
+            for (i=0; i<buttons.length; i++) {
+                const button = buttons[i];
+                    if (disable === true)
+                        button.setAttribute("disabled", "true");
+                    else
+                        button.removeAttribute("disabled");
+            }
+        }
     }
 }

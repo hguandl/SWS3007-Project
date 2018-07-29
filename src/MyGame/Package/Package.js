@@ -191,20 +191,25 @@ Package.prototype.draw = function () {
 var isFirstClicked;
 var latestPressedAloneKey;
 Package.prototype.update = function () {
+    if (!document.mShowPackage) {
+        return ;
+    }
+
+    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
+        switchPackage();
+        console.log("Escape released in package");
+    }
 
     if (!isChoosingUI) {
 
-        if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
-            //window.switchPackage();
-            switchPackage();
-            return -1;
-        }
+        // if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
+        //     switchPackage();
+        //     return -1;
+        // }
 
         //if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I)) {
             if (this.mCurrentSelected < this.mSize) {
                 this.mCurrentShowing = this.mCurrentSelected;
-            } else {
-                this.mCurrentShowing = -1;
             }
         //}
 
@@ -311,17 +316,13 @@ Package.prototype.update = function () {
         }
 
         if (gEngine.Input.isKeyReleased(gEngine.Input.keys.J)) {
-            if (this.mCurrentSelected > -1 && this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold) {
+            if (this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold && this.mCurrentSelected > -1) {
 
                 this.choosingUI = new PropsUsingUI(this.kUIBgFile, this.kFontType, this.mCamera);
                 isChoosingUI = true;
 
                 this.tickJ = 0;
             }
-        }
-
-        if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
-            switchPackage();
         }
 
         this.tickRight++;
