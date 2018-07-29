@@ -75,7 +75,7 @@ GameEvents.handle = function (e, game) {
 
         case "Learn":
         return function(game) {
-            CharacterSet[e[2]].skills.push(SkillList.parseSkill(e[3]);
+            CharacterSet[e[2]].skills.push(SkillList.parseSkill(e[3]));
             document.mEventMutex = false;
         }
         break;
