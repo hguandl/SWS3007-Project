@@ -1,4 +1,25 @@
 {
+
+  "195": [
+  			["J",
+  				"Show", [
+  					["", "（获得物品 胡萝卜）"]
+  				]
+  			],
+  			[null,
+  				"Get", ["huluobo"]
+  			],
+  		false, 0],
+  "196": [
+  			["J",
+  				"Show", [
+  					["", "（获得物品 胡萝卜）"]
+  				]
+  			],
+  			[null,
+  				"Get", ["huluobo"]
+  			],
+  		false, 0],
   "153": [
   			["J",
 		 		"Show", [
@@ -29,8 +50,8 @@
 		 			[null, "通往火焰山山洞内"]
 		 		]
 		 	],
-		 true, 0], 
-		 
+		 true, 0],
+
   "590": [
   			["J",
 		 		"Show", [
@@ -45,7 +66,7 @@
 		 		"Show", [
 		 			["zhuzishanjiao-wangling", "亡灵：.."],
 		 			["zhuzishanjiao-wangling", "亡灵：啊..原来不是火焰山里的黄风怪啊.."],
-				  	["zhuzishanjiao-wangling", "亡灵：.."],	
+				  	["zhuzishanjiao-wangling", "亡灵：.."],
 				  	["zhuzishanjiao-wangling", "亡灵：原来是要为吾主寻药的大唐高僧。恕在下失礼。"],
 				  	["sunwukong", "孙悟空：忒。你这厮话都不说清楚，一下就下来棍棒...且不提了。倒是你怎么一幅鬼魂模样？"],
 				  	["zhuzishanjiao-wangling", "亡灵：在下本是朱紫国国王贴身侍卫，三年前在下护驾不利，自己敌不过妖怪，还让妖怪近了国王的身。"],
@@ -58,7 +79,7 @@
 				  ]
 		 	],
 		 false, 0],
-  
+
   "750": [[null,"Go", "huoyanshankou"], true, 0],
 
 	"4": [[null, "Go", "zhuzishan"], true, 0],
