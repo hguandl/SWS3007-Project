@@ -4,7 +4,7 @@
  * Call this function to turn into combat scene.
  * @class
  * @param firstCharacter: 第一个出场的人物，请在每次调用该场景前修改该变量。
- * @param monster: 出场的怪物，请在每次调用该场景前修改该变量。
+ * @param monster {string}: 出场的怪物的名字，请在每次调用该场景前修改该变量。
  * @property displaying {boolean} : 是否正在显示战斗动画。设置为true会自动使得按钮不能使用，设置为false时按钮又可以使用了。
  */
 function Combat(firstCharacter, monster) {
@@ -43,13 +43,14 @@ function Combat(firstCharacter, monster) {
     /** @type Character */
     this.firstCharacter = firstCharacter;
     /** @type Character */
-    this.monster = monster;
+    console.debug(monster);
+    this.monster = window.Monsters[monster];
     this.monsterHPBar = null;
 
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/zhuzishan/battle.png";
     this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
-    this.monster.spriteURL = "assets/hero/fight/monster.png";
+    this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName;
     this.monster.HPBar = "";
 
     /**  @type Camera  */

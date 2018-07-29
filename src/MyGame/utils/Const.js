@@ -29,7 +29,7 @@ let _C = {
     Hero: "Hero",
 
 };
-// a1c45a
+
 const TURN = {
     monster: 0,
     hero: 1
