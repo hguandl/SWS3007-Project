@@ -1,5 +1,8 @@
 "use strict";
-
+/**
+ * 所有角色。前三个是人，其他的是怪。
+ * @type {Character[]}
+ */
 var CharacterSet = [];
 
 function CharacterSet_Status() {

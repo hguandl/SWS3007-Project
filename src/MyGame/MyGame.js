@@ -224,7 +224,8 @@ MyGame.prototype.initialize = function () {
         return;
     }
 
-    CharacterSet_Init(this.kHeroInfo);
+    if (CharacterSet.length <= 0)
+        CharacterSet_Init(this.kHeroInfo);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
