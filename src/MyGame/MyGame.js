@@ -148,11 +148,11 @@ MyGame.prototype.initialize = function () {
     gEngine.AudioClips.playBackgroundAudio(this.kBGM[this.mMapName]);
 
     window.statusBar.initialize();
-    //window.package = new Package(this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType, 20);
-    window.package = new Package();
-    window.package.loadScene();
-    window.package.initialize();
-
+    if (window.package === null) {
+        window.package = new Package();
+        window.package.loadScene();
+        window.package.initialize();
+    }
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
     this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
