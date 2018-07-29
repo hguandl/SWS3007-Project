@@ -59,7 +59,7 @@ GameEvents.handle = function (e, game) {
         case "Back":
         return function(game) {
             var xform = game.getHero().getXform();
-            xform.setPosition(xform.getXPos(), xform.getYPos() - 0.5);
+            xform.setPosition(xform.getXPos(), xform.getYPos() + 0.1);
         }
         break;
 

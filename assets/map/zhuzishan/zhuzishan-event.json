@@ -113,10 +113,29 @@
 						[null, "Show",
 							[["zhuzishan-chulianyi", "楚依恋：实在是麻烦高僧了。但请高僧一定助小女子一臂之力！"]]
 						]
+				], true, 0],
+	"1159": [[null,
+				"Check", "Golden Lotus",
+					[null, "Go", "zhuzishanjiao"],
+					[null, "Show", [["tangseng", "且慢，金莲还未替那位小姑娘找到。"]]]
 				],
+			[null,
+				"Check", "Golden Lotus",
+				[null, "Go", "zhuzishanjiao"],
+				[null, "Back"]
+			],
 			true, 0],
-	"1159": [[null, "Go", "zhuzishanjiao"], true, 0],
-    "1160": [[null,"Go", "zhuzishanjiao"], true, 0],
+    "1160": [[null,
+				"Check", "Golden Lotus",
+					[null, "Go", "zhuzishanjiao"],
+					[null, "Show", [["tangseng", "且慢，金莲还未替那位小姑娘找到。"]]]
+				],
+			[null,
+				"Check", "Golden Lotus",
+				[null, "Go", "zhuzishanjiao"],
+				[null, "Back"]
+			],
+			true, 0],
     "1178": [[null, "Go", "wanggong"] ,true, 0],
     "1179": [[null, "Go", "wanggong"] ,true, 0]
 }
