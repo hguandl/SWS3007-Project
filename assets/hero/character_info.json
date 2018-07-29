@@ -19,11 +19,11 @@
                 "VP": 65,
                 "dmgPercent": 1.43
             },
-            {
-                "name": "Samadhi fire",
-                "VP": 81,
-                "dmgPercent": 0.47
-            }
+//            {
+//                "name": "Samadhi fire",
+//                "VP": 81,
+//                "dmgPercent": 0.47
+//            }
         ]
     },
     {

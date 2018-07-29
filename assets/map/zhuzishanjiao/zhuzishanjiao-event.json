@@ -82,6 +82,9 @@
 				  	["tangseng", "唐僧：哦弥陀佛。"]
 				  ]
 		 	],
+		 	[null,
+		 		"Learn", "0", {"name": "Samadhi fire", "VP": 81, "dmgPercent": 0.47}
+            ],
 		 false, 0],
   
   "750": [[null,"Go", "huoyanshankou"], true, 0],
