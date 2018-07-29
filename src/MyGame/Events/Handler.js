@@ -56,6 +56,10 @@ GameEvents.handle = function (e, game) {
         }
         break;
 
+        case "Change":
+        gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eActors, this.mMyNPC[2].getNPC());
+        break;
+
         default:
         return null;
     }
