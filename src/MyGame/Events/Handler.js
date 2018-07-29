@@ -56,8 +56,11 @@ GameEvents.handle = function (e, game) {
         }
         break;
 
-        case "Change":
-        gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eActors, this.mMyNPC[2].getNPC());
+        case "Back":
+        return function(game) {
+            var xform = game.getHero().getXform();
+            xform.setPosition(xform.getXPos(), xform.getYPos() + 0.1);
+        }
         break;
 
         default:

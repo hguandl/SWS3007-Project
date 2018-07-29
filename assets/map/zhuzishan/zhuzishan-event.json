@@ -117,7 +117,7 @@
 	"1159": [[null,
 				"Check", "Golden Lotus",
 					[null, "Go", "zhuzishanjiao"],
-					[null, "Back","Show", [["tangseng", "且慢，金莲还未替那位小姑娘找到。"],["", "note:这里一直按上再按k即可"]]]
+					[null, "Show", [["tangseng", "且慢，金莲还未替那位小姑娘找到。"]]]
 				],
 			[null,
 				"Check", "Golden Lotus",
@@ -128,7 +128,7 @@
     "1160": [[null,
 				"Check", "Golden Lotus",
 					[null, "Go", "zhuzishanjiao"],
-					[null, "Show", [["tangseng", "且慢，金莲还未替那位小姑娘找到。"],["", "note:这里一直按上再按k即可"]]]
+					[null, "Show", [["tangseng", "且慢，金莲还未替那位小姑娘找到。"]]]
 				],
 			[null,
 				"Check", "Golden Lotus",
