@@ -1,10 +1,5 @@
 "use scrict";
 
-
-Map.prototype.load = function(mapFile) {
-
-};
-
 Map.prototype.getCamera = function(pos, percent, viewConfig) {
     var camera = new Camera(
         vec2.fromValues(pos[0], pos[1]),
@@ -26,18 +21,94 @@ Map.prototype.reducePoint = function(x, y) {
     return this.mWidth * Math.round(this.mHeight - 0.5 - y) + Math.round(x - 0.5);
 };
 
-Map.prototype.detectEvent = function (x, y, dir) {
+Map.prototype.detectEvent = function (game, x, y, dir) {
+    if (document.mEventLock) return ;
     var posPoint = this.reducePoint(x, y);
     var e = null;
-    if (Math.floor(this.mData[posPoint] % 100 / 10) == 1) {
-        e = GameEvents.handle(this.mEvents[posPoint]);
+    var flag = false;
+    if (Math.floor(this.mData[posPoint] % 100 / 10) >= 1) {
+        var eList = this.mEvents[posPoint];
+        if (eList && eList[eList.length - 1] >= eList.length - 2) {
+            if (eList[eList.length - 2]) {
+                eList[eList.length - 1] = 0;
+                flag = true;
+            }
+        } else {
+            flag = (eList);
+        }
+        if (flag) {
+            e = GameEvents.handle(eList[eList[eList.length - 1]]);
+        }
     }
-    if (e) return e;
+    if (e) {
+        eList[eList.length - 1]++;
+        return e;
+    }
+
     var nextStepPoint = this.nextToNPC(posPoint, x, y, dir);
     if (nextStepPoint) {
-        e = GameEvents.handle(this.mEvents[nextStepPoint]);
+        var eList = this.mEvents[nextStepPoint];
+        if (eList && eList[eList.length - 1] >= eList.length - 2) {
+            if (eList[eList.length - 2]) {
+                eList[eList.length - 1] = 0;
+                flag = true;
+            }
+        } else {
+            flag = (eList);
+        }
+        if (flag) {
+            e = GameEvents.handle(eList[eList[eList.length - 1]]);
+
+        }
     }
-    return e;
+    if (e) {
+        this.NPCDir(game, nextStepPoint, dir);
+        eList[eList.length - 1]++;
+        return e;
+    }
+    return null;
+};
+
+Map.prototype.initNPC = function() {
+    if (!this.mNPC) return [];
+    var npc = [];
+    var i;
+    for (i = 0; i < this.mNPC.length; ++i) {
+        kPic = "assets/NPC/" + this.mName + "-npc" + String(i + 1) + ".png";
+        kJson = "assets/NPC/" + this.mName + "-npc" + String(i + 1) + ".json";
+        npc.push(new MyNPC(kPic, kJson));
+    }
+    return npc;
+}
+
+function opposite(dir) {
+    switch (dir) {
+        case "Up":
+        return "Down";
+        break;
+        case "Left":
+        return "Right";
+        break;
+        case "Down":
+        return "Up";
+        break;
+        case "Right":
+        return "Left";
+        break;
+    }
+}
+
+Map.prototype.NPCDir = function(game, posPoint, dir) {
+    if (!this.mNPC) return ;
+    var idx = null;
+    var i;
+    for (i = 0; i < this.mNPC.length; ++i)
+        if (this.mNPC[i] == posPoint) {
+            idx = i;
+            break;
+        }
+    if (idx === null) return ;
+    game.mMyNPC[idx].stand(opposite(dir));
 };
 
 Map.prototype.canWalk = function(x, y, dir) {
@@ -59,7 +130,7 @@ Map.prototype.nextToNPC = function(posPoint, x, y, dir) {
         nextStepPoint = posPoint - this.mWidth;
         if (nextStepPoint < 0)
             return null;
-        if (Math.floor(this.mData[nextStepPoint] / 10) == 21) {
+        if (Math.floor(this.mData[nextStepPoint] / 10) >= 21) {
             var nextStepVec = this.pixelCenter(nextStepPoint);
             if (y + 1 > nextStepVec[1])
                 return nextStepPoint;
@@ -70,7 +141,7 @@ Map.prototype.nextToNPC = function(posPoint, x, y, dir) {
         nextStepPoint = posPoint + 1;
         if (nextStepPoint > this.mData.length)
             return null;
-        if (Math.floor(this.mData[nextStepPoint] / 10) == 21) {
+        if (Math.floor(this.mData[nextStepPoint] / 10) >= 21) {
             var nextStepVec = this.pixelCenter(nextStepPoint);
             if (x + 1 > nextStepVec[0])
                 return nextStepPoint;
@@ -80,7 +151,7 @@ Map.prototype.nextToNPC = function(posPoint, x, y, dir) {
         nextStepPoint = posPoint + this.mWidth;
         if (nextStepPoint > this.mData.length)
             return null;
-        if (Math.floor(this.mData[nextStepPoint] / 10) == 21) {
+        if (Math.floor(this.mData[nextStepPoint] / 10) >= 21) {
             var nextStepVec = this.pixelCenter(nextStepPoint);
             if (y - 1 < nextStepVec[1])
                 return nextStepPoint;
@@ -91,7 +162,7 @@ Map.prototype.nextToNPC = function(posPoint, x, y, dir) {
         nextStepPoint = posPoint - 1;
         if (nextStepPoint < 0)
             return null;
-        if (Math.floor(this.mData[nextStepPoint] / 10) == 21) {
+        if (Math.floor(this.mData[nextStepPoint] / 10) >= 21) {
             var nextStepVec = this.pixelCenter(nextStepPoint);
             if (x - 1 < nextStepVec[0])
                 return nextStepPoint;

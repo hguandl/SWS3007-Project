@@ -50,6 +50,7 @@ MyHero.prototype.walk = function(dir) {
 
 MyHero.prototype.stand = function(dir) {
     this.mAction = 0;
+    this.mDir = dir;
     this.animate(this.mJson[dir]["Stand"]);
 }
 

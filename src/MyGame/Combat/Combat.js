@@ -295,5 +295,6 @@ function enterCombat(game) {
 
     window.combatScene = new Combat(CharacterSet[0], CharacterSet[1]);
     game.nextScene = window.combatScene;
+    game.nextScene.nextScene = game;
     gEngine.GameLoop.stop();
 }

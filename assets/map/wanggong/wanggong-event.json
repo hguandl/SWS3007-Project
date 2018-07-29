@@ -1,10 +1,13 @@
 {
-  "350": [null, "Go", "zhuzishan", true, false],
-  "351": [null, "Go", "zhuzishan", true, false],
-  "352": [null, "Go", "zhuzishan", true, false],
-  "85": [null,
-        "Show", [
-            ["", "Welcome to our game! Now let's go down the mountain.\nPress Up/Down/Left/Right to move.\nYou can watch the small map."]
-        ],
-        false, false]
+  "350": [[null, "Go", "zhuzishan"], true, 0],
+  "351": [[null, "Go", "zhuzishan"], true, 0],
+  "352": [[null, "Go", "zhuzishan"], true, 0],
+  "85": [
+          [null,
+          "Show", [
+              ["", "Welcome to our game! Now let's go down the mountain.\nPress W/A/S/D to move."]
+            ]
+          ],
+          false, 0
+        ]
 }

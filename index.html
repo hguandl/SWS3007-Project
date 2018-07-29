@@ -302,6 +302,7 @@
         document.mWin = false;
         document.mEventQueue = [];
         document.mMsgQueue = [];
+        document.mEventLock = false;
 
         UIButton.displayButtonGroup('default-button-group');
         gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);
