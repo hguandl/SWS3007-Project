@@ -231,6 +231,7 @@ function Combat(firstCharacter, monster) {
 gEngine.Core.inheritPrototype(Combat, Scene);
 
 Combat.prototype.loadScene = function () {
+    document.currentScene = this;
     ALL_SPRITE_TEXTURE.forEach(value => {
         gEngine.Textures.loadTexture(value);
     });
