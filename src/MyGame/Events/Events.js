@@ -13,7 +13,7 @@ GameEvents.shop = function(game) {
 
 GameEvents.battle = function(game) {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
-        enterCombat(game);
+        enterCombat(game, CharacterSet[0], CharacterSet[1], "zhuzishan");
     }
 };
 

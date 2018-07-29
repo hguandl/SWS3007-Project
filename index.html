@@ -122,7 +122,10 @@
 
     <!-- Game UI -->
     <script type="text/javascript" src="src/MyGame/UI/UIButton.js"></script>
+
+    <!--Utils-->
     <script type="text/javascript" src="src/MyGame/utils/Const.js"></script>
+    <script type="text/javascript" src="src/MyGame/utils/Settings.js"></script>
 
     <!--Combat-->
     <script type="text/javascript" src="src/MyGame/Combat/Combat.js"></script>
@@ -165,8 +168,19 @@
         </button>
         <button id="small-map-button" class="button button-parchment button-rounded"
                 onclick="switchSmallMap()">Small Map (N)
-        </button><button id="small-map-button" class="button button-parchment button-rounded"
+        </button>
+        <button id="small-map-button" class="button button-parchment button-rounded"
                 onclick="switchBigMap()">Big Map (M)
+        </button>
+
+        <!--test button-->
+        <button id="set-point-button1" class="button button-parchment button-rounded"
+                onclick="setPoint(352);">
+            test1
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="setPoint(986);">
+            tes2
         </button>
     </div>
 
@@ -177,8 +191,8 @@
                     defender: combatScene.monster,
                 });
             "
-            onmouseenter="document.currentScene.showMsg(formatString('Simple attack.\nProduce %0 VP.', _C.attackVP));"
-            onmouseout="document.currentScene.closeMsg();">
+                onmouseenter="document.currentScene.showMsg(formatString('Simple attack.\nProduce %0 VP.', _C.attackVP));"
+                onmouseout="document.currentScene.closeMsg();">
             attack
         </button>
         <button id="skill-button" class="button button-parchment button-rounded"
@@ -186,33 +200,28 @@
                     UIButton.setSkillNumber(window.combatScene.character.skills.length);
                     UIButton.displayButtonGroup('skill-button-group');
                     window.combatScene.character.displayAllSkills();
-                ">
+                "
+                onmouseenter="document.currentScene.showMsg('Use a skill.');"
+                onmouseout="document.currentScene.closeMsg();">
             Skill
         </button>
         <button id="change-character-button" class="button button-parchment button-rounded"
-                onclick="switchStatusBar();">character
+                onclick="
+                    UIButton.displayButtonGroup('change-button-group');
+                    // 让换以上场的人物的按钮不能使用
+                    let i;
+                    for (i = 0; i < CharacterSet.length; i++) {
+                        setDisabled(document.getElementById('change-' + CharacterSet[i].mName), CharacterSet[i].mName === window.combatScene.character.mName);
+                    }
+                "
+                onmouseenter="document.currentScene.showMsg('Change character.');"
+                onmouseout="document.currentScene.closeMsg();">character
         </button>
         <button id="use-item-button" class="button button-parchment button-rounded"
-                onclick="switchPackage()">
+                onclick="switchPackage()"
+                onmouseenter="document.currentScene.showMsg('Use an item.');"
+                onmouseout="document.currentScene.closeMsg();">
             item
-        </button>
-    </div>
-    <div id="character-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
-        <button id="Monkey-King-button" class="button button-parchment button-rounded"
-                onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'MonkeyKing'});">
-            Monkey King
-        </button>
-        <button id="Pigsy-button" class="button button-parchment button-rounded"
-                onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'Pigsy'});">
-            Pigsy
-        </button>
-        <button id="Monk-Sha-button" class="button button-parchment button-rounded"
-                onclick="combatScene.takeAction(_C.change, {'aimCharacter' : 'MonkSha'});">
-            Monk Tang
-        </button>
-        <button id="back-button-character" class="button button-parchment button-rounded"
-                onclick="UIButton.backButtonGroup();">
-            back
         </button>
     </div>
     <div id="skill-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
@@ -262,15 +271,16 @@
         </button>
     </div>
     <div id="change-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
-        <button id="change-Monkey-King" class="button button-parchment button-rounded" onclick="">Monkey King</button>
-        <button id="change-The-Pigsy" class="button button-parchment button-rounded" onclick="
-
-                ">
+        <button id="change-Monkey King" class="button button-parchment button-rounded"
+                onclick="combatScene.takeAction(_C.change, { aim: getCharacterByName('Monkey King') });">
+            Monkey King
+        </button>
+        <button id="change-The Pigsy" class="button button-parchment button-rounded"
+                onclick="combatScene.takeAction(_C.change, { aim: getCharacterByName('The Pigsy') });">
             The Pigsy
         </button>
-        <button id="change-Monk-Tang" class="button button-parchment button-rounded" onclick="
-
-                ">
+        <button id="change-Monk Tang" class="button button-parchment button-rounded"
+                onclick="combatScene.takeAction(_C.change, { aim: getCharacterByName('Monk Tang') });">
             Monk Tang
         </button>
         <button id="back-button-change" class="button button-parchment button-rounded"

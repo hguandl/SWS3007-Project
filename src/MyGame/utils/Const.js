@@ -9,6 +9,7 @@ let _C = {
     skill: 2,
     change: 3,
     item: 4,
+
     // game turnEndStatus
     waiting: 1,
     commandGiven: 2,
