@@ -63,6 +63,17 @@ GameEvents.handle = function (e, game) {
         }
         break;
 
+        case "Change":
+        return function(game) {
+            gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eActors, game.mMyNPC[2].getNPC());
+            game.mMyNPC[2].change("assets/NPC/zhuzishan-npc5.png", "assets/NPC/zhuzishan-npc5.json");
+            gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, game.mMyNPC[2].getNPC());
+            gEngine.LayerManager.drawAllLayers(game.mMainView.getCam());
+            document.mEventMutex = false;
+        }
+        break;
+        case "Skip":
+        return function(game) { }
         default:
         return null;
     }
