@@ -33,6 +33,8 @@ Scene.prototype.message = function () {
             document.mShowMsgBox = false;
             document.mMsgQueue.shift();
         }
+    } else {
+        document.mEventLock = false;
     }
 };
 

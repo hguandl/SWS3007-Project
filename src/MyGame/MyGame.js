@@ -63,6 +63,7 @@ function MyGame(mapName) {
 
     this.lastPos = null;
     this.currentPos = null;
+    this.lastDir = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -100,6 +101,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroPic);
 
     if (this.nextScene) {
+        this.lastDir = this.mMyHero.getDir();
         document.currentScene = this.nextScene;
         gEngine.Core.startScene(this.nextScene);
     }
@@ -119,9 +121,10 @@ MyGame.prototype.initialize = function () {
        this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
     } else {
         this.mMyHero.getHero().getXform().setPosition(this.lastPos[0], this.lastPos[1]);
+        this.mMyHero.stand(this.lastPos[2]);
     }
 
-    this.currentPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos()];
+    this.currentPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos(), this.mMyHero.getDir()];
 
     this.mMapBkg = new Background(this.kMapBkg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
     this.mMapFrg = new Background(this.kMapFrg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
@@ -244,7 +247,7 @@ MyGame.prototype.update = function () {
     var deltaX = 0.05; //0,05
     var xform = this.mMyHero.getHero().getXform();
 
-    this.currentPos = [xform.getXPos(), xform.getYPos()];
+    this.currentPos = [xform.getXPos(), xform.getYPos(), this.mMyHero.getDir()];
 
     this.moveCamera(xform);
 
