@@ -30,16 +30,25 @@ function MyGame(mapName) {
     this.kMapEvents = [];
     this.kMapBkg = [];
     this.kMapFrg = [];
+    this.kBGM = [];
 
     this.kMapFile["wanggong"] = "assets/map/wanggong/wanggong-dat.json"
     this.kMapEvents["wanggong"] = "assets/map/wanggong/wanggong-event.json";;
     this.kMapBkg["wanggong"] = "assets/map/wanggong/wanggong-bkg.png";
     this.kMapFrg["wanggong"] = "assets/map/wanggong/wanggong-frg.png";
+    this.kBGM["wanggong"] = "assets/bgm/wanggong-walk.mp3";
 
     this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json"
     this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json";;
     this.kMapBkg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-bkg.png";
     this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
+    this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.mp3";
+
+    this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json"
+    this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json";;
+    this.kMapBkg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-bkg.png";
+    this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
+    this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.mp3";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
@@ -103,6 +112,8 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kWhatsThis);
 
     gEngine.Fonts.loadFont(this.kPackageFontType);
+    gEngine.AudioClips.loadAudio(this.kBGM[this.mMapName]);
+
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -112,6 +123,9 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kNPC1Pic);
     gEngine.Textures.unloadTexture(this.kNPC2Pic);
 
+    gEngine.AudioClips.stopBackgroundAudio();
+    gEngine.AudioClips.unloadAudio(this.kBGM[this.mMapName]);
+
     if (this.nextScene) {
         document.currentScene = this.nextScene;
         gEngine.Core.startScene(this.nextScene);
@@ -120,6 +134,8 @@ MyGame.prototype.unloadScene = function () {
 
 MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
+
+    gEngine.AudioClips.playBackgroundAudio(this.kBGM[this.mMapName]);
 
     window.statusBar.initialize();
     //window.package = new Package(this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType, 20);
@@ -155,8 +171,15 @@ MyGame.prototype.initialize = function () {
 
     this.mMyMap.addItems();
 
+    var ratio = (function(w) {
+        if (w > 40) return 0.5;
+        else if (w < 20) return 1;
+        else return  -w / 40 + 1.5;
+    })(this.mMyMap.mWidth);
+
+
     this.mCamera = this.mMyMap.getCamera([this.currentPos[0], this.currentPos[1]],
-                                            0.5,
+                                            ratio,
                                             [0, 0, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
 

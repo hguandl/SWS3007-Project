@@ -44,6 +44,7 @@ function Combat(firstCharacter, monster) {
 
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/zhuzishan/zhuzishan-battle.png";
+    this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
     this.monster.spriteURL = "assets/hero/fight/monster.png";
 
     /**  @type Camera  */
@@ -173,6 +174,7 @@ Combat.prototype.loadScene = function () {
         gEngine.Textures.loadTexture(value);
     });
     gEngine.Textures.loadTexture(this.kBackground);
+    gEngine.AudioClips.loadAudio(this.kBGM);
 
     UIButton.displayButtonGroup("combat-button-group");
 };
@@ -181,6 +183,8 @@ Combat.prototype.unloadScene = function () {
     ALL_SPRITE_TEXTURE.forEach(value => {
         gEngine.Textures.unloadTexture(value);
     });
+    gEngine.AudioClips.stopBackgroundAudio();
+    gEngine.AudioClips.unloadAudio(this.kBGM[this.mMapName]);
     gEngine.Textures.unloadTexture(this.kBackground);
     // 回到大地图
     this.closeMsg(true);
@@ -189,6 +193,8 @@ Combat.prototype.unloadScene = function () {
 };
 
 Combat.prototype.initialize = function () {
+    gEngine.AudioClips.playBackgroundAudio(this.kBGM);
+
     this.camera = new Camera(
         vec2.fromValues(0, 0),
         100,
