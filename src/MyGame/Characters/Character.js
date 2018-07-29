@@ -22,44 +22,15 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
     this.turnEndStatus = [];
     /**  @type {Skill[]}  */
     this.skills = [];
-    // if (characterInfo["skills"]) {
-    //     console.assert(characterInfo["skills"].length <= 4);
-    //     characterInfo["skills"].forEach(value => {
-    //         this.skills.push(SkillList.parseSkill(value));
-    //     });
-    // }
+    if (characterInfo["skills"]) {
+        console.assert(characterInfo["skills"].length <= 4);
+        characterInfo["skills"].forEach(value => {
+            this.skills.push(SkillList.parseSkill(value));
+        });
+    }
     this.mATKPercent = 1.0;
     this.mDEFPercent = 1.0;
     this.mSPDPercent = 1.0;
-
-    /* Reserved for next version
-    // [0]: Icon Image
-    // [1]: Dialog Figure Image
-    // [2]: Battle Figure Image
-    this.mCharacterImageSet = [];
-    this.mCharacterImageSet.push(createCharacterImage(iconFile));
-    this.mCharacterImageSet.push(createCharacterImage(dialogFigureFile));
-    this.mCharacterImageSet.push(createCharacterImage(battleFigureFile));
-    */
-
-    /* Deprecated because there is only one hero on the map, which is MyGame.mMyHero
-    movement support
-    this.mXSpeed = [];
-    this.mYSpeed = [];
-    this.mEndX = [];
-    this.mEndY = [];
-
-    this.mIsShowing = [];
-
-    var i;
-    for (i = 0; i < 3; i++) {
-        this.mXSpeed[i] = 0;
-        this.mYSpeed[i] = 0;
-        this.mEndX[i] = -100;
-        this.mEndY[i] = -100;
-        this.mIsShowing[i] = false;
-    }
-    */
 
     this.mName = characterInfo["Name"];
 
@@ -287,12 +258,11 @@ Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
     // compute effect of each turnEndStatus
     for (i = 0; i < this.turnEndStatus.length; i++) {
         status = this.turnEndStatus[i];
-        // 如果status的回合小于0了，就删除该状态
-        if (myTurnEnd) {
+        if (myTurnEnd === true) {
             status.turn--;
+            // 如果status的回合小于0了，就删除该状态
             if (status.turn < 0)
                 this.turnEndStatus.splice(i, 1);
-            console.debug("have turnEndStatus ", status);
         }
         // 结算状态效果
         status.computeStatus(this);
@@ -311,5 +281,7 @@ Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
  */
 Character.prototype.randChangeHP = function(HP, fluctuate = 0.1) {
     console.assert(fluctuate <= 1 && fluctuate >= 0);
-    this.mCurrentHP += Math.round(HP * (1 + (Math.random() * 2 - 1) * fluctuate));
+    const damage = Math.round(HP * (1 + (Math.random() * 2 - 1) * fluctuate));
+    this.mCurrentHP += damage;
+    return Math.abs(damage);
 };

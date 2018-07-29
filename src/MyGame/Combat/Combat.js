@@ -1,5 +1,8 @@
+"use strict";
+
 /** A new level.
  * Call this function to turn into combat scene.
+ * @class
  * @param firstCharacter: 第一个出场的人物，请在每次调用该场景前修改该变量。
  * @param monster: 出场的怪物，请在每次调用该场景前修改该变量。
  * @property displaying {boolean} : 是否正在显示战斗动画。设置为true会自动使得按钮不能使用，设置为false时按钮又可以使用了。
@@ -33,7 +36,7 @@ function Combat(firstCharacter, monster) {
                 9,              // number of elements in this sequence
                 0);             // horizontal padding in between
             this.characterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-            this.characterAnimate.setAnimationSpeed(6);
+            this.characterAnimate.setAnimationSpeed(_C.combatSpeed);
         }
     });
 
@@ -43,7 +46,7 @@ function Combat(firstCharacter, monster) {
     this.monster = monster;
 
     // todo: change this with respect to battle place
-    this.kBackground = "assets/map/zhuzishan/zhuzishan-battle.png";
+    this.kBackground = "assets/map/zhuzishan/battle.png";
     this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
     this.monster.spriteURL = "assets/hero/fight/monster.png";
 
@@ -60,8 +63,9 @@ function Combat(firstCharacter, monster) {
         },
         set: v => {
             this._status = v;
-            // 如果不在等待用户操作状态，就禁止按钮
-            UIButton.disableButtons(v !== _C.waiting);
+            // 如果战斗没有结束，且不在等待用户操作状态，就禁止按钮
+            if (document.mLastCombatWin === null)
+                UIButton.disableButtons(v !== _C.waiting);
         }
     });
 
@@ -79,10 +83,14 @@ function Combat(firstCharacter, monster) {
         this.displayAction(enemyTurn, this);
 
         function enemyTurn(combat) {
-            this.character.computeTurnEndStatus(true);
-            this.monster.computeTurnEndStatus(false);
+            console.debug(combat.character.computeTurnEndStatus);
+            console.debug(combat.monster.computeTurnEndStatus);
 
-            combat.checkAlive();
+            combat.character.computeTurnEndStatus(true);
+            combat.monster.computeTurnEndStatus(false);
+
+            if (!combat.checkAlive())
+                return;
 
             // monster take action
             combat._turn = TURN.monster;
@@ -92,32 +100,42 @@ function Combat(firstCharacter, monster) {
         }
 
         function endTurn(combat) {
+            console.debug(combat.character.computeTurnEndStatus);
+            console.debug(combat.monster.computeTurnEndStatus);
             combat.character.computeTurnEndStatus(false);
             combat.monster.computeTurnEndStatus(true);
-            combat.checkAlive();
+            if (!combat.checkAlive())
+                return;
         }
     };
 
+    /**
+     * 测试双方是否死亡，如果有一方死亡，就返回false，否则返回true
+     * @returns {boolean}
+     */
     this.checkAlive = function () {
-        if (this.monster.mCurrentHP <= 0) {
-            this.combatResult = "win";
-            document.mLastCombatWin = true;
-            document.currentScene.showMsg("Congratulations!\n Now you've got the flower.");
-            // todo: add die
-            gEngine.GameLoop.stop();
-        } else if (this.character.mCurrentHP <= 0) {
-            // todo: add die
-            this.combatResult = "lose";
-            gEngine.GameLoop.stop();
+        if (this.monster.mCurrentHP <= 0 || this.character.mCurrentHP <= 0) {
+            this.beforeBattleEnd();
+            if (this.monster.mCurrentHP <= 0) {
+                this.combatResult = "win";
+                document.mLastCombatWin = true;
+                document.currentScene.showMsg("Congratulations!\n Now you've got the flower.");
+                // todo: add die
+                gEngine.GameLoop.stop();
+            } else {
+                // todo: add die
+                document.mLastCombatWin = false;
+                this.combatResult = "lose";
+                gEngine.GameLoop.stop();
+            }
         }
+        return document.mLastCombatWin === null;
     };
 
     this.displayAction = function (callback, param) {
         this._callback = callback;
         this._callbackParam = param;
 
-        console.debug("displaying");
-        this.status = _C.displaying;
         switch (this._action.type) {
             case _C.skill:
                 this.takeSkillAction();
@@ -137,26 +155,35 @@ function Combat(firstCharacter, monster) {
         }
     };
 
+    this.beforeBattleEnd = function () {
+        this.closeMsg();
+        UIButton.displayButtonGroup("default-button-group");
+        UIButton.disableButtons(false);
+        this.status = _C.waiting;
+    };
+
     this.takeSkillAction = function () {
+        this.status = _C.displaying;
         this._action.param.skill.useSkill(this._action.param.user, this._action.param.aim);
     };
 
     this.takeAttackAction = function () {
         // add VP to attacker
+        this.status = _C.displaying;
         if (this._action.param.attacker.charaterType === _C.Hero) {
             this._action.param.attacker.mCurrentVP += _C.attackVP;
         }
         // calculate damage
-        const damage = calDamage(this._action.param.attacker, this._action.param.defender);
-        console.debug("attack, damage: ", damage);
-        this._action.param.defender.mCurrentHP -= damage;
-        this._action.param.defender.mCurrentHP = Math.round(this._action.param.defender.mCurrentHP);
-        // todo: animate
+        const damage = this._action.param.defender.randChangeHP(-calDamage(this._action.param.attacker, this._action.param.defender));
+        this.showMsg(this._action.param.attacker.characterType + " use attack. Damage: " + damage);
     };
 
     this.takeChangeAction = function () {
-        this._character = this._action['aimCharacter'];
-        // todo: animate
+        this.character = this._action.param['aim'];
+        this.showMsg("Change character to " + this._action.param['aim'].mName);
+        setTimeout(function (combat) {
+            combat.onHeroAnimationEnd();
+        }, 100 * _C.combatSpeed, this);
     };
 
     this.getMonsterAction = function () {
@@ -165,6 +192,28 @@ function Combat(firstCharacter, monster) {
             defender: this.character,
         });
     };
+
+    this.onHeroAnimationEnd = function () {
+        this.closeMsg();
+        this.status = _C.commandGiven;
+        if (this._callback) {
+            const callback = this._callback, param = this._callbackParam;
+            this._callback = this._callbackParam = null;
+            callback(param);
+        }
+    };
+
+    this.onMonsterAnimationEnd = function () {
+        console.debug(this._callback);
+        if (this._callback) {
+            const callback = this._callback, param = this._callbackParam;
+            this._callback = this._callbackParam = null;
+            callback(param);
+        }
+        this.closeMsg();
+        this.status = _C.waiting;
+        UIButton.displayButtonGroup("combat-button-group");
+    }
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
@@ -223,13 +272,7 @@ Combat.prototype.initialize = function () {
         9,              // number of elements in this sequence
         0);             // horizontal padding in between
     this.monsterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-    this.monsterAnimate.setAnimationSpeed(6);
-
-    // set character icon position
-    // this.monsterIcon = new TextureRenderable(this.monster.iconURL);
-    // this.monsterIcon.setColor([0.0, 0.0, 0.0, 0.0]);
-    // this.monsterIcon.getXform().setPosition(22, 0);
-    // this.monsterIcon.getXform().setSize(20, 20);
+    this.monsterAnimate.setAnimationSpeed(_C.combatSpeed);
 
     document.mShowStatusBar = true;
 
@@ -244,10 +287,6 @@ Combat.prototype.draw = function () {
 
     this.camera.setupViewProjection();
 
-    /** next version
-     this.character.drawBattleFigureByPos(-22, 0, 20, 20, this.camera);
-     this.monster.drawBattleFigureByPos(22, 0, 20, 20, this.camera);
-     */
     this.mBackground.draw(this.camera);
 
     this.characterAnimate.draw(this.camera);
@@ -263,45 +302,41 @@ Combat.prototype.draw = function () {
 };
 
 Combat.prototype.update = function () {
-    // this.closeMsg();
     window.statusBar.update();
     window.package.update();
-    // updateCharacterStatus();
 
     if (this.status !== _C.displaying)
         return;
 
     if (this._turn === TURN.hero) {
-        console.debug("animating hero");
         if (this.characterAnimate.updateAnimation()) {
-            this.status = _C.commandGiven;
-            if (this._callback) {
-                this._callback(this._callbackParam);
-                this._callback = this._callbackParam = null;
-            }
+            this.onHeroAnimationEnd();
         }
     } else {
-        console.debug("animating monster");
         console.assert(this._turn === TURN.monster);
         if (this.monsterAnimate.updateAnimation()) {
-            if (this._callback) {
-                this._callback(this._callbackParam);
-                this._callback = this._callbackParam = null;
-            }
-            this.status = _C.waiting;
+            this.onMonsterAnimationEnd();
         }
     }
-
-    // todo : add animation to actions
 };
 
-function enterCombat(game) {
-    // todo: 这两行是为了能使现在版本能使用，将在下一个版本删除
-    CharacterSet[0].iconURL = "assets/character/character.png";
-    CharacterSet[1].iconURL = "assets/character/monster1.jpg";
-
-    window.combatScene = new Combat(CharacterSet[0], CharacterSet[1]);
+/**
+ *
+ * @param game
+ * @param firstCharacter {Character} 第一个登场的人物
+ * @param monster {Character} 怪物
+ * @param sceneName {string} 场景名，例如："zhuzishan", "wanggong"
+ */
+function enterCombat(game, firstCharacter, monster, sceneName) {
+    if (!window.combatScene)
+        window.combatScene = new Combat(firstCharacter, monster);
+    else {
+        window.combatScene.firstCharacter = firstCharacter;
+        window.combatScene.monster = monster;
+    }
+    window.combatScene.kBackground = "assets/map/" + sceneName + "/battle.png";
     game.nextScene = window.combatScene;
     game.nextScene.nextScene = game;
     gEngine.GameLoop.stop();
+    document.mLastCombatWin = null;
 }

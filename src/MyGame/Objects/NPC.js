@@ -9,11 +9,10 @@ MyNPC.prototype.animate = function(_config) {
 };
 
 function MyNPC(kPic, kJson) {
-    this.mStand = [];
-    this.mAction = 0;
-    this.mSpeed = 30;
     this.mJson = gEngine.ResourceMap.retrieveAsset(kJson);
     this.mMyNPC = null;
+
+    this.currentPos = null;
 
     var config = this.mJson["Down"]["Stand"];
 
@@ -25,9 +24,17 @@ function MyNPC(kPic, kJson) {
 }
 
 MyNPC.prototype.stand = function(dir) {
-    this.mAction = 0;
+    this.mDir = dir;
     this.animate(this.mJson[dir]["Stand"]);
 };
+
+MyNPC.prototype.change = function(newPic, newJson) {
+    this.mMyNPC = new SpriteRenderable(newPic);
+    this.mMyNPC.setColor([1, 1, 1, 0]);
+    this.mJson = gEngine.ResourceMap.retrieveAsset(newJson);
+    this.setPosition(this.currentPos[0], this.currentPos[1]);
+    this.stand(this.mDir);
+}
 
 MyNPC.prototype.getNPC = function() {
     return this.mMyNPC;
@@ -36,3 +43,8 @@ MyNPC.prototype.getNPC = function() {
 MyNPC.prototype.getDir = function() {
     return this.mDir;
 };
+
+MyNPC.prototype.setPosition = function(x, y) {
+    this.currentPos = [x, y];
+    this.mMyNPC.getXform().setPosition(x, y);
+}

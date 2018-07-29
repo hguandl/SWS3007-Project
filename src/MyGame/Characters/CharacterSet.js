@@ -27,3 +27,12 @@ function CharacterSet_Init(infoFile) {
         CharacterSet.push(new Character(infoObj[i]));
     }
 }
+
+function getCharacterByName(name) {
+    let i;
+    for (i=0; i<CharacterSet.length; i++)
+        if (CharacterSet[i].mName === name)
+            return CharacterSet[i];
+    console.warn("doesn't find that character: ", name);
+    return null;
+}

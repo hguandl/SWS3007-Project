@@ -1,6 +1,7 @@
 let _C = {
     gameViewport: [0, 0, 970, 600],       // viewport (orgX, orgY, width, height)
     attackVP: 25,
+    combatSpeed: 6.5,
 
     // action
     none: 0,
@@ -8,6 +9,7 @@ let _C = {
     skill: 2,
     change: 3,
     item: 4,
+
     // game turnEndStatus
     waiting: 1,
     commandGiven: 2,
@@ -22,8 +24,9 @@ let _C = {
     percent: 1,
 
     // character type
-    Monster: 0,
-    Hero: 1,
+    Monster: "Monster",
+    Hero: "Hero",
+
 };
 
 const TURN = {
