@@ -1,7 +1,7 @@
 "use strict";
 
 window.UI = window.UI || {};
-window.currentButtonGroup = null;
+window.UI.currentButtonGroup = null;
 
 /** A class to control buttons in the UI.
  * The developer are supposed to use static methods rather than creating new instance.
@@ -32,8 +32,8 @@ class UIButton {
      */
     static displayButtonGroup(groupId) {
         let i;
-        window.lastButtonGroup = window.currentButtonGroup;
-        window.currentButtonGroup = groupId;
+        window.UI.lastButtonGroup = window.UI.currentButtonGroup;
+        window.UI.currentButtonGroup = groupId;
         const buttons_groups = document.getElementsByClassName("UI-button-group");
         for (i = 0; i < buttons_groups.length; i++) {
             if (buttons_groups[i].id === groupId)
@@ -47,12 +47,24 @@ class UIButton {
      * @param skillIndex {number} : An integer specifying the index of the Skill. Range from 1 to 4.
      * @param skillName {string} : What name to display on the button.
      */
-    static setSkillNmae(skillIndex, skillName) {
-        document.getElementById("Skill" + skillIndex.toString() + "-button").innerText = skillName;
+    static setSkillName(skillIndex, skillName) {
+        document.getElementById("skill" + skillIndex.toString() + "-button").innerText = skillName;
     }
 
     /**
-     * Set the numeric of custom buttons.
+     * Set the number of skill buttons that is enabled.
+     * @param skillNumber {number} : An integer, the custom buttons numeric.
+     */
+    static setSkillNumber(skillNumber) {
+        console.assert(skillNumber <= 4 && skillNumber >= 0);
+        let i;
+        for (i = 0; i < 4; i++) {
+            setDisabled(document.getElementById("skill" + i.toString() + "-button"), i >= skillNumber);
+        }
+    }
+
+    /**
+     * Set the number of custom buttons.
      * @param buttonNumber {number} : An integer, the custom buttons numeric.
      */
     static setCustomButtonNumber(buttonNumber) {
@@ -95,20 +107,37 @@ class UIButton {
 
     /**
      * Disable or enable all buttons.
-     * @param disable {boolean}
+     * @param disabled {boolean}
      */
-    static disableButtons(disable) {
+    static disableButtons(disabled) {
         const UIButtonGroups = document.getElementsByClassName("UI-button-group");
         let group, i;
         for (group = 0; group < UIButtonGroups.length; group++) {
             const buttons = UIButtonGroups[group].getElementsByTagName("button");
-            for (i=0; i<buttons.length; i++) {
-                const button = buttons[i];
-                    if (disable === true)
-                        button.setAttribute("disabled", "true");
-                    else
-                        button.removeAttribute("disabled");
+            for (i = 0; i < buttons.length; i++) {
+                setDisabled(buttons[i], disabled);
             }
         }
     }
+
+    static backButtonGroup() {
+        window.UI.currentButtonGroup = window.UI.lastButtonGroup;
+        window.UI.lastButtonGroup = null;
+        const groupId = window.UI.currentButtonGroup;
+        const buttons_groups = document.getElementsByClassName("UI-button-group");
+        let i;
+        for (i = 0; i < buttons_groups.length; i++) {
+            if (buttons_groups[i].id === groupId)
+                buttons_groups[i].style.display = "block";
+            else
+                buttons_groups[i].style.display = "none";
+        }
+    }
+}
+
+function setDisabled(element, disabled) {
+    if (disabled)
+        element.setAttribute("disabled", "true");
+    else
+        element.removeAttribute("disabled");
 }

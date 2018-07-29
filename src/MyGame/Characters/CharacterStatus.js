@@ -1,3 +1,5 @@
+"use strict";
+
 class CharacterStatus {
     constructor(statusType, turn) {
         this.type = statusType;
