@@ -397,7 +397,7 @@ MyGame.prototype.update = function () {
     }
 
     // var e = null;
-    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Z)) {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)) {
         switchWeaponsPack();
     }
 
