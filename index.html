@@ -175,6 +175,15 @@
         <button id="small-map-button" class="button button-parchment button-rounded"
                 onclick="switchBigMap()">Big Map (M)
         </button>
+        <button id="settings" class="button button-parchment button-rounded"
+                onclick="
+                    const speed = parseFloat(prompt('enter combat animation time in seconds.', _C.combatSpeed / 10));
+                    if (!speed || speed <= 0)
+                        alert('speed must be positive number');
+                    else
+                        _C.combatSpeed = speed * 10;
+                ">Set combat speed
+        </button>
 
         <!--test button-->
         <button id="set-point-button1" class="button button-parchment button-rounded"
@@ -199,6 +208,18 @@
                     setPoint(620);
                 ">
             test2
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(750);
+                ">
+            pass2
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(51);
+                ">
+            test3
         </button>
         <button id="set-point-button2" class="button button-parchment button-rounded"
                 onclick="
@@ -357,6 +378,7 @@
         gEngine.Core.initializeEngineCore('GLCanvas', document.currentScene);
 
         initMonsters();
+        window.combatScene = new Combat(CharacterSet[0], "huoyanshankou-xiaozu");
     };
 
     function reset() {

@@ -2,11 +2,11 @@
     {
         "Name": "Monkey King",
         "HP": 400,
-        "VP": 1000,
-        "ATK": 100,
-        "DEF": 80,
+        "VP": 600,
+        "ATK": 87,
+        "DEF": 83,
         "SPD": 50,
-        "characterType": 1,
+        "characterType": "Hero",
         "skills": [
             {
                 "name": "fiery eyes",
@@ -16,31 +16,31 @@
             },
             {
                 "name": "heavy hit",
-                "VP": 65,
-                "dmgPercent": 1.43
+                "VP": 61,
+                "dmgPercent": 1.39
             }
         ]
     },
     {
         "Name": "The Pigsy",
-        "HP": 530,
-        "VP": 350,
-        "ATK": 78,
-        "DEF": 150,
+        "HP": 500,
+        "VP": 400,
+        "ATK": 68,
+        "DEF": 132,
         "SPD": 30,
-        "characterType": 1,
+        "characterType": "Hero",
         "skills": [
             {
                 "name": "slack sleep",
                 "VP": -18,
                 "HP": "25",
-                "atkPercent": 1.27
+                "atkPercent": 1.31
             },
             {
                 "name": "bat strike",
                 "VP": 57,
-                "atkNumber": 50,
-                "defNumber": 30,
+                "atkNumber": 24,
+                "defNumber": 20,
                 "turn": 3
             }
         ]
@@ -48,27 +48,27 @@
     {
         "Name": "Monk Tang",
         "HP": 350,
-        "VP": 750,
-        "ATK": 65,
+        "VP": 700,
+        "ATK": 53,
         "DEF": 50,
         "SPD": 40,
-        "characterType": 1,
+        "characterType": "Hero",
         "skills": [
             {
                 "name": "chant",
-                "VP": 26,
-                "dmgPercent": 0.54,
-                "turn": 4
+                "VP": 48,
+                "dmgPercent": 0.63,
+                "turn": 5
             },
             {
                 "name": "heavy hit",
-                "VP": 59,
-                "dmgPercent": 1.33
+                "VP": 54,
+                "dmgPercent": 1.31
             },
             {
                 "name": "holy redemption",
                 "VP": 64,
-                "HP": 60
+                "HP": 44
             }
         ]
     }

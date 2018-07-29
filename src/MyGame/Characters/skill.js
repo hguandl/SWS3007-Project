@@ -221,12 +221,12 @@ class BatStrike extends Skill {
     }
 
     getUsage() {
-        return formatString("Deal %0 more damage and change the defense of enemy by 1% in %2 turn.\n", this.atkNumber, this.defNumber, this.defNumber) + super.getUsage();
+        return formatString("Deal %0 more damage and change the defense of enemy by %1 in %2 turn.\n", this.atkNumber, this.defNumber, this.defNumber) + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
-        const damage = aim.randChangeHP(-calDamage(user, aim) + _damageFoumula(this.atkNumber, aim.mCurrentDEF));
+        const damage = aim.randChangeHP(-calDamage(user, aim) - _damageFoumula(this.atkNumber, aim.mCurrentDEF));
         window.combatScene.appendMsg(" Damage: " + damage);
         aim.status.push(new BuffStatus("DEF", this.turn, this.defNumber, _C.numeric));
     }
