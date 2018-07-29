@@ -32,35 +32,6 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
     this.mDEFPercent = 1.0;
     this.mSPDPercent = 1.0;
 
-    /* Reserved for next version
-    // [0]: Icon Image
-    // [1]: Dialog Figure Image
-    // [2]: Battle Figure Image
-    this.mCharacterImageSet = [];
-    this.mCharacterImageSet.push(createCharacterImage(iconFile));
-    this.mCharacterImageSet.push(createCharacterImage(dialogFigureFile));
-    this.mCharacterImageSet.push(createCharacterImage(battleFigureFile));
-    */
-
-    /* Deprecated because there is only one hero on the map, which is MyGame.mMyHero
-    movement support
-    this.mXSpeed = [];
-    this.mYSpeed = [];
-    this.mEndX = [];
-    this.mEndY = [];
-
-    this.mIsShowing = [];
-
-    var i;
-    for (i = 0; i < 3; i++) {
-        this.mXSpeed[i] = 0;
-        this.mYSpeed[i] = 0;
-        this.mEndX[i] = -100;
-        this.mEndY[i] = -100;
-        this.mIsShowing[i] = false;
-    }
-    */
-
     this.mName = characterInfo["Name"];
 
     this.spriteURL = "assets/hero/fight/" + this.mName + ".png";
