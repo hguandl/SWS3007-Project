@@ -1,6 +1,7 @@
 let _C = {
     gameViewport: [0, 0, 970, 600],       // viewport (orgX, orgY, width, height)
     attackVP: 25,
+    turnRecoverVP: 37,
     combatSpeed: 6.5,
     HPColor: [252 / 255, 60 / 255, 60 / 255, 1],
     // action

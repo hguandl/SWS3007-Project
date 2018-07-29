@@ -108,6 +108,12 @@ function Combat(firstCharacter, monster) {
             combat.monster.computeTurnEndStatus(true);
             if (!combat.checkAlive())
                 return;
+
+            let i;
+            for (i=0; i<3; i++) {
+                if (CharacterSet[i].mName !== this.character.mName)
+                    CharacterSet[i].mCurrentVP -= _C.turnRecoverVP;
+            }
         }
     };
 
@@ -116,6 +122,8 @@ function Combat(firstCharacter, monster) {
      * @returns {boolean}
      */
     this.checkAlive = function () {
+        if (this.character.mCurrentVP > this.character.mMaxVP)
+            this.appendMsg("\nYour character is tired. His damage is decreased by 35%.");
         if (this.monster.mCurrentHP <= 0 || this.character.mCurrentHP <= 0) {
             this.beforeBattleEnd();
             if (this.monster.mCurrentHP <= 0) {
@@ -174,6 +182,7 @@ function Combat(firstCharacter, monster) {
         this.status = _C.displaying;
         if (this._action.param.attacker.charaterType === _C.Hero) {
             this._action.param.attacker.mCurrentVP += _C.attackVP;
+
         }
         // calculate damage
         const damage = this._action.param.defender.randChangeHP(-calDamage(this._action.param.attacker, this._action.param.defender));
@@ -334,7 +343,7 @@ Combat.prototype.update = function () {
 };
 
 /**
- *
+ * 进入战斗场景
  * @param game
  * @param firstCharacter {Character} 第一个登场的人物
  * @param monster {Character} 怪物
