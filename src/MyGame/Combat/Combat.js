@@ -50,6 +50,7 @@ function Combat(firstCharacter, monster) {
     this.kBackground = "assets/map/zhuzishan/battle.png";
     this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
     this.monster.spriteURL = "assets/hero/fight/monster.png";
+    this.monster.HPBar = "";
 
     /**  @type Camera  */
     this.camera = null;
@@ -206,7 +207,6 @@ function Combat(firstCharacter, monster) {
     };
 
     this.onMonsterAnimationEnd = function () {
-        console.debug(this._callback);
         if (this._callback) {
             const callback = this._callback, param = this._callbackParam;
             this._callback = this._callbackParam = null;
@@ -215,7 +215,11 @@ function Combat(firstCharacter, monster) {
         this.closeMsg();
         this.status = _C.waiting;
         UIButton.displayButtonGroup("combat-button-group");
-    }
+    };
+
+    this.updateMonsterHP = function() {
+
+    };
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
