@@ -379,8 +379,6 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.D)) {
         this.mMyHero.stand("Right");
-        window.package.addProps(WeaponsSet["YiTian Sword"]);
-        window.package.addProps(WeaponsSet["QingYun Helmet"]);
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.W)) {
