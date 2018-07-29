@@ -133,10 +133,13 @@
     <script type="text/javascript" src="src/MyGame/Combat/Action.js"></script>
     <script type="text/javascript" src="src/MyGame/Combat/HPBar.js"></script>
 
+
     <script type="text/javascript" src="src/MyGame/Package/Props.js"></script>
     <script type="text/javascript" src="src/MyGame/Package/PropsUsingUI.js"></script>
     <script type="text/javascript" src="src/MyGame/Package/Package.js"></script>
     <!--<script type="text/javascript" src="src/MyGame/Package/Package-old.js"></script>-->
+    <script type="text/javascript" src="src/MyGame/Package/Weapons.js"></script>
+    <script type="text/javascript" src="src/MyGame/Package/WeaponsPack.js"></script>
 
     <link rel="stylesheet" type="text/css" href="LoadingIcons.css">
 
@@ -319,9 +322,11 @@
 
         window.statusBar = new StatusBar();
         window.package = null;
+        window.weaponsPack = null;
         window.combatScene = null;
 
         document.mShowPackage = false;
+        document.mShowWeaponsPack = false;
         document.mShowStatusBar = false;
         document.mShowBigMap = false;
         document.mShowSmallMap = true;
@@ -377,6 +382,10 @@
         document.mShowPackage = !document.mShowPackage;
     }
 
+    function switchWeaponsPack() {
+        document.mShowWeaponsPack = !document.mShowWeaponsPack;
+    }
+
     function switchSmallMap() {
         document.mShowSmallMap = !document.mShowSmallMap;
     }
@@ -390,7 +399,7 @@
     }
 
     function isMapFreezed() {
-        return document.mShowBigMap || document.mShowPackage || document.mShowMsgBox;
+        return document.mShowBigMap || document.mShowPackage || document.mShowMsgBox || document.mShowWeaponsPack;
     }
 </script>
 

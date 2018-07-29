@@ -81,6 +81,7 @@ function MyGame(mapName) {
     this.lastPos = null;
     this.currentPos = null;
     this.mMyNPC = [];
+
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -145,6 +146,14 @@ MyGame.prototype.unloadScene = function () {
 MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
+    // window.statusBar.initialize();
+    //
+    // window.package = new Package();
+    // window.package.loadScene();
+    // window.package.initialize();
+    // window.weaponsPack = new WeaponsPack();
+    // window.weaponsPack.loadScene();
+    // window.weaponsPack.initialize();
     gEngine.AudioClips.playBackgroundAudio(this.kBGM[this.mMapName]);
 
     window.statusBar.initialize();
@@ -153,6 +162,11 @@ MyGame.prototype.initialize = function () {
         window.package.loadScene();
         window.package.initialize();
     }
+    if (window.weaponsPack === null) {
+        window.weaponsPack = new WeaponsPack();
+        window.weaponsPack.loadScene();
+        window.weaponsPack.initialize();
+    }
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
     this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
@@ -160,7 +174,7 @@ MyGame.prototype.initialize = function () {
     this.mMyNPC = this.mMyMap.initNPC();
 
     if (this.lastPos === null) {
-       this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
+        this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
     } else {
         this.mMyHero.getHero().getXform().setPosition(this.lastPos[0], this.lastPos[1]);
         this.mMyHero.stand(this.lastPos[2]);
@@ -255,6 +269,10 @@ MyGame.prototype.draw = function () {
         this.mMyHero.getHero().draw(this.mBigCamera);
     }
 
+    if (document.mShowWeaponsPack) {
+        window.weaponsPack.draw();
+    }
+
     if (document.mShowPackage) {
         window.package.draw();
     }
@@ -282,6 +300,10 @@ MyGame.prototype.update = function () {
 
     window.statusBar.update();
 
+    if (document.mShowWeaponsPack) {
+        window.weaponsPack.update();
+    }
+
     // if (document.mShowPackage) {
         window.package.update();
     // }
@@ -299,6 +321,10 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.X)) {
         switchPackage();
+    }
+
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)) {
+        switchWeaponsPack();
     }
 
     if (isMapFreezed()) return ;
@@ -357,6 +383,7 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.W)) {
         this.mMyHero.stand("Up");
+
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.A)) {
@@ -365,6 +392,17 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.S)) {
         this.mMyHero.stand("Down");
+    }
+
+    // var e = null;
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)) {
+        switchWeaponsPack();
+    }
+
+    // var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos());
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
+        if (document.mShowPackage)
+            switchPackage();
     }
 
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)) {

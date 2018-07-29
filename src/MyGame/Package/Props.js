@@ -46,6 +46,11 @@ function Props(name, iconFile, description) {
             this.DEF = 15;
             this.Money = 800;
             break;
+        case "Rainbow Fruit" :
+            this.HP = 99999;
+            this.VP = -99999;
+            this.Money = 1600;
+            break;
     }
 }
 
@@ -77,18 +82,21 @@ Props.prototype.showInfoByPos = function (fontType, leftX, topY, color, textH, a
     this.mDescriptionText.draw(aCamera);
 };
 
-Props.prototype.getHP = function () {
+Props.prototype.getHPadd = function () {
     return (this.HP);
 };
-Props.prototype.getVP = function () {
+Props.prototype.getVPadd = function () {
     return (this.VP);
 };
-Props.prototype.getATK = function () {
+Props.prototype.getATKadd = function () {
     return (this.ATK);
 };
-Props.prototype.getDEF = function () {
+Props.prototype.getDEFadd = function () {
     return (this.DEF);
 };
 Props.prototype.getMoney = function () {
     return (this.Money);
+};
+Props.prototype.getType = function () {
+    return "Food";
 };
