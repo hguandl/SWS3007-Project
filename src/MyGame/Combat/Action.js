@@ -1,7 +1,7 @@
 "use strict";
 
 function _damageFoumula(attack, defense) {
-    return attack * (100 / defense + 100))
+    return attack * 100 / (defense + 100);
 }
 
 function calDamage (attacker, defender) {

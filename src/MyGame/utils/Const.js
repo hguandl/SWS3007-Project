@@ -29,7 +29,7 @@ let _C = {
     Hero: "Hero",
 
 };
-// a1c45a
+
 const TURN = {
     monster: 0,
     hero: 1
@@ -38,6 +38,5 @@ const TURN = {
 const ALL_SPRITE_TEXTURE = [
     "assets/hero/fight/Monk Tang.png",
     "assets/hero/fight/Monkey King.png",
-    "assets/hero/fight/monster.png",
     "assets/hero/fight/The Pigsy.png",
 ];

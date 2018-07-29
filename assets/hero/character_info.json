@@ -1,10 +1,10 @@
 [
     {
         "Name": "Monkey King",
-        "HP": 600,
+        "HP": 400,
         "VP": 1000,
         "ATK": 100,
-        "DEF": 100,
+        "DEF": 80,
         "SPD": 50,
         "characterType": 1,
         "skills": [
@@ -18,11 +18,6 @@
                 "name": "heavy hit",
                 "VP": 65,
                 "dmgPercent": 1.43
-            },
-            {
-                "name": "Samadhi fire",
-                "VP": 88,
-                "dmgPercent": 0.47
             }
         ]
     },
@@ -30,8 +25,8 @@
         "Name": "The Pigsy",
         "HP": 1000,
         "VP": 350,
-        "ATK": 120,
-        "DEF": 200,
+        "ATK": 78,
+        "DEF": 150,
         "SPD": 30,
         "characterType": 1,
         "skills": [
@@ -46,7 +41,7 @@
                 "VP": 57,
                 "atkNumber": 50,
                 "defNumber": 30,
-                "turn": 3,
+                "turn": 3
             }
         ]
     },
@@ -54,7 +49,7 @@
         "Name": "Monk Tang",
         "HP": 800,
         "VP": 750,
-        "ATK": 100,
+        "ATK": 65,
         "DEF": 50,
         "SPD": 40,
         "characterType": 1,
