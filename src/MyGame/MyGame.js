@@ -150,8 +150,9 @@ MyGame.prototype.unloadScene = function () {
 
     if (this.nextScene) {
         document.currentScene = this.nextScene;
-        gEngine.Core.startScene(this.nextScene);
     }
+
+    gEngine.Core.startScene(document.currentScene);
 };
 
 MyGame.prototype.initialize = function () {

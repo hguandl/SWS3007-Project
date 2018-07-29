@@ -82,9 +82,18 @@ GameEvents.handle = function (e, game) {
         break;
 
         case "Skip":
-        return function(game) { }
+        return function(game) {
+            document.mEventMutex = false;
+        }
         break;
 
+        case "EndGame":
+        return function(game) {
+            document.currentScene = new Splash("ending", null);
+            document.mEventMutex = false;
+            gEngine.GameLoop.stop();
+        }
+        break;
         default:
         return null;
     }
