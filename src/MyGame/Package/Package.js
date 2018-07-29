@@ -338,19 +338,16 @@ Package.prototype.update = function () {
 
         var result = this.choosingUI.update();
         var selectedItem = this.mPropsCollections[this.mCurrentSelected];
-        // var dHP = selectedItem.getHPadd();
-        // var dVP = selectedItem.getVPadd();
-        // var dATK = selectedItem.getATKadd();
-        // var dDEF = selectedItem.getDEFadd();
-        // var dM = selectedItem.getMoney();
 
         if (result == -1) {
 
         } else if (result == 0) {
             isChoosingUI = false;
         } else if (result == 4) {
+            isChoosingUI = false;
             this.sellItem(this.mCurrentSelected);
         } else {
+            isChoosingUI = false;
             var type = selectedItem.getType();
             if (type == "Food") {
                 this.useProps(result - 1);       // (在背包中的位置,对哪个角色使用)
@@ -358,52 +355,52 @@ Package.prototype.update = function () {
                 this.equipWeapon(result - 1);    // (在背包中的位置,对哪个角色使用)
             }
         }
-
-        switch (result) {
-            case 0:
-                isChoosingUI = false;
-                break;
-            case 1:
-                isChoosingUI = false;
-
-                // add HP/VP to monkey
-                CharacterSet[0].incCurrentHP(dHP);
-                CharacterSet[0].incCurrentVP(dVP);
-                CharacterSet[0].incCurrentATK(dATK);
-                CharacterSet[0].incCurrentDEF(dDEF);
-                this.mPropsCollections.splice(this.mCurrentSelected, 1);
-                this.mSize--;
-                break;
-            case 2:
-                isChoosingUI = false;
-
-                // add HP/VP to pig
-                CharacterSet[1].incCurrentHP(dHP);
-                CharacterSet[1].incCurrentVP(dVP);
-                CharacterSet[1].incCurrentATK(dATK);
-                CharacterSet[1].incCurrentDEF(dDEF);
-                this.mPropsCollections.splice(this.mCurrentSelected, 1);
-                this.mSize--;
-                break;
-            case 3:
-                isChoosingUI = false;
-
-                CharacterSet[2].incCurrentHP(dHP);
-                CharacterSet[2].incCurrentVP(dVP);
-                CharacterSet[2].incCurrentATK(dATK);
-                CharacterSet[2].incCurrentDEF(dDEF);
-                this.mPropsCollections.splice(this.mCurrentSelected, 1);
-                this.mSize--;
-                break;
-            case 4:
-                isChoosingUI = false;
-
-                this.incMoney(dM);
-                this.mPropsCollections.splice(this.mCurrentSelected, 1);
-                this.mSize--;
-        }
-
-        return 0;
+        //
+        // switch (result) {
+        //     case 0:
+        //         isChoosingUI = false;
+        //         break;
+        //     case 1:
+        //         isChoosingUI = false;
+        //
+        //         // add HP/VP to monkey
+        //         CharacterSet[0].incCurrentHP(dHP);
+        //         CharacterSet[0].incCurrentVP(dVP);
+        //         CharacterSet[0].incCurrentATK(dATK);
+        //         CharacterSet[0].incCurrentDEF(dDEF);
+        //         this.mPropsCollections.splice(this.mCurrentSelected, 1);
+        //         this.mSize--;
+        //         break;
+        //     case 2:
+        //         isChoosingUI = false;
+        //
+        //         // add HP/VP to pig
+        //         CharacterSet[1].incCurrentHP(dHP);
+        //         CharacterSet[1].incCurrentVP(dVP);
+        //         CharacterSet[1].incCurrentATK(dATK);
+        //         CharacterSet[1].incCurrentDEF(dDEF);
+        //         this.mPropsCollections.splice(this.mCurrentSelected, 1);
+        //         this.mSize--;
+        //         break;
+        //     case 3:
+        //         isChoosingUI = false;
+        //
+        //         CharacterSet[2].incCurrentHP(dHP);
+        //         CharacterSet[2].incCurrentVP(dVP);
+        //         CharacterSet[2].incCurrentATK(dATK);
+        //         CharacterSet[2].incCurrentDEF(dDEF);
+        //         this.mPropsCollections.splice(this.mCurrentSelected, 1);
+        //         this.mSize--;
+        //         break;
+        //     case 4:
+        //         isChoosingUI = false;
+        //
+        //         this.incMoney(dM);
+        //         this.mPropsCollections.splice(this.mCurrentSelected, 1);
+        //         this.mSize--;
+        // }
+        //
+        // return 0;
 
     }
 };
@@ -482,9 +479,9 @@ Package.prototype.useProps = function (charNum) {
     var dDEF = selectedItem.getDEFadd();
 
     CharacterSet[charNum].incCurrentHP(dHP);
-    CharacterSet[charNum].incCurrentHP(dVP);
-    CharacterSet[charNum].incCurrentHP(dATK);
-    CharacterSet[charNum].incCurrentHP(dDEF);
+    CharacterSet[charNum].incCurrentVP(dVP);
+    CharacterSet[charNum].incATK(dATK);
+    CharacterSet[charNum].incDEF(dDEF);
     this.mPropsCollections.splice(this.mCurrentSelected, 1);
     this.mSize--;
 };
@@ -494,11 +491,3 @@ Package.prototype.equipWeapon = function (charNum) {
     this.mPropsCollections.splice(this.mCurrentSelected, 1);
     this.mSize--;
 };
-
-//
-// Package.prototype.addWeapons = function (weapon) {
-//     if (this.mSize < this.mCapacity) {
-//         this.mPropsCollections.push(weapon);
-//         this.mSize += 1;
-//     }
-// };

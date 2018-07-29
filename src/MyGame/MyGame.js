@@ -66,6 +66,7 @@ function MyGame(mapName) {
     this.lastPos = null;
     this.currentPos = null;
     this.mMyNPC = [];
+
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -122,7 +123,7 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
     window.statusBar.initialize();
-    //window.package = new Package(this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType, 20);
+
     window.package = new Package();
     window.package.loadScene();
     window.package.initialize();
