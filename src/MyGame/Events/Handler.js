@@ -72,8 +72,18 @@ GameEvents.handle = function (e, game) {
             document.mEventMutex = false;
         }
         break;
+
+        case "Learn":
+        return function(game) {
+            CharacterSet[e[2]].skills.push(SkillList.parseSkill(e[3]);
+            document.mEventMutex = false;
+        }
+        break;
+
         case "Skip":
         return function(game) { }
+        break;
+
         default:
         return null;
     }
