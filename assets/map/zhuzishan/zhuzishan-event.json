@@ -122,11 +122,15 @@
 							[["zhuzishan-chulianyi", "楚依恋：是金莲！"],
 						 	["zhuzishan-chulianyi", "楚依恋：…"]]
 						],
-						[null, null],
+						[null, "Skip"]
+				],
 
+				[null,
 					"Check", "Golden Lotus",
 						[null, "Change"],
-						[null, null],
+						[null, "Skip"]
+				],
+				[null,
 					"Check", "Golden Lotus",
 						[null, "Show",
 							[["zhuzishan-xiaolongnv", ""],
@@ -145,7 +149,8 @@
 						[null, "Show",
 							[["zhuzishan-chulianyi", "楚依恋：实在是麻烦高僧了。但请高僧一定助小女子一臂之力！"]]
 						]
-					], true, 0],
+					],
+				true, 0],
 	"1159": [[null,
 				"Check", "Golden Lotus",
 					[null, "Go", "zhuzishanjiao"],
