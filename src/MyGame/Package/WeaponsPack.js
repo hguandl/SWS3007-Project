@@ -249,6 +249,7 @@ WeaponsPack.prototype.update = function () {
 
             if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
                 this.currentSelectPage = 0;
+                this.currentSelectWeapon = -1;
                 switchWeaponsPack();
             }
 
@@ -339,7 +340,7 @@ WeaponsPack.prototype.draw = function () {
             var weapon = this.equipedWeapons[this.currentSelectCharacter][i];
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
-                if (this.currentSelectWeapon == i) {
+                if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
                     weapon.showInfoByPos(this.kFontType, cx, cy, [1, 1, 1, 1], this.singleW1, this.mCamera);
                 }
             }
@@ -354,7 +355,7 @@ WeaponsPack.prototype.draw = function () {
             var weapon = this.equipedWeapons[this.currentSelectCharacter][i];
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
-                if (this.currentSelectWeapon == i) {
+                if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
                     weapon.showInfoByPos(this.kFontType, cx, cy, [1, 1, 1, 1], this.singleW1, this.mCamera);
                 }
             }
@@ -370,7 +371,7 @@ WeaponsPack.prototype.draw = function () {
             var weapon = this.equipedWeapons[this.currentSelectCharacter][i];
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
-                if (this.currentSelectWeapon == i) {
+                if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
                     weapon.showInfoByPos(this.kFontType, cx, cy, [1, 1, 1, 1], this.singleW1, this.mCamera);
                 }
             }
@@ -415,7 +416,8 @@ WeaponsPack.prototype.equipWeapon = function (weapon, charNum) {
     var n = this.kTypesNum[type];
     weapon.setEquipedInfo(charNum);
     if (this.equipedWeapons[charNum][n] != null) {
-        window.package.addProps(this.equipedWeapons[charNum][n]);
+        this.unequipWeapons(this.equipedWeapons[charNum][n].getType(), charNum);
+        // window.package.addProps(this.equipedWeapons[charNum][n]);
     }
     this.equipedWeapons[charNum][n] = weapon;
 
