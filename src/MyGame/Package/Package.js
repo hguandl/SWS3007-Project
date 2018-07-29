@@ -15,6 +15,9 @@ function Package () {
     this.kDongpoPork = "assets/props/dongpo_pork_icon.png";
     this.kWhatsThis = "assets/props/whats_this_icon.png";
     this.kGoldenLotus = "assets/props/golden_lotus_icon.png";
+    this.kCarrot = "assets/props/carrot.png";
+    this.kRedStone = "assets/props/red_stone.png";
+    this.kJinchuangyao = "assets/props/jinchuangyao.png";
 
     this.kFontType = "assets/fonts/system-default-font";
 
@@ -78,6 +81,9 @@ Package.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kDongpoPork);
     gEngine.Textures.loadTexture(this.kWhatsThis);
     gEngine.Textures.loadTexture(this.kGoldenLotus);
+    gEngine.Textures.loadTexture(this.kCarrot);
+    gEngine.Textures.loadTexture(this.kRedStone);
+    gEngine.Textures.loadTexture(this.kJinchuangyao);
 
     gEngine.Fonts.loadFont(this.kFontType);
 };
@@ -135,10 +141,13 @@ Package.prototype.initialize = function () {
     PropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
     PropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
     ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it");
+    PropsSet["Carrot"] = new Props("Carrot", this.kCarrot, "Rabbit's favourite");
+    PropsSet["Red Stone"] = new Props("Red Stone", this.kRedStone, "A red stone");
+    PropsSet["Jin-Chuang-Yao"] = new Props("Jin-Chuang-Yao", this.kJinchuangyao, "Handed down from the ancestor");
+
 
     var i;
     for (i in PropsSet) {
-        this.addProps(PropsSet[i]);
         this.addProps(PropsSet[i]);
     }
 
