@@ -56,6 +56,13 @@ GameEvents.handle = function (e, game) {
         }
         break;
 
+        case "Back":
+        return function(game) {
+            var xform = game.getHero().getXform();
+            xform.setPosition(game.lastPos[0], game.lastPos[1]);
+        }
+        break;
+
         default:
         return null;
     }
