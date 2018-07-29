@@ -44,11 +44,11 @@ function MyGame(mapName) {
     this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
     this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.mp3";
 
-    this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json"
-    this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json";;
-    this.kMapBkg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-bkg.png";
-    this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
-    this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.mp3";
+    this.kMapFile["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-dat.json"
+    this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";;
+    this.kMapBkg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-bkg.png";
+    this.kMapFrg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-frg.png";
+    this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
