@@ -99,11 +99,16 @@
 							[["zhuzishan-chulianyi", "楚依恋：是金莲！"],
 						 	["zhuzishan-chulianyi", "楚依恋：…"]]
 						],
-						[null, null],
+						[null, "Skip"]
+				],
 
+				[null,
 					"Check", "Golden Lotus",
 						[null, "Change"],
-						[null, null],
+						[null, "Skip"]
+				],
+
+				[null,
 					"Check", "Golden Lotus",
 						[null, "Show",
 							[["zhuzishan-xiaolongnv", ""],
@@ -117,10 +122,9 @@
 								["zhuzishan-xiaolongnv", "小龙女：是这样的。朱紫国国王这场病其实也是妖怪作祟。三年前，西牛贺洲有三个大妖精联合起来，闯入朱紫国皇宫，夺走了国王三件神器，并利用三件神器对国王施下了恶咒，在神器中封住了国王的部分魂魄。只有夺回三件神器，交给观音菩萨，国王才能得救！"],
 								["tangseng", "唐僧：原来如此。多谢小龙女姑娘与观音菩萨为我们指点前路。那贫僧也不敢再耽误，即可便启程下山。"]]
 						],
-						[null, "Show",
-							[["zhuzishan-chulianyi", "楚依恋：实在是麻烦高僧了。但请高僧一定助小女子一臂之力！"]]
-						]
-					], true, 0],
+						[null, "Show", [["zhuzishan-chulianyi", "楚依恋：实在是麻烦高僧了。但请高僧一定助小女子一臂之力！"]]]
+				],
+				true, 0],
 	"1159": [[null,
 				"Check", "Golden Lotus",
 					[null, "Go", "zhuzishanjiao"],

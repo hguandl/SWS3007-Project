@@ -102,10 +102,12 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc2.png");
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc3.png");
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc4.png");
+    gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc5.png");
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc3.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc5.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.Textures.loadTexture(this.kPackageBg);
     gEngine.Textures.loadTexture(this.kPackageBrick);
@@ -167,7 +169,7 @@ MyGame.prototype.initialize = function () {
     var i;
     for (i = 0; i < this.mMyNPC.length; ++i) {
         var pos = this.mMyMap.pixelCenter(this.mMyMap.mNPC[i]);
-        this.mMyNPC[i].getNPC().getXform().setPosition(pos[0], pos[1]);
+        this.mMyNPC[i].setPosition(pos[0], pos[1]);
     }
 
     this.currentPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos(), this.mMyHero.getDir()];
