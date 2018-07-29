@@ -20,6 +20,8 @@ function WeaponsPack () {
 
     this.mCamera = null;
 
+    this.mCharacterText = [];
+
     this.mBg = [];
     this.mBrick = null;
     this.mUIBg = null;
@@ -47,7 +49,7 @@ function WeaponsPack () {
 
     this.currentSelectPage = 0;        // left page = 0, right page = 1;
     this.currentSelectCharacter = 0;   // tangseng = 0, sunwukong = 1 ...
-    this.currentSelectWeapon = 0;      // first weapon = 0, ...
+    this.currentSelectWeapon = -1;      // first weapon = 0, ...
 
 }
 gEngine.Core.inheritPrototype(WeaponsPack, Scene);
@@ -98,6 +100,23 @@ WeaponsPack.prototype.initialize = function () {
     this.mUIBg.setColor([1, 1, 1, 0]);
     this.mUIBg.getXform().setPosition(this.leftX, this.topY);
     this.mUIBg.getXform().setSize(this.width, this.width);
+
+    for (var i = 0; i < 3; i++) {
+        this.mCharacterText[i] = [];
+        for (var j = 0; j < 3; j++) {
+            this.mCharacterText[i][j] = new FontRenderable("- / -");
+            this.mCharacterText[i][j].setFont(this.kFontType);
+            this.mCharacterText[i][j].setTextHeight(2.7);
+        }
+        this.mCharacterText[i][0].setColor([0.4, 0.2, 0.2, 0.9]);
+        this.mCharacterText[i][1].setColor([0.2, 0.2, 0.4, 0.9]);
+        this.mCharacterText[i][2].setColor([0.2, 0.4, 0.2, 0.9]);
+
+        this.mCharacterText[i][0].getXform().setPosition(this.leftX + 0.335 * this.width, 0.335 * this.width - 0.0811 * this.width * i);
+        this.mCharacterText[i][1].getXform().setPosition(this.leftX + 0.335 * this.width, 0.310 * this.width - 0.0811 * this.width * i);
+        this.mCharacterText[i][2].getXform().setPosition(this.leftX + 0.408 * this.width, 0.310 * this.width - 0.0811 * this.width * i);
+
+    }
 
     // endregion
 
@@ -210,6 +229,7 @@ WeaponsPack.prototype.draw = function () {
     if (this.currentSelectPage == 0 || this.currentSelectPage == 1) {
         this.mBg[this.currentSelectCharacter].draw(this.mCamera);
 
+        // region draw weapons
         var cx = this.firstBrickX;
         for (var i = 0; i < 7; i++) {
             //var cy = this.topY - (0.1372 + i * 0.0322) * this.width - i * this.gapY1;
@@ -259,6 +279,18 @@ WeaponsPack.prototype.draw = function () {
                 }
             }
         }
+        // endregion
+
+        for (var i = 0; i < 3; i++) {
+            this.mCharacterText[i][0].setText(CharacterSet[i].getCurrentHP() + "/" + CharacterSet[i].getMaxHP());
+            this.mCharacterText[i][0].draw(this.mCamera);
+            var atk = CharacterSet[i].getATK();
+            this.mCharacterText[i][1].setText("" + atk);
+            this.mCharacterText[i][1].draw(this.mCamera);
+            var def = CharacterSet[i].getDEF();
+            this.mCharacterText[i][2].setText("" + def);
+            this.mCharacterText[i][2].draw(this.mCamera);
+        }
     } else if (this.currentSelectPage == 2) {
         // this.mUIBg.getXform().setPosition(this.leftX, this.topY);
         // this.mUIBg.getXform().setSize(this.width, this.width);
@@ -277,8 +309,9 @@ WeaponsPack.prototype.equipWeapon = function (weapon, charNum) {
     var type = weapon.getType();
     var n = this.kTypesNum[type];
     weapon.setEquipedInfo(charNum);
-    console.log("n = " + n);
-    this.equipedWeapons[charNum][n] = 100;
+    if (this.equipedWeapons[charNum][n] != null) {
+        window.package.addProps(this.equipedWeapons[charNum][n]);
+    }
     this.equipedWeapons[charNum][n] = weapon;
 
     var dHP = weapon.getHPadd();
@@ -287,17 +320,28 @@ WeaponsPack.prototype.equipWeapon = function (weapon, charNum) {
     var dDEF = weapon.getDEFadd();
 
     CharacterSet[charNum].incCurrentHP(dHP);
-    CharacterSet[charNum].incCurrentHP(dVP);
-    CharacterSet[charNum].incCurrentHP(dATK);
-    CharacterSet[charNum].incCurrentHP(dDEF);
+    CharacterSet[charNum].incCurrentVP(dVP);
+    CharacterSet[charNum].incATK(dATK);
+    CharacterSet[charNum].incDEF(dDEF);
 };
 
 WeaponsPack.prototype.unequipWeapons = function (type, charNum) {
+
     var typeNum = this.kTypesNum[type];
     var weapon = this.equipedWeapons[charNum][typeNum];
     if (weapon != null) {
+        var dHP = weapon.getHPadd();
+        var dVP = weapon.getVPadd();
+        var dATK = weapon.getATKadd();
+        var dDEF = weapon.getDEFadd();
+
+        CharacterSet[charNum].incCurrentHP(-dHP);
+        CharacterSet[charNum].incCurrentVP(-dVP);
+        CharacterSet[charNum].incATK(-dATK);
+        CharacterSet[charNum].incDEF(-dDEF);
+
         weapon.setEquipedInfo(-1);
-        window.package.addProps(weapon);;
+        window.package.addProps(weapon);
         this.equipedWeapons[charNum][typeNum] = null;
     }
 };
