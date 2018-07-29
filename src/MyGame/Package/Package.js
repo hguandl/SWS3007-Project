@@ -195,15 +195,21 @@ Package.prototype.draw = function () {
 var isFirstClicked;
 var latestPressedAloneKey;
 Package.prototype.update = function () {
-    if (!document.mShowPackage) return ;
+    if (!document.mShowPackage) {
+        return ;
+    }
+
+    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
+        switchPackage();
+        console.log("Escape released in package");
+    }
 
     if (!isChoosingUI) {
 
-        if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
-            //window.switchPackage();
-            switchPackage();
-            return -1;
-        }
+        // if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
+        //     switchPackage();
+        //     return -1;
+        // }
 
         //if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I)) {
             if (this.mCurrentSelected < this.mSize) {
@@ -213,9 +219,6 @@ Package.prototype.update = function () {
 
         // region press left or right to select a props
         if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-
-            console.log("#");
-            console.log(this.mCurrentSelected);
 
             if (!gEngine.Input.isKeyPressed(gEngine.Input.keys.A))
                 latestPressedAloneKey = "Right";
@@ -317,17 +320,13 @@ Package.prototype.update = function () {
         }
 
         if (gEngine.Input.isKeyReleased(gEngine.Input.keys.J)) {
-            if (this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold) {
+            if (this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold && this.mCurrentSelected > -1) {
 
                 this.choosingUI = new PropsUsingUI(this.kUIBgFile, this.kFontType, this.mCamera);
                 isChoosingUI = true;
 
                 this.tickJ = 0;
             }
-        }
-
-        if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
-            switchPackage();
         }
 
         this.tickRight++;

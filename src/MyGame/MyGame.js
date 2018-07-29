@@ -11,6 +11,8 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
+var GFstate_speedUp = 0;
+
 function MyGame(mapName) {
     this.mMapName = mapName;
 
@@ -151,27 +153,6 @@ MyGame.prototype.initialize = function () {
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mNPC1.getNPC());
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
 
-    // var propsSet = [];
-    // propsSet[0] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
-    // propsSet[1] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
-    // propsSet[2] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
-    // propsSet[3] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
-    // propsSet[4] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
-    // propsSet[5] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
-    // propsSet[6] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
-    // propsSet[7] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
-    //
-    // var i;
-    // for (i = 0; i < 8; i++) {
-    //     window.package.addProps(propsSet[i]);
-    // }
-    // for (i = 2; i < 8; i++) {
-    //     window.package.addProps(propsSet[i]);
-    // }
-    // for (i = 6; i < 8; i++) {
-    //     window.package.addProps(propsSet[i]);
-    // }
-
     this.mMyMap.addItems();
 
     this.mCamera = this.mMyMap.getCamera([this.currentPos[0], this.currentPos[1]],
@@ -259,11 +240,11 @@ MyGame.prototype.update = function () {
 
     window.statusBar.update();
 
-    if (document.mShowPackage) {
+    // if (document.mShowPackage) {
         window.package.update();
-    }
+    // }
 
-    var deltaX = 0.05; //0,05
+    var deltaX = (GFstate_speedUp == 1) ? 0.1 : 0.05; //0,05
     var xform = this.mMyHero.getHero().getXform();
 
     this.currentPos = [xform.getXPos(), xform.getYPos()];
@@ -279,7 +260,7 @@ MyGame.prototype.update = function () {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.D)) return ;
         this.mMyHero.walk("Right");
-        window.package.addProps(PropsSet["Queen Peach"]);
+        //window.package.addProps(PropsSet["Queen Peach"]);
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
             return ;
@@ -359,6 +340,12 @@ MyGame.prototype.update = function () {
         e(this);
 
     this.lastPos = this.currentPos;
+
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
+        GFstate_speedUp = 1;
+    } else {
+        GFstate_speedUp = 0;
+    }
 };
 
 MyGame.prototype.pause = function() {
