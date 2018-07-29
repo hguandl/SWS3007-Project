@@ -210,7 +210,6 @@ MyGame.prototype.initialize = function () {
         else return  -w / 40 + 1.5;
     })(this.mMyMap.mWidth);
 
-
     this.mCamera = this.mMyMap.getCamera([this.currentPos[0], this.currentPos[1]],
                                             ratio,
                                             [0, 0, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
@@ -238,7 +237,8 @@ MyGame.prototype.initialize = function () {
         return;
     }
 
-    CharacterSet_Init(this.kHeroInfo);
+    if (CharacterSet.length <= 0)
+        CharacterSet_Init(this.kHeroInfo);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
