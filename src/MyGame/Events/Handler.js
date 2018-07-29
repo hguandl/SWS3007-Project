@@ -44,10 +44,15 @@ GameEvents.handle = function (e, game) {
         if (document.mLastCombatWin) {
             return GameEvents.handle(e[2], game);
         } else {
-            return function(game) {
-                game.showMsg("You must find the flower.")
-                game.mMyHero.getHero().getXform().incYPosBy(0.05);
-            }
+            return null;
+        }
+        break;
+
+        case "Check":
+        if (window.package.checkProp(e[2])) {
+            return GameEvents.handle(e[3], game);
+        } else {
+            return GameEvents.handle(e[4], game);
         }
         break;
 
