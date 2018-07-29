@@ -18,11 +18,13 @@ function Weapons(name, iconFile, description, type) {
     this.Money = 50;
 
     switch(name) {
-        case "Swore_A1" :
+        case "YiTian Sword" :
             this.ATKadd = 200;
             this.Money = 3000;
             break;
-        case "" :
+        case "QingYun Helmet" :
+            this.DEFadd = 100;
+            this.Money = 1500;
             break;
         case "" :
             break;
@@ -57,6 +59,21 @@ Weapons.prototype.showInfoByPos = function (fontType, leftX, topY, color, textH,
     this.mDescriptionText.draw(aCamera);
 };
 
+
+Weapons.prototype.getType = function () {
+    return (this.mType);
+};
+
+Weapons.prototype.getEquipedInfo = function () {
+    return (this.mEquipedInfo);
+};
+
+Weapons.prototype.setEquipedInfo = function (a) {
+    this.mEquipedInfo = a;
+};
+
+// region 属性值
+
 Weapons.prototype.getHPadd = function () {
     return (this.HPadd);
 };
@@ -69,7 +86,7 @@ Weapons.prototype.getATKadd = function () {
 Weapons.prototype.getDEFadd = function () {
     return (this.DEFadd);
 };
-Weapons.prototype.getMoneyadd = function () {
+Weapons.prototype.getMoney = function () {
     return (this.Money);
 };
 
@@ -85,15 +102,4 @@ Weapons.prototype.getATKratio = function () {
 Weapons.prototype.getDEFratio = function () {
     return (this.DEFratio);
 };
-
-Weapons.prototype.getType = function () {
-    return (this.mType);
-};
-
-Weapons.prototype.getEquipedInfo = function () {
-    return (this.mEquipedInfo);
-};
-
-Weapons.prototype.setEquipedInfo = function (a) {
-    this.mEquipedInfo = a;
-};
+// endregion

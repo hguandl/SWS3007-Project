@@ -130,8 +130,6 @@ MyGame.prototype.initialize = function () {
     window.weaponsPack.loadScene();
     window.weaponsPack.initialize();
 
-
-
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
     this.mNPC1 = new MyNPC(this.kNPC1Pic, this.kNPC1Json);
@@ -321,10 +319,13 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.D)) {
         this.mMyHero.stand("Right");
+        window.package.addProps(WeaponsSet["YiTian Sword"]);
+        window.package.addProps(WeaponsSet["QingYun Helmet"]);
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.W)) {
         this.mMyHero.stand("Up");
+
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.A)) {

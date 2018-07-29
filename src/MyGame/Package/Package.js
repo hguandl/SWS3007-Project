@@ -196,7 +196,11 @@ Package.prototype.update = function () {
     }
 
     if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
-        switchPackage();
+        if (isChoosingUI) {
+            isChoosingUI = !isChoosingUI;
+        } else {
+            switchPackage();
+        }
     }
 
     if (!isChoosingUI) {
@@ -317,7 +321,7 @@ Package.prototype.update = function () {
         if (gEngine.Input.isKeyReleased(gEngine.Input.keys.J)) {
             if (this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold && this.mCurrentSelected > -1) {
 
-                this.choosingUI = new PropsUsingUI(this.kUIBgFile, this.kFontType, this.mCamera);
+                this.choosingUI = new PropsUsingUI(this.kUIBgFile, this.kFontType, this.mCamera, this.mPropsCollections[this.mCurrentSelected].getMoney(), this.mPropsCollections[this.mCurrentSelected].getType());
                 isChoosingUI = true;
 
                 this.tickJ = 0;
@@ -333,11 +337,27 @@ Package.prototype.update = function () {
     } else {
 
         var result = this.choosingUI.update();
-        var dHP = this.mPropsCollections[this.mCurrentSelected].getHP();
-        var dVP = this.mPropsCollections[this.mCurrentSelected].getVP();
-        var dATK = this.mPropsCollections[this.mCurrentSelected].getATK();
-        var dDEF = this.mPropsCollections[this.mCurrentSelected].getDEF();
-        var dM = this.mPropsCollections[this.mCurrentSelected].getMoney();
+        var selectedItem = this.mPropsCollections[this.mCurrentSelected];
+        // var dHP = selectedItem.getHPadd();
+        // var dVP = selectedItem.getVPadd();
+        // var dATK = selectedItem.getATKadd();
+        // var dDEF = selectedItem.getDEFadd();
+        // var dM = selectedItem.getMoney();
+
+        if (result == -1) {
+
+        } else if (result == 0) {
+            isChoosingUI = false;
+        } else if (result == 4) {
+            this.sellItem(this.mCurrentSelected);
+        } else {
+            var type = selectedItem.getType();
+            if (type == "Food") {
+                this.useProps(result - 1);       // (在背包中的位置,对哪个角色使用)
+            } else {
+                this.equipWeapon(result - 1);    // (在背包中的位置,对哪个角色使用)
+            }
+        }
 
         switch (result) {
             case 0:
@@ -439,12 +459,46 @@ Package.prototype.addProps = function (newProps) {
     }
 };
 
-Package.prototype.useProps = function (propsName) {
-    var i;
-    for (i = 0; i < this.mPropsCollections.length; i++) {
-        if (this.mPropsCollections[i].getName() == propsName) {
-            this.mPropsCollections[i].splice(i, 1);
-            return;
-        }
-    }
+Package.prototype.sellItem = function () {
+    var dM = this.mPropsCollections[this.mCurrentSelected].getMoney();
+    this.incMoney(dM);
+    this.mPropsCollections.splice(this.mCurrentSelected, 1);
+    this.mSize--;
+
 };
+
+Package.prototype.useProps = function (charNum) {
+    // var i;
+    // for (i = 0; i < this.mPropsCollections.length; i++) {
+    //     if (this.mPropsCollections[i].getName() == propsName) {
+    //         this.mPropsCollections[i].splice(i, 1);
+    //         return;
+    //     }
+    // }
+    var selectedItem = this.mPropsCollections[this.mCurrentSelected];
+    var dHP = selectedItem.getHPadd();
+    var dVP = selectedItem.getVPadd();
+    var dATK = selectedItem.getATKadd();
+    var dDEF = selectedItem.getDEFadd();
+
+    CharacterSet[charNum].incCurrentHP(dHP);
+    CharacterSet[charNum].incCurrentHP(dVP);
+    CharacterSet[charNum].incCurrentHP(dATK);
+    CharacterSet[charNum].incCurrentHP(dDEF);
+    this.mPropsCollections.splice(this.mCurrentSelected, 1);
+    this.mSize--;
+};
+
+Package.prototype.equipWeapon = function (charNum) {
+    window.weaponsPack.equipWeapon(this.mPropsCollections[this.mCurrentSelected], charNum);
+    this.mPropsCollections.splice(this.mCurrentSelected, 1);
+    this.mSize--;
+};
+
+//
+// Package.prototype.addWeapons = function (weapon) {
+//     if (this.mSize < this.mCapacity) {
+//         this.mPropsCollections.push(weapon);
+//         this.mSize += 1;
+//     }
+// };
