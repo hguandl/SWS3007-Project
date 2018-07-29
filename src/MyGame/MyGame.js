@@ -87,6 +87,8 @@ gEngine.Core.inheritPrototype(MyGame, Scene);
 
 MyGame.prototype.loadScene = function () {
     document.currentScene = this;
+    UIButton.displayButtonGroup('default-button-group');
+
     gEngine.Textures.loadTexture(this.kMapBkg[this.mMapName]);
     gEngine.Textures.loadTexture(this.kMapFrg[this.mMapName]);
     gEngine.Textures.loadTexture(this.kHeroPic);
@@ -210,8 +212,6 @@ MyGame.prototype.initialize = function () {
                                                  [820, 450, 150, 150]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
-    UIButton.displayButtonGroup('default-button-group');
-
     if (window.combatScene) {
         switch (window.combatScene.combatResult) {
             case "win":
@@ -295,12 +295,15 @@ MyGame.prototype.update = function () {
         switchBigMap();
     }
 
+    if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.X)) {
+        switchPackage();
+    }
+
     if (isMapFreezed()) return ;
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.D)) return ;
         this.mMyHero.walk("Right");
-        //window.package.addProps(PropsSet["Queen Peach"]);
 
         if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
             return ;
@@ -360,12 +363,6 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.S)) {
         this.mMyHero.stand("Down");
-    }
-
-    // var e = null;
-    // var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos());
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.X)) {
-        switchPackage();
     }
 
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)) {

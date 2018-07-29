@@ -53,7 +53,7 @@ PropsUsingUI.prototype.draw = function (aCamera, leftX, topY, width) {
     this.mText[3].getXform().setPosition(leftX + 0.235 * width, topY - 0.68 * width - 3 * textH);
     this.mText[3].setTextHeight(textH * 1);
 
-    this.mText[4] = new FontRenderable("press Esc to go back..");
+    this.mText[4] = new FontRenderable("press K to go back..");
     this.mText[4].setFont(this.kFontType);
     this.mText[4].setColor([0.7, 0.1, 0.1, 0.7]);
     this.mText[4].getXform().setPosition(leftX + 0.235 * width, topY - 0.69 * width - 4 * textH);
@@ -85,7 +85,7 @@ PropsUsingUI.prototype.update = function () {
         return (this.mCurrentSelected + 1);
     }
 
-    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
+    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.K)) {
         return 0;
     }
 

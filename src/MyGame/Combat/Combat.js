@@ -101,7 +101,7 @@ function Combat(firstCharacter, monster) {
     this.checkAlive = function () {
         if (this.monster.mCurrentHP <= 0) {
             this.combatResult = "win";
-            document.mWin = true;
+            document.mLastCombatWin = true;
             document.currentScene.showMsg("Congratulations!\n Now you've got the flower.");
             // todo: add die
             gEngine.GameLoop.stop();
@@ -189,6 +189,7 @@ Combat.prototype.unloadScene = function () {
     // 回到大地图
     this.closeMsg(true);
     document.currentScene = this.nextScene;
+    document.mEventMutex = false;
     gEngine.Core.startScene(this.nextScene);
 };
 
