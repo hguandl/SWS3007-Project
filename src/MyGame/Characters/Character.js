@@ -251,7 +251,10 @@ Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
     this.mCurrentDEF = this.mDEF;
     this.mCurrentSPD = this.mSPD;
 
-    this.mATKPercent = 1.0;
+    if (this.characterType === _C.Hero && this.mCurrentVP > this.mMaxVP)
+        this.mATKPercent = 0.65;
+    else
+        this.mATKPercent = 1.0;
     this.mDEFPercent = 1.0;
     this.mSPDPercent = 1.0;
 
@@ -279,7 +282,7 @@ Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
  * @param HP {number} 要改变的值
  * @param [fluctuate = 0.1] {number} 波动大小
  */
-Character.prototype.randChangeHP = function(HP, fluctuate = 0.1) {
+Character.prototype.randChangeHP = function (HP, fluctuate = 0.1) {
     console.assert(fluctuate <= 1 && fluctuate >= 0);
     const damage = Math.round(HP * (1 + (Math.random() * 2 - 1) * fluctuate));
     this.mCurrentHP += damage;

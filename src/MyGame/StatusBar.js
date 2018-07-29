@@ -45,7 +45,8 @@ StatusBar.prototype.initialize = function () {
     var i;
     for (i = 0; i < 3; ++i) {
         this.mHP.push(new Renderable());
-        this.mHP[i].setColor([.9921975, .25283019, .39453125, 0.5]);
+        // this.mHP[i].setColor([.9921975, .25283019, .39453125, 0.5]);
+        this.mHP[i].setColor(_C.HPColor);
         this.mHP[i].getXform().setPosition(-210 + i * 290, 2030);
         this.mHP[i].getXform().setSize(130, 20);
     }

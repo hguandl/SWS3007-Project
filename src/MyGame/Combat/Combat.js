@@ -29,7 +29,7 @@ function Combat(firstCharacter, monster) {
             /**  @type SpriteAnimateRenderable  */
             this.characterAnimate = new SpriteAnimateRenderable(this._character.spriteURL);
             this.characterAnimate.setColor([0, 0, 0, 0.0]);
-            this.characterAnimate.getXform().setPosition(-22, 0);
+            this.characterAnimate.getXform().setPosition(-22, 5);
             this.characterAnimate.getXform().setSize(10, 9);
             this.characterAnimate.setSpriteSequence(256, 5,     // first element pixel position: top-left 512 is top of image, 0 is left of image
                 512 / 9, 256 / 6,       // width * height in pixels
@@ -44,11 +44,13 @@ function Combat(firstCharacter, monster) {
     this.firstCharacter = firstCharacter;
     /** @type Character */
     this.monster = monster;
+    this.monsterHPBar = null;
 
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/zhuzishan/battle.png";
     this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
     this.monster.spriteURL = "assets/hero/fight/monster.png";
+    this.monster.HPBar = "";
 
     /**  @type Camera  */
     this.camera = null;
@@ -106,6 +108,12 @@ function Combat(firstCharacter, monster) {
             combat.monster.computeTurnEndStatus(true);
             if (!combat.checkAlive())
                 return;
+
+            let i;
+            for (i=0; i<3; i++) {
+                if (CharacterSet[i].mName !== this.character.mName)
+                    CharacterSet[i].mCurrentVP -= _C.turnRecoverVP;
+            }
         }
     };
 
@@ -114,6 +122,8 @@ function Combat(firstCharacter, monster) {
      * @returns {boolean}
      */
     this.checkAlive = function () {
+        if (this.character.mCurrentVP > this.character.mMaxVP)
+            this.appendMsg("\nYour character is tired. His damage is decreased by 35%.");
         if (this.monster.mCurrentHP <= 0 || this.character.mCurrentHP <= 0) {
             this.beforeBattleEnd();
             if (this.monster.mCurrentHP <= 0) {
@@ -172,6 +182,7 @@ function Combat(firstCharacter, monster) {
         this.status = _C.displaying;
         if (this._action.param.attacker.charaterType === _C.Hero) {
             this._action.param.attacker.mCurrentVP += _C.attackVP;
+
         }
         // calculate damage
         const damage = this._action.param.defender.randChangeHP(-calDamage(this._action.param.attacker, this._action.param.defender));
@@ -194,6 +205,7 @@ function Combat(firstCharacter, monster) {
     };
 
     this.onHeroAnimationEnd = function () {
+        this.monsterHPBar.HPPercent = this.monster.mCurrentHP / this.monster.mMaxHP;
         this.closeMsg();
         this.status = _C.commandGiven;
         if (this._callback) {
@@ -204,7 +216,6 @@ function Combat(firstCharacter, monster) {
     };
 
     this.onMonsterAnimationEnd = function () {
-        console.debug(this._callback);
         if (this._callback) {
             const callback = this._callback, param = this._callbackParam;
             this._callback = this._callbackParam = null;
@@ -213,7 +224,11 @@ function Combat(firstCharacter, monster) {
         this.closeMsg();
         this.status = _C.waiting;
         UIButton.displayButtonGroup("combat-button-group");
-    }
+    };
+
+    this.updateMonsterHP = function() {
+
+    };
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
@@ -265,7 +280,7 @@ Combat.prototype.initialize = function () {
     /**  @type SpriteAnimateRenderable  */
     this.monsterAnimate = new SpriteAnimateRenderable(this.monster.spriteURL);
     this.monsterAnimate.setColor([0, 0, 0, 0.0]);
-    this.monsterAnimate.getXform().setPosition(22, 0);
+    this.monsterAnimate.getXform().setPosition(22, 5);
     this.monsterAnimate.getXform().setSize(10, 9);
     this.monsterAnimate.setSpriteSequence(256, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
         512 / 9, 256 / 6,       // width * height in pixels
@@ -273,6 +288,10 @@ Combat.prototype.initialize = function () {
         0);             // horizontal padding in between
     this.monsterAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
     this.monsterAnimate.setAnimationSpeed(_C.combatSpeed);
+
+    // 怪物血量
+    this.monsterHPBar = new HPBar(2, 14, 0.2, 22, -1.5);
+    this.monsterHPBar.HPPercent = 1;
 
     document.mShowStatusBar = true;
 
@@ -292,6 +311,8 @@ Combat.prototype.draw = function () {
     this.characterAnimate.draw(this.camera);
     this.monsterAnimate.draw(this.camera);
 
+    this.monsterHPBar.draw(this.camera);
+
     if (document.mShowPackage) {
         window.package.draw();
     }
@@ -299,6 +320,7 @@ Combat.prototype.draw = function () {
     if (document.mShowStatusBar) {
         window.statusBar.draw();
     }
+
 };
 
 Combat.prototype.update = function () {
@@ -321,7 +343,7 @@ Combat.prototype.update = function () {
 };
 
 /**
- *
+ * 进入战斗场景
  * @param game
  * @param firstCharacter {Character} 第一个登场的人物
  * @param monster {Character} 怪物
