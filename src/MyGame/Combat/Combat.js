@@ -46,6 +46,7 @@ function Combat(firstCharacter, monster) {
 
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/zhuzishan/zhuzishan-battle.png";
+    this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
     this.monster.spriteURL = "assets/hero/fight/monster.png";
 
     /**  @type Camera  */
@@ -102,7 +103,7 @@ function Combat(firstCharacter, monster) {
     this.checkAlive = function () {
         if (this.monster.mCurrentHP <= 0) {
             this.combatResult = "win";
-            document.mWin = true;
+            document.mLastCombatWin = true;
             document.currentScene.showMsg("Congratulations!\n Now you've got the flower.");
             // todo: add die
             gEngine.GameLoop.stop();
@@ -170,6 +171,7 @@ Combat.prototype.loadScene = function () {
         gEngine.Textures.loadTexture(value);
     });
     gEngine.Textures.loadTexture(this.kBackground);
+    gEngine.AudioClips.loadAudio(this.kBGM);
 
     UIButton.displayButtonGroup("combat-button-group");
 };
@@ -178,14 +180,19 @@ Combat.prototype.unloadScene = function () {
     ALL_SPRITE_TEXTURE.forEach(value => {
         gEngine.Textures.unloadTexture(value);
     });
+    gEngine.AudioClips.stopBackgroundAudio();
+    gEngine.AudioClips.unloadAudio(this.kBGM[this.mMapName]);
     gEngine.Textures.unloadTexture(this.kBackground);
     // 回到大地图
     this.closeMsg(true);
     document.currentScene = this.nextScene;
+    document.mEventMutex = false;
     gEngine.Core.startScene(this.nextScene);
 };
 
 Combat.prototype.initialize = function () {
+    gEngine.AudioClips.playBackgroundAudio(this.kBGM);
+
     this.camera = new Camera(
         vec2.fromValues(0, 0),
         100,
@@ -274,5 +281,6 @@ Combat.prototype.update = function () {
 function enterCombat(game) {
     window.combatScene = new Combat(CharacterSet[0], CharacterSet[1]);
     game.nextScene = window.combatScene;
+    game.nextScene.nextScene = game;
     gEngine.GameLoop.stop();
 }

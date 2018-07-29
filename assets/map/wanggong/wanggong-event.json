@@ -1,10 +1,23 @@
 {
-  "350": [null, "Go", "zhuzishan", true, false],
-  "351": [null, "Go", "zhuzishan", true, false],
-  "352": [null, "Go", "zhuzishan", true, false],
-  "85": [null,
-        "Show", [
-            ["", "Welcome to our game! Now let's go down the mountain.\nPress Up/Down/Left/Right to move.\nYou can watch the small map."]
-        ],
-        false, false]
+  "350": [[null, "Go", "zhuzishan"], true, 0],
+  "351": [[null, "Go", "zhuzishan"], true, 0],
+  "352": [[null, "Go", "zhuzishan"], true, 0],
+  "85": [
+          [null,
+          "Show", [
+          		["sunwukong", "孙悟空：师傅，这国王老儿生他的病，关我们什么事？我…"],
+          		["tangseng", "唐僧：悟空，休得无礼。"],
+          		["tangseng", "唐僧：朱紫国与大唐素来交好，而且为师也听闻朱紫国国王视民如子。如今我们既已路过，那也便是缘分。又怎能见死不救呢？"],
+          		["zhubajie", "猪八戒：嘿嘿，师傅又要教训猴子了。"],
+          		["sunwukong", "孙悟空：忒。你个笨猪。"],
+          		["sunwukong", "孙悟空：行吧行吧，师傅，你可别再唠叨了，我听你的就是。"],
+          		["zhubajie", "猪八戒：可..可是，师傅，这朱紫国国王早就出皇榜求医问药，这么长时间了，也没见结果。我们好像也爱莫能助啊。"],
+          		["tangseng", "唐僧：话虽如此，但为师既已答应相助，且稍作调查吧。"],
+          		["tangseng", "唐僧：我们先下山看看吧。"],
+              	["", "故事开头，唐僧师徒途经朱紫国，发现朱紫国王久病难愈，不能上朝治理政事，\n无奈之下只好贴出皇榜，来招纳北往东来、中华外国的天下贤士，为自己治病。\n唐僧一行人了解了事情背景后决定出手相助，现在就请按唐僧所说的下山去探索西游世界吧！"],
+                ["", "小引导：欢迎来到我们的游戏世界! \n通过按键 W/A/S/D 进行行走~"]
+            ]
+          ],
+          false, 0
+        ]
 }

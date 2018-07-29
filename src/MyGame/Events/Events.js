@@ -18,7 +18,7 @@ GameEvents.battle = function(game) {
 };
 
 GameEvents.treasure = function(game) {
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter) && game.mMyHero.getDir() == "Up") {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter) && game.mMyHero.getDir() === "Up") {
         ItemSet_addItem("Key", 1);
         game.showMsg("You've found a key!");
     }

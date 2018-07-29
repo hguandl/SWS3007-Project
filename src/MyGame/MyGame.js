@@ -11,6 +11,8 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
+var GFstate_speedUp = 0;
+
 function MyGame(mapName) {
     this.mMapName = mapName;
 
@@ -23,16 +25,31 @@ function MyGame(mapName) {
     this.kMapEvents = [];
     this.kMapBkg = [];
     this.kMapFrg = [];
+    this.kBGM = [];
 
-    this.kMapFile["wanggong"] = "assets/map/wanggong/wanggong-dat.json"
+    this.kMapFile["wanggong"] = "assets/map/wanggong/wanggong-dat.json";
     this.kMapEvents["wanggong"] = "assets/map/wanggong/wanggong-event.json";;
     this.kMapBkg["wanggong"] = "assets/map/wanggong/wanggong-bkg.png";
     this.kMapFrg["wanggong"] = "assets/map/wanggong/wanggong-frg.png";
+    this.kBGM["wanggong"] = "assets/bgm/wanggong-walk.mp3";
 
-    this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json"
+    this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json";
     this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json";;
     this.kMapBkg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-bkg.png";
     this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
+    this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.mp3";
+
+    this.kMapFile["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-dat.json";
+    this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";;
+    this.kMapBkg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-bkg.png";
+    this.kMapFrg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-frg.png";
+    this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
+
+    this.kMapFile["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-dat.json";
+    this.kMapEvents["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event.json";;
+    this.kMapBkg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-bkg.png";
+    this.kMapFrg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-frg.png";
+    this.kBGM["huoyanshankou"] = "assets/bgm/huoyanshankou-walk.mp3";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
@@ -63,19 +80,32 @@ function MyGame(mapName) {
 
     this.lastPos = null;
     this.currentPos = null;
+    this.mMyNPC = [];
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
 
 MyGame.prototype.loadScene = function () {
     document.currentScene = this;
+    UIButton.displayButtonGroup('default-button-group');
+
     gEngine.Textures.loadTexture(this.kMapBkg[this.mMapName]);
     gEngine.Textures.loadTexture(this.kMapFrg[this.mMapName]);
     gEngine.Textures.loadTexture(this.kHeroPic);
     gEngine.TextFileLoader.loadTextFile(this.kMapFile[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kMapEvents[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
+
     gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
+
+    gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc1.png");
+    gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc2.png");
+    gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc3.png");
+    gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc4.png");
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc3.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.Textures.loadTexture(this.kPackageBg);
     gEngine.Textures.loadTexture(this.kPackageBrick);
@@ -92,12 +122,17 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kWhatsThis);
 
     gEngine.Fonts.loadFont(this.kPackageFontType);
+    gEngine.AudioClips.loadAudio(this.kBGM[this.mMapName]);
+
 };
 
 MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kMapBkg[this.mMapName]);
     gEngine.Textures.unloadTexture(this.kMapFrg[this.mMapName]);
     gEngine.Textures.unloadTexture(this.kHeroPic);
+
+    gEngine.AudioClips.stopBackgroundAudio();
+    gEngine.AudioClips.unloadAudio(this.kBGM[this.mMapName]);
 
     if (this.nextScene) {
         document.currentScene = this.nextScene;
@@ -108,54 +143,62 @@ MyGame.prototype.unloadScene = function () {
 MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
+    gEngine.AudioClips.playBackgroundAudio(this.kBGM[this.mMapName]);
+
     window.statusBar.initialize();
-    window.package = new Package(this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType, 20);
+    //window.package = new Package(this.kPackageBg, this.kPackageBrick, this.kPackageUIBg, this.kPackageMoneyIcon, this.kPackageFontType, 20);
+    window.package = new Package();
+    window.package.loadScene();
+    window.package.initialize();
 
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
-    this.mMyMap = new Map(this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
+    this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
+
+    this.mMyNPC = this.mMyMap.initNPC();
 
     if (this.lastPos === null) {
        this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
     } else {
         this.mMyHero.getHero().getXform().setPosition(this.lastPos[0], this.lastPos[1]);
+        this.mMyHero.stand(this.lastPos[2]);
     }
 
-    this.currentPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos()];
+    var i;
+    for (i = 0; i < this.mMyNPC.length; ++i) {
+        var pos = this.mMyMap.pixelCenter(this.mMyMap.mNPC[i]);
+        this.mMyNPC[i].getNPC().getXform().setPosition(pos[0], pos[1]);
+    }
+
+    this.currentPos = [this.mMyHero.getHero().getXform().getXPos(), this.mMyHero.getHero().getXform().getYPos(), this.mMyHero.getDir()];
 
     this.mMapBkg = new Background(this.kMapBkg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
     this.mMapFrg = new Background(this.kMapFrg[this.mMapName], [0, 0, 0, 0], [this.mMyMap.mWidth/2, this.mMyMap.mHeight/2], [this.mMyMap.mWidth, this.mMyMap.mHeight]);
 
     gEngine.LayerManager.cleanUp();
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
 
-    var propsSet = [];
-    propsSet[0] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
-    propsSet[1] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
-    propsSet[2] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
-    propsSet[3] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
-    propsSet[4] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
-    propsSet[5] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
-    propsSet[6] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
-    propsSet[7] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
+    // console.log(this.mMyNPC);
 
     var i;
-    for (i = 0; i < 8; i++) {
-        window.package.addProps(propsSet[i]);
-    }
-    for (i = 2; i < 8; i++) {
-        window.package.addProps(propsSet[i]);
-    }
-    for (i = 6; i < 8; i++) {
-        window.package.addProps(propsSet[i]);
-    }
+    for (i = 0; i < this.mMyNPC.length; ++i)
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyNPC[i].getNPC());
+
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyHero.getHero());
+
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mMapFrg);
 
     this.mMyMap.addItems();
 
+    var ratio = (function(w) {
+        if (w > 40) return 0.5;
+        else if (w < 20) return 1;
+        else return  -w / 40 + 1.5;
+    })(this.mMyMap.mWidth);
+
+
     this.mCamera = this.mMyMap.getCamera([this.currentPos[0], this.currentPos[1]],
-                                            0.5,
+                                            ratio,
                                             [0, 0, this.mMyMap.mViewWidth, this.mMyMap.mViewHeight]);
     this.mMainView = new MainView(this.mCamera);
 
@@ -168,8 +211,6 @@ MyGame.prototype.initialize = function () {
                                                  0.75,
                                                  [820, 450, 150, 150]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
-
-    UIButton.displayButtonGroup('default-button-group');
 
     if (window.combatScene) {
         switch (window.combatScene.combatResult) {
@@ -239,17 +280,23 @@ MyGame.prototype.update = function () {
 
     window.statusBar.update();
 
-    window.package.update();
+    // if (document.mShowPackage) {
+        window.package.update();
+    // }
 
-    var deltaX = 0.05; //0,05
+    var deltaX = (GFstate_speedUp == 1) ? 0.1 : 0.05; //0,05
     var xform = this.mMyHero.getHero().getXform();
 
-    this.currentPos = [xform.getXPos(), xform.getYPos()];
+    this.currentPos = [xform.getXPos(), xform.getYPos(), this.mMyHero.getDir()];
 
     this.moveCamera(xform);
 
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.M)) {
         switchBigMap();
+    }
+
+    if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.X)) {
+        switchPackage();
     }
 
     if (isMapFreezed()) return ;
@@ -318,10 +365,6 @@ MyGame.prototype.update = function () {
         this.mMyHero.stand("Down");
     }
 
-    if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.X)) {
-        switchPackage();
-    }
-
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)) {
         switchStatusBar();
     }
@@ -329,11 +372,17 @@ MyGame.prototype.update = function () {
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.N)) {
         switchSmallMap();
     }
-    var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos(), this.mMyHero.getDir());
+    var e = this.mMyMap.detectEvent(this, xform.getXPos(), xform.getYPos(), this.mMyHero.getDir());
     if (e)
         e(this);
 
     this.lastPos = this.currentPos;
+
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
+        GFstate_speedUp = 1;
+    } else {
+        GFstate_speedUp = 0;
+    }
 };
 
 MyGame.prototype.pause = function() {
