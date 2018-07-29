@@ -100,16 +100,15 @@ function Combat(firstCharacter, monster) {
         }
 
         function endTurn(combat) {
-            console.debug(combat.character.computeTurnEndStatus);
-            console.debug(combat.monster.computeTurnEndStatus);
             combat.character.computeTurnEndStatus(false);
             combat.monster.computeTurnEndStatus(true);
+
             if (!combat.checkAlive())
                 return;
 
             let i;
             for (i=0; i<3; i++) {
-                if (CharacterSet[i].mName !== this.character.mName)
+                if (CharacterSet[i].mName !== combat.character.mName)
                     CharacterSet[i].mCurrentVP -= _C.turnRecoverVP;
             }
         }

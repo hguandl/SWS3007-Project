@@ -182,11 +182,32 @@
         <!--test button-->
         <button id="set-point-button1" class="button button-parchment button-rounded"
                 onclick="setPoint(352);">
+            pass0
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(987);
+                ">
             test1
         </button>
         <button id="set-point-button2" class="button button-parchment button-rounded"
-                onclick="setPoint(987);">
-            tes2
+                onclick="
+                    window.package.addProps(ItemSet['golden_lotus']);
+                    setPoint(1160);
+                ">
+            pass1
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(620);
+                ">
+            test2
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    document.currentScene.closeMsg();
+                ">
+            end talk
         </button>
     </div>
 
@@ -332,8 +353,7 @@
         document.mShowBigMap = false;
         document.mShowSmallMap = true;
         document.mShowMsgBox = false;
-        document.mLastCombatWin = false;
-        document.mEventQueue = [];
+        document.mLastCombatWin = null;
         document.mMsgQueue = [];
         document.mEventMutex = false;
 

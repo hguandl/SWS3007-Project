@@ -206,8 +206,6 @@ MyGame.prototype.initialize = function () {
     gEngine.LayerManager.cleanUp();
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
 
-    // console.log(this.mMyNPC);
-
     var i;
     for (i = 0; i < this.mMyNPC.length; ++i)
         gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyNPC[i].getNPC());
@@ -253,6 +251,26 @@ MyGame.prototype.initialize = function () {
 
     if (CharacterSet.length <= 0)
         CharacterSet_Init(this.kHeroInfo);
+
+    // 战斗失败，重新开始
+    if (document.mLastCombatWin === false) {
+        // 重置当前地图所有事件
+        var eventList = this.mMyMap.mEvents;
+        var i;
+        for (i = 0; i < eventList.length; ++i) {
+            eventList[i][eventList[i].length - 1] = 0;
+        }
+
+        // 人物状态回复
+        for (i = 0; i < 3; ++i) {
+            var ch = CharacterSet[i];
+            ch.mCurrentHP = ch.mMaxHP;
+            ch.mCurrentVP = 0;
+        }
+
+        // 回到地图出生点
+        this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
+    }
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
