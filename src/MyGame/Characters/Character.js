@@ -22,12 +22,12 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, 
     this.turnEndStatus = [];
     /**  @type {Skill[]}  */
     this.skills = [];
-    // if (characterInfo["skills"]) {
-    //     console.assert(characterInfo["skills"].length <= 4);
-    //     characterInfo["skills"].forEach(value => {
-    //         this.skills.push(SkillList.parseSkill(value));
-    //     });
-    // }
+    if (characterInfo["skills"]) {
+        console.assert(characterInfo["skills"].length <= 4);
+        characterInfo["skills"].forEach(value => {
+            this.skills.push(SkillList.parseSkill(value));
+        });
+    }
     this.mATKPercent = 1.0;
     this.mDEFPercent = 1.0;
     this.mSPDPercent = 1.0;
@@ -258,12 +258,11 @@ Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
     // compute effect of each turnEndStatus
     for (i = 0; i < this.turnEndStatus.length; i++) {
         status = this.turnEndStatus[i];
-        // 如果status的回合小于0了，就删除该状态
-        if (myTurnEnd) {
+        if (myTurnEnd === true) {
             status.turn--;
+            // 如果status的回合小于0了，就删除该状态
             if (status.turn < 0)
                 this.turnEndStatus.splice(i, 1);
-            console.debug("have turnEndStatus ", status);
         }
         // 结算状态效果
         status.computeStatus(this);

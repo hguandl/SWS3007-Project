@@ -1,4 +1,4 @@
-// todo: change character
+"use strict";
 
 /** A new level.
  * Call this function to turn into combat scene.
@@ -83,8 +83,11 @@ function Combat(firstCharacter, monster) {
         this.displayAction(enemyTurn, this);
 
         function enemyTurn(combat) {
-            this.character.computeTurnEndStatus(true);
-            this.monster.computeTurnEndStatus(false);
+            console.debug(combat.character.computeTurnEndStatus);
+            console.debug(combat.monster.computeTurnEndStatus);
+
+            combat.character.computeTurnEndStatus(true);
+            combat.monster.computeTurnEndStatus(false);
 
             if (!combat.checkAlive())
                 return;
@@ -97,6 +100,8 @@ function Combat(firstCharacter, monster) {
         }
 
         function endTurn(combat) {
+            console.debug(combat.character.computeTurnEndStatus);
+            console.debug(combat.monster.computeTurnEndStatus);
             combat.character.computeTurnEndStatus(false);
             combat.monster.computeTurnEndStatus(true);
             if (!combat.checkAlive())
@@ -189,26 +194,23 @@ function Combat(firstCharacter, monster) {
     };
 
     this.onHeroAnimationEnd = function () {
-        // console.debug("status-3");
         this.closeMsg();
         this.status = _C.commandGiven;
-        // console.debug("status-2");
         if (this._callback) {
-            this._callback(this._callbackParam);
+            const callback = this._callback, param = this._callbackParam;
             this._callback = this._callbackParam = null;
+            callback(param);
         }
-        // console.debug("status-1");
     };
 
     this.onMonsterAnimationEnd = function () {
-        // console.debug("status1");
+        console.debug(this._callback);
         if (this._callback) {
-            this._callback(this._callbackParam);
+            const callback = this._callback, param = this._callbackParam;
             this._callback = this._callbackParam = null;
+            callback(param);
         }
-        // console.debug("status2");
         this.closeMsg();
-        // console.debug("status3");
         this.status = _C.waiting;
         UIButton.displayButtonGroup("combat-button-group");
     }
@@ -332,7 +334,7 @@ function enterCombat(game, firstCharacter, monster, sceneName) {
         window.combatScene.firstCharacter = firstCharacter;
         window.combatScene.monster = monster;
     }
-    this.kBackground = "assets/map/" + sceneName + "/battle.png";
+    window.combatScene.kBackground = "assets/map/" + sceneName + "/battle.png";
     game.nextScene = window.combatScene;
     game.nextScene.nextScene = game;
     gEngine.GameLoop.stop();

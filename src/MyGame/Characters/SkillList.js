@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * This class stores all the Skill and there parameters.
  */
