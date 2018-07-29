@@ -296,10 +296,10 @@
         document.mShowBigMap = false;
         document.mShowSmallMap = true;
         document.mShowMsgBox = false;
-        document.mWin = false;
+        document.mLastCombatWin = false;
         document.mEventQueue = [];
         document.mMsgQueue = [];
-        document.mEventLock = false;
+        document.mEventMutex = false;
 
         UIButton.displayButtonGroup('default-button-group');
         gEngine.Core.initializeEngineCore('GLCanvas', window.myGame);

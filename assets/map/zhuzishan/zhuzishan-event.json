@@ -17,8 +17,8 @@
 						["", "（获得物品 金莲）"]
 					]
 				],
-				["P",
-					"Get", ["jinlian"]
+				[null,
+					"Get", ["golden_lotus"]
 				],
 			false, 0],
     "992": [

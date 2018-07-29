@@ -185,6 +185,7 @@ Combat.prototype.unloadScene = function () {
     // 回到大地图
     this.closeMsg(true);
     document.currentScene = this.nextScene;
+    document.mEventMutex = false;
     gEngine.Core.startScene(this.nextScene);
 };
 

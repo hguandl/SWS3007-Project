@@ -14,6 +14,7 @@ function Package () {
     this.kHamBone = "assets/props/ham_bone_icon.png";
     this.kDongpoPork = "assets/props/dongpo_pork_icon.png";
     this.kWhatsThis = "assets/props/whats_this_icon.png";
+    this.kGoldenLotus = "assets/props/golden_lotus_icon.png";
 
     this.kFontType = "assets/fonts/system-default-font";
 
@@ -76,6 +77,7 @@ Package.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHamBone);
     gEngine.Textures.loadTexture(this.kDongpoPork);
     gEngine.Textures.loadTexture(this.kWhatsThis);
+    gEngine.Textures.loadTexture(this.kGoldenLotus);
 
     gEngine.Fonts.loadFont(this.kFontType);
 };
@@ -85,6 +87,7 @@ Package.prototype.unloadScene = function () {
 };
 
 var PropsSet = [];
+var ItemSet = [];
 Package.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(50, 50),
@@ -131,12 +134,15 @@ Package.prototype.initialize = function () {
     PropsSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
     PropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
     PropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
+    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it");
 
     var i;
     for (i in PropsSet) {
         this.addProps(PropsSet[i]);
         this.addProps(PropsSet[i]);
     }
+
+    // this.addProps(ItemSet["golden_lotus"]);
 };
 
 
@@ -199,23 +205,10 @@ Package.prototype.update = function () {
         return ;
     }
 
-    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
-        switchPackage();
-        console.log("Escape released in package");
-    }
-
     if (!isChoosingUI) {
-
-        // if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
-        //     switchPackage();
-        //     return -1;
-        // }
-
-        //if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I)) {
-            if (this.mCurrentSelected < this.mSize) {
-                this.mCurrentShowing = this.mCurrentSelected;
-            }
-        //}
+        if (this.mCurrentSelected < this.mSize) {
+            this.mCurrentShowing = this.mCurrentSelected;
+        }
 
         // region press left or right to select a props
         if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
@@ -436,6 +429,15 @@ Package.prototype.incMoney = function (deltaM) {
     this.mMoney += deltaM;
 };
 // endregion
+
+Package.prototype.checkProp = function (prop) {
+    var i;
+    for (i = 0; i < this.mPropsCollections.length; ++i) {
+        if (this.mPropsCollections[i].mName === prop)
+            return true;
+    }
+    return false;
+}
 
 Package.prototype.addProps = function (newProps) {
     if (this.mSize < this.mCapacity) {
