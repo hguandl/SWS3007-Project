@@ -30,7 +30,7 @@ GameEvents.handle = function (e, game) {
         // TO DO 改battle
         case "Battle":
         return function(game) {
-            enterCombat(game, CharacterSet[0], e[3], e[2]);
+            enterCombat(game, CharacterSet[0], e[2][1], e[2][0]);
         }
 
         case "Get":

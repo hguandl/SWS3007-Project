@@ -38,6 +38,5 @@ const TURN = {
 const ALL_SPRITE_TEXTURE = [
     "assets/hero/fight/Monk Tang.png",
     "assets/hero/fight/Monkey King.png",
-    "assets/hero/fight/monster.png",
     "assets/hero/fight/The Pigsy.png",
 ];

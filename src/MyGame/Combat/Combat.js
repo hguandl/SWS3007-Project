@@ -50,7 +50,7 @@ function Combat(firstCharacter, monster) {
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/zhuzishan/battle.png";
     this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
-    this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName;
+    this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
     this.monster.HPBar = "";
 
     /**  @type Camera  */
@@ -86,9 +86,6 @@ function Combat(firstCharacter, monster) {
         this.displayAction(enemyTurn, this);
 
         function enemyTurn(combat) {
-            console.debug(combat.character.computeTurnEndStatus);
-            console.debug(combat.monster.computeTurnEndStatus);
-
             combat.character.computeTurnEndStatus(true);
             combat.monster.computeTurnEndStatus(false);
 
@@ -239,6 +236,7 @@ Combat.prototype.loadScene = function () {
         gEngine.Textures.loadTexture(value);
     });
     gEngine.Textures.loadTexture(this.kBackground);
+    gEngine.Textures.loadTexture(this.monster.spriteURL);
     gEngine.AudioClips.loadAudio(this.kBGM);
 
     UIButton.displayButtonGroup("combat-button-group");
@@ -250,6 +248,7 @@ Combat.prototype.unloadScene = function () {
     });
     gEngine.AudioClips.stopBackgroundAudio();
     gEngine.AudioClips.unloadAudio(this.kBGM[this.mMapName]);
+    gEngine.Textures.loadTexture(this.monster.spriteURL);
     gEngine.Textures.unloadTexture(this.kBackground);
     // 回到大地图
     this.closeMsg(true);
