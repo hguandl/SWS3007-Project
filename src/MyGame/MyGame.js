@@ -323,7 +323,7 @@ MyGame.prototype.update = function () {
     }
 
     // var e = null;
-    var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos());
+    // var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos());
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.X)) {
         switchPackage();
     }
