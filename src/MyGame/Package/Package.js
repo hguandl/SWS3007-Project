@@ -175,13 +175,11 @@ Package.prototype.draw = function () {
                 } else {
                     this.mPropsCollections[count].drawIconByPos(x, y, this.mBrickW - 0.008 * this.width, this.mBrickH - 0.008 * this.width, this.mCamera);
                 }
-                //this.mPropsCollections[count].drawIconByPos(x, y, this.mBrickW - 1, this.mBrickH - 1, this.mCamera);
                 count++;
             }
 
             if (this.mCurrentShowing >= 0) {
                 this.mPropsCollections[this.mCurrentShowing].showNameByPos(this.kFontType, this.mPropsNameX, this.mPropsNameY, this.mPropsCollectionsColor, 0.04 * this.width, this.mCamera);
-                //this.mPropsCollections[this.mCurrentShowing].showNameByPos(this.kFontType, 30, 40, this.mPropsCollectionsColor, 5, this.mCamera);
                 this.mPropsCollections[this.mCurrentShowing].showInfoByPos(this.kFontType, this.mPropsDescX, this.mPropsDescY, this.mPropsCollectionsColor, 0.032 * this.width, this.mCamera);
                 this.mCurrentShowing = -1;
             }
@@ -201,14 +199,6 @@ Package.prototype.update = function () {
         return ;
     }
 
-    // if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
-    //     if (isChoosingUI) {
-    //         isChoosingUI = !isChoosingUI;
-    //     } else {
-    //         switchPackage();
-    //     }
-    // }
-
     if (!isChoosingUI) {
         if (this.mCurrentSelected < this.mSize) {
             this.mCurrentShowing = this.mCurrentSelected;
@@ -223,7 +213,7 @@ Package.prototype.update = function () {
             if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A) && latestPressedAloneKey == "Right") {
 
             } else {
-                if ((this.tickRight >= 1.2 * this.tickThreshold && !isFirstClicked) /*|| gEngine.Input.isKeyReleased(gEngine.Input.keys.A)*/) {
+                if ((this.tickRight >= 1.2 * this.tickThreshold && !isFirstClicked)) {
                     this.mCurrentSelected = Math.min(this.mCurrentSelected + 1, this.mRow * this.mColumn - 1);
                     this.mCurrentShowing = -1;
                     this.tickRight = 0;
@@ -260,7 +250,7 @@ Package.prototype.update = function () {
             if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D) && latestPressedAloneKey == "Left") {
 
             } else {
-                if ((this.tickLeft >= 1.2 * this.tickThreshold && !isFirstClicked) /*|| gEngine.Input.isKeyReleased(gEngine.Input.keys.D)*/) {
+                if ((this.tickLeft >= 1.2 * this.tickThreshold && !isFirstClicked)) {
                     this.mCurrentSelected = Math.max(this.mCurrentSelected - 1, 0);
                     this.mCurrentShowing = -1;
                     this.tickLeft = 0;
@@ -353,53 +343,6 @@ Package.prototype.update = function () {
                 this.equipWeapon(result - 1);    // (在背包中的位置,对哪个角色使用)
             }
         }
-        //
-        // switch (result) {
-        //     case 0:
-        //         isChoosingUI = false;
-        //         break;
-        //     case 1:
-        //         isChoosingUI = false;
-        //
-        //         // add HP/VP to monkey
-        //         CharacterSet[0].incCurrentHP(dHP);
-        //         CharacterSet[0].incCurrentVP(dVP);
-        //         CharacterSet[0].incCurrentATK(dATK);
-        //         CharacterSet[0].incCurrentDEF(dDEF);
-        //         this.mPropsCollections.splice(this.mCurrentSelected, 1);
-        //         this.mSize--;
-        //         break;
-        //     case 2:
-        //         isChoosingUI = false;
-        //
-        //         // add HP/VP to pig
-        //         CharacterSet[1].incCurrentHP(dHP);
-        //         CharacterSet[1].incCurrentVP(dVP);
-        //         CharacterSet[1].incCurrentATK(dATK);
-        //         CharacterSet[1].incCurrentDEF(dDEF);
-        //         this.mPropsCollections.splice(this.mCurrentSelected, 1);
-        //         this.mSize--;
-        //         break;
-        //     case 3:
-        //         isChoosingUI = false;
-        //
-        //         CharacterSet[2].incCurrentHP(dHP);
-        //         CharacterSet[2].incCurrentVP(dVP);
-        //         CharacterSet[2].incCurrentATK(dATK);
-        //         CharacterSet[2].incCurrentDEF(dDEF);
-        //         this.mPropsCollections.splice(this.mCurrentSelected, 1);
-        //         this.mSize--;
-        //         break;
-        //     case 4:
-        //         isChoosingUI = false;
-        //
-        //         this.incMoney(dM);
-        //         this.mPropsCollections.splice(this.mCurrentSelected, 1);
-        //         this.mSize--;
-        // }
-        //
-        // return 0;
-
     }
 };
 
@@ -472,13 +415,6 @@ Package.prototype.sellItem = function () {
 };
 
 Package.prototype.useProps = function (charNum) {
-    // var i;
-    // for (i = 0; i < this.mPropsCollections.length; i++) {
-    //     if (this.mPropsCollections[i].getName() == propsName) {
-    //         this.mPropsCollections[i].splice(i, 1);
-    //         return;
-    //     }
-    // }
     var selectedItem = this.mPropsCollections[this.mCurrentSelected];
     var dHP = selectedItem.getHPadd();
     var dVP = selectedItem.getVPadd();

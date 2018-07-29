@@ -162,6 +162,11 @@ MyGame.prototype.initialize = function () {
         window.package.loadScene();
         window.package.initialize();
     }
+    if (window.weaponsPack === null) {
+        window.weaponsPack = new WeaponsPack();
+        window.weaponsPack.loadScene();
+        window.weaponsPack.initialize();
+    }
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
     this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
@@ -318,6 +323,10 @@ MyGame.prototype.update = function () {
         switchPackage();
     }
 
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)) {
+        switchWeaponsPack();
+    }
+
     if (isMapFreezed()) return ;
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
@@ -393,8 +402,9 @@ MyGame.prototype.update = function () {
     }
 
     // var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos());
-    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.X)) {
-        switchPackage();
+    if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
+        if (document.mShowPackage)
+            switchPackage();
     }
 
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)) {

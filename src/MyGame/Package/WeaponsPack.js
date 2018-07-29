@@ -52,9 +52,6 @@ function WeaponsPack () {
     this.equipedWeapons = [];
     for (var k = 0; k < 4; k++) {
         this.equipedWeapons[k] = [];
-        // for (var j = 0; j < 15; j++) {
-        //      this.equipedWeapons[k][j] = null;
-        // }
     }
 
     this.currentSelectPage = 0;        // left page = 0, right page = 1;
@@ -220,6 +217,7 @@ WeaponsPack.prototype.initialize = function () {
 
 WeaponsPack.prototype.update = function () {
 
+    console.log(this.currentSelectCharacter);
     switch (this.currentSelectCharacter) {
         case 0:
             for (var i = 0; i < 5; i++) {
