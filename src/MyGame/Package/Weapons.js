@@ -1,12 +1,14 @@
 "use strict";
 
-function Weapons(name, iconFile, description) {
+function Weapons(name, iconFile, description, type) {
     this.mName = name;
-    this.mType = null;
+    this.mType = type;
     this.mIcon = new TextureRenderable(iconFile);
     this.mIcon.setColor([1, 1, 1, 0]);
     this.mIcon.getXform().setPosition(-200, -200);
     this.mDescription = description;
+
+    this.mEquipedInfo = -1;
 
     this.mNameText = new FontRenderable(name);
     this.mDescriptionText = new FontRenderable(description);
@@ -16,10 +18,9 @@ function Weapons(name, iconFile, description) {
     this.Money = 50;
 
     switch(name) {
-        case "YiTianTuLongJian" :
+        case "Swore_A1" :
             this.ATKadd = 200;
             this.Money = 3000;
-            this.Type = "Sword";
             break;
         case "" :
             break;
@@ -83,4 +84,16 @@ Weapons.prototype.getATKratio = function () {
 };
 Weapons.prototype.getDEFratio = function () {
     return (this.DEFratio);
+};
+
+Weapons.prototype.getType = function () {
+    return (this.mType);
+};
+
+Weapons.prototype.getEquipedInfo = function () {
+    return (this.mEquipedInfo);
+};
+
+Weapons.prototype.setEquipedInfo = function (a) {
+    this.mEquipedInfo = a;
 };

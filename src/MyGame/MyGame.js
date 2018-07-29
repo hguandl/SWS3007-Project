@@ -126,6 +126,11 @@ MyGame.prototype.initialize = function () {
     window.package = new Package();
     window.package.loadScene();
     window.package.initialize();
+    window.weaponsPack = new WeaponsPack();
+    window.weaponsPack.loadScene();
+    window.weaponsPack.initialize();
+
+
 
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
@@ -213,6 +218,10 @@ MyGame.prototype.draw = function () {
         this.mMyHero.getHero().draw(this.mBigCamera);
     }
 
+    if (document.mShowWeaponsPack) {
+        window.weaponsPack.draw();
+    }
+
     if (document.mShowPackage) {
         window.package.draw();
     }
@@ -239,6 +248,10 @@ MyGame.prototype.update = function () {
     this.message();
 
     window.statusBar.update();
+
+    if (document.mShowWeaponsPack) {
+        window.weaponsPack.update();
+    }
 
     // if (document.mShowPackage) {
         window.package.update();
@@ -324,6 +337,10 @@ MyGame.prototype.update = function () {
 
     // var e = null;
     var e = this.mMyMap.detectEvent(xform.getXPos(), xform.getYPos());
+    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Z)) {
+        switchWeaponsPack();
+    }
+
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.X)) {
         switchPackage();
     }
