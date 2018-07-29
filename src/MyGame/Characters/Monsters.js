@@ -4,7 +4,7 @@ function initMonsters() {
             "Name": "zhuzishan-xiyijing",
             "HP": 243,
             "VP": 99999999,
-            "ATK": 35,
+            "ATK": 56,
             "DEF": 50,
             "SPD": 30,
             "characterType": 1,
@@ -18,12 +18,12 @@ function initMonsters() {
                 }
             ]
         }),
-        "zhuzishandi-wanghun": new Character({
-            "Name": "zhuzishandi-wanghun",
+        "zhuzishanjiao-wangling": new Character({
+            "Name": "zhuzishanjiao-wangling",
             "HP": 413,
             "VP": 99999999,
-            "ATK": 40,
-            "DEF": 80,
+            "ATK": 55,
+            "DEF": 120,
             "SPD": 30,
             "characterType": 1,
             "skills": [
