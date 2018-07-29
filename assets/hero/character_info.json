@@ -18,11 +18,6 @@
                 "name": "heavy hit",
                 "VP": 65,
                 "dmgPercent": 1.43
-            },
-            {
-                "name": "Samadhi fire",
-                "VP": 88,
-                "dmgPercent": 0.47
             }
         ]
     },

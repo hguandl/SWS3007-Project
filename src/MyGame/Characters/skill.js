@@ -61,7 +61,7 @@ class FieryEyes extends Skill {
     }
 
     static getDescription() {
-        return "The eyes of Monkey King is baked by the \"Samadhi Fire\", which makes it penetrating.";
+        return "The eyes of Monkey King is baked by the \"Samadhi fire\", which makes it penetrating.";
     }
 
     getUsage() {
