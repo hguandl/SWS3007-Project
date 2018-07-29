@@ -102,11 +102,16 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc2.png");
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc3.png");
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc4.png");
+    gEngine.Textures.loadTexture("assets/NPC/zhuzishanjiao-npc1.png");
+    gEngine.Textures.loadTexture("assets/NPC/zhuzishanjiao-npc2.png");
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc5.png");
+
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc3.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishanjiao-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishanjiao-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc5.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.Textures.loadTexture(this.kPackageBg);
