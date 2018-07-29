@@ -34,7 +34,7 @@ Scene.prototype.message = function () {
             document.mMsgQueue.shift();
         }
     } else {
-        document.mEventLock = false;
+        document.mEventMutex = false;
     }
 };
 
