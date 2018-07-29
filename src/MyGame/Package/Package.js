@@ -142,15 +142,22 @@ Package.prototype.initialize = function () {
     PropsSet["Red Stone"] = new Props("Red Stone", this.kRedStone, "A red stone");
     PropsSet["Jin-Chuang-Yao"] = new Props("Jin-Chuang-Yao", this.kJinchuangyao, "Handed down from the ancestor");
 
-
-    var i;
-    for (i in PropsSet) {
-        this.addProps(PropsSet[i]);
-    }
+    // var i;
+    // for (i in PropsSet) {
+    //     this.addProps(PropsSet[i]);
+    // }
+    this.addProps(PropsSet["Queen Peach"]);
+    this.addProps(PropsSet["Nine Turn Dan"]);
+    this.addProps(PropsSet["Blood of Dragon"]);
+    this.addProps(PropsSet["Spirit of Dragon"]);
+    this.addProps(PropsSet["Ham Bone"]);
+    this.addProps(PropsSet["Glutinous Congee"]);
+    this.addProps(PropsSet["Dongpo Pork"]);
+    this.addProps(PropsSet["What's this?"]);
+    this.addProps(PropsSet["Rainbow Fruit"]);
 
     // this.addProps(ItemSet["golden_lotus"]);
 };
-
 
 var isChoosingUI = false;
 Package.prototype.draw = function () {
