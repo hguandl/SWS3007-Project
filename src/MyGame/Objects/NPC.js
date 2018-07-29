@@ -9,12 +9,10 @@ MyNPC.prototype.animate = function(_config) {
 };
 
 function MyNPC(kPic, kJson) {
-    this.mWalk = new Array();
     this.mStand = [];
     this.mAction = 0;
     this.mSpeed = 30;
     this.mJson = gEngine.ResourceMap.retrieveAsset(kJson);
-
     this.mMyNPC = null;
 
     var config = this.mJson["Down"]["Stand"];
@@ -25,26 +23,6 @@ function MyNPC(kPic, kJson) {
 
     this.mDir = "Down";
 }
-
-// MyNPC.prototype.walk = function(dir) {
-//     this.mAction = (this.mAction + 1) % this.mSpeed;
-//     var base = this.mSpeed / 3;
-//     var config = null;
-//     if (this.mAction >= 1 && this.mAction < base) {
-//         config = this.mJson[dir]["Walk"][0];
-//     }
-//     if (this.mAction >= base && this.mAction < 2 * base) {
-//         config = this.mJson[dir]["Walk"][1];
-//     }
-//     if (this.mAction >= 2 * base && this.mAction < 3 * base) {
-//         config = this.mJson[dir]["Stand"];
-//     }
-//     if (this.mAction == 0) {
-//         config = this.mJson[dir]["Stand"];
-//     }
-//     this.mDir = dir;
-//     this.animate(config);
-// };
 
 MyNPC.prototype.stand = function(dir) {
     this.mAction = 0;

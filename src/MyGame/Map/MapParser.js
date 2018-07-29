@@ -1,10 +1,5 @@
 "use scrict";
 
-
-Map.prototype.load = function(mapFile) {
-
-};
-
 Map.prototype.getCamera = function(pos, percent, viewConfig) {
     var camera = new Camera(
         vec2.fromValues(pos[0], pos[1]),
@@ -26,7 +21,7 @@ Map.prototype.reducePoint = function(x, y) {
     return this.mWidth * Math.round(this.mHeight - 0.5 - y) + Math.round(x - 0.5);
 };
 
-Map.prototype.detectEvent = function (x, y, dir) {
+Map.prototype.detectEvent = function (game, x, y, dir) {
     if (document.mEventLock) return ;
     var posPoint = this.reducePoint(x, y);
     var e = null;
@@ -67,10 +62,53 @@ Map.prototype.detectEvent = function (x, y, dir) {
         }
     }
     if (e) {
+        this.NPCDir(game, nextStepPoint, dir);
         eList[eList.length - 1]++;
         return e;
     }
     return null;
+};
+
+Map.prototype.initNPC = function() {
+    if (!this.mNPC) return [];
+    var npc = [];
+    var i;
+    for (i = 0; i < this.mNPC.length; ++i) {
+        kPic = "assets/NPC/" + this.mName + "-npc" + String(i + 1) + ".png";
+        kJson = "assets/NPC/" + this.mName + "-npc" + String(i + 1) + ".json";
+        npc.push(new MyNPC(kPic, kJson));
+    }
+    return npc;
+}
+
+function opposite(dir) {
+    switch (dir) {
+        case "Up":
+        return "Down";
+        break;
+        case "Left":
+        return "Right";
+        break;
+        case "Down":
+        return "Up";
+        break;
+        case "Right":
+        return "Left";
+        break;
+    }
+}
+
+Map.prototype.NPCDir = function(game, posPoint, dir) {
+    if (!this.mNPC) return ;
+    var idx = null;
+    var i;
+    for (i = 0; i < this.mNPC.length; ++i)
+        if (this.mNPC[i] == posPoint) {
+            idx = i;
+            break;
+        }
+    if (idx === null) return ;
+    game.mMyNPC[idx].stand(opposite(dir));
 };
 
 Map.prototype.canWalk = function(x, y, dir) {
