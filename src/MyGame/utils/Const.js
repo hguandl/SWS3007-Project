@@ -8,12 +8,7 @@ let _C = {
     skill: 2,
     change: 3,
     item: 4,
-<<<<<<< HEAD
-
-    // game status
-=======
     // game turnEndStatus
->>>>>>> dev
     waiting: 1,
     commandGiven: 2,
     displaying: 3,

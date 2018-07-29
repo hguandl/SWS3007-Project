@@ -197,7 +197,6 @@ Package.prototype.update = function () {
 
     if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Escape)) {
         switchPackage();
-        console.log("Escape released in package");
     }
 
     if (!isChoosingUI) {
