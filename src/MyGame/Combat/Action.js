@@ -1,7 +1,7 @@
 "use strict";
 
 function calDamage (attacker, defender) {
-    return attacker.mCurrentATK * (100 / (defender.mCurrentDEF +100));
+    return attacker.mCurrentATK * (100 / (defender.mCurrentDEF + 100));
 }
 
 /**
