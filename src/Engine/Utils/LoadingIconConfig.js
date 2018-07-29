@@ -62,7 +62,7 @@ var stop = function(){
      */
 var loadingUpdate = function() {
     document.getElementById("LoadingScreenBar").style.width=((levelLoadCount - gEngine.ResourceMap.getNumOutstandingLoads())/levelLoadCount)*100+"%";
-    document.getElementById("LoadingScreenBar").innerHTML = ((levelLoadCount - gEngine.ResourceMap.getNumOutstandingLoads())/levelLoadCount)*100+"%";
+    document.getElementById("LoadingScreenBar").innerHTML = Math.round(((levelLoadCount - gEngine.ResourceMap.getNumOutstandingLoads())/levelLoadCount)*100)+"%";
 };
 
 var loadCountReset = function() {

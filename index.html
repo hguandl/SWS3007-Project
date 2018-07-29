@@ -116,6 +116,7 @@
     <script type="text/javascript" src="src/MyGame/Characters/skill.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/CharacterStatus.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/SkillList.js"></script>
+    <script type="text/javascript" src="src/MyGame/Characters/Monsters.js"></script>
 
     <!-- Status -->
     <script type="text/javascript" src="src/MyGame/StatusBar.js"></script>
@@ -338,6 +339,8 @@
 
         UIButton.displayButtonGroup('default-button-group');
         gEngine.Core.initializeEngineCore('GLCanvas', document.currentScene);
+
+        initMonsters();
     };
 
     function reset() {

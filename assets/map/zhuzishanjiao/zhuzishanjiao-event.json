@@ -1,9 +1,34 @@
 {
+
+  "195": [
+  			["J",
+  				"Show", [
+  					["", "（获得物品 胡萝卜）"]
+  				]
+  			],
+  			[null,
+  				"Get", ["huluobo"]
+  			],
+  		false, 0],
+  "196": [
+  			["J",
+  				"Show", [
+  					["", "（获得物品 胡萝卜）"]
+  				]
+  			],
+  			[null,
+  				"Get", ["huluobo"]
+  			],
+  		false, 0],
   "153": [
   			["J",
 		 		"Show", [
-		 			["zhuzishanjiao-npc1", "朱紫国官员：高僧此行危险非常，小官将祖方创药赠与高僧，希望能够对高僧和高僧的高徒们有所帮助。"]
+		 			["zhuzishanjiao-npc1", "朱紫国官员：高僧此行危险非常，小官将祖方创药赠与高僧，希望能够对高僧和高僧的高徒们有所帮助。"],
+		 			["", "（获得物品 祖方创药）"]
 		 		]
+		 	],
+		 	[null,
+		 		"Get", ["zufangchuangyao"]
 		 	],
   		true, 0],
 
@@ -18,7 +43,7 @@
   "156": [
   			["J",
 		 		"Show", [
-		 			[null, "沿此路上朱紫山"]
+		 			["", "沿此路上朱紫山"]
 			 	]
 			],
 		true, 0],
@@ -26,7 +51,7 @@
   "723": [
   			["J",
 		 		"Show", [
-		 			[null, "通往火焰山山洞内"]
+		 			["", "通往火焰山山洞内"]
 		 		]
 		 	],
 		 true, 0], 
@@ -41,7 +66,7 @@
 		 	[null,
 				"Battle", ["zhuzishanjiao", "zhuzishanjiao-wangling"]
 			],
-		 	["J",
+		 	[null,
 		 		"Show", [
 		 			["zhuzishanjiao-wangling", "亡灵：.."],
 		 			["zhuzishanjiao-wangling", "亡灵：啊..原来不是火焰山里的黄风怪啊.."],
@@ -57,6 +82,9 @@
 				  	["tangseng", "唐僧：哦弥陀佛。"]
 				  ]
 		 	],
+		 	[null,
+		 		"Learn", "0", {"name": "Samadhi fire", "VP": 81, "dmgPercent": 0.47}
+            ],
 		 false, 0],
   
   "750": [[null,"Go", "huoyanshankou"], true, 0],

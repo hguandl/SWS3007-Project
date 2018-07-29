@@ -7,9 +7,9 @@
  * @param iconFile
  * @param dialogFigureFile
  * @param battleFigureFile
- * @constructor
+ * @class
  */
-function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, /*characterType, ...skills*/) {
+function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) {
     this.mName = null;
 
     /** 玩家是monster还是hero
