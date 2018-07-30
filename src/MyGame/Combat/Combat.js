@@ -119,7 +119,7 @@ function Combat(firstCharacter, monster) {
      */
     this.checkAlive = function () {
         if (this.character.mCurrentVP > this.character.mMaxVP)
-            this.appendMsg("\nYour character is tired. His damage is decreased by 35%.");
+            this.appendMsg("\n你的角色疲劳值满了，攻击力将减少" + _C.atkPunishTired + "。");
         if (this.monster.mCurrentHP <= 0 || this.character.mCurrentHP <= 0) {
             this.beforeBattleEnd();
             if (this.monster.mCurrentHP <= 0) {

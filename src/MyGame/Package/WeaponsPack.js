@@ -369,7 +369,8 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-                    weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
+                    weapon.showInfoByPos(this.kFontType, cx + 5, cy, [0.9, 0.9, 0.9, 0.9], 0.4 * this.singleW1, this.mCamera);
+                    //weapon.showInfoByPos(this.kFontType, this.firstBrickX + 1.5 * this.singleW1, this.firstBrickY - 8 * this.singleW1, [0.8, 0.8, 0.8, 0.9], 0.4 * this.singleW1, this.mCamera);
                 }
             }
         }
@@ -384,8 +385,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-                    //weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
-
+                    weapon.showInfoByPos(this.kFontType, cx + 5, cy, [0.9, 0.9, 0.9, 0.9], 0.4 * this.singleW1, this.mCamera);
                 }
             }
         }
@@ -401,7 +401,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-                    weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
+                    weapon.showInfoByPos(this.kFontType, cx - 20, cy, [0.9, 0.9, 0.9, 0.9], 0.4 * this.singleW1, this.mCamera);
                 }
             }
         }

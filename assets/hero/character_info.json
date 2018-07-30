@@ -11,7 +11,7 @@
             {
                 "name": "火眼金睛",
                 "VP": 77,
-                "defPercent": 0.45,
+                "defPercent": 0.55,
                 "turn": 6
             },
             {
@@ -26,7 +26,7 @@
         "HP": 500,
         "VP": 380,
         "ATK": 68,
-        "DEF": 132,
+        "DEF": 124,
         "SPD": 30,
         "characterType": "角色",
         "skills": [

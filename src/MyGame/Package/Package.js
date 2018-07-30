@@ -44,6 +44,7 @@ function Package () {
     this.mGapX = 0.0075 * this.width;
     this.mGapY = 0.0012 * this.width;
 
+    this.mMoneyIcon = null;
     this.mMoney = 1000;
     this.mMoneyH = 3;
     this.mMoneyColor = [0.2, 0.2, 0.2, 0.8];
@@ -116,7 +117,11 @@ Package.prototype.initialize = function () {
     this.mUIBg.setColor([1, 1, 1, 0]);
     this.mUIBg.getXform().setPosition(-200, -200);
 
-    this.mMoneyText = new FontRenderable("$ " + this.mMoney);
+    this.mMoneyIcon = new TextureRenderable(this.kMoneyIconFile);
+    this.mMoneyIcon.getXform().setPosition(this.leftX + 0.275 * this.width, this.topY - 0.185 * this.width);
+    this.mMoneyIcon.getXform().setSize(0.08 * this.width, 0.08 * this.width);
+
+    this.mMoneyText = new FontRenderable("  " + this.mMoney);
     this.mMoneyText.setFont(this.kFontType);
     this.mMoneyText.setColor(this.mMoneyColor);
     this.mMoneyText.getXform().setPosition(this.leftX + 0.27 * this.width, this.topY - 0.175 * this.width);
@@ -144,7 +149,7 @@ Package.prototype.initialize = function () {
     this.addProps(ItemSet["Dongpo Pork"]);
     this.addProps(ItemSet["What's this?"]);
 
-    this.addProps(ItemSet["golden_lotus"]);
+    //this.addProps(ItemSet["golden_lotus"]);
     //this.addProps(ItemSet["ZuFangChuangYao"]);
 };
 
@@ -158,7 +163,8 @@ Package.prototype.draw = function () {
     this.mBg.draw(this.mCamera);
 
     // show money
-    this.mMoneyText.setText("$ " + this.mMoney);
+    this.mMoneyIcon.draw(this.mCamera);
+    this.mMoneyText.setText("   " + this.mMoney);
     this.mMoneyText.draw(this.mCamera);
 
     // draw bricks and props
