@@ -231,15 +231,17 @@ WeaponsPack.prototype.initialize = function () {
     // WeaponsSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
     // WeaponsSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
 
-    ItemSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, "Super Rare!! " + "Attack+10", "Sword");
-    ItemSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, "Attack + 50,Defense + 20", "Arm");
-    ItemSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, "Very Rare! " + "Defense+100,Avoid+0.10", "Helmet");
-    ItemSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, "Defense + 200", "ArmorUp");
-    ItemSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, "Defense + 100", "ArmorDown");
-    ItemSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
-    ItemSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
+    ItemSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, ["Extremely Rare!!", "Attack + 20"], "Sword");
+    ItemSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, ["Attack + 50,Defense + 20"], "Arm");
+    ItemSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, ["Very Rare! ", "Defense+100,Avoid+0.10"], "Helmet");
+    ItemSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, ["Super Rare!", "Defense + 10"], "ArmorUp");
+    ItemSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, ["Defense + 100"], "ArmorDown");
+    ItemSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, ["Pretty Rare", "Attack + 8"], "Necklace");
+    ItemSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, ["Attack + 50, Speed + 20"], "Shoes");
 
     window.package.addProps(ItemSet["YiTian Sword"]);
+    window.package.addProps(ItemSet["Legend Armor"]);
+
     // var i;
     // for (i in WeaponsSet) {
     //     window.package.addProps(WeaponsSet[i]);                    // 全给玩家
