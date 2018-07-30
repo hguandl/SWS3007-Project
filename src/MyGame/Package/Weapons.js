@@ -118,3 +118,6 @@ Weapons.prototype.getDEFratio = function () {
     return (this.DEFratio);
 };
 // endregion
+Weapons.prototype.canUse = function () {
+    return true;
+};

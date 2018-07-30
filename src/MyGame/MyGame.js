@@ -257,23 +257,23 @@ MyGame.prototype.initialize = function () {
     if (CharacterSet.length <= 0)
         CharacterSet_Init(this.kHeroInfo);
 
-    // 战斗失败，重新开�?
+    // 战斗失败，重新开始
     if (document.mLastCombatWin === false) {
-        // 重置当前地图所有事�?
+        // 重置当前地图所有事件
         var eventList = this.mMyMap.mEvents;
-        var i;
-        for (i = 0; i < eventList.length; ++i) {
-            eventList[i][eventList[i].length - 1] = 0;
+        var ee = null;
+        for (ee in eventList) {
+            eventList[ee][eventList[ee].length - 1] = 0;
         }
 
-        // 人物状态回�?
+        // 人物状态回复
         for (i = 0; i < 3; ++i) {
             var ch = CharacterSet[i];
             ch.mCurrentHP = ch.mMaxHP;
             ch.mCurrentVP = 0;
         }
 
-        // 回到地图出生�?
+        // 回到地图出生点
         this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
     }
 };
@@ -331,6 +331,15 @@ MyGame.prototype.resetPos = function() {
     this.resume();
 };
 
+function realDirection() {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D) && gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) return null;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W) && gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) return null;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) return "Up";
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) return "Down";
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) return "Left";
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) return "Right";
+}
+
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
@@ -368,52 +377,48 @@ MyGame.prototype.update = function () {
 
     if (isMapFreezed()) return ;
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.D)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D) && realDirection() === "Right") {
         this.mMyHero.walk("Right");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
-            return ;
-        if (xform.getXPos() > this.mMyMap.mWidth - 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right");
+        canMove = canMove && xform.getXPos() <= this.mMyMap.mWidth - 0.5;
 
-        xform.incXPosBy(deltaX);
+        if (canMove)
+            xform.incXPosBy(deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.W)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W) && realDirection() === "Up") {
         this.mMyHero.walk("Up");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
-            return ;
-        if (xform.getYPos() > this.mMyMap.mHeight - 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up");
+        canMove = canMove && xform.getYPos() <= this.mMyMap.mHeight - 0.5;
 
-        xform.incYPosBy(deltaX);
+        if (canMove)
+            xform.incYPosBy(deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.S)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S) && realDirection() === "Down") {
         this.mMyHero.walk("Down");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
-            return ;
-        if (xform.getYPos() < 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down");
+        canMove = canMove && xform.getYPos() >= 0.5;
 
-        xform.incYPosBy(-deltaX);
+        if (canMove)
+            xform.incYPosBy(-deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.A)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A) && realDirection() === "Left") {
         this.mMyHero.walk("Left");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
-            return ;
-        if (xform.getXPos() < 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left");
+        canMove = canMove && xform.getXPos() >= 0.5;
 
-        xform.incXPosBy(-deltaX);
+        if (canMove)
+            xform.incXPosBy(-deltaX);
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.D)) {

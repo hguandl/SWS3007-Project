@@ -16,7 +16,7 @@ function Package () {
     this.kWhatsThis = "assets/props/whats_this_icon.png";
     this.kGoldenLotus = "assets/props/golden_lotus_icon.png";
     this.kCarrot = "assets/props/carrot.png";
-    this.kRedStone = "assets/props/red_stone.png";
+    this.kFireStone = "assets/props/red_stone.png";
     this.kJinchuangyao = "assets/props/jinchuangyao.png";
 
     this.kFontType = "assets/fonts/system-default-font";
@@ -82,7 +82,7 @@ Package.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kWhatsThis);
     gEngine.Textures.loadTexture(this.kGoldenLotus);
     gEngine.Textures.loadTexture(this.kCarrot);
-    gEngine.Textures.loadTexture(this.kRedStone);
+    gEngine.Textures.loadTexture(this.kFireStone);
     gEngine.Textures.loadTexture(this.kJinchuangyao);
 
     gEngine.Fonts.loadFont(this.kFontType);
@@ -92,7 +92,6 @@ Package.prototype.unloadScene = function () {
 
 };
 
-var PropsSet = [];
 var ItemSet = [];
 Package.prototype.initialize = function () {
     this.mCamera = new Camera(
@@ -123,29 +122,29 @@ Package.prototype.initialize = function () {
     this.mMoneyText.getXform().setPosition(this.leftX + 0.27 * this.width, this.topY - 0.175 * this.width);
     this.mMoneyText.setTextHeight(0.043 * this.width);
 
-    PropsSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
-    PropsSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
-    PropsSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
-    PropsSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
-    PropsSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
-    PropsSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
-    PropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
-    PropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
+    ItemSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
+    ItemSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
+    ItemSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
+    ItemSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
+    ItemSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
+    ItemSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
+    ItemSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
+    ItemSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
     ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it (do not use)");
     ItemSet["Carrot"] = new Props("Carrot", this.kCarrot, "Rabbit's favourite");
-    ItemSet["Red Stone"] = new Props("Red Stone", this.kRedStone, "A red stone");
+    ItemSet["Fire Stone"] = new Props("Fire Stone", this.kFireStone, "Evolve a pokemon?");
     ItemSet["ZuFangChuangYao"] = new Props("ZuFangChuangYao", this.kJinchuangyao, "Handed down from the ancestor");
 
-    this.addProps(PropsSet["Queen Peach"]);
-    this.addProps(PropsSet["Nine Turn Dan"]);
-    this.addProps(PropsSet["Blood of Dragon"]);
-    this.addProps(PropsSet["Spirit of Dragon"]);
-    this.addProps(PropsSet["Ham Bone"]);
-    this.addProps(PropsSet["Glutinous Congee"]);
-    this.addProps(PropsSet["Dongpo Pork"]);
-    this.addProps(PropsSet["What's this?"]);
+    this.addProps(ItemSet["Queen Peach"]);
+    this.addProps(ItemSet["Nine Turn Dan"]);
+    this.addProps(ItemSet["Blood of Dragon"]);
+    this.addProps(ItemSet["Spirit of Dragon"]);
+    this.addProps(ItemSet["Ham Bone"]);
+    this.addProps(ItemSet["Glutinous Congee"]);
+    this.addProps(ItemSet["Dongpo Pork"]);
+    this.addProps(ItemSet["What's this?"]);
 
-    //this.addProps(ItemSet["golden_lotus"]);
+    this.addProps(ItemSet["golden_lotus"]);
     //this.addProps(ItemSet["ZuFangChuangYao"]);
 };
 
@@ -316,10 +315,10 @@ Package.prototype.update = function () {
 
         if (gEngine.Input.isKeyReleased(gEngine.Input.keys.J)) {
             if (this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold && this.mCurrentSelected > -1) {
-
-                this.choosingUI = new PropsUsingUI(this.kUIBgFile, this.kFontType, this.mCamera);
+                var money = this.mPropsCollections[this.mCurrentSelected].getMoney();
+                var type = this.mPropsCollections[this.mCurrentSelected].getType();
+                this.choosingUI = new PropsUsingUI(this.kUIBgFile, this.kFontType, this.mCamera, money, type);
                 isChoosingUI = true;
-
                 this.tickJ = 0;
             }
         }
@@ -341,11 +340,17 @@ Package.prototype.update = function () {
             isChoosingUI = false;
         } else if (result == 4) {
             isChoosingUI = false;
-            this.sellItem(this.mCurrentSelected);
+            if (selectedItem.canUse()) {
+                this.sellItem(this.mCurrentSelected);
+            }
         } else {
             isChoosingUI = false;
             var type = selectedItem.getType();
-            if (type == "Food") {
+
+            if (type == "Mission") {
+                return ;
+            } else if (type == "Food") {
+                console.log("food");
                 this.useProps(result - 1);       // use for which character
             } else {
                 this.equipWeapon(result - 1);    // use for which character
