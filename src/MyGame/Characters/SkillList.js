@@ -15,13 +15,13 @@ class SkillList {
  * @type {{Skill}}
  */
 window.allSkills = {
-    "fiery eyes": FieryEyes,
-    "heavy hit": HeavyHit,
-    "Samadhi fire": SamadhiFire,
-    "slack sleep": SlackSleep,
-    "chant": Chant,
-    "bat strike": BatStrike,
-    "holy redemption": HolyRedemption,
+    "火眼金睛": FieryEyes,
+    "强力打击": HeavyHit,
+    "三昧真火": SamadhiFire,
+    "睡懒觉": SlackSleep,
+    "念经": Chant,
+    "锤击": BatStrike,
+    "神圣治愈": HolyRedemption,
 };
 
 /**

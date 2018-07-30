@@ -25,8 +25,8 @@ let _C = {
     percent: 1,
 
     // character type
-    Monster: "Monster",
-    Hero: "Hero",
+    Monster: "怪物",
+    Hero: "角色",
 
 };
 

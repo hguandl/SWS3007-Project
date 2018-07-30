@@ -6,16 +6,16 @@
         "ATK": 87,
         "DEF": 83,
         "SPD": 50,
-        "characterType": "Hero",
+        "characterType": "角色",
         "skills": [
             {
-                "name": "fiery eyes",
+                "name": "火眼金睛",
                 "VP": 83,
                 "defPercent": 0.5,
                 "turn": 6
             },
             {
-                "name": "heavy hit",
+                "name": "强力打击",
                 "VP": 61,
                 "dmgPercent": 1.39
             }
@@ -28,16 +28,16 @@
         "ATK": 68,
         "DEF": 132,
         "SPD": 30,
-        "characterType": "Hero",
+        "characterType": "角色",
         "skills": [
             {
-                "name": "slack sleep",
+                "name": "睡懒觉",
                 "VP": -18,
                 "HP": 25,
                 "atkPercent": 1.31
             },
             {
-                "name": "bat strike",
+                "name": "锤击",
                 "VP": 57,
                 "atkNumber": 24,
                 "defNumber": 20,
@@ -52,21 +52,16 @@
         "ATK": 53,
         "DEF": 50,
         "SPD": 40,
-        "characterType": "Hero",
+        "characterType": "角色",
         "skills": [
             {
-                "name": "chant",
+                "name": "念经",
                 "VP": 48,
-                "dmgPercent": 0.63,
+                "atkPercent": 0.63,
                 "turn": 5
             },
             {
-                "name": "heavy hit",
-                "VP": 54,
-                "dmgPercent": 1.31
-            },
-            {
-                "name": "holy redemption",
+                "name": "神圣治愈",
                 "VP": 64,
                 "HP": 44
             }

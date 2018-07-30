@@ -7,16 +7,17 @@ function initMonsters() {
             "ATK": 54,
             "DEF": 54,
             "SPD": 30,
-            "characterType": "Monster",
+            "characterType": _C.Monster,
             "skills": [
                 {
-                    "name": "bat strike",
-                    "VP": 57,
-                    "atkNumber": 50,
+                    "name": "锤击",
+                    "VP": 100,
+                    "atkNumber": 15,
                     "defNumber": 30,
                     "turn": 3
                 }
-            ]
+            ],
+            "actionPolicy": new InTurnPolicy([0, -1]),
         }),
         "zhuzishanjiao-wangling": new Character({
             "Name": "zhuzishanjiao-wangling",
@@ -25,16 +26,16 @@ function initMonsters() {
             "ATK": 39,
             "DEF": 120,
             "SPD": 30,
-            "characterType": "Monster",
+            "characterType": _C.Monster,
             "skills": [
                 {
-                    "name": "slack sleep",
+                    "name": "睡懒觉",
                     "VP": -18,
                     "HP": "25",
                     "atkPercent": 1.27
                 },
                 {
-                    "name": "bat strike",
+                    "name": "锤击",
                     "VP": 57,
                     "atkNumber": 50,
                     "defNumber": 30,
@@ -49,16 +50,16 @@ function initMonsters() {
             "ATK": 70,
             "DEF": 350,
             "SPD": 30,
-            "characterType": "Monster",
+            "characterType": _C.Monster,
             "skills": [
                 {
-                    "name": "slack sleep",
+                    "name": "睡懒觉",
                     "VP": -18,
                     "HP": "25",
                     "atkPercent": 1.27
                 },
                 {
-                    "name": "bat strike",
+                    "name": "锤击",
                     "VP": 57,
                     "atkNumber": 50,
                     "defNumber": 30,
@@ -73,16 +74,16 @@ function initMonsters() {
             "ATK": 70,
             "DEF": 250,
             "SPD": 30,
-            "characterType": "Monster",
+            "characterType": _C.Monster,
             "skills": [
                 {
-                    "name": "slack sleep",
+                    "name": "睡懒觉",
                     "VP": -18,
                     "HP": "25",
                     "atkPercent": 1.27
                 },
                 {
-                    "name": "bat strike",
+                    "name": "锤击",
                     "VP": 57,
                     "atkNumber": 50,
                     "defNumber": 30,
@@ -97,16 +98,16 @@ function initMonsters() {
             "ATK": 70,
             "DEF": 350,
             "SPD": 30,
-            "characterType": "Monster",
+            "characterType": _C.Monster,
             "skills": [
                 {
-                    "name": "slack sleep",
+                    "name": "睡懒觉",
                     "VP": -18,
                     "HP": "25",
                     "atkPercent": 1.27
                 },
                 {
-                    "name": "bat strike",
+                    "name": "锤击",
                     "VP": 57,
                     "atkNumber": 50,
                     "defNumber": 30,
