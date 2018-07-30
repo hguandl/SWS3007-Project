@@ -116,6 +116,7 @@
     <script type="text/javascript" src="src/MyGame/Characters/skill.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/CharacterStatus.js"></script>
     <script type="text/javascript" src="src/MyGame/Characters/SkillList.js"></script>
+    <script type="text/javascript" src="src/MyGame/Characters/Monsters.js"></script>
 
     <!-- Status -->
     <script type="text/javascript" src="src/MyGame/StatusBar.js"></script>
@@ -177,16 +178,58 @@
         <button id="small-map-button" class="button button-parchment button-rounded"
                 onclick="switchBigMap()">Big Map (M)
         </button>
+        <button id="settings" class="button button-parchment button-rounded"
+                onclick="
+                    const speed = parseFloat(prompt('enter combat animation time in seconds.', _C.combatSpeed / 10));
+                    if (!speed || speed <= 0)
+                        alert('speed must be positive number');
+                    else
+                        _C.combatSpeed = speed * 10;
+                ">Set combat speed
+        </button>
 
         <!--test button-->
-        <button id="set-point-button1" class="button button-parchment button-rounded"
+        <!-- <button id="set-point-button1" class="button button-parchment button-rounded"
                 onclick="setPoint(352);">
+            pass0
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(987);
+                ">
             test1
         </button>
         <button id="set-point-button2" class="button button-parchment button-rounded"
-                onclick="setPoint(987);">
-            tes2
+                onclick="
+                    window.package.addProps(ItemSet['golden_lotus']);
+                    setPoint(1160);
+                ">
+            pass1
         </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(620);
+                ">
+            test2
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(750);
+                ">
+            pass2
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(51);
+                ">
+            test3
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    document.currentScene.closeMsg();
+                ">
+            end talk
+        </button> -->
     </div>
 
     <div id="combat-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
@@ -318,7 +361,7 @@
 <script type="text/javascript">
     document.body.onload = function () {
         document.mSceneSet = [];
-        document.currentScene = new Splash();
+        document.currentScene = new Splash("splash", "wanggong");
 
         window.statusBar = new StatusBar();
         window.package = null;
@@ -331,13 +374,15 @@
         document.mShowBigMap = false;
         document.mShowSmallMap = true;
         document.mShowMsgBox = false;
-        document.mLastCombatWin = false;
-        document.mEventQueue = [];
+        document.mLastCombatWin = null;
         document.mMsgQueue = [];
         document.mEventMutex = false;
 
         UIButton.displayButtonGroup('default-button-group');
         gEngine.Core.initializeEngineCore('GLCanvas', document.currentScene);
+
+        initMonsters();
+        window.combatScene = new Combat(CharacterSet[0], "huoyanshankou-xiaozu");
     };
 
     function reset() {
@@ -349,7 +394,8 @@
     }
 
     function getScene(scene) {
-        document.mSceneSet[scene] = document.mSceneSet[scene] || new MyGame(scene);
+        if (!document.mSceneSet[scene])
+            document.mSceneSet[scene] = new MyGame(scene);
         return document.mSceneSet[scene];
     }
 

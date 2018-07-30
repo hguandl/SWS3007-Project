@@ -27,9 +27,10 @@ GameEvents.handle = function (e, game) {
         }
         break;
 
+        // TO DO 改battle
         case "Battle":
         return function(game) {
-            enterCombat(game, CharacterSet[0], CharacterSet[1], "zhuzishan");
+            enterCombat(game, CharacterSet[0], e[2][1], e[2][0]);
         }
 
         case "Get":
@@ -81,9 +82,18 @@ GameEvents.handle = function (e, game) {
         break;
 
         case "Skip":
-        return function(game) { }
+        return function(game) {
+            document.mEventMutex = false;
+        }
         break;
 
+        case "EndGame":
+        return function(game) {
+            document.currentScene = new Splash("ending", null);
+            document.mEventMutex = false;
+            gEngine.GameLoop.stop();
+        }
+        break;
         default:
         return null;
     }

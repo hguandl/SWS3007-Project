@@ -1,72 +1,74 @@
 [
     {
         "Name": "Monkey King",
-        "HP": 1000,
-        "VP": 1000,
-        "ATK": 200,
-        "DEF": 100,
+        "HP": 400,
+        "VP": 600,
+        "ATK": 87,
+        "DEF": 83,
         "SPD": 50,
-        "characterType": 1,
+        "characterType": "Hero",
         "skills": [
             {
                 "name": "fiery eyes",
-                "VP": 90,
+                "VP": 83,
                 "defPercent": 0.5,
                 "turn": 6
             },
             {
                 "name": "heavy hit",
-                "VP": 65,
-                "dmgPercent": 1.43
-            },
-            {
-                "name": "Samadhi fire",
-                "VP": 81,
-                "dmgPercent": 0.47
+                "VP": 61,
+                "dmgPercent": 1.39
             }
         ]
     },
     {
         "Name": "The Pigsy",
-        "HP": 1500,
-        "VP": 500,
-        "ATK": 80,
-        "DEF": 200,
+        "HP": 500,
+        "VP": 400,
+        "ATK": 68,
+        "DEF": 132,
         "SPD": 30,
-        "characterType": 1,
+        "characterType": "Hero",
         "skills": [
             {
                 "name": "slack sleep",
-                "VP": -23,
-                "HP": "23",
-                "atkPercent": 1.30
+                "VP": -18,
+                "HP": "25",
+                "atkPercent": 1.31
             },
             {
-                "name": "heavy hit",
+                "name": "bat strike",
                 "VP": 57,
-                "dmgPercent": 1.31
+                "atkNumber": 24,
+                "defNumber": 20,
+                "turn": 3
             }
         ]
     },
     {
         "Name": "Monk Tang",
-        "HP": 1250,
-        "VP": 750,
-        "ATK": 150,
-        "DEF": 150,
+        "HP": 350,
+        "VP": 700,
+        "ATK": 53,
+        "DEF": 50,
         "SPD": 40,
-        "characterType": 1,
+        "characterType": "Hero",
         "skills": [
             {
                 "name": "chant",
-                "VP": 26,
-                "dmgPercent": 0.51,
-                "turn": 3
+                "VP": 48,
+                "dmgPercent": 0.63,
+                "turn": 5
             },
             {
                 "name": "heavy hit",
-                "VP": 59,
-                "dmgPercent": 1.33
+                "VP": 54,
+                "dmgPercent": 1.31
+            },
+            {
+                "name": "holy redemption",
+                "VP": 64,
+                "HP": 44
             }
         ]
     }

@@ -46,10 +46,16 @@ function MyGame(mapName) {
     this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
 
     this.kMapFile["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-dat.json";
-    this.kMapEvents["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event.json";;
+    this.kMapEvents["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event.json";
     this.kMapBkg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-bkg.png";
     this.kMapFrg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-frg.png";
     this.kBGM["huoyanshankou"] = "assets/bgm/huoyanshankou-walk.mp3";
+
+    this.kMapFile["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-dat.json";
+    this.kMapEvents["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-event.json";
+    this.kMapBkg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-bkg.png";
+    this.kMapFrg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-frg.png";
+    this.kBGM["huoyanshandi"] = "assets/bgm/huoyanshandi-walk.mp3";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
@@ -103,12 +109,33 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc2.png");
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc3.png");
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc4.png");
+    gEngine.Textures.loadTexture("assets/NPC/zhuzishanjiao-npc1.png");
+    gEngine.Textures.loadTexture("assets/NPC/zhuzishanjiao-npc2.png");
     gEngine.Textures.loadTexture("assets/NPC/zhuzishan-npc5.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshankou-npc1.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshankou-npc2.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshankou-npc3.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc1.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc2.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc3.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc4.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc5.png");
+
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc3.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishanjiao-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishanjiao-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc5.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshankou-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshankou-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshankou-npc3.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc3.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc5.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.Textures.loadTexture(this.kPackageBg);
     gEngine.Textures.loadTexture(this.kPackageBrick);
@@ -139,8 +166,9 @@ MyGame.prototype.unloadScene = function () {
 
     if (this.nextScene) {
         document.currentScene = this.nextScene;
-        gEngine.Core.startScene(this.nextScene);
     }
+
+    gEngine.Core.startScene(document.currentScene);
 };
 
 MyGame.prototype.initialize = function () {
@@ -194,8 +222,6 @@ MyGame.prototype.initialize = function () {
     gEngine.LayerManager.cleanUp();
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMapBkg);
 
-    // console.log(this.mMyNPC);
-
     var i;
     for (i = 0; i < this.mMyNPC.length; ++i)
         gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mMyNPC[i].getNPC());
@@ -227,20 +253,28 @@ MyGame.prototype.initialize = function () {
                                                  [820, 450, 150, 150]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
-    if (window.combatScene) {
-        switch (window.combatScene.combatResult) {
-            case "win":
-                this.startMsg = 1;
-                break;
-            case "lose":
-                this.startMsg = 2;
-                break;
-        }
-        return;
-    }
-
     if (CharacterSet.length <= 0)
         CharacterSet_Init(this.kHeroInfo);
+
+    // 战斗失败，重新开始
+    if (document.mLastCombatWin === false) {
+        // 重置当前地图所有事件
+        var eventList = this.mMyMap.mEvents;
+        var i;
+        for (i = 0; i < eventList.length; ++i) {
+            eventList[i][eventList[i].length - 1] = 0;
+        }
+
+        // 人物状态回复
+        for (i = 0; i < 3; ++i) {
+            var ch = CharacterSet[i];
+            ch.mCurrentHP = ch.mMaxHP;
+            ch.mCurrentVP = 0;
+        }
+
+        // 回到地图出生点
+        this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
+    }
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more

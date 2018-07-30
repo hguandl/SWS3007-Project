@@ -4,7 +4,7 @@
  * Call this function to turn into combat scene.
  * @class
  * @param firstCharacter: 第一个出场的人物，请在每次调用该场景前修改该变量。
- * @param monster: 出场的怪物，请在每次调用该场景前修改该变量。
+ * @param monster {string}: 出场的怪物的名字，请在每次调用该场景前修改该变量。
  * @property displaying {boolean} : 是否正在显示战斗动画。设置为true会自动使得按钮不能使用，设置为false时按钮又可以使用了。
  */
 function Combat(firstCharacter, monster) {
@@ -43,13 +43,14 @@ function Combat(firstCharacter, monster) {
     /** @type Character */
     this.firstCharacter = firstCharacter;
     /** @type Character */
-    this.monster = monster;
+    console.debug(monster);
+    this.monster = window.Monsters[monster];
     this.monsterHPBar = null;
 
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/zhuzishan/battle.png";
     this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
-    this.monster.spriteURL = "assets/hero/fight/monster.png";
+    this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
     this.monster.HPBar = "";
 
     /**  @type Camera  */
@@ -85,9 +86,6 @@ function Combat(firstCharacter, monster) {
         this.displayAction(enemyTurn, this);
 
         function enemyTurn(combat) {
-            console.debug(combat.character.computeTurnEndStatus);
-            console.debug(combat.monster.computeTurnEndStatus);
-
             combat.character.computeTurnEndStatus(true);
             combat.monster.computeTurnEndStatus(false);
 
@@ -102,16 +100,15 @@ function Combat(firstCharacter, monster) {
         }
 
         function endTurn(combat) {
-            console.debug(combat.character.computeTurnEndStatus);
-            console.debug(combat.monster.computeTurnEndStatus);
             combat.character.computeTurnEndStatus(false);
             combat.monster.computeTurnEndStatus(true);
+
             if (!combat.checkAlive())
                 return;
 
             let i;
-            for (i=0; i<3; i++) {
-                if (CharacterSet[i].mName !== this.character.mName)
+            for (i = 0; i < 3; i++) {
+                if (CharacterSet[i].mName !== combat.character.mName)
                     CharacterSet[i].mCurrentVP -= _C.turnRecoverVP;
             }
         }
@@ -174,13 +171,16 @@ function Combat(firstCharacter, monster) {
 
     this.takeSkillAction = function () {
         this.status = _C.displaying;
+        console.debug("status1");
         this._action.param.skill.useSkill(this._action.param.user, this._action.param.aim);
     };
 
     this.takeAttackAction = function () {
         // add VP to attacker
         this.status = _C.displaying;
-        if (this._action.param.attacker.charaterType === _C.Hero) {
+        console.debug("status1");
+        if (this._action.param.attacker.characterType === _C.Hero) {
+            console.debug("Add VP");
             this._action.param.attacker.mCurrentVP += _C.attackVP;
 
         }
@@ -226,18 +226,24 @@ function Combat(firstCharacter, monster) {
         UIButton.displayButtonGroup("combat-button-group");
     };
 
-    this.updateMonsterHP = function() {
+    this.updateMonsterHP = function () {
 
     };
+
+    this.setMonsterByName = function (name) {
+        this.monster = Monsters[name];
+    }
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
 
 Combat.prototype.loadScene = function () {
+    document.currentScene = this;
     ALL_SPRITE_TEXTURE.forEach(value => {
         gEngine.Textures.loadTexture(value);
     });
     gEngine.Textures.loadTexture(this.kBackground);
+    gEngine.Textures.loadTexture(this.monster.spriteURL);
     gEngine.AudioClips.loadAudio(this.kBGM);
 
     UIButton.displayButtonGroup("combat-button-group");
@@ -249,6 +255,7 @@ Combat.prototype.unloadScene = function () {
     });
     gEngine.AudioClips.stopBackgroundAudio();
     gEngine.AudioClips.unloadAudio(this.kBGM[this.mMapName]);
+    gEngine.Textures.loadTexture(this.monster.spriteURL);
     gEngine.Textures.unloadTexture(this.kBackground);
     // 回到大地图
     this.closeMsg(true);
@@ -259,6 +266,8 @@ Combat.prototype.unloadScene = function () {
 
 Combat.prototype.initialize = function () {
     gEngine.AudioClips.playBackgroundAudio(this.kBGM);
+
+    this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
 
     this.camera = new Camera(
         vec2.fromValues(0, 0),
@@ -350,13 +359,16 @@ Combat.prototype.update = function () {
  * @param sceneName {string} 场景名，例如："zhuzishan", "wanggong"
  */
 function enterCombat(game, firstCharacter, monster, sceneName) {
-    if (!window.combatScene)
-        window.combatScene = new Combat(firstCharacter, monster);
-    else {
-        window.combatScene.firstCharacter = firstCharacter;
-        window.combatScene.monster = monster;
-    }
+    console.assert(game);
+    console.assert(firstCharacter);
+    console.assert(monster);
+    console.assert(sceneName);
+
+    window.combatScene.firstCharacter = firstCharacter;
+    window.combatScene.setMonsterByName(monster);
     window.combatScene.kBackground = "assets/map/" + sceneName + "/battle.png";
+
+    window.combatScene.monster.spriteURL = "assets/monster/fight/" + monster + ".png";
     game.nextScene = window.combatScene;
     game.nextScene.nextScene = game;
     gEngine.GameLoop.stop();

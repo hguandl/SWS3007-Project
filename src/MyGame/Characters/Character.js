@@ -7,15 +7,15 @@
  * @param iconFile
  * @param dialogFigureFile
  * @param battleFigureFile
- * @constructor
+ * @class
  */
-function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, /*characterType, ...skills*/) {
+function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) {
     this.mName = null;
 
     /** 玩家是monster还是hero
      * @type {number} : Monster - 0,  Hero - 1.
      */
-    this.charaterType = characterInfo["characterType"];
+    this.characterType = characterInfo["characterType"];
     if (typeof this.characterType !== "number")
         this.characterType = _C.Hero;
     /**  @type {CharacterStatus[]} - 玩家状态  */

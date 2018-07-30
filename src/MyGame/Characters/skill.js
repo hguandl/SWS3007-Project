@@ -21,6 +21,7 @@ class Skill {
 
     useSkill(user, ...args) {
         user.mCurrentVP += this.VP;
+        document.currentScene.showMsg(user.characterType + " use " + this.name + ".");
     }
 
     /**
@@ -60,7 +61,7 @@ class FieryEyes extends Skill {
     }
 
     static getDescription() {
-        return "The eyes of Monkey King is baked by the \"Samadhi Fire\", which makes it penetrating.";
+        return "The eyes of Monkey King is baked by the \"Samadhi fire\", which makes it penetrating.";
     }
 
     getUsage() {
@@ -75,8 +76,8 @@ class FieryEyes extends Skill {
      */
     useSkill(user, aim) {
         super.useSkill(user);
+        // window.combatScene.showMsg(user.characterType + " use FieryEyes.");
         aim.turnEndStatus.push(new BuffStatus("DEF", this.turn, this.defPercent, _C.percent));
-        window.combatScene.showMsg(user.characterType + " use FieryEyes.");
     }
 
     static parse(skillInfo) {
@@ -105,7 +106,7 @@ class HeavyHit extends Skill {
     useSkill(user, aim) {
         super.useSkill(user);
         const damage = aim.randChangeHP(-calDamage(user, aim) * this.dmgPercent);
-        window.combatScene.showMsg(user.characterType + " use HeavyHit. Damage: " + damage);
+        window.combatScene.appendMsg(" Damage: " + damage);
     }
 
     static parse(skillInfo) {
@@ -135,7 +136,7 @@ class SamadhiFire extends Skill {
     useSkill(user, aim) {
         super.useSkill(user);
         const damage = aim.randChangeHP(-user.mCurrentATK * this.dmgPercent);
-        window.combatScene.showMsg(user.characterType + " use SamadhiFire. Damage: " + damage);
+        window.combatScene.appendMsg(" Damage: " + damage);
     }
 
     static parse(skillInfo) {
@@ -166,12 +167,12 @@ class SlackSleep extends Skill {
         super.useSkill(user);
         user.mCurrentHP += this.HP;
         user.status.push(new BuffStatus("ATK", 2, this.atkPercent, _C.percent));
-        window.combatScene.showMsg(user.characterType + " use SlackSleep. Recovered HP: "+ this.HP);
+        window.combatScene.appendMsg(" Recovered HP: " + this.HP);
     }
 
     static parse(skillInfo) {
         assertHasProperties(skillInfo, "VP", "HP", "atkPercent");
-        return new SlackSleep(skillInfo["VP"], skillInfo["HP"],  skillInfo["atkPercent"]);
+        return new SlackSleep(skillInfo["VP"], skillInfo["HP"], skillInfo["atkPercent"]);
     }
 }
 
@@ -196,11 +197,69 @@ class Chant extends Skill {
     useSkill(user, aim) {
         super.useSkill(user);
         aim.status.push(new BuffStatus("ATK", this.turn, this.atkPercent, _C.percent));
-        window.combatScene.showMsg(user.characterType + " use Chant.");
     }
 
     static parse(skillInfo) {
         assertHasProperties(skillInfo, "VP", "turn", "atkPercent");
         return new Chant(skillInfo["VP"], skillInfo["atkPercent"], skillInfo["turn"]);
+    }
+}
+
+/**
+ * 棒击。造成固定的额外伤害，并且略微降低防御力。（注意防御力属性应该为负数。
+ */
+class BatStrike extends Skill {
+    constructor(VP, atkNumber, defNumber, turn) {
+        super("bat strike", VP);
+        this.turn = turn;
+        this.atkNumber = atkNumber;
+        this.defNumber = defNumber;
+    }
+
+    static getDescription() {
+        return "Strick with a bat.";
+    }
+
+    getUsage() {
+        return formatString("Deal %0 more damage and change the defense of enemy by %1 in %2 turn.\n", this.atkNumber, this.defNumber, this.defNumber) + super.getUsage();
+    }
+
+    useSkill(user, aim) {
+        super.useSkill(user);
+        const damage = aim.randChangeHP(-calDamage(user, aim) - _damageFoumula(this.atkNumber, aim.mCurrentDEF));
+        window.combatScene.appendMsg(" Damage: " + damage);
+        aim.status.push(new BuffStatus("DEF", this.turn, this.defNumber, _C.numeric));
+    }
+
+    static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "turn", "atkNumber", "defNumber");
+        return new BatStrike(skillInfo["VP"], skillInfo["atkNumber"], skillInfo["defNumber"], skillInfo["turn"]);
+    }
+}
+
+class HolyRedemption extends Skill {
+    constructor(VP, HP) {
+        super("bat strike", VP);
+        this.HP = HP;
+    }
+
+    static getDescription() {
+        return "Strick with a bat.";
+    }
+
+    getUsage() {
+        return formatString("Recover %0 HP of 3 characters.\n", this.HP) + super.getUsage();
+    }
+
+    useSkill(user) {
+        super.useSkill(user);
+        let i;
+        for (i=0; i<3; i++)
+            CharacterSet[i].mCurrentHP += this.HP;
+    }
+
+    static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "HP");
+        return new HolyRedemption(skillInfo["VP"], skillInfo["HP"]);
     }
 }

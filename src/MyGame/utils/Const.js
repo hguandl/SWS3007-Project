@@ -11,11 +11,11 @@ let _C = {
     change: 3,
     item: 4,
 
-    // game turnEndStatus
+    // game status
     waiting: 1,
     commandGiven: 2,
     displaying: 3,
-    // character turnEndStatus
+    // character status
     BuffStatus: 1,
     changeHP: 2,
     changeVP: 3,
@@ -29,7 +29,7 @@ let _C = {
     Hero: "Hero",
 
 };
-// a1c45a
+
 const TURN = {
     monster: 0,
     hero: 1
@@ -38,6 +38,5 @@ const TURN = {
 const ALL_SPRITE_TEXTURE = [
     "assets/hero/fight/Monk Tang.png",
     "assets/hero/fight/Monkey King.png",
-    "assets/hero/fight/monster.png",
     "assets/hero/fight/The Pigsy.png",
 ];

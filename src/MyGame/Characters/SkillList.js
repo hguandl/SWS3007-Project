@@ -20,6 +20,8 @@ window.allSkills = {
     "Samadhi fire": SamadhiFire,
     "slack sleep": SlackSleep,
     "chant": Chant,
+    "bat strike": BatStrike,
+    "holy redemption": HolyRedemption,
 };
 
 /**
