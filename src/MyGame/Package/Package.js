@@ -144,7 +144,7 @@ Package.prototype.initialize = function () {
     this.addProps(ItemSet["Nine Turn Dan"]);
     this.addProps(ItemSet["Blood of Dragon"]);
     this.addProps(ItemSet["Spirit of Dragon"]);
-    this.addProps(ItemSet["Ham Bone"]);
+    // this.addProps(ItemSet["Ham Bone"]);
     this.addProps(ItemSet["Glutinous Congee"]);
     this.addProps(ItemSet["Dongpo Pork"]);
     this.addProps(ItemSet["What's this?"]);
