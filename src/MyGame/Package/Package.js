@@ -144,7 +144,7 @@ Package.prototype.initialize = function () {
     this.addProps(ItemSet["Dongpo Pork"]);
     this.addProps(ItemSet["What's this?"]);
 
-    //this.addProps(ItemSet["golden_lotus"]);
+    this.addProps(ItemSet["golden_lotus"]);
     //this.addProps(ItemSet["ZuFangChuangYao"]);
 };
 
@@ -317,8 +317,6 @@ Package.prototype.update = function () {
             if (this.mCurrentSelected < this.mPropsCollections.length && this.tickJ >= this.tickThreshold && this.mCurrentSelected > -1) {
                 var money = this.mPropsCollections[this.mCurrentSelected].getMoney();
                 var type = this.mPropsCollections[this.mCurrentSelected].getType();
-                console.log(money);
-                console.log(type);
                 this.choosingUI = new PropsUsingUI(this.kUIBgFile, this.kFontType, this.mCamera, money, type);
                 isChoosingUI = true;
                 this.tickJ = 0;

@@ -56,6 +56,7 @@ function Props(name, iconFile, description) {
         case "Golden Lotus" :
             this.mCanUse = false;
             this.mType = "Mission";
+            this.Money = 10000;
             break;
     }
 }

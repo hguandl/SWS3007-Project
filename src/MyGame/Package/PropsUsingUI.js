@@ -31,7 +31,11 @@ PropsUsingUI.prototype.draw = function (aCamera, leftX, topY, width) {
 
     var textH = 0.028 * width;
 
-    if (this.mType == "Food") {
+    if (this.mType == "Mission") {
+        this.mText[0] = new FontRenderable("This is a mission props");
+        this.mText[1] = new FontRenderable("it can't be used");
+        this.mText[2] = new FontRenderable("and sold");
+    } else if (this.mType == "Food") {
         this.mText[0] = new FontRenderable("Use on Mont's Tang");
         this.mText[1] = new FontRenderable("Use on Monkey King");
         this.mText[2] = new FontRenderable("Use on Pigsy");
