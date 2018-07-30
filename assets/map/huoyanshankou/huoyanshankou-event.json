@@ -41,7 +41,7 @@
 			false, 0],
 
 	"xiaozu_lose": [
-						[null, "Show", [
+						["J", "Show", [
 							["huoyanshankou-xiaozu", "山口小喽啰：我们二大王不会让你们活着出去的..."]
 						]],
 					true, 0],
