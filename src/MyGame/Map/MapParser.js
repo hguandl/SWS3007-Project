@@ -22,6 +22,7 @@ Map.prototype.reducePoint = function(x, y) {
 };
 
 Map.prototype.detectEvent = function (game, x, y, dir) {
+    game.mShowHintIcon = false;
     if (document.mEventMutex) return ;
     var posPoint = this.reducePoint(x, y);
     var e = null;
@@ -60,6 +61,7 @@ Map.prototype.detectEvent = function (game, x, y, dir) {
             flag = (eList);
         }
         if (flag) {
+            game.mShowHintIcon = true;
             e = GameEvents.handle(eList[eList[eList.length - 1]]);
 
         }

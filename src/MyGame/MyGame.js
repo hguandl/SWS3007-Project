@@ -21,6 +21,8 @@ function MyGame(mapName) {
 
     this.kHeroInfo = "assets/hero/character_info.json";
 
+    this.kHintIcon = "assets/hint.png";
+
     this.kMapFile = [];
     this.kMapEvents = [];
     this.kMapEventIndex = [];
@@ -79,6 +81,7 @@ function MyGame(mapName) {
 
     this.mCamera = null;
     this.mSmallCamera = null;
+    this.mShowHintIcon = false;
 
     this.mMainView = null;
 
@@ -140,6 +143,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc5.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
+    gEngine.Textures.loadTexture(this.kHintIcon);
     gEngine.Textures.loadTexture(this.kPackageBg);
     gEngine.Textures.loadTexture(this.kPackageBrick);
     gEngine.Textures.loadTexture(this.kPackageUIBg);
@@ -191,6 +195,8 @@ MyGame.prototype.initialize = function () {
         window.weaponsPack.initialize();
     }
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
+    this.mHintIcon = new TextureRenderable(this.kHintIcon);
+    this.mHintIcon.getXform().setSize(0.55, 0.55);
 
     this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName], this.kMapEventIndex[this.mMapName]);
 
@@ -282,6 +288,10 @@ MyGame.prototype.draw = function () {
 
     gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
 
+    if (this.mShowHintIcon) {
+        this.mHintIcon.draw(this.mMainView.getCam());
+    }
+
     if (document.mShowSmallMap) {
         this.mSmallCamera.setupViewProjection();
         var i;
@@ -339,6 +349,8 @@ MyGame.prototype.update = function () {
     var xform = this.mMyHero.getHero().getXform();
 
     this.currentPos = [xform.getXPos(), xform.getYPos(), this.mMyHero.getDir()];
+
+    this.mHintIcon.getXform().setPosition(xform.getXPos(), xform.getYPos() + 0.5);
 
     this.moveCamera(xform);
 
