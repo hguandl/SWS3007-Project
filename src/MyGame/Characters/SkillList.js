@@ -22,6 +22,7 @@ window.allSkills = {
     "念经": Chant,
     "锤击": BatStrike,
     "神圣治愈": HolyRedemption,
+    "撕咬": Bite,
 };
 
 /**

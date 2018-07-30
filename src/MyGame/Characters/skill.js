@@ -275,17 +275,17 @@ class Bite extends Skill {
     }
 
     getUsage() {
-        return formatString("造成 %0 伤害.\n", this.dmg) + super.getUsage();
+        return formatString("造成额外的 %0 伤害，并且该额外伤害无视防御。\n", this.dmg) + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
-        aim.mCurrentHP -= this.dmg;
+        const damage = aim.randChangeHP(-calDamage(user, aim) + this.dmg);
         window.combatScene.appendMsg(" 伤害: " + damage);
     }
 
     static parse(skillInfo) {
         assertHasProperties(skillInfo, "VP", "dmg");
-        return new HolyRedemption(skillInfo["VP"], skillInfo["dmg"]);
+        return new Bite(skillInfo["VP"], skillInfo["dmg"]);
     }
 }
