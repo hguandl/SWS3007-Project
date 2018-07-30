@@ -7,7 +7,7 @@ function initMonsters() {
             "ATK": 54,
             "DEF": 54,
             "SPD": 30,
-            "characterType": 1,
+            "characterType": "Monster",
             "skills": [
                 {
                     "name": "bat strike",
@@ -25,7 +25,7 @@ function initMonsters() {
             "ATK": 39,
             "DEF": 120,
             "SPD": 30,
-            "characterType": 1,
+            "characterType": "Monster",
             "skills": [
                 {
                     "name": "slack sleep",
@@ -49,7 +49,55 @@ function initMonsters() {
             "ATK": 70,
             "DEF": 350,
             "SPD": 30,
-            "characterType": 1,
+            "characterType": "Monster",
+            "skills": [
+                {
+                    "name": "slack sleep",
+                    "VP": -18,
+                    "HP": "25",
+                    "atkPercent": 1.27
+                },
+                {
+                    "name": "bat strike",
+                    "VP": 57,
+                    "atkNumber": 50,
+                    "defNumber": 30,
+                    "turn": 3,
+                }
+            ]
+        }),
+        "huoyanshandi-xiaozu": new Character({
+            "Name": "huoyanshandi-xiaozu",
+            "HP": 140,
+            "VP": 99999999,
+            "ATK": 70,
+            "DEF": 250,
+            "SPD": 30,
+            "characterType": "Monster",
+            "skills": [
+                {
+                    "name": "slack sleep",
+                    "VP": -18,
+                    "HP": "25",
+                    "atkPercent": 1.27
+                },
+                {
+                    "name": "bat strike",
+                    "VP": 57,
+                    "atkNumber": 50,
+                    "defNumber": 30,
+                    "turn": 3,
+                }
+            ]
+        }),
+        "huoyanshandi-heifengguai": new Character({
+            "Name": "huoyanshandi-heifengguai",
+            "HP": 220,
+            "VP": 99999999,
+            "ATK": 70,
+            "DEF": 350,
+            "SPD": 30,
+            "characterType": "Monster",
             "skills": [
                 {
                     "name": "slack sleep",

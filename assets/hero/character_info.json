@@ -33,7 +33,7 @@
             {
                 "name": "slack sleep",
                 "VP": -18,
-                "HP": "25",
+                "HP": 25,
                 "atkPercent": 1.31
             },
             {

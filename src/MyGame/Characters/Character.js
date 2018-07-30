@@ -36,8 +36,34 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) 
 
     this.spriteURL = "assets/hero/fight/" + this.mName + ".png";
 
-    this.mMaxHP = this.mCurrentHP = characterInfo["HP"];
-    this.mMaxVP = characterInfo["VP"];
+    this.mMaxHP = characterInfo["HP"];
+
+    Object.defineProperties(this, {
+        mCurrentHP: {
+            get: function() {
+                return this._mCurrentHP;
+            },
+            set: function (v) {
+                if (v < 0)
+                    v = 0;
+                if (v > this.mMaxHP)
+                    v = this.mMaxHP;
+                this._mCurrentHP = v;
+            }
+        },
+        mCurrentVP: {
+            set: function (v) {
+                if (v < 0)
+                    v = 0;
+                this._mCurrentVP = v;
+            },
+            get: function () {
+                return this._mCurrentVP;
+            }
+        }
+    });
+
+    this.mMaxVP = this.mCurrentHP = characterInfo["VP"];
     this.mCurrentVP = 0;
     this.mATK = this.mCurrentATK = characterInfo["ATK"];
     this.mDEF = this.mCurrentDEF = characterInfo["DEF"];

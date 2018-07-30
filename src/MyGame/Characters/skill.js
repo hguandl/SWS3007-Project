@@ -244,7 +244,7 @@ class HolyRedemption extends Skill {
     }
 
     static getDescription() {
-        return "Strick with a bat.";
+        return "Holy Redemption.";
     }
 
     getUsage() {
