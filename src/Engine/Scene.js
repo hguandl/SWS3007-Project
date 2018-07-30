@@ -24,7 +24,7 @@ Scene.prototype.message = function () {
             document.getElementById('info_face').src = "assets/blank.png";
         else
             document.getElementById('info_face').src = "assets/face/" + document.mMsgQueue[0][0] + ".png";
-        document.getElementById('info_text').innerText = document.mMsgQueue[0][1];
+        document.getElementById('info_text').innerHTML = document.mMsgQueue[0][1];
         document.mShowMsgBox = true;
 
         if (gEngine.Input.isKeyReleased(gEngine.Input.keys.K)) {

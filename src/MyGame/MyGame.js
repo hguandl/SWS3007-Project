@@ -46,12 +46,14 @@ function MyGame(mapName) {
 
     this.kMapFile["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-dat.json";
     this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";
+    this.kMapEventIndex["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event-index.json";
     this.kMapBkg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-bkg.png";
     this.kMapFrg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-frg.png";
     this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
 
     this.kMapFile["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-dat.json";
     this.kMapEvents["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event.json";
+    this.kMapEventIndex["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event-index.json";
     this.kMapBkg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-bkg.png";
     this.kMapFrg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-frg.png";
     this.kBGM["huoyanshankou"] = "assets/bgm/huoyanshankou-walk.mp3";
