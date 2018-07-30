@@ -1,7 +1,7 @@
 let _C = {
     gameViewport: [0, 0, 970, 600],       // viewport (orgX, orgY, width, height)
     attackVP: 25,
-    turnRecoverVP: 37,
+    turnRecoverVP: 32,
     combatSpeed: 6.5,
     HPColor: [252 / 255, 60 / 255, 60 / 255, 1],
     // action
@@ -25,8 +25,8 @@ let _C = {
     percent: 1,
 
     // character type
-    Monster: "Monster",
-    Hero: "Hero",
+    Monster: "怪物",
+    Hero: "角色",
 
 };
 

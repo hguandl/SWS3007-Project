@@ -2,45 +2,45 @@
     {
         "Name": "Monkey King",
         "HP": 400,
-        "VP": 600,
+        "VP": 480,
         "ATK": 87,
-        "DEF": 83,
+        "DEF": 90,
         "SPD": 50,
-        "characterType": "Hero",
+        "characterType": "角色",
         "skills": [
             {
-                "name": "fiery eyes",
-                "VP": 83,
-                "defPercent": 0.5,
+                "name": "火眼金睛",
+                "VP": 77,
+                "defPercent": 0.45,
                 "turn": 6
             },
             {
-                "name": "heavy hit",
-                "VP": 61,
-                "dmgPercent": 1.39
+                "name": "强力打击",
+                "VP": 52,
+                "dmgPercent": 1.42
             }
         ]
     },
     {
         "Name": "The Pigsy",
         "HP": 500,
-        "VP": 400,
+        "VP": 380,
         "ATK": 68,
         "DEF": 132,
         "SPD": 30,
-        "characterType": "Hero",
+        "characterType": "角色",
         "skills": [
             {
-                "name": "slack sleep",
-                "VP": -18,
-                "HP": "25",
-                "atkPercent": 1.31
+                "name": "睡懒觉",
+                "VP": -19,
+                "HP": 23,
+                "atkPercent": 1.30
             },
             {
-                "name": "bat strike",
-                "VP": 57,
-                "atkNumber": 24,
-                "defNumber": 20,
+                "name": "锤击",
+                "VP": 63,
+                "atkNumber": 31,
+                "defNumber": 34,
                 "turn": 3
             }
         ]
@@ -48,27 +48,22 @@
     {
         "Name": "Monk Tang",
         "HP": 350,
-        "VP": 700,
+        "VP": 600,
         "ATK": 53,
         "DEF": 50,
         "SPD": 40,
-        "characterType": "Hero",
+        "characterType": "角色",
         "skills": [
             {
-                "name": "chant",
-                "VP": 48,
-                "dmgPercent": 0.63,
+                "name": "念经",
+                "VP": 55,
+                "atkPercent": 0.63,
                 "turn": 5
             },
             {
-                "name": "heavy hit",
-                "VP": 54,
-                "dmgPercent": 1.31
-            },
-            {
-                "name": "holy redemption",
-                "VP": 64,
-                "HP": 44
+                "name": "神圣治愈",
+                "VP": 110,
+                "HP": 51
             }
         ]
     }

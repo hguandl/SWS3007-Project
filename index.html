@@ -3,6 +3,7 @@
 <head>
     <title>Journey to the West - Beta Version</title>
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
+    <meta charset="utf-8">
 
     <!-- the following says there are javascript source code contained in
          the external source files
@@ -133,6 +134,7 @@
     <script type="text/javascript" src="src/MyGame/Combat/Combat.js"></script>
     <script type="text/javascript" src="src/MyGame/Combat/Action.js"></script>
     <script type="text/javascript" src="src/MyGame/Combat/HPBar.js"></script>
+    <script type="text/javascript" src="src/MyGame/Combat/ActionPolicy.js"></script>
 
 
     <script type="text/javascript" src="src/MyGame/Package/Props.js"></script>
@@ -239,6 +241,7 @@
                 ">
             end talk
         </button>
+        <!--end test button-->
     </div>
 
     <div id="combat-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
@@ -248,9 +251,9 @@
                     defender: combatScene.monster,
                 });
             "
-                onmouseenter="document.currentScene.showMsg(formatString('Simple attack.\nProduce %0 VP.', _C.attackVP));"
+                onmouseenter="document.currentScene.showMsg(formatString('普通攻击。\n产生 %0 疲劳值。', _C.attackVP));"
                 onmouseout="document.currentScene.closeMsg();">
-            attack
+            攻击
         </button>
         <button id="skill-button" class="button button-parchment button-rounded"
                 onclick="
@@ -258,9 +261,9 @@
                     UIButton.displayButtonGroup('skill-button-group');
                     window.combatScene.character.displayAllSkills();
                 "
-                onmouseenter="document.currentScene.showMsg('Use a skill.');"
+                onmouseenter="document.currentScene.showMsg('使用一个技能。');"
                 onmouseout="document.currentScene.closeMsg();">
-            Skill
+            技能
         </button>
         <button id="change-character-button" class="button button-parchment button-rounded"
                 onclick="
@@ -271,14 +274,15 @@
                         setDisabled(document.getElementById('change-' + CharacterSet[i].mName), CharacterSet[i].mName === window.combatScene.character.mName);
                     }
                 "
-                onmouseenter="document.currentScene.showMsg('Change character.');"
-                onmouseout="document.currentScene.closeMsg();">character
+                onmouseenter="document.currentScene.showMsg('换人。');"
+                onmouseout="document.currentScene.closeMsg();">
+            换人
         </button>
         <button id="use-item-button" class="button button-parchment button-rounded"
                 onclick="switchPackage()"
-                onmouseenter="document.currentScene.showMsg('Use an item.');"
+                onmouseenter="document.currentScene.showMsg('使用一个物品。');"
                 onmouseout="document.currentScene.closeMsg();">
-            item
+            物品
         </button>
     </div>
     <div id="skill-button-group" style="display: none;" class="UI-button-group button-group inCanvas">

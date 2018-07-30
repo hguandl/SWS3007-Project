@@ -14,6 +14,7 @@
  * @returns {Scene}
  */
 function Scene() {
+
 }
 
 Scene.prototype.message = function () {
