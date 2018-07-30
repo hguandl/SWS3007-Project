@@ -35,34 +35,34 @@ function MyGame(mapName) {
     this.kMapEventIndex["wanggong"] = "assets/map/wanggong/wanggong-event-index.json";
     this.kMapBkg["wanggong"] = "assets/map/wanggong/wanggong-bkg.png";
     this.kMapFrg["wanggong"] = "assets/map/wanggong/wanggong-frg.png";
-    this.kBGM["wanggong"] = "assets/bgm/wanggong-walk.mp3";
+    this.kBGM["wanggong"] = "assets/bgm/wanggong-walk.m4a";
 
     this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json";
     this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json"
     this.kMapEventIndex["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event-index.json";;
     this.kMapBkg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-bkg.png";
     this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
-    this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.mp3";
+    this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.m4a";
 
     this.kMapFile["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-dat.json";
     this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";
     this.kMapEventIndex["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event-index.json";
     this.kMapBkg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-bkg.png";
     this.kMapFrg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-frg.png";
-    this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
+    this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.m4a";
 
     this.kMapFile["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-dat.json";
     this.kMapEvents["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event.json";
     this.kMapEventIndex["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event-index.json";
     this.kMapBkg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-bkg.png";
     this.kMapFrg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-frg.png";
-    this.kBGM["huoyanshankou"] = "assets/bgm/huoyanshankou-walk.mp3";
+    this.kBGM["huoyanshankou"] = "assets/bgm/huoyanshankou-walk.m4a";
 
     this.kMapFile["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-dat.json";
     this.kMapEvents["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-event.json";
     this.kMapBkg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-bkg.png";
     this.kMapFrg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-frg.png";
-    this.kBGM["huoyanshandi"] = "assets/bgm/huoyanshandi-walk.mp3";
+    this.kBGM["huoyanshandi"] = "assets/bgm/huoyanshandi-walk.m4a";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
