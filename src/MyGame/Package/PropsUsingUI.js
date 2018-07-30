@@ -37,12 +37,12 @@ PropsUsingUI.prototype.draw = function (aCamera, leftX, topY, width) {
         this.mText[2] = new FontRenderable("neither be sold");
     } else if (this.mType == "Food") {
         this.mText[0] = new FontRenderable("Use on Monkey King");
-        this.mText[1] = new FontRenderable("Use on Tang's Monk");
-        this.mText[2] = new FontRenderable("Use on Pigsy");
+        this.mText[1] = new FontRenderable("Use on Pigsy");
+        this.mText[2] = new FontRenderable("Use on Tang's Monk");
     } else {
         this.mText[0] = new FontRenderable("Equip on Monkey King");
-        this.mText[1] = new FontRenderable("Equip on Tang's Monk");
-        this.mText[2] = new FontRenderable("Equip on Pigsy");
+        this.mText[1] = new FontRenderable("Equip on Pigsy");
+        this.mText[2] = new FontRenderable("Equip on Tang's Monk");
     }
 
     this.mText[0].setFont(this.kFontType);
