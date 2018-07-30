@@ -16,8 +16,21 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) 
      * @type {number} : Monster - 0,  Hero - 1.
      */
     this.characterType = characterInfo["characterType"];
-    if (typeof this.characterType !== "number")
+    if (!this.characterType)
         this.characterType = _C.Hero;
+
+    console.log(this.characterType);
+    if (this.characterType === _C.Monster) {
+        try {
+            this.actionPolicy = characterInfo["actionPolicy"];
+        } catch (e) {
+            this.actionPolicy = new defaultPolicy();
+        }
+        if (!this.actionPolicy)
+            this.actionPolicy = new defaultPolicy();
+    }
+    else
+        this.actionPolicy = null;
     /**  @type {CharacterStatus[]} - 玩家状态  */
     this.turnEndStatus = [];
     /**  @type {Skill[]}  */
@@ -35,6 +48,31 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) 
     this.mName = characterInfo["Name"];
 
     this.spriteURL = "assets/hero/fight/" + this.mName + ".png";
+
+    Object.defineProperties(this, {
+        mCurrentHP: {
+            get: function() {
+                return this._mCurrentHP;
+            },
+            set: function (v) {
+                if (v < 0)
+                    v = 0;
+                if (v > this.mMaxHP)
+                    v = this.mMaxHP;
+                this._mCurrentHP = v;
+            }
+        },
+        mCurrentVP: {
+            set: function (v) {
+                if (v < 0)
+                    v = 0;
+                this._mCurrentVP = v;
+            },
+            get: function () {
+                return this._mCurrentVP;
+            }
+        }
+    });
 
     this.mMaxHP = this.mCurrentHP = characterInfo["HP"];
     this.mMaxVP = characterInfo["VP"];

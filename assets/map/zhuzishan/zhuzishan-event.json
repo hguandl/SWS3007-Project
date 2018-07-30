@@ -39,8 +39,8 @@
     "talk_hint": [
     			[null,
 					"Show", [
-						["", "There is an NPC next to you.\nTry to talk with him"],
-						["", "Turn to him and press J to talk"]
+						["", "小引导：前面有个村民<br>试着去和他说句话吧！"],
+						["", "小引导：在任何可以按下<font color = yellow><b>J</b></font>调查的对象面前也都会跳出一个感叹号喔~"]
 					]
 				],
 			false, 0],
@@ -134,7 +134,7 @@
 					"Check", "Golden Lotus",
 						[null, "Show",
 							[["zhuzishan-xiaolongnv", ""],
-								["sunwukong", "孙悟空：哟！这不是观音姐姐的童子妹妹嘛~"],
+								["sunwukong", "孙悟空：哟！这不是观音姐姐的小童子嘛~"],
 								["zhubajie", "猪八戒：嘿嘿..嘿嘿，原来是龙女姐姐啊"],
 								["tangseng", "唐僧：悟空八戒休得无礼！"],
 								["tangseng", "唐僧：原来是小龙女在与贫僧开玩笑…"],

@@ -81,7 +81,6 @@ gEngine.Input = (function () {
     var mIsKeyPressed = [];
     // Click events: once an event is set, it will remain there until polled
     var mIsKeyClicked = [];
-    var mIsKeyReleased = [];
 
     var mIsKeyReleased = [];
 
@@ -190,24 +189,6 @@ gEngine.Input = (function () {
         return (mIsKeyReleased[keyCode]);
     };
 
-
-    var isDirectionLocked = function(keyCode) {
-        switch(keyCode) {
-            case kKeys.W:
-            return isKeyPressed(kKeys.A) || isKeyPressed(kKeys.S) || isKeyPressed(kKeys.D);
-            break;
-            case kKeys.S:
-            return isKeyPressed(kKeys.W) || isKeyPressed(kKeys.A) || isKeyPressed(kKeys.D);
-            break;
-            case kKeys.A:
-            return isKeyPressed(kKeys.W) || isKeyPressed(kKeys.S) || isKeyPressed(kKeys.D);
-            break;
-            case kKeys.D:
-            return isKeyPressed(kKeys.W) || isKeyPressed(kKeys.S) || isKeyPressed(kKeys.A);
-            break;
-        }
-    };
-
     var isButtonPressed = function (button) {
         return mIsButtonPressed[button];
     };
@@ -227,8 +208,6 @@ gEngine.Input = (function () {
         isKeyPressed: isKeyPressed,
         isKeyClicked: isKeyClicked,
         isKeyReleased: isKeyReleased,
-
-        isDirectionLocked: isDirectionLocked,
         keys: kKeys,
 
         // Mouse support

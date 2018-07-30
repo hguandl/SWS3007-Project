@@ -46,12 +46,14 @@ function MyGame(mapName) {
 
     this.kMapFile["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-dat.json";
     this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";
+    this.kMapEventIndex["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event-index.json";
     this.kMapBkg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-bkg.png";
     this.kMapFrg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-frg.png";
     this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
 
     this.kMapFile["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-dat.json";
     this.kMapEvents["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event.json";
+    this.kMapEventIndex["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event-index.json";
     this.kMapBkg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-bkg.png";
     this.kMapFrg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-frg.png";
     this.kBGM["huoyanshankou"] = "assets/bgm/huoyanshankou-walk.mp3";
@@ -331,6 +333,15 @@ MyGame.prototype.resetPos = function() {
     this.resume();
 };
 
+function realDirection() {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D) && gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) return null;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W) && gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) return null;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) return "Up";
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) return "Down";
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) return "Left";
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) return "Right";
+}
+
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
@@ -368,52 +379,48 @@ MyGame.prototype.update = function () {
 
     if (isMapFreezed()) return ;
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.D)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D) && realDirection() === "Right") {
         this.mMyHero.walk("Right");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
-            return ;
-        if (xform.getXPos() > this.mMyMap.mWidth - 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right");
+        canMove = canMove && xform.getXPos() <= this.mMyMap.mWidth - 0.5;
 
-        xform.incXPosBy(deltaX);
+        if (canMove)
+            xform.incXPosBy(deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.W)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W) && realDirection() === "Up") {
         this.mMyHero.walk("Up");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
-            return ;
-        if (xform.getYPos() > this.mMyMap.mHeight - 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up");
+        canMove = canMove && xform.getYPos() <= this.mMyMap.mHeight - 0.5;
 
-        xform.incYPosBy(deltaX);
+        if (canMove)
+            xform.incYPosBy(deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.S)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S) && realDirection() === "Down") {
         this.mMyHero.walk("Down");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
-            return ;
-        if (xform.getYPos() < 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down");
+        canMove = canMove && xform.getYPos() >= 0.5;
 
-        xform.incYPosBy(-deltaX);
+        if (canMove)
+            xform.incYPosBy(-deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.A)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A) && realDirection() === "Left") {
         this.mMyHero.walk("Left");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
-            return ;
-        if (xform.getXPos() < 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left");
+        canMove = canMove && xform.getXPos() >= 0.5;
 
-        xform.incXPosBy(-deltaX);
+        if (canMove)
+            xform.incXPosBy(-deltaX);
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.D)) {
