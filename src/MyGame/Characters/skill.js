@@ -338,15 +338,17 @@ class StealHealth extends Skill {
 }
 
 class PoisonStitch extends Skill {
-    constructor(VP, dmgPercent, continuousDmg, turn) {
+    constructor(VP, dmgPercent, continuousDmg, defPercent, turn) {
         super("剧毒尾针", VP);
         this.dmgPercent = dmgPercent;
         this.continuousDmg = continuousDmg;
+        this.defPercent = defPercent;
         this.turn = turn;
     }
 
     getUsage() {
-        return formatString("造成攻击力 %0 的伤害，并在接下来的 %1 回合每回合造成 %2 的伤害。\n", this.dmgPercent, this.turn, this.continuousDmg) + super.getUsage();
+        return formatString("造成攻击力 %0 的伤害，并在接下来的 %1 回合减少目标防御为 %2 每回合造成 %3 的伤害。\n",
+            this.dmgPercent, this.turn, this.defPercent, this.continuousDmg) + super.getUsage();
     }
 
     useSkill(user, aim) {
@@ -354,10 +356,11 @@ class PoisonStitch extends Skill {
         const damage = aim.randChangeHP(-calDamage(user, aim) * this.dmgPercent);
         window.combatScene.appendMsg(" 伤害: " + damage);
         aim.turnEndStatus.push(new ChangeHPStatus(this.turn, -this.continuousDmg));
+        aim.turnEndStatus.push(new BuffStatus("DEF", this.turn, this.defPercent, _C.percent));
     }
 
     static parse(skillInfo) {
-        assertHasProperties(skillInfo, "VP", "dmgPercent", "continuousDmg", "turn");
-        return new PoisonStitch(skillInfo["VP"], skillInfo["dmgPercent"], skillInfo["continuousDmg"], skillInfo["turn"]);
+        assertHasProperties(skillInfo, "VP", "dmgPercent", "continuousDmg", "turn", "defPercent");
+        return new PoisonStitch(skillInfo["VP"], skillInfo["dmgPercent"], skillInfo["continuousDmg"], skillInfo["defPercent"], skillInfo["turn"]);
     }
 }
