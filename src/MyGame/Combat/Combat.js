@@ -48,7 +48,7 @@ function Combat(firstCharacter, monster) {
 
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/zhuzishan/battle.png";
-    this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
+    this.kBGM = "assets/bgm/zhuzishan-battle.m4a";
     this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
     this.monster.HPBar = "";
 
