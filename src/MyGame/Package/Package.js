@@ -135,10 +135,10 @@ Package.prototype.initialize = function () {
     ItemSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
     ItemSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
     ItemSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
-    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it (do not use)");
-    ItemSet["huluobo"] = new Props("HuLuoBo", this.kCarrot, "Rabbit's favourite");
-    ItemSet["tongjingti"] = new Props("TongJingTi", this.kFireStone, "Evolve a pokemon?");
-    ItemSet["zufangchuangyao"] = new Props("ZuFangChuangYao", this.kJinchuangyao, "Handed down from the ancestor");
+    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it");
+    ItemSet["huluobo"] = new Props("Hu Luo Bo", this.kCarrot, "Rabbit's favourite");
+    ItemSet["tongjingti"] = new Props("Tong Jing Ti", this.kFireStone, "Evolve a pokemon?");
+    ItemSet["zufangchuangyao"] = new Props("Zu Fang Chuang Yao", this.kJinchuangyao, "Handed down from the ancestor");
 
     this.addProps(ItemSet["Queen Peach"]);
     this.addProps(ItemSet["Nine Turn Dan"]);
@@ -149,10 +149,10 @@ Package.prototype.initialize = function () {
     this.addProps(ItemSet["Dongpo Pork"]);
     this.addProps(ItemSet["What's this?"]);
 
-    // this.addProps(ItemSet["golden_lotus"]);
+    //this.addProps(ItemSet["golden_lotus"]);
     //this.addProps(ItemSet["ZuFangChuangYao"]);
-    // this.addProps(ItemSet["zufangchuangyao"]);
-    // this.addProps(ItemSet["tongjingti"]);
+    //this.addProps(ItemSet["zufangchuangyao"]);
+    //this.addProps(ItemSet["tongjingti"]);
 };
 
 
@@ -358,7 +358,6 @@ Package.prototype.update = function () {
             if (type == "Mission") {
                 return ;
             } else if (type == "Food") {
-                console.log("food");
                 this.useProps(result - 1);       // use for which character
             } else {
                 this.equipWeapon(result - 1);    // use for which character

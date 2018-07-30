@@ -1,8 +1,6 @@
 "use strict";
 
 function WeaponsPack () {
-    console.log("new weaponspack");
-
     this.kBgFile = [];
     this.kBgFile[2] = "assets/weapons_pack/bg_tangseng.png";
     this.kBgFile[0] = "assets/weapons_pack/bg_sunwukong.png";
@@ -53,8 +51,10 @@ function WeaponsPack () {
     this.width = 160;
     this.singleW1 = 0.0322 * this.width;
     this.gapY1 = 0.0078 * this.width;
-    this.firstBrickX = this.leftX + 0.5483 * this.width;
-    this.firstBrickY = this.topY - 0.1372 * this.width;
+    //this.firstBrickX = this.leftX + 0.5483 * this.width;
+    //this.firstBrickY = this.topY - 0.1372 * this.width;
+    this.firstBrickX = this.leftX + 0.5500 * this.width;
+    this.firstBrickY = this.topY - 0.1340 * this.width;
 
     this.weaponsCollections = [];
     this.equipedWeapons = [];
