@@ -4,7 +4,7 @@ function initMonsters() {
             "Name": "zhuzishan-xiyijing",
             "HP": 274,
             "VP": 99999999,
-            "ATK": 54,
+            "ATK": 44,
             "DEF": 54,
             "SPD": 30,
             "characterType": _C.Monster,
@@ -74,7 +74,7 @@ function initMonsters() {
         }),
         "huoyanshandi-heifengguai": new Character({
             "Name": "huoyanshandi-heifengguai",
-            "HP": 240,
+            "HP": 220,
             "VP": 99999999,
             "ATK": 90,
             "DEF": 330,
@@ -90,7 +90,7 @@ function initMonsters() {
                 {
                     "name": "三昧真火",
                     "VP": 88,
-                    "dmgPercent": 0.52
+                    "dmgPercent": 0.64
                 }
             ],
             "actionPolicy": new InTurnPolicy([1, 0, -1]),
