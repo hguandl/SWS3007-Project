@@ -211,6 +211,7 @@ var isFirstClicked;
 var latestPressedAloneKey;
 Package.prototype.update = function () {
     if (!document.mShowPackage) {
+        this.mCurrentSelected = -1;
         return ;
     }
 
