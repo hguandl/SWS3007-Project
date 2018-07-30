@@ -65,6 +65,12 @@ function MyGame(mapName) {
     this.kMapFrg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-frg.png";
     this.kBGM["huoyanshandi"] = "assets/bgm/huoyanshandi-walk.m4a";
 
+    this.kMapFile["shishi1"] = "assets/map/shishi1/shishi1-dat.json";
+    this.kMapEvents["shishi1"] = "assets/map/shishi1/shishi1-event.json";
+    this.kMapEventIndex["shishi1"] = "assets/map/shishi1/shishi1-event-index.json";
+    this.kMapBkg["shishi1"] = "assets/map/shishi1/shishi1-bkg.png";
+    this.kMapFrg["shishi1"] = "assets/map/shishi1/shishi1-frg.png";
+
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
     this.kPackageUIBg = "assets/package/package_ui.png";
@@ -129,6 +135,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc3.png");
     gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc4.png");
     gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc5.png");
+    gEngine.Textures.loadTexture("assets/NPC/shishi1-npc1.png");
 
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
@@ -145,6 +152,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc3.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc5.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/shishi1-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.Textures.loadTexture(this.kHintIcon);
     gEngine.Textures.loadTexture(this.kPackageBg);
