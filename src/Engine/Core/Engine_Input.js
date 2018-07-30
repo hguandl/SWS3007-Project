@@ -208,7 +208,6 @@ gEngine.Input = (function () {
         isKeyPressed: isKeyPressed,
         isKeyClicked: isKeyClicked,
         isKeyReleased: isKeyReleased,
-        isDirectionLocked: isDirectionLocked,
         keys: kKeys,
 
         // Mouse support

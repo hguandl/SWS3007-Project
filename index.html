@@ -191,7 +191,7 @@
         </button>
 
         <!--test button-->
-        <!-- <button id="set-point-button1" class="button button-parchment button-rounded"
+        <button id="set-point-button1" class="button button-parchment button-rounded"
                 onclick="setPoint(352);">
             pass0
         </button>
@@ -228,10 +228,17 @@
         </button>
         <button id="set-point-button2" class="button button-parchment button-rounded"
                 onclick="
-                    document.currentScene.closeMsg();
+                    while (document.mShowMsgBox.length > 0) {
+                        document.mShowMsgBox.shift();
+                    }
+                    document.getElementById('infoBox').style.display = 'none';
+                    document.getElementById('info_face').src = 'assets/blank.png';ssss
+                    document.getElementById('info_text').innerText = null;
+                    document.mShowMsgBox = false;
+                    document.mEventMutex = false;
                 ">
             end talk
-        </button> -->
+        </button>
     </div>
 
     <div id="combat-button-group" style="display: none;" class="UI-button-group button-group inCanvas">
