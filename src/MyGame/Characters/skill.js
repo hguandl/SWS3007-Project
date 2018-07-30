@@ -91,12 +91,12 @@ class FieryEyes extends Skill {
  */
 class HeavyHit extends Skill {
     constructor(VP, dmgPercent) {
-        super("强力打击", VP);
+        super("当头一棒", VP);
         this.dmgPercent = dmgPercent;
     }
 
     static getDescription() {
-        return "A 强力打击 will cause more 伤害 than attack.";
+        return "A 当头一棒 will cause more 伤害 than attack.";
     }
 
     getUsage() {
@@ -221,7 +221,7 @@ class BatStrike extends Skill {
     }
 
     getUsage() {
-        return formatString("比普通攻击额外造成 %0 伤害，并将目标的防御力降低 %1，持续 %2 回合。\n", this.atkNumber, this.defNumber, this.defNumber) + super.getUsage();
+        return formatString("比普通攻击额外造成 %0 伤害，并将目标的防御力降低 %1，持续 %2 回合。\n", this.atkNumber, this.defNumber, this.turn) + super.getUsage();
     }
 
     useSkill(user, aim) {
@@ -280,7 +280,7 @@ class Bite extends Skill {
 
     useSkill(user, aim) {
         super.useSkill(user);
-        const damage = aim.randChangeHP(-calDamage(user, aim) + this.dmg);
+        const damage = aim.randChangeHP(-calDamage(user, aim) - this.dmg);
         window.combatScene.appendMsg(" 伤害: " + damage);
     }
 

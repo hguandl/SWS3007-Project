@@ -16,7 +16,7 @@ class SkillList {
  */
 window.allSkills = {
     "火眼金睛": FieryEyes,
-    "强力打击": HeavyHit,
+    "当头一棒": HeavyHit,
     "三昧真火": SamadhiFire,
     "睡懒觉": SlackSleep,
     "念经": Chant,

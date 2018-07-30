@@ -272,6 +272,11 @@ Combat.prototype.unloadScene = function () {
 Combat.prototype.initialize = function () {
     gEngine.AudioClips.playBackgroundAudio(this.kBGM);
 
+    this.monster.status = [];
+    this.character.status = [];
+    this.monster.mCurrentHP = this.monster.mMaxHP;
+    this.monster.mCurrentVP = 0;
+
     this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
 
     this.camera = new Camera(

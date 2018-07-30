@@ -21,9 +21,9 @@ function initMonsters() {
         }),
         "zhuzishanjiao-wangling": new Character({
             "Name": "zhuzishanjiao-wangling",
-            "HP": 587,
+            "HP": 487,
             "VP": 99999999,
-            "ATK": 39,
+            "ATK": 41,
             "DEF": 98,
             "SPD": 30,
             "characterType": _C.Monster,
