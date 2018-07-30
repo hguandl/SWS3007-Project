@@ -34,14 +34,14 @@ PropsUsingUI.prototype.draw = function (aCamera, leftX, topY, width) {
     if (this.mType == "Mission") {
         this.mText[0] = new FontRenderable("This is a mission props");
         this.mText[1] = new FontRenderable("it can't be used");
-        this.mText[2] = new FontRenderable("and sold");
+        this.mText[2] = new FontRenderable("neither be sold");
     } else if (this.mType == "Food") {
-        this.mText[0] = new FontRenderable("Use on Mont's Tang");
-        this.mText[1] = new FontRenderable("Use on Monkey King");
+        this.mText[0] = new FontRenderable("Use on Monkey King");
+        this.mText[1] = new FontRenderable("Use on Tang's Monk");
         this.mText[2] = new FontRenderable("Use on Pigsy");
     } else {
-        this.mText[0] = new FontRenderable("Equip on Mont's Tang");
-        this.mText[1] = new FontRenderable("Equip on Monkey King");
+        this.mText[0] = new FontRenderable("Equip on Monkey King");
+        this.mText[1] = new FontRenderable("Equip on Tang's Monk");
         this.mText[2] = new FontRenderable("Equip on Pigsy");
     }
 
