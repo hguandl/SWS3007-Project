@@ -22,6 +22,12 @@ function WeaponsPack () {
 
     this.kSword_A1 = "assets/weapons_pack/Sword_A1.png";
     this.kHelmet_A1 = "assets/weapons_pack/Helmet_A1.png";
+    this.kArm_A1 = "assets/weapons_pack/Arm_A1.png";
+    this.kArmor_up_A1 = "assets/weapons_pack/Armor_up_A1.png";
+    this.kArmor_down_A1 = "assets/weapons_pack/Armor_down_A1.png";
+    this.kBracelet_A1 = "assets/weapons_pack/Bracelet_A1.png";
+    this.kNecklace_A1 = "assets/weapons_pack/Necklace_A1.png";
+    this.kShoes_A1 = "assets/weapons_pack/Shoes_A1.png";
 
     this.kFontType = "assets/fonts/system-default-font";
 
@@ -78,6 +84,12 @@ WeaponsPack.prototype.loadScene = function () {
 
     gEngine.Textures.loadTexture(this.kSword_A1);
     gEngine.Textures.loadTexture(this.kHelmet_A1);
+    gEngine.Textures.loadTexture(this.kArm_A1);
+    gEngine.Textures.loadTexture(this.kArmor_up_A1);
+    gEngine.Textures.loadTexture(this.kArmor_down_A1);
+    gEngine.Textures.loadTexture(this.kBracelet_A1);
+    gEngine.Textures.loadTexture(this.kNecklace_A1);
+    gEngine.Textures.loadTexture(this.kShoes_A1);
 
     gEngine.Fonts.loadFont(this.kFontType);
 };
@@ -204,10 +216,20 @@ WeaponsPack.prototype.initialize = function () {
     this.kTypesNum["Shoes"] = 5;
     this.kTypesNum["Sword"] = 6;
     this.kTypesNum["Shield"] = 7;
-    this.kTypes = ["Helmet", "Necklace", "Arm", "Bracelet", "Bracelet2", "Shoes", "Sword", "Shield"];
+    this.kTypesNum["Mask"] = 8;
+    this.kTypesNum["ArmorUp"] = 9;
+    this.kTypesNum["ArmorDown"] = 10;
+
+    this.kTypes = ["Helmet", "Necklace", "Arm", "Bracelet", "Bracelet2", "Shoes", "Sword", "Shield", "Mask", "ArmorUp", "ArmorDown"];
 
     WeaponsSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, "Super Rare!! " + "Attack+200", "Sword");
+    WeaponsSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, "Attack + 50,Defense + 20", "Arm");
     WeaponsSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, "Very Rare! " + "Defense+100,Avoid+0.10", "Helmet");
+    WeaponsSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, "Defense + 200", "ArmorUp");
+    WeaponsSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, "Defense + 100", "ArmorDown");
+    WeaponsSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
+    WeaponsSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
+
 
     var i;
     for (i in WeaponsSet) {
@@ -341,7 +363,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-                    weapon.showInfoByPos(this.kFontType, cx, cy, [1, 1, 1, 1], this.singleW1, this.mCamera);
+                    weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
                 }
             }
         }
@@ -356,7 +378,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-                    weapon.showInfoByPos(this.kFontType, cx, cy, [1, 1, 1, 1], this.singleW1, this.mCamera);
+                    weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
                 }
             }
         }
@@ -372,7 +394,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-                    weapon.showInfoByPos(this.kFontType, cx, cy, [1, 1, 1, 1], this.singleW1, this.mCamera);
+                    weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
                 }
             }
         }
