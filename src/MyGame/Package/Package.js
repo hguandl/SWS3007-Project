@@ -140,18 +140,22 @@ Package.prototype.initialize = function () {
     PropsSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
     PropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
     PropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
-    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it");
-    PropsSet["Carrot"] = new Props("Carrot", this.kCarrot, "Rabbit's favourite");
-    PropsSet["Red Stone"] = new Props("Red Stone", this.kRedStone, "A red stone");
-    PropsSet["Jin-Chuang-Yao"] = new Props("Jin-Chuang-Yao", this.kJinchuangyao, "Handed down from the ancestor");
+    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it (do not use)");
+    ItemSet["Carrot"] = new Props("Carrot", this.kCarrot, "Rabbit's favourite");
+    ItemSet["Red Stone"] = new Props("Red Stone", this.kRedStone, "A red stone");
+    ItemSet["ZuFangChuangYao"] = new Props("ZuFangChuangYao", this.kJinchuangyao, "Handed down from the ancestor");
 
+    this.addProps(PropsSet["Queen Peach"]);
+    this.addProps(PropsSet["Nine Turn Dan"]);
+    this.addProps(PropsSet["Blood of Dragon"]);
+    this.addProps(PropsSet["Spirit of Dragon"]);
+    this.addProps(PropsSet["Ham Bone"]);
+    this.addProps(PropsSet["Glutinous Congee"]);
+    this.addProps(PropsSet["Dongpo Pork"]);
+    this.addProps(PropsSet["What's this?"]);
 
-    var i;
-    for (i in PropsSet) {
-        this.addProps(PropsSet[i]);
-    }
-
-    // this.addProps(ItemSet["golden_lotus"]);
+    //this.addProps(ItemSet["golden_lotus"]);
+    //this.addProps(ItemSet["ZuFangChuangYao"]);
 };
 
 
