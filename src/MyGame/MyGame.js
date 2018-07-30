@@ -21,26 +21,31 @@ function MyGame(mapName) {
 
     this.kHeroInfo = "assets/hero/character_info.json";
 
+    this.kHintIcon = "assets/hint.png";
+
     this.kMapFile = [];
     this.kMapEvents = [];
+    this.kMapEventIndex = [];
     this.kMapBkg = [];
     this.kMapFrg = [];
     this.kBGM = [];
 
     this.kMapFile["wanggong"] = "assets/map/wanggong/wanggong-dat.json";
-    this.kMapEvents["wanggong"] = "assets/map/wanggong/wanggong-event.json";;
+    this.kMapEvents["wanggong"] = "assets/map/wanggong/wanggong-event.json";
+    this.kMapEventIndex["wanggong"] = "assets/map/wanggong/wanggong-event-index.json";
     this.kMapBkg["wanggong"] = "assets/map/wanggong/wanggong-bkg.png";
     this.kMapFrg["wanggong"] = "assets/map/wanggong/wanggong-frg.png";
     this.kBGM["wanggong"] = "assets/bgm/wanggong-walk.mp3";
 
     this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json";
-    this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json";;
+    this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json"
+    this.kMapEventIndex["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event-index.json";;
     this.kMapBkg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-bkg.png";
     this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
     this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.mp3";
 
     this.kMapFile["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-dat.json";
-    this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";;
+    this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";
     this.kMapBkg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-bkg.png";
     this.kMapFrg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-frg.png";
     this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
@@ -76,6 +81,7 @@ function MyGame(mapName) {
 
     this.mCamera = null;
     this.mSmallCamera = null;
+    this.mShowHintIcon = false;
 
     this.mMainView = null;
 
@@ -101,6 +107,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroPic);
     gEngine.TextFileLoader.loadTextFile(this.kMapFile[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kMapEvents[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kMapEventIndex[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
@@ -137,6 +144,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc5.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
+    gEngine.Textures.loadTexture(this.kHintIcon);
     gEngine.Textures.loadTexture(this.kPackageBg);
     gEngine.Textures.loadTexture(this.kPackageBrick);
     gEngine.Textures.loadTexture(this.kPackageUIBg);
@@ -190,14 +198,20 @@ MyGame.prototype.initialize = function () {
         window.package.loadScene();
         window.package.initialize();
     }
+<<<<<<< HEAD
     if (window.weaponsPack === null) {
+=======
+	if (window.weaponsPack === null) {
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
         window.weaponsPack = new WeaponsPack();
         window.weaponsPack.loadScene();
         window.weaponsPack.initialize();
     }
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
+    this.mHintIcon = new TextureRenderable(this.kHintIcon);
+    this.mHintIcon.getXform().setSize(0.55, 0.55);
 
-    this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
+    this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName], this.kMapEventIndex[this.mMapName]);
 
     this.mMyNPC = this.mMyMap.initNPC();
 
@@ -253,38 +267,26 @@ MyGame.prototype.initialize = function () {
                                                  [820, 450, 150, 150]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
-    if (window.combatScene) {
-        switch (window.combatScene.combatResult) {
-            case "win":
-                this.startMsg = 1;
-                break;
-            case "lose":
-                this.startMsg = 2;
-                break;
-        }
-        return;
-    }
-
     if (CharacterSet.length <= 0)
         CharacterSet_Init(this.kHeroInfo);
 
-    // 战斗失败，重新开始
+    // 战斗失败，重新开�?
     if (document.mLastCombatWin === false) {
-        // 重置当前地图所有事件
+        // 重置当前地图所有事�?
         var eventList = this.mMyMap.mEvents;
         var i;
         for (i = 0; i < eventList.length; ++i) {
             eventList[i][eventList[i].length - 1] = 0;
         }
 
-        // 人物状态回复
+        // 人物状态回�?
         for (i = 0; i < 3; ++i) {
             var ch = CharacterSet[i];
             ch.mCurrentHP = ch.mMaxHP;
             ch.mCurrentVP = 0;
         }
 
-        // 回到地图出生点
+        // 回到地图出生�?
         this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
     }
 };
@@ -298,6 +300,10 @@ MyGame.prototype.draw = function () {
     this.mMainView.setup();
 
     gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
+
+    if (this.mShowHintIcon) {
+        this.mHintIcon.draw(this.mMainView.getCam());
+    }
 
     if (document.mShowSmallMap) {
         this.mSmallCamera.setupViewProjection();
@@ -315,7 +321,11 @@ MyGame.prototype.draw = function () {
         this.mMyHero.getHero().draw(this.mBigCamera);
     }
 
+<<<<<<< HEAD
     if (document.mShowWeaponsPack) {
+=======
+	if (document.mShowWeaponsPack) {
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
         window.weaponsPack.draw();
     }
 
@@ -346,9 +356,13 @@ MyGame.prototype.update = function () {
 
     window.statusBar.update();
 
+<<<<<<< HEAD
     if (document.mShowWeaponsPack) {
         window.weaponsPack.update();
     }
+=======
+    window.weaponsPack.update();
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
 
     // if (document.mShowPackage) {
         window.package.update();
@@ -358,6 +372,8 @@ MyGame.prototype.update = function () {
     var xform = this.mMyHero.getHero().getXform();
 
     this.currentPos = [xform.getXPos(), xform.getYPos(), this.mMyHero.getDir()];
+
+    this.mHintIcon.getXform().setPosition(xform.getXPos(), xform.getYPos() + 0.5);
 
     this.moveCamera(xform);
 

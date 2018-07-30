@@ -22,12 +22,13 @@ Map.prototype.reducePoint = function(x, y) {
 };
 
 Map.prototype.detectEvent = function (game, x, y, dir) {
+    game.mShowHintIcon = false;
     if (document.mEventMutex) return ;
     var posPoint = this.reducePoint(x, y);
     var e = null;
     var flag = false;
     if (Math.floor(this.mData[posPoint] % 100 / 10) >= 1) {
-        var eList = this.mEvents[posPoint];
+        var eList = this.mEvents[this.mEventIndex[posPoint]];
 
         // 是否已经结束
         if (eList && eList[eList.length - 1] >= eList.length - 2) {
@@ -50,7 +51,7 @@ Map.prototype.detectEvent = function (game, x, y, dir) {
 
     var nextStepPoint = this.nextToNPC(posPoint, x, y, dir);
     if (nextStepPoint) {
-        var eList = this.mEvents[nextStepPoint];
+        var eList = this.mEvents[this.mEventIndex[nextStepPoint]];
         if (eList && eList[eList.length - 1] >= eList.length - 2) {
             if (eList[eList.length - 2]) {
                 eList[eList.length - 1] = 0;
@@ -60,6 +61,7 @@ Map.prototype.detectEvent = function (game, x, y, dir) {
             flag = (eList);
         }
         if (flag) {
+            game.mShowHintIcon = true;
             e = GameEvents.handle(eList[eList[eList.length - 1]]);
 
         }

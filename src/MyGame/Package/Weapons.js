@@ -26,7 +26,26 @@ function Weapons(name, iconFile, description, type) {
             this.DEFadd = 100;
             this.Money = 1500;
             break;
+<<<<<<< HEAD
         case "" :
+=======
+        case "Blue Barcer" :
+            this.ATKadd = 50;
+            this.DEFadd = 20;
+            break;
+        case "Legend Armor" :
+            this.DEFadd = 200;
+            break;
+        case "Legend Trousers" :
+            this.DEFadd = 100;
+            break;
+        case "Necklace" :
+            this.ATKadd = 50;
+            break;
+        case "QingYun Shoes" :
+            this.ATKadd = 50;
+            this.SPDadd = 20;
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
             break;
     }
 }

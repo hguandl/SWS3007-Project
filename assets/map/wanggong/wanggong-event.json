@@ -1,8 +1,6 @@
 {
-  "350": [[null, "Go", "zhuzishan"], true, 0],
-  "351": [[null, "Go", "zhuzishan"], true, 0],
-  "352": [[null, "Go", "zhuzishan"], true, 0],
-  "85": [
+  "go_zhuzishan": [[null, "Go", "zhuzishan"], true, 0],
+  "opening": [
           [null,
           "Show", [
           		["sunwukong", "孙悟空：师傅，这国王老儿生他的病，关我们什么事？我…"],

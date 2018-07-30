@@ -126,7 +126,10 @@ Package.prototype.initialize = function () {
     this.mMoneyText.getXform().setPosition(this.leftX + 0.27 * this.width, this.topY - 0.175 * this.width);
     this.mMoneyText.setTextHeight(0.043 * this.width);
 
+<<<<<<< HEAD
     // region all props collected here
+=======
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
     PropsSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
     PropsSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
     PropsSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
@@ -135,6 +138,7 @@ Package.prototype.initialize = function () {
     PropsSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
     PropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
     PropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
+<<<<<<< HEAD
     PropsSet["Rainbow Fruit"] = new Props("Rainbow Fruit", this.kRainbowFruit, "Retrive All HP and All VP");
     // endregion
     ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it");
@@ -146,6 +150,13 @@ Package.prototype.initialize = function () {
     // for (i in PropsSet) {
     //     this.addProps(PropsSet[i]);
     // }
+=======
+    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it (do not use)");
+    ItemSet["Carrot"] = new Props("Carrot", this.kCarrot, "Rabbit's favourite");
+    ItemSet["Red Stone"] = new Props("Red Stone", this.kRedStone, "A red stone");
+    ItemSet["ZuFangChuangYao"] = new Props("ZuFangChuangYao", this.kJinchuangyao, "Handed down from the ancestor");
+
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
     this.addProps(PropsSet["Queen Peach"]);
     this.addProps(PropsSet["Nine Turn Dan"]);
     this.addProps(PropsSet["Blood of Dragon"]);
@@ -154,9 +165,15 @@ Package.prototype.initialize = function () {
     this.addProps(PropsSet["Glutinous Congee"]);
     this.addProps(PropsSet["Dongpo Pork"]);
     this.addProps(PropsSet["What's this?"]);
+<<<<<<< HEAD
     this.addProps(PropsSet["Rainbow Fruit"]);
 
     // this.addProps(ItemSet["golden_lotus"]);
+=======
+
+    //this.addProps(ItemSet["golden_lotus"]);
+    //this.addProps(ItemSet["ZuFangChuangYao"]);
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
 };
 
 var isChoosingUI = false;
@@ -344,7 +361,11 @@ Package.prototype.update = function () {
         var result = this.choosingUI.update();
         var selectedItem = this.mPropsCollections[this.mCurrentSelected];
 
+<<<<<<< HEAD
         if (result == -1) {
+=======
+		if (result == -1) {
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
 
         } else if (result == 0) {
             isChoosingUI = false;
@@ -355,11 +376,21 @@ Package.prototype.update = function () {
             isChoosingUI = false;
             var type = selectedItem.getType();
             if (type == "Food") {
+<<<<<<< HEAD
                 this.useProps(result - 1);       // (在背包中的位置,对哪个角色使用)
             } else {
                 this.equipWeapon(result - 1);    // (在背包中的位置,对哪个角色使用)
             }
         }
+=======
+                this.useProps(result - 1);       // use for which character
+            } else {
+                this.equipWeapon(result - 1);    // use for which character
+            }
+        }
+
+        return 0;
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
     }
 };
 
@@ -428,7 +459,10 @@ Package.prototype.sellItem = function () {
     this.incMoney(dM);
     this.mPropsCollections.splice(this.mCurrentSelected, 1);
     this.mSize--;
+<<<<<<< HEAD
 
+=======
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
 };
 
 Package.prototype.useProps = function (charNum) {
@@ -445,7 +479,10 @@ Package.prototype.useProps = function (charNum) {
     this.mPropsCollections.splice(this.mCurrentSelected, 1);
     this.mSize--;
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> c77846895d16fd690eabbd265231562732dec88f
 Package.prototype.equipWeapon = function (charNum) {
     window.weaponsPack.equipWeapon(this.mPropsCollections[this.mCurrentSelected], charNum);
     this.mPropsCollections.splice(this.mCurrentSelected, 1);
