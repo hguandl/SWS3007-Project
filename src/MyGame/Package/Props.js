@@ -38,7 +38,7 @@ function Props(name, iconFile, description) {
             this.Money = 100;
             break;
         case "Glutinous Congee" :
-            this.VP = 250;
+            this.VP = -250;
             this.Money = 100;
             break;
         case "Dongpo Pork" :
@@ -51,7 +51,7 @@ function Props(name, iconFile, description) {
             break;
         case "Carrot" :
             this.HP = 200;
-            this.VP = 100;
+            this.VP = -100;
             break;
         case "Golden Lotus" :
             this.mCanUse = false;
