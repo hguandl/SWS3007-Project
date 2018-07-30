@@ -36,7 +36,7 @@ class BuffStatus extends CharacterStatus {
         if (this.effectType === _C.percent) {
             character["m" + this.attributeName + "Percent"] *= this.value;
         } else if (this.effectType === _C.numeric) {
-            character["mCurrent" + this.attributeName] -= this.value;
+            character["mCurrent" + this.attributeName] += this.value;
         }
     }
 }

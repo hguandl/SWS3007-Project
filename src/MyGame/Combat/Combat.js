@@ -346,6 +346,7 @@ Combat.prototype.draw = function () {
 Combat.prototype.update = function () {
     window.statusBar.update();
     window.package.update();
+    this.HPBar.update();
 
     if (this.status !== _C.displaying)
         return;
