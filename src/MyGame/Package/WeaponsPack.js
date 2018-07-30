@@ -209,7 +209,6 @@ WeaponsPack.prototype.initialize = function () {
         this.zhubajieAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
     }
 
-
     this.kTypesNum["Helmet"] = 0;
     this.kTypesNum["Necklace"] = 1;
     this.kTypesNum["Arm"] = 2;
@@ -231,7 +230,6 @@ WeaponsPack.prototype.initialize = function () {
     WeaponsSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, "Defense + 100", "ArmorDown");
     WeaponsSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
     WeaponsSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
-
 
     var i;
     for (i in WeaponsSet) {

@@ -167,6 +167,8 @@ Character.prototype.incCurrentHP = function (delta) {
         this.mCurrentHP = this.mMaxHP;
     } else if (this.mCurrentHP + delta <= 0) {
         this.mCurrentHP = 0;
+    } else {
+        this.mCurrentHP += delta;
     }
 };
 Character.prototype.incMaxHP = function (delta) {
@@ -184,6 +186,8 @@ Character.prototype.incCurrentVP = function (delta) {
         this.mCurrentVP = this.mMaxVP;
     } else if (this.mCurrentVP + delta <= 0) {
         this.mCurrentVP = 0;
+    } else {
+        this.mCurrentVP += delta;
     }
 };
 Character.prototype.incMaxVP = function (delta) {

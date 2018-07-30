@@ -142,6 +142,7 @@ gEngine.Input = (function () {
             mIsKeyPressed[i] = false;
             mKeyPreviousState[i] = false;
             mIsKeyClicked[i] = false;
+            mIsKeyReleased[i] = false;
         }
         // register handlers
         window.addEventListener('keyup', _onKeyUp);
@@ -166,6 +167,7 @@ gEngine.Input = (function () {
         for (i = 0; i < kKeys.LastKeyCode; i++) {
             mIsKeyReleased[i] = mKeyPreviousState[i] && (!mIsKeyPressed[i]);
             mIsKeyClicked[i] = (!mKeyPreviousState[i]) && mIsKeyPressed[i];
+            mIsKeyReleased[i] = mKeyPreviousState[i] && (!mIsKeyPressed[i]);
             mKeyPreviousState[i] = mIsKeyPressed[i];
         }
         for (i = 0; i < 3; i++) {
@@ -194,6 +196,7 @@ gEngine.Input = (function () {
     var isButtonClicked = function (button) {
         return mIsButtonClicked[button];
     };
+
     var getMousePosX = function () { return mMousePosX; };
     var getMousePosY = function () { return mMousePosY; };
 

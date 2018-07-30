@@ -6,12 +6,15 @@ function Props(name, iconFile, description) {
     this.mIcon.setColor([1, 1, 1, 0]);
     this.mIcon.getXform().setPosition(-200, -200);
     this.mDescription = description;
+    this.mType = "Food";
 
     this.mNameText = new FontRenderable(name);
     this.mDescriptionText = new FontRenderable(description);
 
     this.HP = this.VP = this.ATK = this.DEF = this.SPD = this.EXP = 0;
     this.Money = 20;
+
+    this.mCanUse = true;
 
     switch(name) {
         case "Queen Peach" :
@@ -46,6 +49,15 @@ function Props(name, iconFile, description) {
             this.DEF = 15;
             this.Money = 800;
             break;
+        case "Carrot" :
+            this.HP = 200;
+            this.VP = 100;
+            break;
+        case "Golden Lotus" :
+            this.mCanUse = false;
+            this.mType = "Mission";
+            this.Money = 10000;
+            break;
     }
 }
 
@@ -77,18 +89,25 @@ Props.prototype.showInfoByPos = function (fontType, leftX, topY, color, textH, a
     this.mDescriptionText.draw(aCamera);
 };
 
-Props.prototype.getHP = function () {
+Props.prototype.getHPadd = function () {
     return (this.HP);
 };
-Props.prototype.getVP = function () {
+Props.prototype.getVPadd = function () {
     return (this.VP);
 };
-Props.prototype.getATK = function () {
+Props.prototype.getATKadd = function () {
     return (this.ATK);
 };
-Props.prototype.getDEF = function () {
+Props.prototype.getDEFadd = function () {
     return (this.DEF);
 };
 Props.prototype.getMoney = function () {
     return (this.Money);
+};
+Props.prototype.canUse = function () {
+    return (this.mCanUse);
+};
+
+Props.prototype.getType = function () {
+    return (this.mType);
 };
