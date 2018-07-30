@@ -162,5 +162,19 @@
 				[null, "Back"]
 			],
 			true, 0],
-    "go_wanggong": [[null, "Go", "wanggong"] ,true, 0]
+    "go_wanggong": [[null, "Go", "wanggong"] ,true, 0],
+    "get_ham_bone": [
+    	["J",
+    		"Show", [["", "(获得物品 带骨肉)"]]
+    	],
+    	[null,
+    		"Get", ["Ham Bone"]],
+		false, 0],
+    "get_necklace": [
+    	["J",
+    		"Show", [["", "(获得装备 项链)"]]
+    	],
+    	[null,
+    		"Get", ["Necklace"]],
+		false, 0]
 }

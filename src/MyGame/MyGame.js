@@ -195,6 +195,8 @@ MyGame.prototype.initialize = function () {
     gEngine.AudioClips.playBackgroundAudio(this.kBGM[this.mMapName]);
 
     window.statusBar.initialize();
+    document.mShowStatusBar = false;
+
     if (window.package === null) {
         window.package = new Package();
         window.package.loadScene();

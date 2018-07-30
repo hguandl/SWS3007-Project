@@ -223,18 +223,27 @@ WeaponsPack.prototype.initialize = function () {
 
     this.kTypes = ["Helmet", "Necklace", "Arm", "Bracelet", "Bracelet2", "Shoes", "Sword", "Shield", "Mask", "ArmorUp", "ArmorDown"];
 
-    WeaponsSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, "Super Rare!! " + "Attack+200", "Sword");
-    WeaponsSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, "Attack + 50,Defense + 20", "Arm");
-    WeaponsSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, "Very Rare! " + "Defense+100,Avoid+0.10", "Helmet");
-    WeaponsSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, "Defense + 200", "ArmorUp");
-    WeaponsSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, "Defense + 100", "ArmorDown");
-    WeaponsSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
-    WeaponsSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
+    // WeaponsSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, "Super Rare!! " + "Attack+200", "Sword");
+    // WeaponsSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, "Attack + 50,Defense + 20", "Arm");
+    // WeaponsSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, "Very Rare! " + "Defense+100,Avoid+0.10", "Helmet");
+    // WeaponsSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, "Defense + 200", "ArmorUp");
+    // WeaponsSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, "Defense + 100", "ArmorDown");
+    // WeaponsSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
+    // WeaponsSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
 
-    var i;
-    for (i in WeaponsSet) {
-        window.package.addProps(WeaponsSet[i]);                    // 全给玩家
-    }
+    ItemSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, "Super Rare!! " + "Attack+10", "Sword");
+    ItemSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, "Attack + 50,Defense + 20", "Arm");
+    ItemSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, "Very Rare! " + "Defense+100,Avoid+0.10", "Helmet");
+    ItemSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, "Defense + 200", "ArmorUp");
+    ItemSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, "Defense + 100", "ArmorDown");
+    ItemSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
+    ItemSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
+
+    window.package.addProps(ItemSet["YiTian Sword"]);
+    // var i;
+    // for (i in WeaponsSet) {
+    //     window.package.addProps(WeaponsSet[i]);                    // 全给玩家
+    // }
 };
 
 WeaponsPack.prototype.update = function () {
