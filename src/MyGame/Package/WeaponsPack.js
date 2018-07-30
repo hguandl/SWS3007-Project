@@ -1,11 +1,8 @@
 "use strict";
 
 function WeaponsPack () {
-<<<<<<< HEAD
-=======
     console.log("new weaponspack");
 
->>>>>>> c77846895d16fd690eabbd265231562732dec88f
     this.kBgFile = [];
     this.kBgFile[0] = "assets/weapons_pack/bg_tangseng_2.png";
     this.kBgFile[1] = "assets/weapons_pack/bg_sunwukong_2.png";
@@ -27,15 +24,12 @@ function WeaponsPack () {
 
     this.kSword_A1 = "assets/weapons_pack/Sword_A1.png";
     this.kHelmet_A1 = "assets/weapons_pack/Helmet_A1.png";
-<<<<<<< HEAD
-=======
     this.kArm_A1 = "assets/weapons_pack/Arm_A1.png";
     this.kArmor_up_A1 = "assets/weapons_pack/Armor_up_A1.png";
     this.kArmor_down_A1 = "assets/weapons_pack/Armor_down_A1.png";
     this.kBracelet_A1 = "assets/weapons_pack/Bracelet_A1.png";
     this.kNecklace_A1 = "assets/weapons_pack/Necklace_A1.png";
     this.kShoes_A1 = "assets/weapons_pack/Shoes_A1.png";
->>>>>>> c77846895d16fd690eabbd265231562732dec88f
 
     this.kFontType = "assets/fonts/system-default-font";
 
@@ -92,15 +86,12 @@ WeaponsPack.prototype.loadScene = function () {
 
     gEngine.Textures.loadTexture(this.kSword_A1);
     gEngine.Textures.loadTexture(this.kHelmet_A1);
-<<<<<<< HEAD
-=======
     gEngine.Textures.loadTexture(this.kArm_A1);
     gEngine.Textures.loadTexture(this.kArmor_up_A1);
     gEngine.Textures.loadTexture(this.kArmor_down_A1);
     gEngine.Textures.loadTexture(this.kBracelet_A1);
     gEngine.Textures.loadTexture(this.kNecklace_A1);
     gEngine.Textures.loadTexture(this.kShoes_A1);
->>>>>>> c77846895d16fd690eabbd265231562732dec88f
 
     gEngine.Fonts.loadFont(this.kFontType);
 };
@@ -227,12 +218,6 @@ WeaponsPack.prototype.initialize = function () {
     this.kTypesNum["Shoes"] = 5;
     this.kTypesNum["Sword"] = 6;
     this.kTypesNum["Shield"] = 7;
-<<<<<<< HEAD
-    this.kTypes = ["Helmet", "Necklace", "Arm", "Bracelet", "Bracelet2", "Shoes", "Sword", "Shield"];
-
-    WeaponsSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, "Super Rare!! " + "Attack+200", "Sword");
-    WeaponsSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, "Very Rare! " + "Defense+100,Avoid+0.10", "Helmet");
-=======
     this.kTypesNum["Mask"] = 8;
     this.kTypesNum["ArmorUp"] = 9;
     this.kTypesNum["ArmorDown"] = 10;
@@ -247,7 +232,6 @@ WeaponsPack.prototype.initialize = function () {
     WeaponsSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
     WeaponsSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
 
->>>>>>> c77846895d16fd690eabbd265231562732dec88f
 
     var i;
     for (i in WeaponsSet) {
@@ -256,10 +240,6 @@ WeaponsPack.prototype.initialize = function () {
 };
 
 WeaponsPack.prototype.update = function () {
-<<<<<<< HEAD
-
-    console.log(this.currentSelectCharacter);
-=======
     // if (gEngine.Input.isKeyReleased(gEngine.Input.keys.Z)) {
     //     switchWeaponsPack();
     // }
@@ -268,7 +248,6 @@ WeaponsPack.prototype.update = function () {
         return;
     }
 
->>>>>>> c77846895d16fd690eabbd265231562732dec88f
     switch (this.currentSelectCharacter) {
         case 0:
             for (var i = 0; i < 5; i++) {
@@ -392,11 +371,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-<<<<<<< HEAD
-                    weapon.showInfoByPos(this.kFontType, cx, cy, [1, 1, 1, 1], this.singleW1, this.mCamera);
-=======
                     weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
->>>>>>> c77846895d16fd690eabbd265231562732dec88f
                 }
             }
         }
@@ -411,11 +386,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-<<<<<<< HEAD
-                    weapon.showInfoByPos(this.kFontType, cx, cy, [1, 1, 1, 1], this.singleW1, this.mCamera);
-=======
                     weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
->>>>>>> c77846895d16fd690eabbd265231562732dec88f
                 }
             }
         }
@@ -431,11 +402,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-<<<<<<< HEAD
-                    weapon.showInfoByPos(this.kFontType, cx, cy, [1, 1, 1, 1], this.singleW1, this.mCamera);
-=======
                     weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
->>>>>>> c77846895d16fd690eabbd265231562732dec88f
                 }
             }
         }
