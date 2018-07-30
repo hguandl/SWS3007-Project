@@ -55,12 +55,6 @@
         "characterType": "角色",
         "skills": [
             {
-                "name": "念经",
-                "VP": 55,
-                "atkPercent": 0.63,
-                "turn": 5
-            },
-            {
                 "name": "神圣治愈",
                 "VP": 110,
                 "HP": 51

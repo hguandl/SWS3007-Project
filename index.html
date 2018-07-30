@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Journey to the West - Beta Version</title>
+    <title>Journey to the West</title>
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
     <meta charset="utf-8">
 
@@ -167,9 +167,9 @@
 
     <!--UI-->
     <div id="default-button-group" class="UI-button-group button-group inCanvas" style="display: none;">
-        <!-- <button id="menu-button" class="button button-parchment button-rounded"
-                onclick="window.myGame.pause()">Menu (Z)
-        </button> -->
+        <button id="menu-button" class="button button-parchment button-rounded"
+                onclick="switchWeaponsPack()">Equip (Z)
+        </button>
         <button id="item-button" class="button button-parchment button-rounded"
                 onclick="switchPackage()">Item (X)
         </button>
@@ -189,7 +189,7 @@
                         alert('speed must be positive number');
                     else
                         _C.combatSpeed = speed * 10;
-                ">Set combat speed
+                ">Combat Speed
         </button>
 
         <!--test button-->
@@ -227,6 +227,24 @@
                     setPoint(51);
                 ">
             test3
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(30);
+                ">
+            pass3
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(91);
+                ">
+            pass4
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    setPoint(101);
+                ">
+            pass5
         </button>
         <button id="set-point-button2" class="button button-parchment button-rounded"
                 onclick="
