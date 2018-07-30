@@ -19,7 +19,6 @@ function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) 
     if (!this.characterType)
         this.characterType = _C.Hero;
 
-    console.log(this.characterType);
     if (this.characterType === _C.Monster) {
         try {
             this.actionPolicy = characterInfo["actionPolicy"];
@@ -293,10 +292,9 @@ Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
     this.mCurrentDEF = this.mDEF;
     this.mCurrentSPD = this.mSPD;
 
+    this.mATKPercent = 1.0;
     if (this.characterType === _C.Hero && this.mCurrentVP > this.mMaxVP)
-        this.mATKPercent = 0.65;
-    else
-        this.mATKPercent = 1.0;
+        this.mATKPercent -= _C.atkPunishTired;
     this.mDEFPercent = 1.0;
     this.mSPDPercent = 1.0;
 

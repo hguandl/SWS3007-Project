@@ -19,29 +19,29 @@ function Weapons(name, iconFile, description, type) {
 
     switch(name) {
         case "YiTian Sword" :
-            this.ATKadd = 200;
+            this.ATKadd = 5;
             this.Money = 3000;
             break;
         case "QingYun Helmet" :
-            this.DEFadd = 100;
+            this.DEFadd = 10;
             this.Money = 1500;
             break;
         case "Blue Barcer" :
-            this.ATKadd = 50;
+            this.ATKadd = 4;
             this.DEFadd = 20;
             break;
         case "Legend Armor" :
-            this.DEFadd = 200;
+            this.DEFadd = 18;
             break;
         case "Legend Trousers" :
-            this.DEFadd = 100;
+            this.DEFadd = 6;
             break;
         case "Necklace" :
-            this.ATKadd = 50;
+            this.ATKadd = 3;
             break;
         case "QingYun Shoes" :
-            this.ATKadd = 50;
-            this.SPDadd = 20;
+            this.ATKadd = 3;
+            this.SPDadd = 8;
             break;
     }
 }
