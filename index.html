@@ -275,15 +275,16 @@
         </button>
         <button id="skill-button" class="button button-parchment button-rounded"
                 onclick="
-                    if (window.combatScene.character.mCurrentVP < window.combatScene.character.mMaxVP) {
-                        UIButton.setSkillNumber(window.combatScene.character.skills.length);
-                        UIButton.displayButtonGroup('skill-button-group');
-                        window.combatScene.character.displayAllSkills();
-                    } else {
-                        document.currentScene.message('你的角色累了，不能使用技能');
-                    }
+                    UIButton.setSkillNumber(window.combatScene.character.skills.length);
+                    UIButton.displayButtonGroup('skill-button-group');
+                    window.combatScene.character.displayAllSkills();
                 "
-                onmouseenter="document.currentScene.showMsg('使用一个技能。');"
+                onmouseenter="
+                    if (window.combatScene.character.mCurrentVP < window.combatScene.character.mMaxVP)
+                        document.currentScene.showMsg('使用一个技能。');
+                    else
+                        document.currentScene.showMsg('角色过于疲劳，无法使用技能。');
+                "
                 onmouseout="document.currentScene.closeMsg();">
             技能
         </button>
