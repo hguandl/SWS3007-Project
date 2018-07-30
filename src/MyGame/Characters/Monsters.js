@@ -110,7 +110,7 @@ function initMonsters() {
                     "name": "生命抽取",
                     "VP": 25,
                     "dmgPercent": 1.14,
-                    "recoverPercent": 0.8
+                    "recoverPercent": 0.8,
                 },
                 {
                     "name": "剧毒尾针",

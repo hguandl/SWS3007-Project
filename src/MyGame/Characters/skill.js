@@ -333,7 +333,7 @@ class StealHealth extends Skill {
 
     static parse(skillInfo) {
         assertHasProperties(skillInfo, "VP", "dmgPercent", "recoverPercent");
-        return new Bite(skillInfo["VP"], skillInfo["dmgPercent"], "recoverPercent");
+        return new StealHealth(skillInfo["VP"], skillInfo["dmgPercent"], skillInfo["recoverPercent"]);
     }
 }
 
@@ -358,6 +358,6 @@ class PoisonStitch extends Skill {
 
     static parse(skillInfo) {
         assertHasProperties(skillInfo, "VP", "dmgPercent", "continuousDmg", "turn");
-        return new Bite(skillInfo["VP"], skillInfo["dmgPercent"], skillInfo["continuousDmg"], skillInfo["turn"]);
+        return new PoisonStitch(skillInfo["VP"], skillInfo["dmgPercent"], skillInfo["continuousDmg"], skillInfo["turn"]);
     }
 }
