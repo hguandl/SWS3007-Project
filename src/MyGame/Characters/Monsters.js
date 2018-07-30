@@ -99,25 +99,26 @@ function initMonsters() {
         }),
         "shishi2-huangfengguai": new Character({
             "Name": "shishi2-huangfengguai",
-            "HP": 380,
+            "HP": 430,
             "VP": 99999999,
-            "ATK": 74,
-            "DEF": 73,
+            "ATK": 76,
+            "DEF": 113,
             "SPD": 30,
             "characterType": _C.Monster,
             "skills": [
                 {
                     "name": "生命抽取",
                     "VP": 25,
-                    "dmgPercent": 1.14,
-                    "recoverPercent": 0.8,
+                    "dmgPercent": 1.24,
+                    "recoverPercent": 0.85,
                 },
                 {
                     "name": "剧毒尾针",
                     "VP": 200,
-                    "dmgPercent": 0.5,
-                    "continuousDmg": 20,
-                    "turn": 3
+                    "dmgPercent": 0.3,
+                    "defPercent": 0.6,
+                    "continuousDmg": 24,
+                    "turn": 4
                 }
             ],
             "actionPolicy": new InTurnPolicy([1, 0, 0, -1]),
