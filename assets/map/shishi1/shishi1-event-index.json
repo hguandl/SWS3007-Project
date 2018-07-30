@@ -10,8 +10,8 @@
 	"135": "finally",
 	"164": "finally",
 
-	"101": [[null, "Go", "shishi2"], true, 0],
-	"825": [[null, "Go", "huoyanshandi"], true, 0],
-	"826": [[null, "Go", "huoyanshandi"], true, 0],
-	"827": [[null, "Go", "huoyanshandi"], true, 0]
+	"101": "go_shishi2",
+	"825": "go_huoyanshandi",
+	"826": "go_huoyanshandi",
+	"827": "go_huoyanshandi"
 }

@@ -245,6 +245,12 @@
         </button>
         <button id="set-point-button2" class="button button-parchment button-rounded"
                 onclick="
+                    setPoint(101);
+                ">
+            pass5
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
                     while (document.mMsgQueue.length > 0) {
                         document.mMsgQueue.shift();
                     }
@@ -276,7 +282,12 @@
                     UIButton.displayButtonGroup('skill-button-group');
                     window.combatScene.character.displayAllSkills();
                 "
-                onmouseenter="document.currentScene.showMsg('使用一个技能。');"
+                onmouseenter="
+                    if (window.combatScene.character.mCurrentVP < window.combatScene.character.mMaxVP)
+                        document.currentScene.showMsg('使用一个技能。');
+                    else
+                        document.currentScene.showMsg('角色过于疲劳，无法使用技能。');
+                "
                 onmouseout="document.currentScene.closeMsg();">
             技能
         </button>

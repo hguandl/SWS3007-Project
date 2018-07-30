@@ -41,8 +41,8 @@ function initMonsters() {
             "Name": "huoyanshankou-xiaozu",
             "HP": 147,
             "VP": 99999999,
-            "ATK": 62,
-            "DEF": 350,
+            "ATK": 66,
+            "DEF": 240,
             "SPD": 30,
             "characterType": _C.Monster,
             "skills": [
@@ -58,8 +58,8 @@ function initMonsters() {
             "Name": "huoyanshandi-xiaozu",
             "HP": 154,
             "VP": 99999999,
-            "ATK": 69,
-            "DEF": 270,
+            "ATK": 73,
+            "DEF": 250,
             "SPD": 30,
             "characterType": _C.Monster,
             "skills": [
@@ -76,40 +76,40 @@ function initMonsters() {
             "Name": "huoyanshandi-heifengguai",
             "HP": 260,
             "VP": 99999999,
-            "ATK": 72,
-            "DEF": 330,
+            "ATK": 77,
+            "DEF": 270,
             "SPD": 30,
             "characterType": _C.Monster,
             "skills": [
                 {
                     "name": "睡懒觉",
                     "VP": -20,
-                    "HP": 43,
+                    "HP": 37,
                     "atkPercent": 1.10
                 },
                 {
                     "name": "狂怒",
                     "VP": 100,
-                    "dmgPercent": 1.05,
+                    "dmgPercent": 1.12,
                     "atkNumber": 8,
                     "turn": 99999
                 }
             ],
-            "actionPolicy": new InTurnPolicy([1, 0, -1]),
+            "actionPolicy": new InTurnPolicy([1, -1, 0, -1]),
         }),
         "shishi-huangfengguai": new Character({
             "Name": "shishi-huangfengguai",
-            "HP": 400,
+            "HP": 380,
             "VP": 99999999,
             "ATK": 74,
-            "DEF": 83,
+            "DEF": 73,
             "SPD": 30,
             "characterType": _C.Monster,
             "skills": [
                 {
                     "name": "生命抽取",
                     "VP": 25,
-                    "dmgPercent": 1.13,
+                    "dmgPercent": 1.14,
                     "recoverPercent": 0.8
                 },
                 {

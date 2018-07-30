@@ -3,7 +3,7 @@
         "Name": "Monkey King",
         "HP": 400,
         "VP": 480,
-        "ATK": 83,
+        "ATK": 88,
         "DEF": 90,
         "SPD": 50,
         "characterType": "角色",
@@ -11,13 +11,13 @@
             {
                 "name": "火眼金睛",
                 "VP": 77,
-                "defPercent": 0.55,
-                "turn": 6
+                "defPercent": 0.53,
+                "turn": 5
             },
             {
                 "name": "当头一棒",
                 "VP": 52,
-                "dmgPercent": 1.42
+                "dmgPercent": 1.45
             }
         ]
     },
@@ -54,12 +54,6 @@
         "SPD": 40,
         "characterType": "角色",
         "skills": [
-            {
-                "name": "念经",
-                "VP": 55,
-                "atkPercent": 0.63,
-                "turn": 5
-            },
             {
                 "name": "神圣治愈",
                 "VP": 110,
