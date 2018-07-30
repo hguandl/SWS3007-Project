@@ -191,6 +191,9 @@
                         _C.combatSpeed = speed * 10;
                 ">Combat Speed
         </button>
+        <button class="button button-parchment button-rounded"
+                onclick="switchAbout()">About
+        </button>
 
         <!--test button-->
         <button id="set-point-button1" class="button button-parchment button-rounded"
@@ -381,9 +384,24 @@
     </div>
 
 </div>
-<div class="myButton" id="pauseUI" style="display: none">
-    <p><a onclick="reset();">Reset!</a></p>
-    <p><a onclick="resume();">Resume</a></p>
+<div class="myButton" id="aboutUI" style="display: none">
+    <h1>Credits</h1>
+    <h3>2018 NUS SoC SWS3007 - Group 2</h3>
+    <h4>Instructor &nbsp&nbsp&nbsp&nbsp Kelvin Sung</h4>
+    <table border="0" style="text-align: left; margin: auto;">
+        <tr><td>李奕辰</td><td>Li Yichen</td><td>　　　　</td><td>Comat, character program</td></tr>
+        <tr><td>吴雨初</td><td>Wu Yuchu</td><td>　　　　</td><td>Package; Status bar; Arts</td></tr>
+        <tr><td>关浩</td><td>Guan Hao</td><td>　　　　</td><td>Map, hero, event program</td></tr>
+        <tr><td>羊达明</td><td>Yang Daming</td><td>　　　　</td><td>Event script; Arts; BGM</td></tr>
+    </table>
+    <h1>Acknowledge</h1>
+    <table border="0" style="text-align: left; margin: auto;">
+        <tr><td>Maps & characters</td><td>　</td><td>made with</td><td>　　　　</td><td>RPG Maker MV</td></tr>
+        <tr><td>Item pictures</td><td>　</td><td>retrieved from</td><td>　　　　</td><td>Steam Community</td></tr>
+        <tr><td>Music</td><td>　</td><td>retrieved from</td><td>　　　　</td><td>Netease Music</td></tr>
+    </table>
+    <h1>Website</h1>
+    <p style="font-size: 20px">https://www.hguandl.com/2DGame</p>
 </div>
 <div class="dialogue" id="infoBox" style="display: none">
     <div style="float: right; margin-top: 10px; margin-right: 40px">
@@ -482,6 +500,14 @@
 
     function isMapFreezed() {
         return document.mShowBigMap || document.mShowPackage || document.mShowMsgBox || document.mShowWeaponsPack;
+    }
+
+    function switchAbout() {
+        var status = document.getElementById("aboutUI").style.display;
+        if (status === "block")
+            document.getElementById("aboutUI").style.display = "none";
+        else
+            document.getElementById("aboutUI").style.display = "block";
     }
 </script>
 

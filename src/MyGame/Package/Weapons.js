@@ -11,7 +11,7 @@ function Weapons(name, iconFile, description, type) {
     this.mEquipedInfo = -1;
 
     this.mNameText = new FontRenderable(name);
-    this.mDescriptionText = new FontRenderable(description);
+    //this.mDescriptionText = new FontRenderable(description);
 
     this.HPadd = this.VPadd = this.ATKadd = this.DEFadd = this.SPDadd = this.EXPadd = 0;
     this.HPratio = this.VPratio = this.ATKratio = this.DEFratio = this.SPDratio = this.EXPratio = 1;
@@ -67,11 +67,19 @@ Weapons.prototype.showNameByPos = function (fontType, leftX, topY, color, textH,
 
 // font: the font type; left-top position: [leftX, topY]
 Weapons.prototype.showInfoByPos = function (fontType, leftX, topY, color, textH, aCamera) {
-    this.mDescriptionText.setFont(fontType);
-    this.mDescriptionText.setColor(color);
-    this.mDescriptionText.getXform().setPosition(leftX, topY);
-    this.mDescriptionText.setTextHeight(textH);
-    this.mDescriptionText.draw(aCamera);
+    for (var i = 0; i < this.mDescription.length; i++) {
+        var text = new FontRenderable(this.mDescription[i]);
+        text.setFont(fontType);
+        text.setColor(color);
+        text.getXform().setPosition(leftX, topY - i * textH);
+        text.setTextHeight(textH);
+        text.draw(aCamera);
+    }
+    // this.mDescriptionText.setFont(fontType);
+    // this.mDescriptionText.setColor(color);
+    // this.mDescriptionText.getXform().setPosition(leftX, topY);
+    // this.mDescriptionText.setTextHeight(textH);
+    // this.mDescriptionText.draw(aCamera);
 };
 
 

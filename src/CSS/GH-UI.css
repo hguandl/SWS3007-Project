@@ -20,14 +20,16 @@ button {
 }
 
 .myButton {
+    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     margin-left: -485px;
     position: absolute;
     left: 50%;
     top: 8px;
     width: 970px;
-    height: 640px;
+    height: 600px;
     background-color:rgba(63,63,63,0.8);
     text-align: center;
+    color: #f2f2f2;
 }
 .myButton a {
     text-decoration: none;
@@ -45,9 +47,10 @@ button {
     background: #385f9e;
 }
 .myButton p {
-    margin-top:4em;
+    /*margin-top:4em;*/
 }
 .dialogue {
+    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     margin-left: -485px;
     position: absolute;
     left: 50%;

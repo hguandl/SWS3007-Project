@@ -9,7 +9,7 @@ function Props(name, iconFile, description) {
     this.mType = "Food";
 
     this.mNameText = new FontRenderable(name);
-    this.mDescriptionText = new FontRenderable(description);
+    //this.mDescriptionText = new FontRenderable(description);
 
     this.HP = this.VP = this.ATK = this.DEF = this.SPD = this.EXP = 0;
     this.Money = 20;
@@ -42,14 +42,14 @@ function Props(name, iconFile, description) {
             this.Money = 100;
             break;
         case "Dongpo Pork" :
-            this.ATK = 15;
-            this.Money = 800;
+            this.ATK = 8;
+            this.Money = 200;
             break;
         case "What's this?" :
-            this.DEF = 15;
-            this.Money = 800;
+            this.DEF = 8;
+            this.Money = 200;
             break;
-        case "Carrot" :
+        case "Hu Luo Bo" :
             this.HP = 200;
             this.VP = -100;
             break;
@@ -58,6 +58,18 @@ function Props(name, iconFile, description) {
             this.mType = "Mission";
             this.Money = 10000;
             break;
+        case "Zu Fang Chuang Yao" :
+            this.HP = 200;
+            this.VP = -50;
+            this.Money = 90;
+            break;
+        case "Hu Luo Bo" :
+            this.HP = 100;
+            this.Money = 50;
+            break;
+        case "Tong Jing Ti" :
+            this.ATK = 8;
+            this.Money = 100;
     }
 }
 
@@ -82,11 +94,19 @@ Props.prototype.showNameByPos = function (fontType, leftX, topY, color, textH, a
 
 // font: the font type; left-top position: [leftX, topY]
 Props.prototype.showInfoByPos = function (fontType, leftX, topY, color, textH, aCamera) {
-    this.mDescriptionText.setFont(fontType);
-    this.mDescriptionText.setColor(color);
-    this.mDescriptionText.getXform().setPosition(leftX, topY);
-    this.mDescriptionText.setTextHeight(textH);
-    this.mDescriptionText.draw(aCamera);
+    for (var i = 0; i < this.mDescription.length; i++) {
+        var text = new FontRenderable(this.mDescription[i]);
+        text.setFont(fontType);
+        text.setColor(color);
+        text.getXform().setPosition(leftX, topY - i * textH);
+        text.setTextHeight(textH);
+        text.draw(aCamera);
+    }
+    // this.mDescriptionText.setFont(fontType);
+    // this.mDescriptionText.setColor(color);
+    // this.mDescriptionText.getXform().setPosition(leftX, topY);
+    // this.mDescriptionText.setTextHeight(textH);
+    // this.mDescriptionText.draw(aCamera);
 };
 
 Props.prototype.getHPadd = function () {
