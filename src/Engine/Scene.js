@@ -56,7 +56,7 @@ Scene.prototype.appendMsg = function (msg) {
 Scene.prototype.closeMsg = function () {
     document.getElementById('infoBox').style.display = "none";
     document.getElementById('info_face').src = "assets/blank.png";
-    document.getElementById('info_text').innerText = null;
+    document.getElementById('info_text').innerText = "";
     document.getElementById('info_prompt').style.display = "block";
 };
 
