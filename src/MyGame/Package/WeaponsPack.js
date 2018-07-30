@@ -232,7 +232,7 @@ WeaponsPack.prototype.initialize = function () {
     // WeaponsSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
 
     ItemSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, ["Extremely Rare!!", "Attack + 12"], "Sword");
-    ItemSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, ["Attack + 7 ,Defense + 10"], "Arm");
+    ItemSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, ["Attack + 5 ,Defense + 5"], "Arm");
     ItemSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, ["Very Rare! ", "Defense + 10"], "Helmet");
     ItemSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, ["Super Rare!", "Defense + 8"], "ArmorUp");
     ItemSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, ["Defense + 6"], "ArmorDown");
@@ -254,6 +254,7 @@ WeaponsPack.prototype.update = function () {
     // }
 
     if (!document.mShowWeaponsPack) {
+        this.currentSelectPage = 0;
         return;
     }
 
