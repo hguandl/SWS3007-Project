@@ -1,8 +1,6 @@
 "use strict";
 
 function WeaponsPack () {
-    console.log("new weaponspack");
-
     this.kBgFile = [];
     this.kBgFile[2] = "assets/weapons_pack/bg_tangseng.png";
     this.kBgFile[0] = "assets/weapons_pack/bg_sunwukong.png";
@@ -11,12 +9,12 @@ function WeaponsPack () {
     this.kBrickFile = "assets/weapons_pack/brick_2.png";
     this.kUIBgFile = "assets/weapons_pack/ui_bg.png";
 
-    this.kTangsengFileLeft = "assets/weapons_pack/tangseng_left.png";
-    this.kTangsengFileRight = "assets/weapons_pack/tangseng_right.png";
-    this.kMonkeyFileLeft = "assets/weapons_pack/monkey_left.png";
-    this.kMonkeyFileRight = "assets/weapons_pack/monkey_right.png";
-    this.kZhubajieFileLeft = "assets/weapons_pack/zhubajie_left.png";
-    this.kZhubajieFileRight = "assets/weapons_pack/zhubajie_right.png";
+    // this.kTangsengFileLeft = "assets/weapons_pack/tangseng_left.png";
+    // this.kTangsengFileRight = "assets/weapons_pack/tangseng_right.png";
+    // this.kMonkeyFileLeft = "assets/weapons_pack/monkey_left.png";
+    // this.kMonkeyFileRight = "assets/weapons_pack/monkey_right.png";
+    // this.kZhubajieFileLeft = "assets/weapons_pack/zhubajie_left.png";
+    // this.kZhubajieFileRight = "assets/weapons_pack/zhubajie_right.png";
 
     this.tangsengAnimate = [];
     this.monkeyAnimate = [];
@@ -53,8 +51,10 @@ function WeaponsPack () {
     this.width = 160;
     this.singleW1 = 0.0322 * this.width;
     this.gapY1 = 0.0078 * this.width;
-    this.firstBrickX = this.leftX + 0.5483 * this.width;
-    this.firstBrickY = this.topY - 0.1372 * this.width;
+    //this.firstBrickX = this.leftX + 0.5483 * this.width;
+    //this.firstBrickY = this.topY - 0.1372 * this.width;
+    this.firstBrickX = this.leftX + 0.5500 * this.width;
+    this.firstBrickY = this.topY - 0.1340 * this.width;
 
     this.weaponsCollections = [];
     this.equipedWeapons = [];
@@ -77,12 +77,12 @@ WeaponsPack.prototype.loadScene = function () {
     }
     gEngine.Textures.loadTexture(this.kBrickFile);
     gEngine.Textures.loadTexture(this.kUIBgFile);
-    gEngine.Textures.loadTexture(this.kTangsengFileLeft);
-    gEngine.Textures.loadTexture(this.kTangsengFileRight);
-    gEngine.Textures.loadTexture(this.kMonkeyFileLeft);
-    gEngine.Textures.loadTexture(this.kMonkeyFileRight);
-    gEngine.Textures.loadTexture(this.kZhubajieFileLeft);
-    gEngine.Textures.loadTexture(this.kZhubajieFileRight);
+    // gEngine.Textures.loadTexture(this.kTangsengFileLeft);
+    // gEngine.Textures.loadTexture(this.kTangsengFileRight);
+    // gEngine.Textures.loadTexture(this.kMonkeyFileLeft);
+    // gEngine.Textures.loadTexture(this.kMonkeyFileRight);
+    // gEngine.Textures.loadTexture(this.kZhubajieFileLeft);
+    // gEngine.Textures.loadTexture(this.kZhubajieFileRight);
 
     gEngine.Textures.loadTexture(this.kSword_A1);
     gEngine.Textures.loadTexture(this.kHelmet_A1);
@@ -149,65 +149,65 @@ WeaponsPack.prototype.initialize = function () {
 
     // endregion
 
-    // region animation
-    this.mAnimationPos[0] = [this.leftX + 0.64 * this.width, this.topY - 0.19 * this.width];
-    this.mAnimationPos[1] = [this.leftX + 0.6 * this.width, this.topY - 0.27 * this.width];
-    this.mAnimationPos[2] = [this.leftX + 0.635 * this.width, this.topY - 0.35 * this.width];
-    this.mAnimationPos[3] = [this.leftX + 0.685 * this.width, this.topY - 0.23 * this.width];
-    this.mAnimationPos[4] = [this.leftX + 0.69 * this.width, this.topY - 0.32 * this.width];
+    // // region animation
+    // this.mAnimationPos[0] = [this.leftX + 0.64 * this.width, this.topY - 0.19 * this.width];
+    // this.mAnimationPos[1] = [this.leftX + 0.6 * this.width, this.topY - 0.27 * this.width];
+    // this.mAnimationPos[2] = [this.leftX + 0.635 * this.width, this.topY - 0.35 * this.width];
+    // this.mAnimationPos[3] = [this.leftX + 0.685 * this.width, this.topY - 0.23 * this.width];
+    // this.mAnimationPos[4] = [this.leftX + 0.69 * this.width, this.topY - 0.32 * this.width];
+    //
+    // this.tangsengAnimate[0] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
+    // this.tangsengAnimate[1] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
+    // this.tangsengAnimate[2] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
+    // this.tangsengAnimate[3] = new SpriteAnimateRenderable(this.kTangsengFileRight);
+    // this.tangsengAnimate[4] = new SpriteAnimateRenderable(this.kTangsengFileRight);
+    // this.tangsengAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.tangsengAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.tangsengAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.tangsengAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    // this.tangsengAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    //
+    // this.monkeyAnimate[0] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
+    // this.monkeyAnimate[1] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
+    // this.monkeyAnimate[2] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
+    // this.monkeyAnimate[3] = new SpriteAnimateRenderable(this.kMonkeyFileRight);
+    // this.monkeyAnimate[4] = new SpriteAnimateRenderable(this.kMonkeyFileRight);
+    // this.monkeyAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.monkeyAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.monkeyAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.monkeyAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    // this.monkeyAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    //
+    // this.zhubajieAnimate[0] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
+    // this.zhubajieAnimate[1] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
+    // this.zhubajieAnimate[2] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
+    // this.zhubajieAnimate[3] = new SpriteAnimateRenderable(this.kZhubajieFileRight);
+    // this.zhubajieAnimate[4] = new SpriteAnimateRenderable(this.kZhubajieFileRight);
+    // this.zhubajieAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.zhubajieAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.zhubajieAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.zhubajieAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    // this.zhubajieAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
 
-    this.tangsengAnimate[0] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
-    this.tangsengAnimate[1] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
-    this.tangsengAnimate[2] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
-    this.tangsengAnimate[3] = new SpriteAnimateRenderable(this.kTangsengFileRight);
-    this.tangsengAnimate[4] = new SpriteAnimateRenderable(this.kTangsengFileRight);
-    this.tangsengAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.tangsengAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.tangsengAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.tangsengAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-    this.tangsengAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-
-    this.monkeyAnimate[0] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
-    this.monkeyAnimate[1] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
-    this.monkeyAnimate[2] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
-    this.monkeyAnimate[3] = new SpriteAnimateRenderable(this.kMonkeyFileRight);
-    this.monkeyAnimate[4] = new SpriteAnimateRenderable(this.kMonkeyFileRight);
-    this.monkeyAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.monkeyAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.monkeyAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.monkeyAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-    this.monkeyAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-
-    this.zhubajieAnimate[0] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
-    this.zhubajieAnimate[1] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
-    this.zhubajieAnimate[2] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
-    this.zhubajieAnimate[3] = new SpriteAnimateRenderable(this.kZhubajieFileRight);
-    this.zhubajieAnimate[4] = new SpriteAnimateRenderable(this.kZhubajieFileRight);
-    this.zhubajieAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.zhubajieAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.zhubajieAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.zhubajieAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-    this.zhubajieAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-
-    for (var i = 0; i < 5; i++) {
-        this.tangsengAnimate[i].setColor([1, 1, 1, 0]);
-        this.tangsengAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
-        this.tangsengAnimate[i].getXform().setSize(10, 10);
-        this.tangsengAnimate[i].setAnimationSpeed(6);
-        this.tangsengAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
-
-        this.monkeyAnimate[i].setColor([1, 1, 1, 0]);
-        this.monkeyAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
-        this.monkeyAnimate[i].getXform().setSize(10, 10);
-        this.monkeyAnimate[i].setAnimationSpeed(6);
-        this.monkeyAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
-
-        this.zhubajieAnimate[i].setColor([1, 1, 1, 0]);
-        this.zhubajieAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
-        this.zhubajieAnimate[i].getXform().setSize(10, 10);
-        this.zhubajieAnimate[i].setAnimationSpeed(6);
-        this.zhubajieAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
-    }
+    // for (var i = 0; i < 5; i++) {
+    //     this.tangsengAnimate[i].setColor([1, 1, 1, 0]);
+    //     this.tangsengAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
+    //     this.tangsengAnimate[i].getXform().setSize(10, 10);
+    //     this.tangsengAnimate[i].setAnimationSpeed(6);
+    //     this.tangsengAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
+    //
+    //     this.monkeyAnimate[i].setColor([1, 1, 1, 0]);
+    //     this.monkeyAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
+    //     this.monkeyAnimate[i].getXform().setSize(10, 10);
+    //     this.monkeyAnimate[i].setAnimationSpeed(6);
+    //     this.monkeyAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
+    //
+    //     this.zhubajieAnimate[i].setColor([1, 1, 1, 0]);
+    //     this.zhubajieAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
+    //     this.zhubajieAnimate[i].getXform().setSize(10, 10);
+    //     this.zhubajieAnimate[i].setAnimationSpeed(6);
+    //     this.zhubajieAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
+    // }
 
     this.kTypesNum["Helmet"] = 0;
     this.kTypesNum["Necklace"] = 1;
@@ -223,18 +223,29 @@ WeaponsPack.prototype.initialize = function () {
 
     this.kTypes = ["Helmet", "Necklace", "Arm", "Bracelet", "Bracelet2", "Shoes", "Sword", "Shield", "Mask", "ArmorUp", "ArmorDown"];
 
-    WeaponsSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, "Super Rare!! " + "Attack+200", "Sword");
-    WeaponsSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, "Attack + 50,Defense + 20", "Arm");
-    WeaponsSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, "Very Rare! " + "Defense+100,Avoid+0.10", "Helmet");
-    WeaponsSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, "Defense + 200", "ArmorUp");
-    WeaponsSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, "Defense + 100", "ArmorDown");
-    WeaponsSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
-    WeaponsSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
+    // WeaponsSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, "Super Rare!! " + "Attack+200", "Sword");
+    // WeaponsSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, "Attack + 50,Defense + 20", "Arm");
+    // WeaponsSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, "Very Rare! " + "Defense+100,Avoid+0.10", "Helmet");
+    // WeaponsSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, "Defense + 200", "ArmorUp");
+    // WeaponsSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, "Defense + 100", "ArmorDown");
+    // WeaponsSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, "Attack + 50", "Necklace");
+    // WeaponsSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, "Attack + 50, Speed + 20", "Shoes");
 
-    var i;
-    for (i in WeaponsSet) {
-        window.package.addProps(WeaponsSet[i]);                    // 全给玩家
-    }
+    ItemSet["YiTian Sword"] = new Weapons("YiTian Sword", this.kSword_A1, ["Extremely Rare!!", "Attack + 12"], "Sword");
+    ItemSet["Blue Barcer"] = new Weapons("Blue Barcer", this.kArm_A1, ["Attack + 5 ,Defense + 5"], "Arm");
+    ItemSet["QingYun Helmet"] = new Weapons("QingYun Helmet", this.kHelmet_A1, ["Very Rare! ", "Defense + 10"], "Helmet");
+    ItemSet["Legend Armor"] = new Weapons("Legend Armor", this.kArmor_up_A1, ["Super Rare!", "Defense + 8"], "ArmorUp");
+    ItemSet["Legend Trousers"] = new Weapons("Legend Trousers", this.kArmor_down_A1, ["Defense + 6"], "ArmorDown");
+    ItemSet["Necklace"] = new Weapons("Necklace", this.kNecklace_A1, ["Pretty Rare", "Attack + 8"], "Necklace");
+    ItemSet["QingYun Shoes"] = new Weapons("QingYun Shoes", this.kShoes_A1, ["Attack + 5"], "Shoes");
+
+    window.package.addProps(ItemSet["YiTian Sword"]);
+    window.package.addProps(ItemSet["Legend Armor"]);
+
+    // var i;
+    // for (i in WeaponsSet) {
+    //     window.package.addProps(WeaponsSet[i]);                    // 全给玩家
+    // }
 };
 
 WeaponsPack.prototype.update = function () {
@@ -243,26 +254,27 @@ WeaponsPack.prototype.update = function () {
     // }
 
     if (!document.mShowWeaponsPack) {
+        this.currentSelectPage = 0;
         return;
     }
 
-    switch (this.currentSelectCharacter) {
-        case 0:
-            for (var i = 0; i < 5; i++) {
-                this.tangsengAnimate[i].updateAnimation();
-            }
-            break;
-        case 1:
-            for (var i = 0; i < 5; i++) {
-                this.monkeyAnimate[i].updateAnimation();
-            }
-            break;
-        case 2:
-            for (var i = 0; i < 5; i++) {
-                this.zhubajieAnimate[i].updateAnimation();
-            }
-            break;
-    }
+    // switch (this.currentSelectCharacter) {
+    //     case 0:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.tangsengAnimate[i].updateAnimation();
+    //         }
+    //         break;
+    //     case 1:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.monkeyAnimate[i].updateAnimation();
+    //         }
+    //         break;
+    //     case 2:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.zhubajieAnimate[i].updateAnimation();
+    //         }
+    //         break;
+    // }
 
     switch (this.currentSelectPage) {
         // left page
@@ -369,7 +381,8 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-                    weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
+                    weapon.showInfoByPos(this.kFontType, cx + 5, cy, [0.9, 0.9, 0.9, 0.9], 0.4 * this.singleW1, this.mCamera);
+                    //weapon.showInfoByPos(this.kFontType, this.firstBrickX + 1.5 * this.singleW1, this.firstBrickY - 8 * this.singleW1, [0.8, 0.8, 0.8, 0.9], 0.4 * this.singleW1, this.mCamera);
                 }
             }
         }
@@ -384,8 +397,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-                    //weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
-
+                    weapon.showInfoByPos(this.kFontType, cx + 5, cy, [0.9, 0.9, 0.9, 0.9], 0.4 * this.singleW1, this.mCamera);
                 }
             }
         }
@@ -401,7 +413,7 @@ WeaponsPack.prototype.draw = function () {
             if (weapon != null) {
                 weapon.drawIconByPos(cx, cy, this.singleW1, this.singleW1, this.mCamera);
                 if (this.currentSelectWeapon == i && this.currentSelectPage == 1) {
-                    weapon.showInfoByPos(this.kFontType, cx + 0.5, cy, [1, 1, 1, 1], 0.3 * this.singleW1, this.mCamera);
+                    weapon.showInfoByPos(this.kFontType, cx - 20, cy, [0.9, 0.9, 0.9, 0.9], 0.4 * this.singleW1, this.mCamera);
                 }
             }
         }
@@ -421,23 +433,23 @@ WeaponsPack.prototype.draw = function () {
 
     }
 
-    switch (this.currentSelectCharacter) {
-        case 0:
-            for (var i = 0; i < 5; i++) {
-                this.tangsengAnimate[i].draw(this.mCamera);
-            }
-            break;
-        case 1:
-            for (var i = 0; i < 5; i++) {
-                this.monkeyAnimate[i].draw(this.mCamera);
-            }
-            break;
-        case 2:
-            for (var i = 0; i < 5; i++) {
-                this.zhubajieAnimate[i].draw(this.mCamera);
-            }
-            break;
-    }
+    // switch (this.currentSelectCharacter) {
+    //     case 0:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.tangsengAnimate[i].draw(this.mCamera);
+    //         }
+    //         break;
+    //     case 1:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.monkeyAnimate[i].draw(this.mCamera);
+    //         }
+    //         break;
+    //     case 2:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.zhubajieAnimate[i].draw(this.mCamera);
+    //         }
+    //         break;
+    // }
 };
 
 WeaponsPack.prototype.equipWeapon = function (weapon, charNum) {

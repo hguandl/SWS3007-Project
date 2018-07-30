@@ -16,13 +16,16 @@ class SkillList {
  */
 window.allSkills = {
     "火眼金睛": FieryEyes,
-    "强力打击": HeavyHit,
+    "当头一棒": HeavyHit,
     "三昧真火": SamadhiFire,
     "睡懒觉": SlackSleep,
     "念经": Chant,
     "锤击": BatStrike,
     "神圣治愈": HolyRedemption,
     "撕咬": Bite,
+    "狂怒": Fury,
+    "生命抽取": StealHealth,
+    "剧毒尾针": PoisonStitch,
 };
 
 /**

@@ -62,6 +62,10 @@ class HPBar {
         this.computeHPXform();
     }
 
+    update() {
+        this.computeHPXform();
+    }
+
     draw(camera) {
         this.BlackBar.draw(camera);
         this.GreenBar.draw(camera);

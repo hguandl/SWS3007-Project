@@ -48,9 +48,9 @@ function Combat(firstCharacter, monster) {
 
     // todo: change this with respect to battle place
     this.kBackground = "assets/map/zhuzishan/battle.png";
-    this.kBGM = "assets/bgm/zhuzishan-battle.mp3";
+    this.kBGM = "assets/bgm/zhuzishan-battle.m4a";
     this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
-    this.monster.HPBar = "";
+    this.monster.HPBar = null;
 
     /**  @type Camera  */
     this.camera = null;
@@ -270,7 +270,7 @@ Combat.prototype.unloadScene = function () {
 };
 
 Combat.prototype.initialize = function () {
-    gEngine.AudioClips.playBackgroundAudio(this.kBGM);
+    gEngine.AudioClips.playBackgroundAudio(this.kBGM)
 
     this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
 
@@ -287,8 +287,16 @@ Combat.prototype.initialize = function () {
     this.mBackground.getXform().setPosition(0, 0);
     this.mBackground.getXform().setSize(this.camera.getWCWidth(), this.camera.getWCHeight());
 
-    this.character = this.firstCharacter;
-    delete this.firstCharacter;
+    if (!this.character) {
+        this.character = this.firstCharacter;
+        delete this.firstCharacter;
+    }
+
+    this.monster.mCurrentHP = this.monster.mMaxHP;
+    this.monster.turnEndStatus = [];
+    this.character.turnEndStatus = [];
+    this.monster.mCurrentHP = this.monster.mMaxHP;
+    this.monster.mCurrentVP = 0;
 
     // 改变显示的怪物图标
     /**  @type SpriteAnimateRenderable  */
@@ -340,6 +348,7 @@ Combat.prototype.draw = function () {
 Combat.prototype.update = function () {
     window.statusBar.update();
     window.package.update();
+    this.monsterHPBar.update();
 
     if (this.status !== _C.displaying)
         return;
@@ -369,7 +378,8 @@ function enterCombat(game, firstCharacter, monster, sceneName) {
     console.assert(monster);
     console.assert(sceneName);
 
-    window.combatScene.firstCharacter = firstCharacter;
+    if (!window.combatScene.firstCharacter)
+        window.combatScene.firstCharacter = firstCharacter;
     window.combatScene.setMonsterByName(monster);
     window.combatScene.kBackground = "assets/map/" + sceneName + "/battle.png";
 

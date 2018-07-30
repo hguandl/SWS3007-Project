@@ -44,6 +44,7 @@ function Package () {
     this.mGapX = 0.0075 * this.width;
     this.mGapY = 0.0012 * this.width;
 
+    this.mMoneyIcon = null;
     this.mMoney = 1000;
     this.mMoneyH = 3;
     this.mMoneyColor = [0.2, 0.2, 0.2, 0.8];
@@ -116,36 +117,42 @@ Package.prototype.initialize = function () {
     this.mUIBg.setColor([1, 1, 1, 0]);
     this.mUIBg.getXform().setPosition(-200, -200);
 
-    this.mMoneyText = new FontRenderable("$ " + this.mMoney);
+    this.mMoneyIcon = new TextureRenderable(this.kMoneyIconFile);
+    this.mMoneyIcon.getXform().setPosition(this.leftX + 0.275 * this.width, this.topY - 0.185 * this.width);
+    this.mMoneyIcon.getXform().setSize(0.08 * this.width, 0.08 * this.width);
+
+    this.mMoneyText = new FontRenderable("  " + this.mMoney);
     this.mMoneyText.setFont(this.kFontType);
     this.mMoneyText.setColor(this.mMoneyColor);
     this.mMoneyText.getXform().setPosition(this.leftX + 0.27 * this.width, this.topY - 0.175 * this.width);
     this.mMoneyText.setTextHeight(0.043 * this.width);
 
-    ItemSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
-    ItemSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
-    ItemSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
-    ItemSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
-    ItemSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
-    ItemSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
-    ItemSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
-    ItemSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
-    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it (do not use)");
-    ItemSet["Carrot"] = new Props("Carrot", this.kCarrot, "Rabbit's favourite");
-    ItemSet["Fire Stone"] = new Props("Fire Stone", this.kFireStone, "Evolve a pokemon?");
-    ItemSet["ZuFangChuangYao"] = new Props("ZuFangChuangYao", this.kJinchuangyao, "Handed down from the ancestor");
+    ItemSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, ["Retrieve All HP"]);
+    ItemSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, ["Retrieve All VP"]);
+    ItemSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, ["Retrieve 400 HP"]);
+    ItemSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, ["Retrieve 400 VP"]);
+    ItemSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, ["Retrieve 250 HP"]);
+    ItemSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, ["Retrieve 250 VP"]);
+    ItemSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, ["Just delicious...", "May add a little attack"]);
+    ItemSet["What's this?"] = new Props("What's this?", this.kWhatsThis, ["Taste awful...", "Increase defense"]);
+    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, ["Chu Liuxiang needs it"]);
+    ItemSet["huluobo"] = new Props("Hu Luo Bo", this.kCarrot, ["Rabbit's favourite", "Retrieve 100 HP"]);
+    ItemSet["tongjingti"] = new Props("Tong Jing Ti", this.kFireStone, ["Evolve a pokemon?", "Stimulate attack desire"]);
+    ItemSet["zufangchuangyao"] = new Props("Zu Fang Chuang Yao", this.kJinchuangyao, ["Handed down from the ancestor", "Retrieve 200 HP and 50 VP"]);
 
     this.addProps(ItemSet["Queen Peach"]);
     this.addProps(ItemSet["Nine Turn Dan"]);
     this.addProps(ItemSet["Blood of Dragon"]);
     this.addProps(ItemSet["Spirit of Dragon"]);
-    this.addProps(ItemSet["Ham Bone"]);
+    // this.addProps(ItemSet["Ham Bone"]);
     this.addProps(ItemSet["Glutinous Congee"]);
     this.addProps(ItemSet["Dongpo Pork"]);
     this.addProps(ItemSet["What's this?"]);
 
-    this.addProps(ItemSet["golden_lotus"]);
+    //this.addProps(ItemSet["golden_lotus"]);
     //this.addProps(ItemSet["ZuFangChuangYao"]);
+    //this.addProps(ItemSet["zufangchuangyao"]);
+    //this.addProps(ItemSet["tongjingti"]);
 };
 
 
@@ -158,7 +165,8 @@ Package.prototype.draw = function () {
     this.mBg.draw(this.mCamera);
 
     // show money
-    this.mMoneyText.setText("$ " + this.mMoney);
+    this.mMoneyIcon.draw(this.mCamera);
+    this.mMoneyText.setText("   " + this.mMoney);
     this.mMoneyText.draw(this.mCamera);
 
     // draw bricks and props
@@ -187,7 +195,7 @@ Package.prototype.draw = function () {
 
             if (this.mCurrentShowing >= 0) {
                 this.mPropsCollections[this.mCurrentShowing].showNameByPos(this.kFontType, this.mPropsNameX, this.mPropsNameY, this.mPropsCollectionsColor, 0.04 * this.width, this.mCamera);
-                this.mPropsCollections[this.mCurrentShowing].showInfoByPos(this.kFontType, this.mPropsDescX, this.mPropsDescY, this.mPropsCollectionsColor, 0.032 * this.width, this.mCamera);
+                this.mPropsCollections[this.mCurrentShowing].showInfoByPos(this.kFontType, this.mPropsDescX, this.mPropsDescY, /*this.mPropsCollectionsColor*/[0.7, 0.3, 0.3, 0.5], 0.032 * this.width, this.mCamera);
                 this.mCurrentShowing = -1;
             }
         }
@@ -203,6 +211,7 @@ var isFirstClicked;
 var latestPressedAloneKey;
 Package.prototype.update = function () {
     if (!document.mShowPackage) {
+        this.mCurrentSelected = -1;
         return ;
     }
 
@@ -350,7 +359,6 @@ Package.prototype.update = function () {
             if (type == "Mission") {
                 return ;
             } else if (type == "Food") {
-                console.log("food");
                 this.useProps(result - 1);       // use for which character
             } else {
                 this.equipWeapon(result - 1);    // use for which character
