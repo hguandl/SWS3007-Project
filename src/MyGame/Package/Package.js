@@ -127,18 +127,18 @@ Package.prototype.initialize = function () {
     this.mMoneyText.getXform().setPosition(this.leftX + 0.27 * this.width, this.topY - 0.175 * this.width);
     this.mMoneyText.setTextHeight(0.043 * this.width);
 
-    ItemSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
-    ItemSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
-    ItemSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
-    ItemSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
-    ItemSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
-    ItemSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
-    ItemSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
-    ItemSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
-    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, "Zhu Liuxiang needs it");
-    ItemSet["huluobo"] = new Props("Hu Luo Bo", this.kCarrot, "Rabbit's favourite");
-    ItemSet["tongjingti"] = new Props("Tong Jing Ti", this.kFireStone, "Evolve a pokemon?");
-    ItemSet["zufangchuangyao"] = new Props("Zu Fang Chuang Yao", this.kJinchuangyao, "Handed down from the ancestor");
+    ItemSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, ["Retrieve All HP"]);
+    ItemSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, ["Retrieve All VP"]);
+    ItemSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, ["Retrieve 400 HP"]);
+    ItemSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, ["Retrieve 400 VP"]);
+    ItemSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, ["Retrieve 250 HP"]);
+    ItemSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, ["Retrieve 250 VP"]);
+    ItemSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, ["Just delicious...", "May add a little attack"]);
+    ItemSet["What's this?"] = new Props("What's this?", this.kWhatsThis, ["Taste awful...", "Increase defense"]);
+    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, ["Zhu Liuxiang needs it"]);
+    ItemSet["huluobo"] = new Props("Hu Luo Bo", this.kCarrot, ["Rabbit's favourite", "Retrieve 100 HP"]);
+    ItemSet["tongjingti"] = new Props("Tong Jing Ti", this.kFireStone, ["Evolve a pokemon?", "Stimulate attack desire"]);
+    ItemSet["zufangchuangyao"] = new Props("Zu Fang Chuang Yao", this.kJinchuangyao, ["Handed down from the ancestor", "Retrieve 200 HP and 50 VP"]);
 
     this.addProps(ItemSet["Queen Peach"]);
     this.addProps(ItemSet["Nine Turn Dan"]);
@@ -195,7 +195,7 @@ Package.prototype.draw = function () {
 
             if (this.mCurrentShowing >= 0) {
                 this.mPropsCollections[this.mCurrentShowing].showNameByPos(this.kFontType, this.mPropsNameX, this.mPropsNameY, this.mPropsCollectionsColor, 0.04 * this.width, this.mCamera);
-                this.mPropsCollections[this.mCurrentShowing].showInfoByPos(this.kFontType, this.mPropsDescX, this.mPropsDescY, this.mPropsCollectionsColor, 0.032 * this.width, this.mCamera);
+                this.mPropsCollections[this.mCurrentShowing].showInfoByPos(this.kFontType, this.mPropsDescX, this.mPropsDescY, /*this.mPropsCollectionsColor*/[0.7, 0.3, 0.3, 0.5], 0.032 * this.width, this.mCamera);
                 this.mCurrentShowing = -1;
             }
         }

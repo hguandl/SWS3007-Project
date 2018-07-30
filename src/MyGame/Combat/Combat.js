@@ -287,8 +287,10 @@ Combat.prototype.initialize = function () {
     this.mBackground.getXform().setPosition(0, 0);
     this.mBackground.getXform().setSize(this.camera.getWCWidth(), this.camera.getWCHeight());
 
-    this.character = this.firstCharacter;
-    delete this.firstCharacter;
+    if (!this.character) {
+        this.character = this.firstCharacter;
+        delete this.firstCharacter;
+    }
 
     this.monster.mCurrentHP = this.monster.mMaxHP;
     this.monster.turnEndStatus = [];
@@ -376,7 +378,8 @@ function enterCombat(game, firstCharacter, monster, sceneName) {
     console.assert(monster);
     console.assert(sceneName);
 
-    window.combatScene.firstCharacter = firstCharacter;
+    if (!window.combatScene.firstCharacter)
+        window.combatScene.firstCharacter = firstCharacter;
     window.combatScene.setMonsterByName(monster);
     window.combatScene.kBackground = "assets/map/" + sceneName + "/battle.png";
 
