@@ -239,18 +239,6 @@ MyGame.prototype.initialize = function () {
                                                  [820, 450, 150, 150]);
     this.mSmallCamera.setBackgroundColor([0.105, 0.169, 0.204, 1]);
 
-    if (window.combatScene) {
-        switch (window.combatScene.combatResult) {
-            case "win":
-                this.startMsg = 1;
-                break;
-            case "lose":
-                this.startMsg = 2;
-                break;
-        }
-        return;
-    }
-
     if (CharacterSet.length <= 0)
         CharacterSet_Init(this.kHeroInfo);
 

@@ -267,6 +267,8 @@ Combat.prototype.unloadScene = function () {
 Combat.prototype.initialize = function () {
     gEngine.AudioClips.playBackgroundAudio(this.kBGM);
 
+    this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
+
     this.camera = new Camera(
         vec2.fromValues(0, 0),
         100,
@@ -362,9 +364,11 @@ function enterCombat(game, firstCharacter, monster, sceneName) {
     console.assert(monster);
     console.assert(sceneName);
 
-    window.combatScene.character = firstCharacter;
+    window.combatScene.firstCharacter = firstCharacter;
     window.combatScene.setMonsterByName(monster);
     window.combatScene.kBackground = "assets/map/" + sceneName + "/battle.png";
+
+    window.combatScene.monster.spriteURL = "assets/monster/fight/" + monster + ".png";
     game.nextScene = window.combatScene;
     game.nextScene.nextScene = game;
     gEngine.GameLoop.stop();
