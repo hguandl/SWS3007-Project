@@ -306,7 +306,7 @@ MyGame.prototype.draw = function () {
         this.mHintIcon.draw(this.mMainView.getCam());
     }
 
-    if (document.mShowSmallMap) {
+    if (document.mShowSmallMap && this.mMapName !== "shishi1" && this.mMapName !== "shishi2") {
         this.mSmallCamera.setupViewProjection();
         var i;
         for (i = 0; i < this.mMyMap.mItems.length; ++i)
@@ -314,7 +314,7 @@ MyGame.prototype.draw = function () {
         this.mMyHero.getHero().draw(this.mSmallCamera);
     }
 
-    if (document.mShowBigMap) {
+    if (document.mShowBigMap && this.mMapName !== "shishi1" && this.mMapName !== "shishi2") {
         this.mBigCamera.setupViewProjection();
         var i;
         for (i = 0; i < this.mMyMap.mItems.length; ++i)
