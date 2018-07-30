@@ -11,7 +11,7 @@ function PropsUsingUI(bgFile, fontType, aCamera, money, type) {  // maybe the ic
     this.mCamera = aCamera;
     this.mMoney = money;
     this.mType = type;
-    
+
     this.mText = [];
     this.mTextColor = [0, 0, 0.3, 0.6];
     this.textH = 3;
