@@ -257,23 +257,23 @@ MyGame.prototype.initialize = function () {
     if (CharacterSet.length <= 0)
         CharacterSet_Init(this.kHeroInfo);
 
-    // 战斗失败，重新开�?
+    // 战斗失败，重新开始
     if (document.mLastCombatWin === false) {
-        // 重置当前地图所有事�?
+        // 重置当前地图所有事件
         var eventList = this.mMyMap.mEvents;
-        var i;
-        for (i = 0; i < eventList.length; ++i) {
-            eventList[i][eventList[i].length - 1] = 0;
+        var ee = null;
+        for (ee in eventList) {
+            eventList[ee][eventList[ee].length - 1] = 0;
         }
 
-        // 人物状态回�?
+        // 人物状态回复
         for (i = 0; i < 3; ++i) {
             var ch = CharacterSet[i];
             ch.mCurrentHP = ch.mMaxHP;
             ch.mCurrentVP = 0;
         }
 
-        // 回到地图出生�?
+        // 回到地图出生点
         this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
     }
 };
