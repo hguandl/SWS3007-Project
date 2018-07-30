@@ -50,7 +50,7 @@ function Combat(firstCharacter, monster) {
     this.kBackground = "assets/map/zhuzishan/battle.png";
     this.kBGM = "assets/bgm/zhuzishan-battle.m4a";
     this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
-    this.monster.HPBar = "";
+    this.monster.HPBar = null;
 
     /**  @type Camera  */
     this.camera = null;
@@ -346,7 +346,7 @@ Combat.prototype.draw = function () {
 Combat.prototype.update = function () {
     window.statusBar.update();
     window.package.update();
-    this.HPBar.update();
+    this.monsterHPBar.update();
 
     if (this.status !== _C.displaying)
         return;
