@@ -228,11 +228,11 @@
         </button>
         <button id="set-point-button2" class="button button-parchment button-rounded"
                 onclick="
-                    while (document.mShowMsgBox.length > 0) {
-                        document.mShowMsgBox.shift();
+                    while (document.mMsgQueue.length > 0) {
+                        document.mMsgQueue.shift();
                     }
                     document.getElementById('infoBox').style.display = 'none';
-                    document.getElementById('info_face').src = 'assets/blank.png';ssss
+                    document.getElementById('info_face').src = 'assets/blank.png';
                     document.getElementById('info_text').innerText = null;
                     document.mShowMsgBox = false;
                     document.mEventMutex = false;
