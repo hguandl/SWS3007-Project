@@ -145,7 +145,9 @@ Package.prototype.initialize = function () {
 
     var i;
     for (i in PropsSet) {
-        this.addProps(PropsSet[i]);
+        if (i != "Carrot" && i != "Red Stone" && i != "Jin-Chuang-Yao") {
+            this.addProps(PropsSet[i]);
+        }
     }
 
     // this.addProps(ItemSet["golden_lotus"]);
