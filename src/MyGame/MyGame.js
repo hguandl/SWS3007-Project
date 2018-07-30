@@ -23,24 +23,27 @@ function MyGame(mapName) {
 
     this.kMapFile = [];
     this.kMapEvents = [];
+    this.kMapEventIndex = [];
     this.kMapBkg = [];
     this.kMapFrg = [];
     this.kBGM = [];
 
     this.kMapFile["wanggong"] = "assets/map/wanggong/wanggong-dat.json";
-    this.kMapEvents["wanggong"] = "assets/map/wanggong/wanggong-event.json";;
+    this.kMapEvents["wanggong"] = "assets/map/wanggong/wanggong-event.json";
+    this.kMapEventIndex["wanggong"] = "assets/map/wanggong/wanggong-event-index.json";
     this.kMapBkg["wanggong"] = "assets/map/wanggong/wanggong-bkg.png";
     this.kMapFrg["wanggong"] = "assets/map/wanggong/wanggong-frg.png";
     this.kBGM["wanggong"] = "assets/bgm/wanggong-walk.mp3";
 
     this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json";
-    this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json";;
+    this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json"
+    this.kMapEventIndex["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event-index.json";;
     this.kMapBkg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-bkg.png";
     this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
     this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.mp3";
 
     this.kMapFile["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-dat.json";
-    this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";;
+    this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";
     this.kMapBkg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-bkg.png";
     this.kMapFrg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-frg.png";
     this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
@@ -100,6 +103,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroPic);
     gEngine.TextFileLoader.loadTextFile(this.kMapFile[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kMapEvents[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kMapEventIndex[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
@@ -188,7 +192,7 @@ MyGame.prototype.initialize = function () {
     }
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
-    this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
+    this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName], this.kMapEventIndex[this.mMapName]);
 
     this.mMyNPC = this.mMyMap.initNPC();
 

@@ -1,6 +1,6 @@
 "use scrict";
 
-function Map(name, mapFile, eventFile) {
+function Map(name, mapFile, eventFile, eventIndexFile) {
     var mapJson = gEngine.ResourceMap.retrieveAsset(mapFile);
     this.mName = name;
     this.mWidth = Number(mapJson["width"]);
@@ -10,6 +10,7 @@ function Map(name, mapFile, eventFile) {
     this.mBorn = mapJson["born"];
     this.mNPC = mapJson["NPC"];
     this.mEvents = gEngine.ResourceMap.retrieveAsset(eventFile);
+    this.mEventIndex = gEngine.ResourceMap.retrieveAsset(eventIndexFile);
 
     this.mViewWidth = 970;
     this.mViewHeight = 600;
