@@ -42,11 +42,11 @@ function Props(name, iconFile, description) {
             this.Money = 100;
             break;
         case "Dongpo Pork" :
-            this.ATK = 8;
+            this.ATK = 6;
             this.Money = 200;
             break;
         case "What's this?" :
-            this.DEF = 8;
+            this.DEF = 6;
             this.Money = 200;
             break;
         case "Hu Luo Bo" :

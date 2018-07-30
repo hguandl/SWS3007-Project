@@ -257,6 +257,24 @@
         </button>
         <button id="set-point-button2" class="button button-parchment button-rounded"
                 onclick="
+                    setPoint(163);
+                ">
+            pass6
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    window.combatScene.monster.mCurrentHP = 1;
+                ">
+            win
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
+                    window.combatScene.character.mCurrentHP = 1;
+                ">
+            lose
+        </button>
+        <button id="set-point-button2" class="button button-parchment button-rounded"
+                onclick="
                     while (document.mMsgQueue.length > 0) {
                         document.mMsgQueue.shift();
                     }

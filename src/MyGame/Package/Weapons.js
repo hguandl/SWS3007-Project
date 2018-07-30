@@ -19,22 +19,22 @@ function Weapons(name, iconFile, description, type) {
 
     switch(name) {
         case "YiTian Sword" :
-            this.ATKadd = 10;
+            this.ATKadd = 12;
             this.Money = 3000;
             break;
         case "QingYun Helmet" :
-            this.DEFadd = 20;
+            this.DEFadd = 10;
             this.Money = 1500;
             break;
         case "Blue Barcer" :
             this.ATKadd = 7;
-            this.DEFadd = 20;
+            this.DEFadd = 10;
             break;
         case "Legend Armor" :
-            this.DEFadd = 18;
+            this.DEFadd = 8;
             break;
         case "Legend Trousers" :
-            this.DEFadd = 12;
+            this.DEFadd = 6;
             break;
         case "Necklace" :
             this.ATKadd = 8;
