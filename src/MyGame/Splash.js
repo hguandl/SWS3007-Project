@@ -11,8 +11,9 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Splash() {
-    this.kSplashBkg = "assets/splash.png";
+function Splash(picName, nextSceneName) {
+    this.kSplashBkg = "assets/" + picName + ".png";
+    this.mNextSceneName = nextSceneName;
 }
 gEngine.Core.inheritPrototype(Splash, Scene);
 
@@ -23,7 +24,10 @@ Splash.prototype.loadScene = function () {
 
 Splash.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kSplashBkg);
-    document.currentScene = getScene("wanggong");
+    if (this.mNextSceneName)
+        document.currentScene = getScene(this.mNextSceneName);
+    else
+        document.currentScene = new Splash("splash", "wanggong");
     gEngine.Core.startScene(document.currentScene);
 };
 
@@ -53,6 +57,10 @@ Splash.prototype.draw = function () {
 
 Splash.prototype.update = function () {
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {
-        gEngine.GameLoop.stop();
+        if (this.mNextSceneName === null) {
+            location.reload();
+        }
+        else
+            gEngine.GameLoop.stop();
     }
 };

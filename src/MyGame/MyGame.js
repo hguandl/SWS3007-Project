@@ -46,10 +46,16 @@ function MyGame(mapName) {
     this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
 
     this.kMapFile["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-dat.json";
-    this.kMapEvents["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event.json";;
+    this.kMapEvents["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event.json";
     this.kMapBkg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-bkg.png";
     this.kMapFrg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-frg.png";
     this.kBGM["huoyanshankou"] = "assets/bgm/huoyanshankou-walk.mp3";
+
+    this.kMapFile["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-dat.json";
+    this.kMapEvents["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-event.json";
+    this.kMapBkg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-bkg.png";
+    this.kMapFrg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-frg.png";
+    this.kBGM["huoyanshandi"] = "assets/bgm/huoyanshandi-walk.mp3";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
@@ -109,7 +115,11 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture("assets/NPC/huoyanshankou-npc1.png");
     gEngine.Textures.loadTexture("assets/NPC/huoyanshankou-npc2.png");
     gEngine.Textures.loadTexture("assets/NPC/huoyanshankou-npc3.png");
-
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc1.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc2.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc3.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc4.png");
+    gEngine.Textures.loadTexture("assets/NPC/huoyanshandi-npc5.png");
 
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/zhuzishan-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
@@ -121,6 +131,11 @@ MyGame.prototype.loadScene = function () {
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshankou-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshankou-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshankou-npc3.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc1.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc2.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc3.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc5.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.Textures.loadTexture(this.kPackageBg);
     gEngine.Textures.loadTexture(this.kPackageBrick);
@@ -151,8 +166,9 @@ MyGame.prototype.unloadScene = function () {
 
     if (this.nextScene) {
         document.currentScene = this.nextScene;
-        gEngine.Core.startScene(this.nextScene);
     }
+
+    gEngine.Core.startScene(document.currentScene);
 };
 
 MyGame.prototype.initialize = function () {
