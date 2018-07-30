@@ -20,7 +20,7 @@ button {
 }
 
 .myButton {
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-family: Helvetica, Arial, "PingFang SC", "Microsoft YaHei";
     margin-left: -485px;
     position: absolute;
     left: 50%;
@@ -50,7 +50,7 @@ button {
     /*margin-top:4em;*/
 }
 .dialogue {
-    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-family: Helvetica, Arial, "PingFang SC", "Microsoft YaHei";
     margin-left: -485px;
     position: absolute;
     left: 50%;

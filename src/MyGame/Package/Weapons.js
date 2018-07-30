@@ -24,24 +24,29 @@ function Weapons(name, iconFile, description, type) {
             break;
         case "QingYun Helmet" :
             this.DEFadd = 10;
-            this.Money = 1500;
+            this.Money = 2000;
             break;
         case "Blue Barcer" :
-            this.ATKadd = 7;
-            this.DEFadd = 10;
+            this.ATKadd = 5;
+            this.DEFadd = 5;
+            this.Money = 2000;
             break;
         case "Legend Armor" :
             this.DEFadd = 8;
+            this.Money = 1800;
             break;
         case "Legend Trousers" :
             this.DEFadd = 6;
+            this.Money = 1500;
             break;
         case "Necklace" :
             this.ATKadd = 8;
+            this.Money = 1800;
             break;
         case "QingYun Shoes" :
             this.ATKadd = 5;
             this.SPDadd = 100;
+            this.Money = 1000;
             break;
     }
 }

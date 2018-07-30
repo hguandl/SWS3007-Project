@@ -135,7 +135,7 @@ Package.prototype.initialize = function () {
     ItemSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, ["Retrieve 250 VP"]);
     ItemSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, ["Just delicious...", "May add a little attack"]);
     ItemSet["What's this?"] = new Props("What's this?", this.kWhatsThis, ["Taste awful...", "Increase defense"]);
-    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, ["Zhu Liuxiang needs it"]);
+    ItemSet["golden_lotus"] = new Props("Golden Lotus", this.kGoldenLotus, ["Chu Liuxiang needs it"]);
     ItemSet["huluobo"] = new Props("Hu Luo Bo", this.kCarrot, ["Rabbit's favourite", "Retrieve 100 HP"]);
     ItemSet["tongjingti"] = new Props("Tong Jing Ti", this.kFireStone, ["Evolve a pokemon?", "Stimulate attack desire"]);
     ItemSet["zufangchuangyao"] = new Props("Zu Fang Chuang Yao", this.kJinchuangyao, ["Handed down from the ancestor", "Retrieve 200 HP and 50 VP"]);
@@ -211,6 +211,7 @@ var isFirstClicked;
 var latestPressedAloneKey;
 Package.prototype.update = function () {
     if (!document.mShowPackage) {
+        this.mCurrentSelected = -1;
         return ;
     }
 
