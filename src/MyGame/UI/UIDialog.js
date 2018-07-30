@@ -1,3 +1,5 @@
+"use strict";
+
 /** When using this class, do not create new instance but use the dialog
  *
  */

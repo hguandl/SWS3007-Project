@@ -1,5 +1,11 @@
+"use strict";
+
+function _damageFoumula(attack, defense) {
+    return attack * 100 / (defense + 100);
+}
+
 function calDamage (attacker, defender) {
-    return attacker.mCurrentATK * (100 / (defender.mCurrentDEF +100));
+    return _damageFoumula(attacker.mCurrentATK, defender.mCurrentDEF);
 }
 
 /**

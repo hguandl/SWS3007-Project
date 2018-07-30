@@ -7,27 +7,27 @@
  * @param iconFile
  * @param dialogFigureFile
  * @param battleFigureFile
- * @constructor
+ * @class
  */
-function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile, /*characterType, ...skills*/) {
+function Character(characterInfo, iconFile, dialogFigureFile, battleFigureFile) {
     this.mName = null;
 
     /** 玩家是monster还是hero
      * @type {number} : Monster - 0,  Hero - 1.
      */
-    this.charaterType = characterInfo["characterType"];
+    this.characterType = characterInfo["characterType"];
     if (typeof this.characterType !== "number")
         this.characterType = _C.Hero;
     /**  @type {CharacterStatus[]} - 玩家状态  */
     this.turnEndStatus = [];
     /**  @type {Skill[]}  */
     this.skills = [];
-    // if (characterInfo["skills"]) {
-    //     console.assert(characterInfo["skills"].length <= 4);
-    //     characterInfo["skills"].forEach(value => {
-    //         this.skills.push(SkillList.parseSkill(value));
-    //     });
-    // }
+    if (characterInfo["skills"]) {
+        console.assert(characterInfo["skills"].length <= 4);
+        characterInfo["skills"].forEach(value => {
+            this.skills.push(SkillList.parseSkill(value));
+        });
+    }
     this.mATKPercent = 1.0;
     this.mDEFPercent = 1.0;
     this.mSPDPercent = 1.0;
@@ -251,19 +251,21 @@ Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
     this.mCurrentDEF = this.mDEF;
     this.mCurrentSPD = this.mSPD;
 
-    this.mATKPercent = 1.0;
+    if (this.characterType === _C.Hero && this.mCurrentVP > this.mMaxVP)
+        this.mATKPercent = 0.65;
+    else
+        this.mATKPercent = 1.0;
     this.mDEFPercent = 1.0;
     this.mSPDPercent = 1.0;
 
     // compute effect of each turnEndStatus
     for (i = 0; i < this.turnEndStatus.length; i++) {
         status = this.turnEndStatus[i];
-        // 如果status的回合小于0了，就删除该状态
-        if (myTurnEnd) {
+        if (myTurnEnd === true) {
             status.turn--;
+            // 如果status的回合小于0了，就删除该状态
             if (status.turn < 0)
                 this.turnEndStatus.splice(i, 1);
-            console.debug("have turnEndStatus ", status);
         }
         // 结算状态效果
         status.computeStatus(this);
@@ -280,7 +282,7 @@ Character.prototype.computeTurnEndStatus = function (myTurnEnd) {
  * @param HP {number} 要改变的值
  * @param [fluctuate = 0.1] {number} 波动大小
  */
-Character.prototype.randChangeHP = function(HP, fluctuate = 0.1) {
+Character.prototype.randChangeHP = function (HP, fluctuate = 0.1) {
     console.assert(fluctuate <= 1 && fluctuate >= 0);
     const damage = Math.round(HP * (1 + (Math.random() * 2 - 1) * fluctuate));
     this.mCurrentHP += damage;
