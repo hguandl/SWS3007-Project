@@ -57,7 +57,7 @@
 						["", "（门按J进入）"]
 				]],
 			[null,
-				"Learn", "2", {"name": "念经", "VP": 63, "atkPercent": 0.63, "turn": 5}
+				"Learn", "2", {"name": "念经", "VP": 63, "atkPercent": 0.71, "turn": 6}
 			],
 			false, 0],
 
