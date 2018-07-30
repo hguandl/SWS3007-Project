@@ -39,8 +39,8 @@
     "talk_hint": [
     			[null,
 					"Show", [
-						["", "There is an NPC next to you.\nTry to talk with him"],
-						["", "Turn to him and press J to talk"]
+						["", "小引导：前面有个村民<br>试着去和他说句话吧！"],
+						["", "小引导：走到他面前，按下J即可。"]
 					]
 				],
 			false, 0],
