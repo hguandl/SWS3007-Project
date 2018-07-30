@@ -43,7 +43,6 @@ function Combat(firstCharacter, monster) {
     /** @type Character */
     this.firstCharacter = firstCharacter;
     /** @type Character */
-    console.debug(monster);
     this.monster = window.Monsters[monster];
     this.monsterHPBar = null;
 
@@ -120,14 +119,12 @@ function Combat(firstCharacter, monster) {
      */
     this.checkAlive = function () {
         if (this.character.mCurrentVP > this.character.mMaxVP)
-            this.appendMsg("\nYour character is tired. His damage is decreased by 35%.");
+            this.appendMsg("\n你的角色疲劳值满了，攻击力将减少" + _C.atkPunishTired + "。");
         if (this.monster.mCurrentHP <= 0 || this.character.mCurrentHP <= 0) {
             this.beforeBattleEnd();
             if (this.monster.mCurrentHP <= 0) {
                 this.combatResult = "win";
                 document.mLastCombatWin = true;
-                document.currentScene.showMsg("Congratulations!\n Now you've got the flower.");
-                // todo: add die
                 gEngine.GameLoop.stop();
             } else {
                 // todo: add die
@@ -171,37 +168,45 @@ function Combat(firstCharacter, monster) {
 
     this.takeSkillAction = function () {
         this.status = _C.displaying;
-        console.debug("status1");
         this._action.param.skill.useSkill(this._action.param.user, this._action.param.aim);
     };
 
     this.takeAttackAction = function () {
         // add VP to attacker
         this.status = _C.displaying;
-        console.debug("status1");
         if (this._action.param.attacker.characterType === _C.Hero) {
-            console.debug("Add VP");
             this._action.param.attacker.mCurrentVP += _C.attackVP;
 
         }
         // calculate damage
         const damage = this._action.param.defender.randChangeHP(-calDamage(this._action.param.attacker, this._action.param.defender));
-        this.showMsg(this._action.param.attacker.characterType + " use attack. Damage: " + damage);
+        this.showMsg(this._action.param.attacker.characterType + " 使用普通攻击. 伤害: " + damage);
     };
 
     this.takeChangeAction = function () {
         this.character = this._action.param['aim'];
-        this.showMsg("Change character to " + this._action.param['aim'].mName);
+        this.showMsg("将角色变为 " + this._action.param['aim'].mName);
         setTimeout(function (combat) {
             combat.onHeroAnimationEnd();
         }, 100 * _C.combatSpeed, this);
     };
 
     this.getMonsterAction = function () {
-        return makeAction(_C.attack, {
-            attacker: this.monster,
-            defender: this.character,
-        });
+        const action = this.monster.actionPolicy.getNextAction();
+        if (action === -1)
+            return makeAction(_C.attack, {
+                attacker: this.monster,
+                defender: this.character,
+            });
+        else if (0 <= action && action <= 3) {
+            return new SkillAction({
+                user: this.monster,
+                aim: this.character,
+                skill: this.monster.skills[action]
+            });
+        }
+        console.error("wrong action policy");
+        return null;
     };
 
     this.onHeroAnimationEnd = function () {

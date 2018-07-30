@@ -55,7 +55,9 @@ class HPBar {
     }
 
     set HPPercent(v) {
-        console.assert(0 <= v && v <= 1.0);
+        console.assert(v <= 1.0);
+        if (v < 0)
+            v = 0;
         this._HPPercent = v;
         this.computeHPXform();
     }

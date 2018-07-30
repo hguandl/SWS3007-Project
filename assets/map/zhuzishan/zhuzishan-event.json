@@ -1,5 +1,5 @@
 {
-    "986": [
+    "xiyijing": [
     			["J",
 					"Show",	[
 						["zhuzishan-xiyijing", "蜥蜴精：什么人敢吵得大爷我没的清闲？！"],
@@ -36,15 +36,15 @@
 						]
 				],
 			false, 0],
-    "992": [
+    "talk_hint": [
     			[null,
 					"Show", [
-						["", "There is an NPC next to you.\nTry to talk with him"],
-						["", "Turn to him and press J to talk"]
+						["", "小引导：前面有个村民<br>试着去和他说句话吧！"],
+						["", "小引导：在任何可以按下<font color = yellow><b>J</b></font>调查的对象面前也都会跳出一个感叹号喔~"]
 					]
 				],
 			false, 0],
-	"993": [
+	"npc1": [
 				["J",
 					"Show", [
 						["zhuzishan-npc1", "老人：哟，这不是大唐来的高僧吗？"],
@@ -56,7 +56,7 @@
 					]
 				],
 			true, 0],
-	"503": [
+	"npc2": [
 				["J",
 					"Show", [
 						["zhuzishan-npc2", "拾荒老太：地上总是有各种奇怪的东西，我没事就喜欢翻翻地上那些遗骸啊箱子什么的，总能找到些好东西。"],
@@ -64,7 +64,7 @@
 					]
 				],
 			true, 0],
-	"566": [
+	"jinlian_1": [
 				[null,
 					"Show", [
 						["zhuzishan-chulianyi", "楚依恋：高僧，请留步！"],
@@ -83,7 +83,7 @@
 					]
 				],
 			false, 0],
-	"642": [
+	"jinlian_2": [
 				["J",
 					"Show", [
 						["sunwukong", "孙悟空：师傅，这金莲已被摘走了，只留得这金莲叶。"],
@@ -93,7 +93,7 @@
 					]
 				],
 			false, 0],
-	"538": [
+	"battle_hint": [
 				["J",
 					"Show", [
 						["", "在遇到妖怪进行战斗的时候，要注意英雄的血量（HP）和疲劳值（VP）。"],
@@ -104,7 +104,7 @@
 					]
 				],
 			true, 0],
-    "729": [
+    "monument": [
     			["J",
 					"Show", [
 						["", "石碑：门楼高耸，垛迭齐排。周围活水通流，南北高山相对。六街三市货资多，万户千家生意盛。"],
@@ -115,7 +115,7 @@
 					]
 				],
 			true, 0],
-    "565": [
+    "jinlian_3": [
     			["J",
 					"Check", "Golden Lotus",
 						[null, "Show",
@@ -134,7 +134,7 @@
 					"Check", "Golden Lotus",
 						[null, "Show",
 							[["zhuzishan-xiaolongnv", ""],
-								["sunwukong", "孙悟空：哟！这不是观音姐姐的童子妹妹嘛~"],
+								["sunwukong", "孙悟空：哟！这不是观音姐姐的小童子嘛~"],
 								["zhubajie", "猪八戒：嘿嘿..嘿嘿，原来是龙女姐姐啊"],
 								["tangseng", "唐僧：悟空八戒休得无礼！"],
 								["tangseng", "唐僧：原来是小龙女在与贫僧开玩笑…"],
@@ -151,7 +151,7 @@
 						]
 					],
 				true, 0],
-	"1159": [[null,
+	"go_zhuzishanjiao": [[null,
 				"Check", "Golden Lotus",
 					[null, "Go", "zhuzishanjiao"],
 					[null, "Show", [["tangseng", "且慢，金莲还未替那位小姑娘找到。"]]]
@@ -162,17 +162,5 @@
 				[null, "Back"]
 			],
 			true, 0],
-    "1160": [[null,
-				"Check", "Golden Lotus",
-					[null, "Go", "zhuzishanjiao"],
-					[null, "Show", [["tangseng", "且慢，金莲还未替那位小姑娘找到。"]]]
-				],
-			[null,
-				"Check", "Golden Lotus",
-				[null, "Go", "zhuzishanjiao"],
-				[null, "Back"]
-			],
-			true, 0],
-    "1178": [[null, "Go", "wanggong"] ,true, 0],
-    "1179": [[null, "Go", "wanggong"] ,true, 0]
+    "go_wanggong": [[null, "Go", "wanggong"] ,true, 0]
 }

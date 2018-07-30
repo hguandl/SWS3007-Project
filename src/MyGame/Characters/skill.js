@@ -16,12 +16,12 @@ class Skill {
     }
 
     getUsage() {
-        return formatString("Produce %0 VP.", this.VP);
+        return formatString("产生 %0 疲劳值。", this.VP);
     }
 
     useSkill(user, ...args) {
         user.mCurrentVP += this.VP;
-        document.currentScene.showMsg(user.characterType + " use " + this.name + ".");
+        document.currentScene.showMsg(user.characterType + " 使用了 " + this.name + "。");
     }
 
     /**
@@ -55,17 +55,17 @@ class Skill {
  */
 class FieryEyes extends Skill {
     constructor(VP, defPercent, turn) {
-        super("fiery eyes", VP);
+        super("火眼金睛", VP);
         this.defPercent = defPercent;
         this.turn = turn;
     }
 
     static getDescription() {
-        return "The eyes of Monkey King is baked by the \"Samadhi fire\", which makes it penetrating.";
+        return "The eyes of Monkey King is baked by the \"三昧真火\", which makes it penetrating.";
     }
 
     getUsage() {
-        return formatString("Decrease the defense of the enemy by %0 percent for %1 turn.\n", this.defPercent, this.turn)
+        return formatString("将目标的防御减为当前的 %0， 持续 %1 回合。\n", this.defPercent, this.turn)
             + super.getUsage();
     }
 
@@ -91,22 +91,22 @@ class FieryEyes extends Skill {
  */
 class HeavyHit extends Skill {
     constructor(VP, dmgPercent) {
-        super("heavy hit", VP);
+        super("强力打击", VP);
         this.dmgPercent = dmgPercent;
     }
 
     static getDescription() {
-        return "A heavy hit will cause more damage than attack.";
+        return "A 强力打击 will cause more 伤害 than attack.";
     }
 
     getUsage() {
-        return formatString("Deal %0 damage of your attack.\n", this.dmgPercent) + super.getUsage();
+        return formatString("比普通攻击造成 %0 额外伤害。\n", this.dmgPercent) + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
         const damage = aim.randChangeHP(-calDamage(user, aim) * this.dmgPercent);
-        window.combatScene.appendMsg(" Damage: " + damage);
+        window.combatScene.appendMsg(" 伤害: " + damage);
     }
 
     static parse(skillInfo) {
@@ -120,23 +120,23 @@ class HeavyHit extends Skill {
  */
 class SamadhiFire extends Skill {
     constructor(VP, dmgPercent) {
-        super("Samadhi fire", VP);
+        super("三昧真火", VP);
         this.dmgPercent = dmgPercent;
     }
 
     static getDescription() {
-        return "Burn your emery with Samadhi fire.";
+        return "Burn your emery with 三昧真火.";
     }
 
     getUsage() {
-        return formatString("Deal %0 damage of your attack, disregarding the emery's defense.\n", this.dmgPercent)
+        return formatString("造成你的攻击力的 %0 的伤害, 无视防御。\n", this.dmgPercent)
             + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
         const damage = aim.randChangeHP(-user.mCurrentATK * this.dmgPercent);
-        window.combatScene.appendMsg(" Damage: " + damage);
+        window.combatScene.appendMsg(" 伤害: " + damage);
     }
 
     static parse(skillInfo) {
@@ -150,23 +150,23 @@ class SamadhiFire extends Skill {
  */
 class SlackSleep extends Skill {
     constructor(VP, HP, atkPercent) {
-        super("slack sleep", VP);
+        super("睡懒觉", VP);
         this.HP = HP;
         this.atkPercent = atkPercent;
     }
 
     static getDescription() {
-        return "Take a slack sleep.";
+        return "Take a 睡懒觉.";
     }
 
     getUsage() {
-        return formatString("Recover %0 HP and change your attack to %1 percent.\n", this.HP, this.atkPercent) + super.getUsage();
+        return formatString("恢复 %0 HP 并将你的攻击变为原来的 %1。\n", this.HP, this.atkPercent) + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
         user.mCurrentHP += this.HP;
-        user.status.push(new BuffStatus("ATK", 2, this.atkPercent, _C.percent));
+        user.turnEndStatus.push(new BuffStatus("ATK", 2, this.atkPercent, _C.percent));
         window.combatScene.appendMsg(" Recovered HP: " + this.HP);
     }
 
@@ -181,7 +181,7 @@ class SlackSleep extends Skill {
  */
 class Chant extends Skill {
     constructor(VP, atkPercent, turn) {
-        super("chant", VP);
+        super("念经", VP);
         this.turn = turn;
         this.atkPercent = atkPercent;
     }
@@ -191,12 +191,12 @@ class Chant extends Skill {
     }
 
     getUsage() {
-        return formatString("Decrease the attack of emery to 0% percent in %1 turn.\n", this.atkPercent, this.turn) + super.getUsage();
+        return formatString("将目标的攻击降为原来的 %0，持续 %1 回合。\n", this.atkPercent, this.turn) + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
-        aim.status.push(new BuffStatus("ATK", this.turn, this.atkPercent, _C.percent));
+        aim.turnEndStatus.push(new BuffStatus("ATK", this.turn, this.atkPercent, _C.percent));
     }
 
     static parse(skillInfo) {
@@ -210,7 +210,7 @@ class Chant extends Skill {
  */
 class BatStrike extends Skill {
     constructor(VP, atkNumber, defNumber, turn) {
-        super("bat strike", VP);
+        super("锤击", VP);
         this.turn = turn;
         this.atkNumber = atkNumber;
         this.defNumber = defNumber;
@@ -221,14 +221,14 @@ class BatStrike extends Skill {
     }
 
     getUsage() {
-        return formatString("Deal %0 more damage and change the defense of enemy by %1 in %2 turn.\n", this.atkNumber, this.defNumber, this.defNumber) + super.getUsage();
+        return formatString("比普通攻击额外造成 %0 伤害，并将目标的防御力降低 %1，持续 %2 回合。\n", this.atkNumber, this.defNumber, this.defNumber) + super.getUsage();
     }
 
     useSkill(user, aim) {
         super.useSkill(user);
         const damage = aim.randChangeHP(-calDamage(user, aim) - _damageFoumula(this.atkNumber, aim.mCurrentDEF));
-        window.combatScene.appendMsg(" Damage: " + damage);
-        aim.status.push(new BuffStatus("DEF", this.turn, this.defNumber, _C.numeric));
+        window.combatScene.appendMsg(" 伤害: " + damage);
+        aim.turnEndStatus.push(new BuffStatus("DEF", this.turn, this.defNumber, _C.numeric));
     }
 
     static parse(skillInfo) {
@@ -239,16 +239,16 @@ class BatStrike extends Skill {
 
 class HolyRedemption extends Skill {
     constructor(VP, HP) {
-        super("bat strike", VP);
+        super("神圣治愈", VP);
         this.HP = HP;
     }
 
     static getDescription() {
-        return "Strick with a bat.";
+        return "Holy Redemption.";
     }
 
     getUsage() {
-        return formatString("Recover %0 HP of 3 characters.\n", this.HP) + super.getUsage();
+        return formatString("将所有人的HP恢复 %0。\n", this.HP) + super.getUsage();
     }
 
     useSkill(user) {
@@ -261,5 +261,31 @@ class HolyRedemption extends Skill {
     static parse(skillInfo) {
         assertHasProperties(skillInfo, "VP", "HP");
         return new HolyRedemption(skillInfo["VP"], skillInfo["HP"]);
+    }
+}
+
+class Bite extends Skill {
+    constructor(VP, dmg) {
+        super("撕咬", VP);
+        this.dmg = dmg;
+    }
+
+    static getDescription() {
+        return "Bite your enemy.";
+    }
+
+    getUsage() {
+        return formatString("造成额外的 %0 伤害，并且该额外伤害无视防御。\n", this.dmg) + super.getUsage();
+    }
+
+    useSkill(user, aim) {
+        super.useSkill(user);
+        const damage = aim.randChangeHP(-calDamage(user, aim) + this.dmg);
+        window.combatScene.appendMsg(" 伤害: " + damage);
+    }
+
+    static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "dmg");
+        return new Bite(skillInfo["VP"], skillInfo["dmg"]);
     }
 }

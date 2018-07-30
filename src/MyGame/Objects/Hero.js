@@ -8,7 +8,7 @@ MyHero.prototype.animate = function(_config) {
     this.mMyHero.setElementPixelPositions(_config[0][0], _config[1][0], bias - _config[0][1], bias - _config[1][1]);
 };
 
-function MyHero(kPic, kJson) {
+function MyHero(kPic, kJson, kPkBg, kPkBr, kPkUI, kPkMn, kPkFt/*, aCamera*/) {
     this.mWalk = new Array();
     this.mStand = [];
     this.mAction = 0;
@@ -24,6 +24,8 @@ function MyHero(kPic, kJson) {
     this.animate(config);
 
     this.mDir = "Down";
+
+    this.mPackage = new Package("Mont Tang's Package", kPkBg, kPkBr, kPkUI, kPkMn, kPkFt, 20/*, aCamera*/);
 }
 
 MyHero.prototype.walk = function(dir) {
@@ -58,4 +60,16 @@ MyHero.prototype.getHero = function() {
 
 MyHero.prototype.getDir = function() {
     return this.mDir;
+};
+
+MyHero.prototype.drawPackage = function (/*aCamera*/) {
+    this.mPackage.draw(/*aCamera*/);
+};
+
+MyHero.prototype.updatePackage = function (aHero, aCurState) {
+    return (this.mPackage.update(aHero, aCurState));
+};
+
+MyHero.prototype.getPackage = function () {
+    return this.mPackage;
 };

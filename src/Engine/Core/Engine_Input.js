@@ -142,6 +142,7 @@ gEngine.Input = (function () {
             mIsKeyPressed[i] = false;
             mKeyPreviousState[i] = false;
             mIsKeyClicked[i] = false;
+            mIsKeyReleased[i] = false;
         }
         // register handlers
         window.addEventListener('keyup', _onKeyUp);
@@ -166,6 +167,7 @@ gEngine.Input = (function () {
         for (i = 0; i < kKeys.LastKeyCode; i++) {
             mIsKeyReleased[i] = mKeyPreviousState[i] && (!mIsKeyPressed[i]);
             mIsKeyClicked[i] = (!mKeyPreviousState[i]) && mIsKeyPressed[i];
+            mIsKeyReleased[i] = mKeyPreviousState[i] && (!mIsKeyPressed[i]);
             mKeyPreviousState[i] = mIsKeyPressed[i];
         }
         for (i = 0; i < 3; i++) {
@@ -187,23 +189,6 @@ gEngine.Input = (function () {
         return (mIsKeyReleased[keyCode]);
     };
 
-    var isDirectionLocked = function(keyCode) {
-        switch(keyCode) {
-            case kKeys.W:
-            return isKeyPressed(kKeys.A) || isKeyPressed(kKeys.S) || isKeyPressed(kKeys.D);
-            break;
-            case kKeys.S:
-            return isKeyPressed(kKeys.W) || isKeyPressed(kKeys.A) || isKeyPressed(kKeys.D);
-            break;
-            case kKeys.A:
-            return isKeyPressed(kKeys.W) || isKeyPressed(kKeys.S) || isKeyPressed(kKeys.D);
-            break;
-            case kKeys.D:
-            return isKeyPressed(kKeys.W) || isKeyPressed(kKeys.S) || isKeyPressed(kKeys.A);
-            break;
-        }
-    };
-
     var isButtonPressed = function (button) {
         return mIsButtonPressed[button];
     };
@@ -211,6 +196,7 @@ gEngine.Input = (function () {
     var isButtonClicked = function (button) {
         return mIsButtonClicked[button];
     };
+
     var getMousePosX = function () { return mMousePosX; };
     var getMousePosY = function () { return mMousePosY; };
 
@@ -222,7 +208,6 @@ gEngine.Input = (function () {
         isKeyPressed: isKeyPressed,
         isKeyClicked: isKeyClicked,
         isKeyReleased: isKeyReleased,
-        isDirectionLocked: isDirectionLocked,
         keys: kKeys,
 
         // Mouse support

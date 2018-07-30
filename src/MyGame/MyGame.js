@@ -21,41 +21,48 @@ function MyGame(mapName) {
 
     this.kHeroInfo = "assets/hero/character_info.json";
 
+    this.kHintIcon = "assets/hint.png";
+
     this.kMapFile = [];
     this.kMapEvents = [];
+    this.kMapEventIndex = [];
     this.kMapBkg = [];
     this.kMapFrg = [];
     this.kBGM = [];
 
     this.kMapFile["wanggong"] = "assets/map/wanggong/wanggong-dat.json";
-    this.kMapEvents["wanggong"] = "assets/map/wanggong/wanggong-event.json";;
+    this.kMapEvents["wanggong"] = "assets/map/wanggong/wanggong-event.json";
+    this.kMapEventIndex["wanggong"] = "assets/map/wanggong/wanggong-event-index.json";
     this.kMapBkg["wanggong"] = "assets/map/wanggong/wanggong-bkg.png";
     this.kMapFrg["wanggong"] = "assets/map/wanggong/wanggong-frg.png";
-    this.kBGM["wanggong"] = "assets/bgm/wanggong-walk.mp3";
+    this.kBGM["wanggong"] = "assets/bgm/wanggong-walk.m4a";
 
     this.kMapFile["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-dat.json";
-    this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json";;
+    this.kMapEvents["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event.json"
+    this.kMapEventIndex["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-event-index.json";;
     this.kMapBkg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-bkg.png";
     this.kMapFrg["zhuzishan"] = "assets/map/zhuzishan/zhuzishan-frg.png";
-    this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.mp3";
+    this.kBGM["zhuzishan"] = "assets/bgm/zhuzishan-walk.m4a";
 
     this.kMapFile["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-dat.json";
-    this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";;
+    this.kMapEvents["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event.json";
+    this.kMapEventIndex["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-event-index.json";
     this.kMapBkg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-bkg.png";
     this.kMapFrg["zhuzishanjiao"] = "assets/map/zhuzishanjiao/zhuzishanjiao-frg.png";
-    this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.mp3";
+    this.kBGM["zhuzishanjiao"] = "assets/bgm/zhuzishanjiao-walk.m4a";
 
     this.kMapFile["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-dat.json";
     this.kMapEvents["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event.json";
+    this.kMapEventIndex["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-event-index.json";
     this.kMapBkg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-bkg.png";
     this.kMapFrg["huoyanshankou"] = "assets/map/huoyanshankou/huoyanshankou-frg.png";
-    this.kBGM["huoyanshankou"] = "assets/bgm/huoyanshankou-walk.mp3";
+    this.kBGM["huoyanshankou"] = "assets/bgm/huoyanshankou-walk.m4a";
 
     this.kMapFile["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-dat.json";
     this.kMapEvents["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-event.json";
     this.kMapBkg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-bkg.png";
     this.kMapFrg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-frg.png";
-    this.kBGM["huoyanshandi"] = "assets/bgm/huoyanshandi-walk.mp3";
+    this.kBGM["huoyanshandi"] = "assets/bgm/huoyanshandi-walk.m4a";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
@@ -76,6 +83,7 @@ function MyGame(mapName) {
 
     this.mCamera = null;
     this.mSmallCamera = null;
+    this.mShowHintIcon = false;
 
     this.mMainView = null;
 
@@ -100,6 +108,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroPic);
     gEngine.TextFileLoader.loadTextFile(this.kMapFile[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kMapEvents[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
+    gEngine.TextFileLoader.loadTextFile(this.kMapEventIndex[this.mMapName], gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
     gEngine.TextFileLoader.loadTextFile(this.kHeroJson, gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile(this.kHeroInfo, gEngine.TextFileLoader.eTextFileType.eJsonFile);
@@ -136,6 +145,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc4.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
     gEngine.TextFileLoader.loadTextFile("assets/NPC/huoyanshandi-npc5.json", gEngine.TextFileLoader.eTextFileType.eJsonFile);
 
+    gEngine.Textures.loadTexture(this.kHintIcon);
     gEngine.Textures.loadTexture(this.kPackageBg);
     gEngine.Textures.loadTexture(this.kPackageBrick);
     gEngine.Textures.loadTexture(this.kPackageUIBg);
@@ -181,9 +191,16 @@ MyGame.prototype.initialize = function () {
         window.package.loadScene();
         window.package.initialize();
     }
+	if (window.weaponsPack === null) {
+        window.weaponsPack = new WeaponsPack();
+        window.weaponsPack.loadScene();
+        window.weaponsPack.initialize();
+    }
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
+    this.mHintIcon = new TextureRenderable(this.kHintIcon);
+    this.mHintIcon.getXform().setSize(0.55, 0.55);
 
-    this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
+    this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName], this.kMapEventIndex[this.mMapName]);
 
     this.mMyNPC = this.mMyMap.initNPC();
 
@@ -246,9 +263,9 @@ MyGame.prototype.initialize = function () {
     if (document.mLastCombatWin === false) {
         // 重置当前地图所有事件
         var eventList = this.mMyMap.mEvents;
-        var i;
-        for (i = 0; i < eventList.length; ++i) {
-            eventList[i][eventList[i].length - 1] = 0;
+        var ee = null;
+        for (ee in eventList) {
+            eventList[ee][eventList[ee].length - 1] = 0;
         }
 
         // 人物状态回复
@@ -273,6 +290,10 @@ MyGame.prototype.draw = function () {
 
     gEngine.LayerManager.drawAllLayers(this.mMainView.getCam());
 
+    if (this.mShowHintIcon) {
+        this.mHintIcon.draw(this.mMainView.getCam());
+    }
+
     if (document.mShowSmallMap) {
         this.mSmallCamera.setupViewProjection();
         var i;
@@ -287,6 +308,10 @@ MyGame.prototype.draw = function () {
         for (i = 0; i < this.mMyMap.mItems.length; ++i)
             this.mMyMap.mItems[i].draw(this.mBigCamera);
         this.mMyHero.getHero().draw(this.mBigCamera);
+    }
+
+	if (document.mShowWeaponsPack) {
+        window.weaponsPack.draw();
     }
 
     if (document.mShowPackage) {
@@ -308,6 +333,15 @@ MyGame.prototype.resetPos = function() {
     this.resume();
 };
 
+function realDirection() {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D) && gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) return null;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W) && gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) return null;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) return "Up";
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) return "Down";
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) return "Left";
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) return "Right";
+}
+
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
@@ -315,6 +349,8 @@ MyGame.prototype.update = function () {
     this.message();
 
     window.statusBar.update();
+
+    window.weaponsPack.update();
 
     // if (document.mShowPackage) {
         window.package.update();
@@ -324,6 +360,8 @@ MyGame.prototype.update = function () {
     var xform = this.mMyHero.getHero().getXform();
 
     this.currentPos = [xform.getXPos(), xform.getYPos(), this.mMyHero.getDir()];
+
+    this.mHintIcon.getXform().setPosition(xform.getXPos(), xform.getYPos() + 0.5);
 
     this.moveCamera(xform);
 
@@ -335,54 +373,54 @@ MyGame.prototype.update = function () {
         switchPackage();
     }
 
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)) {
+        switchWeaponsPack();
+    }
+
     if (isMapFreezed()) return ;
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.D)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D) && realDirection() === "Right") {
         this.mMyHero.walk("Right");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right") == false)
-            return ;
-        if (xform.getXPos() > this.mMyMap.mWidth - 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Right");
+        canMove = canMove && xform.getXPos() <= this.mMyMap.mWidth - 0.5;
 
-        xform.incXPosBy(deltaX);
+        if (canMove)
+            xform.incXPosBy(deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.W)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W) && realDirection() === "Up") {
         this.mMyHero.walk("Up");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up") == false)
-            return ;
-        if (xform.getYPos() > this.mMyMap.mHeight - 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Up");
+        canMove = canMove && xform.getYPos() <= this.mMyMap.mHeight - 0.5;
 
-        xform.incYPosBy(deltaX);
+        if (canMove)
+            xform.incYPosBy(deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.S)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S) && realDirection() === "Down") {
         this.mMyHero.walk("Down");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down") == false)
-            return ;
-        if (xform.getYPos() < 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Down");
+        canMove = canMove && xform.getYPos() >= 0.5;
 
-        xform.incYPosBy(-deltaX);
+        if (canMove)
+            xform.incYPosBy(-deltaX);
     }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        if (gEngine.Input.isDirectionLocked(gEngine.Input.keys.A)) return ;
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A) && realDirection() === "Left") {
         this.mMyHero.walk("Left");
 
-        if (this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left") == false)
-            return ;
-        if (xform.getXPos() < 0.5)
-            return ;
+        var canMove = true;
+        canMove = this.mMyMap.canWalk(xform.getXPos(), xform.getYPos(), "Left");
+        canMove = canMove && xform.getXPos() >= 0.5;
 
-        xform.incXPosBy(-deltaX);
+        if (canMove)
+            xform.incXPosBy(-deltaX);
     }
 
     if  (gEngine.Input.isKeyReleased(gEngine.Input.keys.D)) {
