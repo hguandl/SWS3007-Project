@@ -4,10 +4,10 @@ function WeaponsPack () {
     console.log("new weaponspack");
 
     this.kBgFile = [];
-    this.kBgFile[0] = "assets/weapons_pack/bg_tangseng_2.png";
-    this.kBgFile[1] = "assets/weapons_pack/bg_sunwukong_2.png";
-    this.kBgFile[2] = "assets/weapons_pack/bg_zhubajie_2.png";
-    this.kBgFile[3] = "assets/weapons_pack/bg_shaseng_2.png";
+    this.kBgFile[2] = "assets/weapons_pack/bg_tangseng.png";
+    this.kBgFile[0] = "assets/weapons_pack/bg_sunwukong.png";
+    this.kBgFile[1] = "assets/weapons_pack/bg_zhubajie.png";
+    this.kBgFile[3] = "assets/weapons_pack/bg_shaseng.png";
     this.kBrickFile = "assets/weapons_pack/brick_2.png";
     this.kUIBgFile = "assets/weapons_pack/ui_bg.png";
 
