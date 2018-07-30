@@ -39,9 +39,9 @@ function initMonsters() {
         }),
         "huoyanshankou-xiaozu": new Character({
             "Name": "huoyanshankou-xiaozu",
-            "HP": 147,
+            "HP": 156,
             "VP": 99999999,
-            "ATK": 66,
+            "ATK": 72,
             "DEF": 240,
             "SPD": 30,
             "characterType": _C.Monster,
@@ -49,16 +49,16 @@ function initMonsters() {
                 {
                     "name": "撕咬",
                     "VP": 58,
-                    "dmg": 19,
+                    "dmg": 12,
                 }
             ],
             "actionPolicy": new InTurnPolicy([0, -1, -1]),
         }),
         "huoyanshandi-xiaozu": new Character({
             "Name": "huoyanshandi-xiaozu",
-            "HP": 154,
+            "HP": 170,
             "VP": 99999999,
-            "ATK": 73,
+            "ATK": 78,
             "DEF": 250,
             "SPD": 30,
             "characterType": _C.Monster,
@@ -66,7 +66,7 @@ function initMonsters() {
                 {
                     "name": "撕咬",
                     "VP": 66,
-                    "dmg": 24
+                    "dmg": 17
                 }
             ],
             "actionPolicy": new InTurnPolicy([0, -1, -1]),
@@ -76,29 +76,29 @@ function initMonsters() {
             "Name": "huoyanshandi-heifengguai",
             "HP": 260,
             "VP": 99999999,
-            "ATK": 77,
-            "DEF": 270,
+            "ATK": 68,
+            "DEF": 280,
             "SPD": 30,
             "characterType": _C.Monster,
             "skills": [
                 {
                     "name": "睡懒觉",
                     "VP": -20,
-                    "HP": 37,
+                    "HP": 33,
                     "atkPercent": 1.10
                 },
                 {
                     "name": "狂怒",
                     "VP": 100,
                     "dmgPercent": 1.12,
-                    "atkNumber": 8,
+                    "atkNumber": 12,
                     "turn": 99999
                 }
             ],
             "actionPolicy": new InTurnPolicy([1, -1, 0, -1]),
         }),
-        "shishi-huangfengguai": new Character({
-            "Name": "shishi-huangfengguai",
+        "shishi2-huangfengguai": new Character({
+            "Name": "shishi2-huangfengguai",
             "HP": 380,
             "VP": 99999999,
             "ATK": 74,

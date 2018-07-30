@@ -228,7 +228,7 @@ class BatStrike extends Skill {
         super.useSkill(user);
         const damage = aim.randChangeHP(-calDamage(user, aim) - _damageFoumula(this.atkNumber, aim.mCurrentDEF));
         window.combatScene.appendMsg(" 伤害: " + damage);
-        aim.turnEndStatus.push(new BuffStatus("DEF", this.turn, this.defNumber, _C.numeric));
+        aim.turnEndStatus.push(new BuffStatus("DEF", this.turn, -this.defNumber, _C.numeric));
     }
 
     static parse(skillInfo) {
