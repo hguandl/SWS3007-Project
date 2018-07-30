@@ -49,22 +49,22 @@
 	"get_tongjingti": [
   			["J",
   				"Show", [
-  					["", "<font color = yellow><b>（获得物品 铜晶体）</b></font>"]
+  					["", "<font color = yellow><b>（获得装备 蓝色护臂）</b></font>"]
   				]
   			],
   			[null,
-  				"Get", ["tongjingti"]
+  				"Get", ["Blue Barcer"]
   			],
   		false, 0],
 
 	"get_gufen": [
   			["J",
   				"Show", [
-  					["", "<font color = yellow><b>（获得物品 骨粉）</b></font>"]
+  					["", "<font color = yellow><b>（获得装备 青云靴）</b></font>"]
   				]
   			],
   			[null,
-  				"Get", ["gufen"]
+  				"Get", ["QingYun Shoes"]
   			],
   		false, 0],
 
