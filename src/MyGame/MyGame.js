@@ -181,6 +181,11 @@ MyGame.prototype.initialize = function () {
         window.package.loadScene();
         window.package.initialize();
     }
+	if (window.weaponsPack === null) {
+        window.weaponsPack = new WeaponsPack();
+        window.weaponsPack.loadScene();
+        window.weaponsPack.initialize();
+    }
     this.mMyHero = new MyHero(this.kHeroPic, this.kHeroJson);
 
     this.mMyMap = new Map(this.mMapName, this.kMapFile[this.mMapName], this.kMapEvents[this.mMapName]);
@@ -242,23 +247,23 @@ MyGame.prototype.initialize = function () {
     if (CharacterSet.length <= 0)
         CharacterSet_Init(this.kHeroInfo);
 
-    // 战斗失败，重新开始
+    // 战斗失败，重新开�?
     if (document.mLastCombatWin === false) {
-        // 重置当前地图所有事件
+        // 重置当前地图所有事�?
         var eventList = this.mMyMap.mEvents;
         var i;
         for (i = 0; i < eventList.length; ++i) {
             eventList[i][eventList[i].length - 1] = 0;
         }
 
-        // 人物状态回复
+        // 人物状态回�?
         for (i = 0; i < 3; ++i) {
             var ch = CharacterSet[i];
             ch.mCurrentHP = ch.mMaxHP;
             ch.mCurrentVP = 0;
         }
 
-        // 回到地图出生点
+        // 回到地图出生�?
         this.mMyHero.getHero().getXform().setPosition(this.mMyMap.mBorn[0], this.mMyMap.mBorn[1]);
     }
 };
@@ -289,6 +294,10 @@ MyGame.prototype.draw = function () {
         this.mMyHero.getHero().draw(this.mBigCamera);
     }
 
+	if (document.mShowWeaponsPack) {
+        window.weaponsPack.draw();
+    }
+
     if (document.mShowPackage) {
         window.package.draw();
     }
@@ -316,6 +325,8 @@ MyGame.prototype.update = function () {
 
     window.statusBar.update();
 
+    window.weaponsPack.update();
+
     // if (document.mShowPackage) {
         window.package.update();
     // }
@@ -333,6 +344,10 @@ MyGame.prototype.update = function () {
 
     if  (gEngine.Input.isKeyClicked(gEngine.Input.keys.X)) {
         switchPackage();
+    }
+
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Z)) {
+        switchWeaponsPack();
     }
 
     if (isMapFreezed()) return ;

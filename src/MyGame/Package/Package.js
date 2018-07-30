@@ -123,15 +123,6 @@ Package.prototype.initialize = function () {
     this.mMoneyText.getXform().setPosition(this.leftX + 0.27 * this.width, this.topY - 0.175 * this.width);
     this.mMoneyText.setTextHeight(0.043 * this.width);
 
-    // this.mPropsSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
-    // this.mPropsSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
-    // this.mPropsSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
-    // this.mPropsSet["Spirit of Dragon"] = new Props("Spirit of Dragon", this.kSpiritOfDragon, "Retrieve 400 VP");
-    // this.mPropsSet["Ham Bone"] = new Props("Ham Bone", this.kHamBone, "Retrieve 250 HP");
-    // this.mPropsSet["Glutinous Congee"] = new Props("Glutinous Congee", this.kGlutinousRiceCongee, "Retrieve 250 VP");
-    // this.mPropsSet["Dongpo Pork"] = new Props("Dongpo Pork", this.kDongpoPork, "Just delicious...");
-    // this.mPropsSet["What's this?"] = new Props("What's this?", this.kWhatsThis, "Taste awful...");
-
     PropsSet["Queen Peach"] = new Props("Queen Peach", this.kQueenPeach, "Retrieve All HP");
     PropsSet["Nine Turn Dan"] = new Props("Nine Turn Dan", this.kNineTurnDan, "Retrieve All VP");
     PropsSet["Blood of Dragon"] = new Props("Blood of Dragon", this.kBloodOfDragon, "Retrieve 400 HP");
@@ -192,13 +183,11 @@ Package.prototype.draw = function () {
                 } else {
                     this.mPropsCollections[count].drawIconByPos(x, y, this.mBrickW - 0.008 * this.width, this.mBrickH - 0.008 * this.width, this.mCamera);
                 }
-                //this.mPropsCollections[count].drawIconByPos(x, y, this.mBrickW - 1, this.mBrickH - 1, this.mCamera);
                 count++;
             }
 
             if (this.mCurrentShowing >= 0) {
                 this.mPropsCollections[this.mCurrentShowing].showNameByPos(this.kFontType, this.mPropsNameX, this.mPropsNameY, this.mPropsCollectionsColor, 0.04 * this.width, this.mCamera);
-                //this.mPropsCollections[this.mCurrentShowing].showNameByPos(this.kFontType, 30, 40, this.mPropsCollectionsColor, 5, this.mCamera);
                 this.mPropsCollections[this.mCurrentShowing].showInfoByPos(this.kFontType, this.mPropsDescX, this.mPropsDescY, this.mPropsCollectionsColor, 0.032 * this.width, this.mCamera);
                 this.mCurrentShowing = -1;
             }
@@ -232,7 +221,7 @@ Package.prototype.update = function () {
             if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A) && latestPressedAloneKey == "Right") {
 
             } else {
-                if ((this.tickRight >= 1.2 * this.tickThreshold && !isFirstClicked) /*|| gEngine.Input.isKeyReleased(gEngine.Input.keys.A)*/) {
+                if ((this.tickRight >= 1.2 * this.tickThreshold && !isFirstClicked)) {
                     this.mCurrentSelected = Math.min(this.mCurrentSelected + 1, this.mRow * this.mColumn - 1);
                     this.mCurrentShowing = -1;
                     this.tickRight = 0;
@@ -269,7 +258,7 @@ Package.prototype.update = function () {
             if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D) && latestPressedAloneKey == "Left") {
 
             } else {
-                if ((this.tickLeft >= 1.2 * this.tickThreshold && !isFirstClicked) /*|| gEngine.Input.isKeyReleased(gEngine.Input.keys.D)*/) {
+                if ((this.tickLeft >= 1.2 * this.tickThreshold && !isFirstClicked)) {
                     this.mCurrentSelected = Math.max(this.mCurrentSelected - 1, 0);
                     this.mCurrentShowing = -1;
                     this.tickLeft = 0;
@@ -344,58 +333,26 @@ Package.prototype.update = function () {
     } else {
 
         var result = this.choosingUI.update();
-        var dHP = this.mPropsCollections[this.mCurrentSelected].getHP();
-        var dVP = this.mPropsCollections[this.mCurrentSelected].getVP();
-        var dATK = this.mPropsCollections[this.mCurrentSelected].getATK();
-        var dDEF = this.mPropsCollections[this.mCurrentSelected].getDEF();
-        var dM = this.mPropsCollections[this.mCurrentSelected].getMoney();
+        var selectedItem = this.mPropsCollections[this.mCurrentSelected];
 
-        switch (result) {
-            case 0:
-                isChoosingUI = false;
-                break;
-            case 1:
-                isChoosingUI = false;
+		if (result == -1) {
 
-                // add HP/VP to monkey
-                CharacterSet[0].incCurrentHP(dHP);
-                CharacterSet[0].incCurrentVP(dVP);
-                CharacterSet[0].incCurrentATK(dATK);
-                CharacterSet[0].incCurrentDEF(dDEF);
-                this.mPropsCollections.splice(this.mCurrentSelected, 1);
-                this.mSize--;
-                break;
-            case 2:
-                isChoosingUI = false;
-
-                // add HP/VP to pig
-                CharacterSet[1].incCurrentHP(dHP);
-                CharacterSet[1].incCurrentVP(dVP);
-                CharacterSet[1].incCurrentATK(dATK);
-                CharacterSet[1].incCurrentDEF(dDEF);
-                this.mPropsCollections.splice(this.mCurrentSelected, 1);
-                this.mSize--;
-                break;
-            case 3:
-                isChoosingUI = false;
-
-                CharacterSet[2].incCurrentHP(dHP);
-                CharacterSet[2].incCurrentVP(dVP);
-                CharacterSet[2].incCurrentATK(dATK);
-                CharacterSet[2].incCurrentDEF(dDEF);
-                this.mPropsCollections.splice(this.mCurrentSelected, 1);
-                this.mSize--;
-                break;
-            case 4:
-                isChoosingUI = false;
-
-                this.incMoney(dM);
-                this.mPropsCollections.splice(this.mCurrentSelected, 1);
-                this.mSize--;
+        } else if (result == 0) {
+            isChoosingUI = false;
+        } else if (result == 4) {
+            isChoosingUI = false;
+            this.sellItem(this.mCurrentSelected);
+        } else {
+            isChoosingUI = false;
+            var type = selectedItem.getType();
+            if (type == "Food") {
+                this.useProps(result - 1);       // use for which character
+            } else {
+                this.equipWeapon(result - 1);    // use for which character
+            }
         }
 
         return 0;
-
     }
 };
 
@@ -459,12 +416,29 @@ Package.prototype.addProps = function (newProps) {
     }
 };
 
-Package.prototype.useProps = function (propsName) {
-    var i;
-    for (i = 0; i < this.mPropsCollections.length; i++) {
-        if (this.mPropsCollections[i].getName() == propsName) {
-            this.mPropsCollections[i].splice(i, 1);
-            return;
-        }
-    }
+Package.prototype.sellItem = function () {
+    var dM = this.mPropsCollections[this.mCurrentSelected].getMoney();
+    this.incMoney(dM);
+    this.mPropsCollections.splice(this.mCurrentSelected, 1);
+    this.mSize--;
+};
+
+Package.prototype.useProps = function (charNum) {
+    var selectedItem = this.mPropsCollections[this.mCurrentSelected];
+    var dHP = selectedItem.getHPadd();
+    var dVP = selectedItem.getVPadd();
+    var dATK = selectedItem.getATKadd();
+    var dDEF = selectedItem.getDEFadd();
+
+    CharacterSet[charNum].incCurrentHP(dHP);
+    CharacterSet[charNum].incCurrentVP(dVP);
+    CharacterSet[charNum].incATK(dATK);
+    CharacterSet[charNum].incDEF(dDEF);
+    this.mPropsCollections.splice(this.mCurrentSelected, 1);
+    this.mSize--;
+};
+Package.prototype.equipWeapon = function (charNum) {
+    window.weaponsPack.equipWeapon(this.mPropsCollections[this.mCurrentSelected], charNum);
+    this.mPropsCollections.splice(this.mCurrentSelected, 1);
+    this.mSize--;
 };
