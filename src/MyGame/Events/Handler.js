@@ -89,9 +89,11 @@ GameEvents.handle = function (e, game) {
 
         case "EndGame":
         return function(game) {
+            console.log("end");
             document.currentScene = new Splash("ending", null);
-            document.mEventMutex = false;
+            game.nextScene = document.currentScene;
             gEngine.GameLoop.stop();
+            document.mEventMutex = false;
         }
         break;
         default:
