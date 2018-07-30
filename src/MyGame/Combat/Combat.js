@@ -107,7 +107,7 @@ function Combat(firstCharacter, monster) {
                 return;
 
             let i;
-            for (i=0; i<3; i++) {
+            for (i = 0; i < 3; i++) {
                 if (CharacterSet[i].mName !== combat.character.mName)
                     CharacterSet[i].mCurrentVP -= _C.turnRecoverVP;
             }
@@ -171,13 +171,16 @@ function Combat(firstCharacter, monster) {
 
     this.takeSkillAction = function () {
         this.status = _C.displaying;
+        console.debug("status1");
         this._action.param.skill.useSkill(this._action.param.user, this._action.param.aim);
     };
 
     this.takeAttackAction = function () {
         // add VP to attacker
         this.status = _C.displaying;
-        if (this._action.param.attacker.charaterType === _C.Hero) {
+        console.debug("status1");
+        if (this._action.param.attacker.characterType === _C.Hero) {
+            console.debug("Add VP");
             this._action.param.attacker.mCurrentVP += _C.attackVP;
 
         }
@@ -223,9 +226,13 @@ function Combat(firstCharacter, monster) {
         UIButton.displayButtonGroup("combat-button-group");
     };
 
-    this.updateMonsterHP = function() {
+    this.updateMonsterHP = function () {
 
     };
+
+    this.setMonsterByName = function (name) {
+        this.monster = Monsters[name];
+    }
 }
 
 gEngine.Core.inheritPrototype(Combat, Scene);
@@ -350,12 +357,13 @@ Combat.prototype.update = function () {
  * @param sceneName {string} 场景名，例如："zhuzishan", "wanggong"
  */
 function enterCombat(game, firstCharacter, monster, sceneName) {
-    if (!window.combatScene)
-        window.combatScene = new Combat(firstCharacter, monster);
-    else {
-        window.combatScene.firstCharacter = firstCharacter;
-        window.combatScene.monster = monster;
-    }
+    console.assert(game);
+    console.assert(firstCharacter);
+    console.assert(monster);
+    console.assert(sceneName);
+
+    window.combatScene.character = firstCharacter;
+    window.combatScene.setMonsterByName(monster);
     window.combatScene.kBackground = "assets/map/" + sceneName + "/battle.png";
     game.nextScene = window.combatScene;
     game.nextScene.nextScene = game;
