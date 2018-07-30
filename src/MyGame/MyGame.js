@@ -60,6 +60,7 @@ function MyGame(mapName) {
 
     this.kMapFile["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-dat.json";
     this.kMapEvents["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-event.json";
+    this.kMapEventIndex["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-event-index.json";
     this.kMapBkg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-bkg.png";
     this.kMapFrg["huoyanshandi"] = "assets/map/huoyanshandi/huoyanshandi-frg.png";
     this.kBGM["huoyanshandi"] = "assets/bgm/huoyanshandi-walk.m4a";

@@ -41,7 +41,7 @@
 			false, 0],
 
 	"xiaozu_lose": [
-						[null, "Show", [
+						["J", "Show", [
 							["huoyanshankou-xiaozu", "山口小喽啰：我们二大王不会让你们活着出去的..."]
 						]],
 					true, 0],
@@ -69,6 +69,6 @@
   		false, 0],
 
 	"go_zhuzishanjiao": [[null, "Go", "zhuzishanjiao"], true, 0],
-	"go_zhuzishanjiao": [[null, "Go", "zhuzishanjiao"], true, 0],
-	"go_huoyanshankou": [[null, "Go", "huoyanshankou"], true, 0]
+
+	"go_huoyanshandi": [[null, "Go", "huoyanshandi"], true, 0]
 }

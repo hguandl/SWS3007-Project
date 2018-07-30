@@ -11,12 +11,12 @@ function WeaponsPack () {
     this.kBrickFile = "assets/weapons_pack/brick_2.png";
     this.kUIBgFile = "assets/weapons_pack/ui_bg.png";
 
-    this.kTangsengFileLeft = "assets/weapons_pack/tangseng_left.png";
-    this.kTangsengFileRight = "assets/weapons_pack/tangseng_right.png";
-    this.kMonkeyFileLeft = "assets/weapons_pack/monkey_left.png";
-    this.kMonkeyFileRight = "assets/weapons_pack/monkey_right.png";
-    this.kZhubajieFileLeft = "assets/weapons_pack/zhubajie_left.png";
-    this.kZhubajieFileRight = "assets/weapons_pack/zhubajie_right.png";
+    // this.kTangsengFileLeft = "assets/weapons_pack/tangseng_left.png";
+    // this.kTangsengFileRight = "assets/weapons_pack/tangseng_right.png";
+    // this.kMonkeyFileLeft = "assets/weapons_pack/monkey_left.png";
+    // this.kMonkeyFileRight = "assets/weapons_pack/monkey_right.png";
+    // this.kZhubajieFileLeft = "assets/weapons_pack/zhubajie_left.png";
+    // this.kZhubajieFileRight = "assets/weapons_pack/zhubajie_right.png";
 
     this.tangsengAnimate = [];
     this.monkeyAnimate = [];
@@ -77,12 +77,12 @@ WeaponsPack.prototype.loadScene = function () {
     }
     gEngine.Textures.loadTexture(this.kBrickFile);
     gEngine.Textures.loadTexture(this.kUIBgFile);
-    gEngine.Textures.loadTexture(this.kTangsengFileLeft);
-    gEngine.Textures.loadTexture(this.kTangsengFileRight);
-    gEngine.Textures.loadTexture(this.kMonkeyFileLeft);
-    gEngine.Textures.loadTexture(this.kMonkeyFileRight);
-    gEngine.Textures.loadTexture(this.kZhubajieFileLeft);
-    gEngine.Textures.loadTexture(this.kZhubajieFileRight);
+    // gEngine.Textures.loadTexture(this.kTangsengFileLeft);
+    // gEngine.Textures.loadTexture(this.kTangsengFileRight);
+    // gEngine.Textures.loadTexture(this.kMonkeyFileLeft);
+    // gEngine.Textures.loadTexture(this.kMonkeyFileRight);
+    // gEngine.Textures.loadTexture(this.kZhubajieFileLeft);
+    // gEngine.Textures.loadTexture(this.kZhubajieFileRight);
 
     gEngine.Textures.loadTexture(this.kSword_A1);
     gEngine.Textures.loadTexture(this.kHelmet_A1);
@@ -149,65 +149,65 @@ WeaponsPack.prototype.initialize = function () {
 
     // endregion
 
-    // region animation
-    this.mAnimationPos[0] = [this.leftX + 0.64 * this.width, this.topY - 0.19 * this.width];
-    this.mAnimationPos[1] = [this.leftX + 0.6 * this.width, this.topY - 0.27 * this.width];
-    this.mAnimationPos[2] = [this.leftX + 0.635 * this.width, this.topY - 0.35 * this.width];
-    this.mAnimationPos[3] = [this.leftX + 0.685 * this.width, this.topY - 0.23 * this.width];
-    this.mAnimationPos[4] = [this.leftX + 0.69 * this.width, this.topY - 0.32 * this.width];
+    // // region animation
+    // this.mAnimationPos[0] = [this.leftX + 0.64 * this.width, this.topY - 0.19 * this.width];
+    // this.mAnimationPos[1] = [this.leftX + 0.6 * this.width, this.topY - 0.27 * this.width];
+    // this.mAnimationPos[2] = [this.leftX + 0.635 * this.width, this.topY - 0.35 * this.width];
+    // this.mAnimationPos[3] = [this.leftX + 0.685 * this.width, this.topY - 0.23 * this.width];
+    // this.mAnimationPos[4] = [this.leftX + 0.69 * this.width, this.topY - 0.32 * this.width];
+    //
+    // this.tangsengAnimate[0] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
+    // this.tangsengAnimate[1] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
+    // this.tangsengAnimate[2] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
+    // this.tangsengAnimate[3] = new SpriteAnimateRenderable(this.kTangsengFileRight);
+    // this.tangsengAnimate[4] = new SpriteAnimateRenderable(this.kTangsengFileRight);
+    // this.tangsengAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.tangsengAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.tangsengAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.tangsengAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    // this.tangsengAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    //
+    // this.monkeyAnimate[0] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
+    // this.monkeyAnimate[1] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
+    // this.monkeyAnimate[2] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
+    // this.monkeyAnimate[3] = new SpriteAnimateRenderable(this.kMonkeyFileRight);
+    // this.monkeyAnimate[4] = new SpriteAnimateRenderable(this.kMonkeyFileRight);
+    // this.monkeyAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.monkeyAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.monkeyAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.monkeyAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    // this.monkeyAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    //
+    // this.zhubajieAnimate[0] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
+    // this.zhubajieAnimate[1] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
+    // this.zhubajieAnimate[2] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
+    // this.zhubajieAnimate[3] = new SpriteAnimateRenderable(this.kZhubajieFileRight);
+    // this.zhubajieAnimate[4] = new SpriteAnimateRenderable(this.kZhubajieFileRight);
+    // this.zhubajieAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.zhubajieAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.zhubajieAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
+    // this.zhubajieAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    // this.zhubajieAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
 
-    this.tangsengAnimate[0] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
-    this.tangsengAnimate[1] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
-    this.tangsengAnimate[2] = new SpriteAnimateRenderable(this.kTangsengFileLeft);
-    this.tangsengAnimate[3] = new SpriteAnimateRenderable(this.kTangsengFileRight);
-    this.tangsengAnimate[4] = new SpriteAnimateRenderable(this.kTangsengFileRight);
-    this.tangsengAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.tangsengAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.tangsengAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.tangsengAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-    this.tangsengAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-
-    this.monkeyAnimate[0] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
-    this.monkeyAnimate[1] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
-    this.monkeyAnimate[2] = new SpriteAnimateRenderable(this.kMonkeyFileLeft);
-    this.monkeyAnimate[3] = new SpriteAnimateRenderable(this.kMonkeyFileRight);
-    this.monkeyAnimate[4] = new SpriteAnimateRenderable(this.kMonkeyFileRight);
-    this.monkeyAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.monkeyAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.monkeyAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.monkeyAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-    this.monkeyAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-
-    this.zhubajieAnimate[0] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
-    this.zhubajieAnimate[1] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
-    this.zhubajieAnimate[2] = new SpriteAnimateRenderable(this.kZhubajieFileLeft);
-    this.zhubajieAnimate[3] = new SpriteAnimateRenderable(this.kZhubajieFileRight);
-    this.zhubajieAnimate[4] = new SpriteAnimateRenderable(this.kZhubajieFileRight);
-    this.zhubajieAnimate[0].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.zhubajieAnimate[1].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.zhubajieAnimate[2].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateLeft);
-    this.zhubajieAnimate[3].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-    this.zhubajieAnimate[4].setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
-
-    for (var i = 0; i < 5; i++) {
-        this.tangsengAnimate[i].setColor([1, 1, 1, 0]);
-        this.tangsengAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
-        this.tangsengAnimate[i].getXform().setSize(10, 10);
-        this.tangsengAnimate[i].setAnimationSpeed(6);
-        this.tangsengAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
-
-        this.monkeyAnimate[i].setColor([1, 1, 1, 0]);
-        this.monkeyAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
-        this.monkeyAnimate[i].getXform().setSize(10, 10);
-        this.monkeyAnimate[i].setAnimationSpeed(6);
-        this.monkeyAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
-
-        this.zhubajieAnimate[i].setColor([1, 1, 1, 0]);
-        this.zhubajieAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
-        this.zhubajieAnimate[i].getXform().setSize(10, 10);
-        this.zhubajieAnimate[i].setAnimationSpeed(6);
-        this.zhubajieAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
-    }
+    // for (var i = 0; i < 5; i++) {
+    //     this.tangsengAnimate[i].setColor([1, 1, 1, 0]);
+    //     this.tangsengAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
+    //     this.tangsengAnimate[i].getXform().setSize(10, 10);
+    //     this.tangsengAnimate[i].setAnimationSpeed(6);
+    //     this.tangsengAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
+    //
+    //     this.monkeyAnimate[i].setColor([1, 1, 1, 0]);
+    //     this.monkeyAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
+    //     this.monkeyAnimate[i].getXform().setSize(10, 10);
+    //     this.monkeyAnimate[i].setAnimationSpeed(6);
+    //     this.monkeyAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
+    //
+    //     this.zhubajieAnimate[i].setColor([1, 1, 1, 0]);
+    //     this.zhubajieAnimate[i].getXform().setPosition(this.mAnimationPos[i][0], this.mAnimationPos[i][1]);
+    //     this.zhubajieAnimate[i].getXform().setSize(10, 10);
+    //     this.zhubajieAnimate[i].setAnimationSpeed(6);
+    //     this.zhubajieAnimate[i].setSpriteSequence(512 - 65 * i, 0, 63.5, 65, 9, 0);
+    // }
 
     this.kTypesNum["Helmet"] = 0;
     this.kTypesNum["Necklace"] = 1;
@@ -246,23 +246,23 @@ WeaponsPack.prototype.update = function () {
         return;
     }
 
-    switch (this.currentSelectCharacter) {
-        case 0:
-            for (var i = 0; i < 5; i++) {
-                this.tangsengAnimate[i].updateAnimation();
-            }
-            break;
-        case 1:
-            for (var i = 0; i < 5; i++) {
-                this.monkeyAnimate[i].updateAnimation();
-            }
-            break;
-        case 2:
-            for (var i = 0; i < 5; i++) {
-                this.zhubajieAnimate[i].updateAnimation();
-            }
-            break;
-    }
+    // switch (this.currentSelectCharacter) {
+    //     case 0:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.tangsengAnimate[i].updateAnimation();
+    //         }
+    //         break;
+    //     case 1:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.monkeyAnimate[i].updateAnimation();
+    //         }
+    //         break;
+    //     case 2:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.zhubajieAnimate[i].updateAnimation();
+    //         }
+    //         break;
+    // }
 
     switch (this.currentSelectPage) {
         // left page
@@ -421,23 +421,23 @@ WeaponsPack.prototype.draw = function () {
 
     }
 
-    switch (this.currentSelectCharacter) {
-        case 0:
-            for (var i = 0; i < 5; i++) {
-                this.tangsengAnimate[i].draw(this.mCamera);
-            }
-            break;
-        case 1:
-            for (var i = 0; i < 5; i++) {
-                this.monkeyAnimate[i].draw(this.mCamera);
-            }
-            break;
-        case 2:
-            for (var i = 0; i < 5; i++) {
-                this.zhubajieAnimate[i].draw(this.mCamera);
-            }
-            break;
-    }
+    // switch (this.currentSelectCharacter) {
+    //     case 0:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.tangsengAnimate[i].draw(this.mCamera);
+    //         }
+    //         break;
+    //     case 1:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.monkeyAnimate[i].draw(this.mCamera);
+    //         }
+    //         break;
+    //     case 2:
+    //         for (var i = 0; i < 5; i++) {
+    //             this.zhubajieAnimate[i].draw(this.mCamera);
+    //         }
+    //         break;
+    // }
 };
 
 WeaponsPack.prototype.equipWeapon = function (weapon, charNum) {
