@@ -351,7 +351,9 @@ MyGame.prototype.update = function () {
 
     window.statusBar.update();
 
-    window.weaponsPack.update();
+    if (!document.mShowPackage) {
+        window.weaponsPack.update();
+    }
 
     // if (document.mShowPackage) {
         window.package.update();
