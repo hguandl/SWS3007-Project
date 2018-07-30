@@ -71,6 +71,9 @@
 						["J",
 							"Battle", ["huoyanshanding", "huoyanshanding-huangfengguai"]
 						],
+						[null,
+							"Win", [null,
+									"EndGame"]],
 				false, 0],
 
 	"go_shishi2": [[null, "Go", "shishi2"], true, 0],
