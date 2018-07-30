@@ -50,7 +50,7 @@ function Combat(firstCharacter, monster) {
     this.kBackground = "assets/map/zhuzishan/battle.png";
     this.kBGM = "assets/bgm/zhuzishan-battle.m4a";
     this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
-    this.monster.HPBar = "";
+    this.monster.HPBar = null;
 
     /**  @type Camera  */
     this.camera = null;
@@ -270,8 +270,7 @@ Combat.prototype.unloadScene = function () {
 };
 
 Combat.prototype.initialize = function () {
-    gEngine.AudioClips.playBackgroundAudio(this.kBGM);
-    this.monster.mCurrentHP = this.monster.mMaxHP;
+    gEngine.AudioClips.playBackgroundAudio(this.kBGM)
 
     this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
 
@@ -290,6 +289,12 @@ Combat.prototype.initialize = function () {
 
     this.character = this.firstCharacter;
     delete this.firstCharacter;
+
+    this.monster.mCurrentHP = this.monster.mMaxHP;
+    this.monster.turnEndStatus = [];
+    this.character.turnEndStatus = [];
+    this.monster.mCurrentHP = this.monster.mMaxHP;
+    this.monster.mCurrentVP = 0;
 
     // 改变显示的怪物图标
     /**  @type SpriteAnimateRenderable  */
@@ -341,6 +346,7 @@ Combat.prototype.draw = function () {
 Combat.prototype.update = function () {
     window.statusBar.update();
     window.package.update();
+    this.monsterHPBar.update();
 
     if (this.status !== _C.displaying)
         return;

@@ -36,9 +36,26 @@ class BuffStatus extends CharacterStatus {
         if (this.effectType === _C.percent) {
             character["m" + this.attributeName + "Percent"] *= this.value;
         } else if (this.effectType === _C.numeric) {
-            character["mCurrent" + this.attributeName] -= this.value;
+            character["mCurrent" + this.attributeName] += this.value;
         }
     }
 }
 
+/**
+ * 增加或者减少血量
+ */
+class ChangeHPStatus extends CharacterStatus {
+    /**
+     * @param attributeName {string}
+     * @param turn {number}
+     * @param value {number}
+     */
+    constructor(turn, value) {
+        super(_C.changeHP, turn);
+        this.value = value;
+    }
 
+    computeStatus(character) {
+        character.mCurrentHP += this.value;
+    }
+}
