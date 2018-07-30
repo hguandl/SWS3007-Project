@@ -10,36 +10,36 @@
 			false, 0],
 
 	"baoyuan1": [
-					[null, "Show",
+					[null, "Show",[
 						["tangseng", "唐僧：没想到这石室如此复杂，虽然没遇到敌人，但也耽误了我们不少时间。"],
 						["sunwukong", "孙悟空： 怪了。难不成这些妖怪平时就这么出入？"],
 						["sunwukong", "孙悟空：咦？臭猪呢？"],
 						["zhubajie", "猪八戒：师傅，大师兄，等..等等我啊..."]
-					],
+					]],
 				false, 0],
 
 	"wrong": [
-					[null, "Show",
+					[null, "Show",[
 						["zhubajie", "猪八戒：！！！"],
 						["zhubajie", "猪八戒：这什么破地方！走了这么远结果..结果是个死胡同！"],
 						["sunwukong", "孙悟空：跟你这臭猪怎么都得倒霉。"]
-					],
+					]],
 				false, 0],
 
 	"finally": [
-					[null, "Show",
+					[null, "Show",[
 						["zhubajie", "猪八戒：可算是到了..."],
 						["zhubajie", "孙悟空：前面好像有人。"],
 						["tangseng", "唐僧：悟空不要鲁莽，且去看看是什么人。"]
-					],
+					]],
 				false, 0],
 
 	"baoyuan2": [
-					[null, "Show",
+					[null, "Show",[
 						["zhubajie", "猪八戒：得了，就在这累死老猪我吧！"],
 						["zhubajie", "孙悟空：嘿嘿..叫你平时吃那么多，动那么少。是吧师傅。"],
 						["tangseng", "唐僧：... ..."]
-					],
+					]],
 				false, 0],
 
 	"chukou": [
@@ -60,10 +60,10 @@
 			true, 0],
 
 	"zuihan": [
-				["J", "Show",
+				["J", "Show",[
 						["shishi1-zuihan", "醉酒老翁：今朝有酒今朝醉，莫管门前是与非~"],
 						["tangseng", "孙悟空：这老头... ..."]
-					],
+					]],
 				true, 0],
 
 	"go_shishi2": [[null, "Go", "shishi2"], true, 0],

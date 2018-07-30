@@ -70,6 +70,7 @@ function MyGame(mapName) {
     this.kMapEventIndex["shishi1"] = "assets/map/shishi1/shishi1-event-index.json";
     this.kMapBkg["shishi1"] = "assets/map/shishi1/shishi1-bkg.png";
     this.kMapFrg["shishi1"] = "assets/map/shishi1/shishi1-frg.png";
+    this.kBGM["shishi1"] = "assets/bgm/shishi1-walk.m4a";
 
     this.kPackageBg = "assets/package/package_bg.png";
     this.kPackageBrick = "assets/package/package_brick.png";
