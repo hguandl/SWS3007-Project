@@ -270,10 +270,6 @@ class Bite extends Skill {
         this.dmg = dmg;
     }
 
-    static getDescription() {
-        return "Bite your enemy.";
-    }
-
     getUsage() {
         return formatString("造成额外的 %0 伤害，并且该额外伤害无视防御。\n", this.dmg) + super.getUsage();
     }
@@ -287,5 +283,81 @@ class Bite extends Skill {
     static parse(skillInfo) {
         assertHasProperties(skillInfo, "VP", "dmg");
         return new Bite(skillInfo["VP"], skillInfo["dmg"]);
+    }
+}
+
+class Fury extends Skill {
+    constructor(VP, dmgPercent, atkNumber, turn) {
+        super("狂怒", VP);
+        this.dmgPercent = dmgPercent;
+        this.atkNumber = atkNumber;
+        this.turn = turn;
+    }
+
+    getUsage(user, aim) {
+        super.useSkill(user);
+        return formatString("造成的 %0 伤害，并且增加 %1 攻击力，持续 %2 回合。\n", this.dmg) + super.getUsage();
+    }
+
+    useSkill(user, aim) {
+        super.useSkill(user);
+        const damage = aim.randChangeHP(-calDamage(user, aim) * this.dmgPercent);
+        user.turnEndStatus.push(new BuffStatus("ATK", this.turn, this.atkNumber, _C.numeric));
+        window.combatScene.appendMsg(" 伤害: " + damage);
+    }
+
+    static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "dmgPercent", "turn");
+        return new Fury(skillInfo["VP"], skillInfo["dmgPercent"], skillInfo["atkNumber"], skillInfo["turn"]);
+    }
+}
+
+class StealHealth extends Skill {
+    constructor(VP, dmgPercent, recoverPercent) {
+        super("生命抽取", VP);
+        this.dmgPercent = dmgPercent;
+        this.recoverPercent = recoverPercent;
+    }
+
+    getUsage() {
+        return formatString("造成攻击力 %0 的伤害，并恢复该伤害 %1 的血量。\n", this.dmgPercent, this.recoverPercent) + super.getUsage();
+    }
+
+    useSkill(user, aim) {
+        super.useSkill(user);
+        const damage = aim.randChangeHP(-calDamage(user, aim) * this.dmgPercent);
+        const recover = damage * this.recoverPercent;
+        user.mCurrentHP += recover;
+        window.combatScene.appendMsg(" 伤害: " + damage + "，恢复血量: " + recover);
+    }
+
+    static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "dmgPercent", "recoverPercent");
+        return new Bite(skillInfo["VP"], skillInfo["dmgPercent"], "recoverPercent");
+    }
+}
+
+class PoisonStitch extends Skill {
+    constructor(VP, dmgPercent, continuousDmg, turn) {
+        super("剧毒尾针", VP);
+        this.dmgPercent = dmgPercent;
+        this.continuousDmg = continuousDmg;
+        this.turn = turn;
+    }
+
+    getUsage() {
+        return formatString("造成攻击力 %0 的伤害，并在接下来的 %1 回合每回合造成 %2 的伤害。\n", this.dmgPercent, this.turn, this.continuousDmg) + super.getUsage();
+    }
+
+    useSkill(user, aim) {
+        super.useSkill(user);
+        const damage = aim.randChangeHP(-calDamage(user, aim) * this.dmgPercent);
+        window.combatScene.appendMsg(" 伤害: " + damage);
+        aim.turnEndStatus.push(new ChangeHPStatus(this.turn, -this.continuousDmg));
+    }
+
+    static parse(skillInfo) {
+        assertHasProperties(skillInfo, "VP", "dmgPercent", "continuousDmg", "turn");
+        return new Bite(skillInfo["VP"], skillInfo["dmgPercent"], skillInfo["continuousDmg"], skillInfo["turn"]);
     }
 }

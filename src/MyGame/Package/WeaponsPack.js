@@ -1,8 +1,6 @@
 "use strict";
 
 function WeaponsPack () {
-    console.log("new weaponspack");
-
     this.kBgFile = [];
     this.kBgFile[2] = "assets/weapons_pack/bg_tangseng.png";
     this.kBgFile[0] = "assets/weapons_pack/bg_sunwukong.png";

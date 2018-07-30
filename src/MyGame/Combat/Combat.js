@@ -270,13 +270,7 @@ Combat.prototype.unloadScene = function () {
 };
 
 Combat.prototype.initialize = function () {
-    gEngine.AudioClips.playBackgroundAudio(this.kBGM);
-    this.monster.mCurrentHP = this.monster.mMaxHP;
-
-    this.monster.status = [];
-    this.character.status = [];
-    this.monster.mCurrentHP = this.monster.mMaxHP;
-    this.monster.mCurrentVP = 0;
+    gEngine.AudioClips.playBackgroundAudio(this.kBGM)
 
     this.monster.spriteURL = "assets/monster/fight/" + this.monster.mName + ".png";
 
@@ -295,6 +289,12 @@ Combat.prototype.initialize = function () {
 
     this.character = this.firstCharacter;
     delete this.firstCharacter;
+
+    this.monster.mCurrentHP = this.monster.mMaxHP;
+    this.monster.turnEndStatus = [];
+    this.character.turnEndStatus = [];
+    this.monster.mCurrentHP = this.monster.mMaxHP;
+    this.monster.mCurrentVP = 0;
 
     // 改变显示的怪物图标
     /**  @type SpriteAnimateRenderable  */

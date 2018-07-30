@@ -23,6 +23,8 @@ window.allSkills = {
     "锤击": BatStrike,
     "神圣治愈": HolyRedemption,
     "撕咬": Bite,
+    "生命抽取": StealHealth,
+    "剧毒尾针": PoisonStitch,
 };
 
 /**
