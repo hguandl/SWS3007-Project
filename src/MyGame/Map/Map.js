@@ -28,8 +28,8 @@ Map.prototype.addItems = function () {
         tmp.getXform().setPosition(tmpCenter[0], tmpCenter[1]);
         switch (Math.floor(mapInfo[i] / 100)) {
             case 1:
-            if (Math.floor(mapInfo[i] % 100 / 10))
-                tmp.setColor([0.6, 0.8, 0.2, 1]);
+            if (Math.floor(mapInfo[i] % 100 / 10) == 2)
+                tmp.setColor([1, 1, 0.2, 1]);
             else
                 tmp.setColor([0.8, 0.8, 0.8, 1]);
             this.mItems.push(tmp);
